@@ -80,7 +80,7 @@ El servidor **funciona sin configurar nada**: abre y renueva la sesión del CEND
 Habla con Claude con normalidad. Por ejemplo:
 
 > *"Búscame sentencias del Tribunal Supremo sobre deducción del IVA de cuotas
-> soportadas y descárgame las 8 primeras con sus fundamentos jurídicos."*
+> soportadas y sácame los fundamentos jurídicos de las 8 más relevantes."*
 
 > *"Sentencias de la **Audiencia Provincial de Valladolid** sobre **usufructo**, y
 > sácame 5 párrafos clave con su ECLI."* → Claude filtra por provincia + AP + civil,
@@ -88,11 +88,13 @@ Habla con Claude con normalidad. Por ejemplo:
 
 Claude llamará a las herramientas por ti:
 
-1. **`buscar_sentencias`** → lista con ROJ, ECLI, fecha, sala, ponente y resumen.
-2. **`descargar_sentencias`** → baja PDF + texto de las que pidas (`"todas"`,
-   `"1,3,5"`, `"1-8"` o por ROJ).
-3. Si salta el captcha, Claude **lee la imagen y llama a `resolver_captcha`** solo;
-   la descarga sigue automáticamente.
+1. **`buscar_sentencias`** → lista con ROJ, ECLI, fecha, sala, ponente y resumen,
+   para **elegir las mejores por el resumen sin descargar nada**.
+2. **`leer_sentencias`** → lee el texto íntegro de las que pidas (`"todas"`,
+   `"1,3,5"`, `"1-8"` o por ROJ) para analizarlo. **Por defecto no guarda nada en
+   tu disco** (lo lee en memoria); el PDF se guarda solo si lo pides.
+3. Si salta el captcha, **Claude lo resuelve solo con su visión** — tú no tocas
+   nada y la lectura sigue automáticamente.
 
 ### Las herramientas
 
@@ -101,8 +103,8 @@ Claude llamará a las herramientas por ti:
 | `buscar_sentencias(consulta, base="TS", maximo=20, fecha_desde, fecha_hasta, tipo_resolucion, jurisdiccion, provincia, tipo_organo)` | Busca y lista resultados con metadatos y resumen. Filtros: jurisdicción (`CIVIL`…), `provincia` (Valladolid…), `tipo_organo` (`AP`, `TSJ`, `JPI`…). No descarga. |
 | `buscar_por_cita(cita)` | Localiza una resolución por su **ECLI** (`ECLI:ES:TS:2014:4786`) o **ROJ** (`STS 4786/2014`) exacto. |
 | `opciones_busqueda(consulta, campo="organos")` | Facetas para refinar: `organos`, `anos` o `ponentes` disponibles para un tema. |
-| `descargar_sentencias(seleccion="todas", incluir_texto=True, max_chars=0, guardar_pdf=True)` | Descarga **en paralelo** PDF + texto de la última búsqueda. `guardar_pdf=False` = solo texto. Devuelve la imagen del captcha si el CENDOJ lo exige. |
-| `resolver_captcha(texto)` | Valida el captcha leído de la imagen y continúa la descarga. |
+| `leer_sentencias(seleccion="todas", incluir_texto=True, max_chars=0, guardar_pdf=False)` | **Lee en paralelo el texto íntegro** de la última búsqueda, para analizarlo. **Por defecto NO guarda el PDF** (solo lee en memoria, sin llenar tu disco); `guardar_pdf=True` lo guarda. El captcha lo resuelve Claude solo. |
+| `resolver_captcha(texto)` | Lo llama **Claude** (no tú) tras leer la imagen del captcha; valida y continúa la lectura. |
 | `estado()` | Diagnóstico: sesión, extractor (PyMuPDF/pypdf), última búsqueda, descarga en curso y carpeta. |
 
 ## Consejos de búsqueda (gotchas del CENDOJ)

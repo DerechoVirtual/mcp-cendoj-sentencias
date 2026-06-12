@@ -84,7 +84,7 @@ def main() -> int:
     print("\n>> Ya puedes ABRIR Claude Desktop.")
     print(">> En 'Conectores' (seccion Escritorio) aparecera 'cendoj-sentencias'")
     print("   con las herramientas: buscar_sentencias, buscar_por_cita,")
-    print("   opciones_busqueda, descargar_sentencias, resolver_captcha y estado.\n")
+    print("   opciones_busqueda, leer_sentencias, resolver_captcha y estado.\n")
     return 0
 
 

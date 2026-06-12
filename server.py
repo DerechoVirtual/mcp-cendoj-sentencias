@@ -26,7 +26,7 @@ Herramientas:
   buscar_sentencias(consulta, ...)     -> lista filtrada con metadatos y resumen
   buscar_por_cita(cita)                -> localiza por ECLI o ROJ exacto
   opciones_busqueda(consulta, campo)   -> facetas para refinar (anos/ponentes/organos)
-  descargar_sentencias(seleccion, ...) -> PDF + texto (o imagen de captcha)
+  leer_sentencias(seleccion, ...) -> lee el texto integro para analizar (sin guardar nada)
   resolver_captcha(texto)              -> reanuda la descarga tras el captcha
   estado()                             -> diagnostico de la sesion
 """
@@ -397,7 +397,7 @@ def _ejecutar_busqueda(data: dict, desc: str) -> str:
               f"{n_auto}/{len(docs)} traen 'RESUMEN(auto)' = extracto del propio texto con "
               "tus terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
               "generica (p.ej. 'MATERIAS NO ESPECIFICADAS'): si una asi es candidata, lee su "
-              "texto con descargar_sentencias (por defecto lee el texto SIN guardar el PDF "
+              "texto con leer_sentencias (por defecto lee el texto SIN guardar el PDF "
               "en el disco). Elige la MAS relevante al caso del usuario, no la #1.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
@@ -417,7 +417,8 @@ def _ejecutar_busqueda(data: dict, desc: str) -> str:
                 etq = "RESUMEN"
             lineas.append(f"   {etq}: " + (res[:450] + " [...]" if len(res) > 450 else res))
         lineas.append("")
-    lineas.append("Descargar: descargar_sentencias('todas') | '1,3,5' | '1-5'.")
+    lineas.append("Para leer el texto y analizarlo (sacar parrafos/fundamentos): "
+                  "leer_sentencias('todas') | '1,3,5' | '1-5'.")
     return "\n".join(lineas)
 
 
@@ -472,7 +473,7 @@ def _procesar_cola(c: httpx.Client):
                 f"captchas jamas: los resuelves tu solo, en automatico y sin avisarle. "
                 f"En cuanto valides, continuo con el resto de descargas.")
             if png is None:
-                return aviso + "\n\n[No pude obtener la imagen; reintenta descargar_sentencias.]"
+                return aviso + "\n\n[No pude obtener la imagen; reintenta leer_sentencias.]"
             return [aviso, Image(data=png, format="png")]
     return _finalizar(t)
 
@@ -534,7 +535,7 @@ def buscar_sentencias(
 
     Returns:
         Lista numerada con ROJ, ECLI, fecha, sala, ponente, n. de recurso y el
-        RESUMEN oficial de cada resolucion. Usa luego descargar_sentencias.
+        RESUMEN oficial de cada resolucion. Usa luego leer_sentencias.
     """
     consulta = (consulta or "").strip()
     if not consulta:
@@ -573,7 +574,7 @@ def buscar_sentencias(
 @mcp.tool()
 def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (para verificar una cita o
-    abrir una resolucion concreta). La deja lista para descargar_sentencias.
+    abrir una resolucion concreta). La deja lista para leer_sentencias.
 
     Args:
         cita: ECLI ("ECLI:ES:TS:2014:4786") o ROJ ("STS 4786/2014", "SAP VA 1226/2014").
@@ -639,7 +640,7 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
 
 
 @mcp.tool(structured_output=False)
-def descargar_sentencias(seleccion: str = "todas", incluir_texto: bool = True,
+def leer_sentencias(seleccion: str = "todas", incluir_texto: bool = True,
                          max_chars: int = 0, guardar_pdf: bool = False):
     """Lee el TEXTO integro de las sentencias de la ultima busqueda (en PARALELO).
     Por DEFECTO NO guarda nada en el disco: descarga el PDF en MEMORIA, extrae el
@@ -692,7 +693,7 @@ def resolver_captcha(texto: str):
     global _trabajo
     texto = (texto or "").strip()
     if not _trabajo or not _trabajo.get("captcha_doc"):
-        return ("No hay captcha pendiente. Lanza descargar_sentencias y, si aparece "
+        return ("No hay captcha pendiente. Lanza leer_sentencias y, si aparece "
                 "un captcha, llamame con el texto.")
     if not texto:
         return "Dime los caracteres que ves en la imagen del captcha."
@@ -716,7 +717,7 @@ def resolver_captcha(texto: str):
     aviso = (f"El captcha '{texto}' no fue aceptado (o caduco). Vuelve a leer la "
              f"imagen y llama otra vez a resolver_captcha.")
     if png is None:
-        return aviso + " [No pude recargar la imagen; reintenta descargar_sentencias.]"
+        return aviso + " [No pude recargar la imagen; reintenta leer_sentencias.]"
     return [aviso, Image(data=png, format="png")]
 
 
