@@ -397,8 +397,8 @@ def _ejecutar_busqueda(data: dict, desc: str) -> str:
               f"{n_auto}/{len(docs)} traen 'RESUMEN(auto)' = extracto del propio texto con "
               "tus terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
               "generica (p.ej. 'MATERIAS NO ESPECIFICADAS'): si una asi es candidata, lee su "
-              "texto con descargar_sentencias(guardar_pdf=False) (lo lee SIN guardar el PDF). "
-              "Elige la MAS relevante al caso del usuario, no la #1.\n"]
+              "texto con descargar_sentencias (por defecto lee el texto SIN guardar el PDF "
+              "en el disco). Elige la MAS relevante al caso del usuario, no la #1.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
             f"{i}. {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'}  |  "
@@ -637,25 +637,27 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
 
 @mcp.tool(structured_output=False)
 def descargar_sentencias(seleccion: str = "todas", incluir_texto: bool = True,
-                         max_chars: int = 0, guardar_pdf: bool = True):
-    """Descarga (en PARALELO) el PDF oficial y extrae el texto integro de las
-    sentencias de la ultima busqueda. Rapido. Si el CENDOJ exige el captcha
-    'Control Descargas masivas', devuelve la imagen: leela y llama a
-    resolver_captcha; la descarga continua sola.
+                         max_chars: int = 0, guardar_pdf: bool = False):
+    """Lee el TEXTO integro de las sentencias de la ultima busqueda (en PARALELO).
+    Por DEFECTO NO guarda nada en el disco: descarga el PDF en MEMORIA, extrae el
+    texto y lo devuelve (para sacar fundamentos/parrafos). Asi el alumno no llena
+    su ordenador de PDFs. Si el CENDOJ exige el captcha 'Control Descargas masivas',
+    devuelve la imagen: leela y llama a resolver_captcha; continua sola.
+
+    Nota: para leer el texto HAY que pedir el PDF al CENDOJ (solo sirve PDF, no hay
+    vista HTML). 'Sin guardar' = no se escribe en tu disco, no que no se pida.
 
     Args:
         seleccion: "todas" (por defecto), indices "1,3,5", un rango "1-5", o ROJs
             ("STS 4786/2014, STS 2108/2014").
-        incluir_texto: Si True (por defecto), extrae el texto integro para sacar
-            fundamentos/parrafos al momento.
+        incluir_texto: Si True (por defecto), extrae el texto integro.
         max_chars: 0 = texto completo en la respuesta. >0 recorta a esa longitud.
-        guardar_pdf: True (def.) guarda el PDF (+ .txt) en disco. False = modo
-            solo-texto: no escribe el PDF, solo devuelve el texto (mas agil cuando
-            solo quieres los parrafos y no el documento).
+        guardar_pdf: False por defecto (solo lee, NO llena el disco). Ponlo a True
+            SOLO si el usuario pide guardar el PDF oficial (+ .txt) en su ordenador.
 
     Returns:
-        Por cada sentencia: ROJ, ECLI, fecha, sala, ponente, rutas y el texto. O,
-        si salta el captcha, un aviso + la imagen a resolver.
+        Por cada sentencia: ROJ, ECLI, fecha, sala, ponente y el texto (y las rutas
+        si guardar_pdf=True). O, si salta el captcha, un aviso + la imagen a resolver.
     """
     global _trabajo
     if not _ultima_busqueda:
