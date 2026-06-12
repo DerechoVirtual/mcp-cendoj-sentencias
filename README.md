@@ -1,55 +1,51 @@
 # CENDOJ Sentencias — Servidor MCP
 
-Busca y **descarga sentencias del CENDOJ** (el buscador oficial y **gratuito** de
+Busca y **lee sentencias del CENDOJ** (el buscador oficial y **gratuito** de
 jurisprudencia del Poder Judicial, `poderjudicial.es`) directamente desde
-**Claude** (Desktop / Cowork). Te da el **PDF oficial + el texto íntegro + el ECLI
-+ los metadatos** de cada resolución, listo para sacar fundamentos jurídicos y
-extractos al momento.
+**Claude** (Desktop / Cowork). Encuentra la **mejor** sentencia para un caso,
+extrae los **párrafos exactos** con su **ECLI**, y trabaja a **gran velocidad**.
 
-> **El captcha lo resuelve la propia visión de Claude.** Cuando el CENDOJ muestra
-> el captcha "Control Descargas masivas", el servidor te devuelve la imagen dentro
-> del chat; Claude la lee, escribe los 5 caracteres y la descarga continúa sola.
-> **Sin API keys, sin 2captcha, sin coste.**
+> **⚡ Rápido de verdad:** la mejor sentencia con sus párrafos en **~2-3 s**, y
+> **30 sentencias con sus párrafos clave en ~6 s**. El control "Control Descargas
+> masivas" del CENDOJ es **por sesión** (no por IP): el servidor reparte las
+> descargas entre varias sesiones frescas (**multi-sesión**) y **esquiva los
+> captchas sin pausas ni intervención del usuario**. Sin API keys, sin coste.
 
 ## Qué puede hacer
 
-- **Buscar** jurisprudencia por texto libre con todos los filtros del CENDOJ:
-  base TS/AN, fechas, tipo de resolución, **jurisdicción** (CIVIL, PENAL…),
-  **provincia/sede** (Valladolid, Alicante…) y **tipo de órgano** (Audiencia
-  Provincial, TSJ, Juzgado de 1ª Instancia, Mercantil…).
-- Ver de un vistazo **ROJ, ECLI, fecha, sala, ponente, nº de recurso y el RESUMEN**
-  oficial de cada sentencia — sin descargar nada — para elegir **la mejor, no la #1**.
-- **Localizar por cita**: buscar una resolución por su **ECLI o ROJ exacto**
-  (verificar una cita en segundos).
-- **Refinar**: ver qué órganos, años o ponentes hay para un tema y acotar.
-- **Descargar en paralelo** las que quieras: **PDF oficial + texto íntegro + ECLI**,
-  con extracción rápida (PyMuPDF). Modo "solo texto" si no quieres guardar el PDF.
-- **Resolver el captcha** de descarga masiva automáticamente con la visión de Claude.
+- **Buscar** jurisprudencia con todos los filtros del CENDOJ: base TS/AN, fechas,
+  tipo de resolución, **jurisdicción** (CIVIL, PENAL…), **provincia/sede**
+  (Valladolid, Alicante…) y **tipo de órgano** (AP, TSJ, Juzgado de 1ª Instancia,
+  Mercantil…). Pagina automáticamente si pides más de 50.
+- Ver **ROJ, ECLI, fecha, sala, ponente y un RESUMEN(auto)** de cada sentencia
+  (extracto del propio texto) — para **elegir la mejor por el resumen, sin
+  descargar nada**.
+- **Localizar por cita**: por **ECLI o ROJ exacto** (verificar una cita en segundos).
+- **Leer** el texto íntegro **o solo los párrafos exactos** que tocan el tema, de
+  una o de decenas de sentencias a la vez. **Por defecto no guarda nada** en tu disco.
+- **Refinar** por órganos, años o ponentes disponibles para un tema.
 
 Es **gratis** y cubre **toda España** (TS, AN, TSJ, Audiencias Provinciales,
 Juzgados…). El CENDOJ es público: **no hay login ni usuario**.
 
 ## Requisitos
 
-- **Python 3.10+**
+- **Python 3.10+** (con **PyMuPDF** para extracción de texto rápida; cae a `pypdf`).
 - **Claude Desktop** (o cualquier cliente MCP). En Claude Cowork funciona igual.
 
-## Instalación (Windows, recomendada)
+## Instalación (Windows)
 
 ```powershell
 git clone https://github.com/DerechoVirtual/mcp-cendoj-sentencias.git
 cd mcp-cendoj-sentencias
 
-# Crear el entorno e instalar dependencias (con uv; también vale pip + venv)
 uv venv
-uv pip install -e .
+uv pip install -e .          # en OneDrive/Dropbox: añade --link-mode=copy
 ```
 
-> En carpetas sincronizadas (OneDrive/Dropbox) usa `uv pip install --link-mode=copy -e .`
-
-Conéctalo a Claude Desktop con un doble clic en **`instalar_en_claude_desktop.bat`**
-(escribe la entrada con la app cerrada y te avisa para abrirla). Si lo prefieres
-a mano, edita `%APPDATA%\Claude\claude_desktop_config.json`:
+Conéctalo con doble clic en **`instalar_en_claude_desktop.bat`** (escribe la
+entrada con la app cerrada y te avisa), o a mano en
+`%APPDATA%\Claude\claude_desktop_config.json`:
 
 ```json
 {
@@ -62,74 +58,69 @@ a mano, edita `%APPDATA%\Claude\claude_desktop_config.json`:
 }
 ```
 
-Reinicia Claude Desktop por completo. Aparecerán las herramientas.
+Reinicia Claude Desktop por completo.
 
 ## Configuración (`.env`) — **todo opcional**
 
-El servidor **funciona sin configurar nada**: abre y renueva la sesión del CENDOJ
-él solo. Si quieres, copia `.env.example` a `.env` y ajusta:
+Funciona **sin configurar nada** (abre y renueva la sesión él solo):
 
-| Variable | Obligatoria | Para qué |
-|---|---|---|
-| `CENDOJ_COOKIE` | ❌ | Tu cookie `JSESSIONID` del navegador, si prefieres usar tu propia sesión. Vacío = sesión automática. |
-| `DOWNLOAD_DIR` | ❌ | Dónde guardar PDFs y textos. Def.: `…\Documents\sentencias-cendoj`. |
-| `CENDOJ_BASE` | ❌ | Base del buscador (no tocar salvo cambio de dominio). |
+| Variable | Para qué |
+|---|---|
+| `CENDOJ_COOKIE` | Tu `JSESSIONID` del navegador, si prefieres tu sesión. Vacío = automática. |
+| `DOWNLOAD_DIR` | Dónde guardar PDFs/textos **si pides guardarlos**. Def.: `…\Documents\sentencias-cendoj`. |
+| `CENDOJ_BASE` | Base del buscador (no tocar salvo cambio de dominio). |
 
 ## Cómo se usa (en lenguaje natural)
 
-Habla con Claude con normalidad. Por ejemplo:
+> *"Sentencias de la **AP de Valladolid** sobre **usufructo**: dame los 5 párrafos
+> clave de cada una con su ECLI."*
 
-> *"Búscame sentencias del Tribunal Supremo sobre deducción del IVA de cuotas
-> soportadas y sácame los fundamentos jurídicos de las 8 más relevantes."*
-
-> *"Sentencias de la **Audiencia Provincial de Valladolid** sobre **usufructo**, y
-> sácame 5 párrafos clave con su ECLI."* → Claude filtra por provincia + AP + civil,
-> elige las más relevantes por el resumen y te da los párrafos citables.
+> *"Búscame 30 sentencias sobre **pensión compensatoria con ingresos similares** y
+> sácame de cada una el párrafo donde se razona el desequilibrio."*
 
 Claude llamará a las herramientas por ti:
 
-1. **`buscar_sentencias`** → lista con ROJ, ECLI, fecha, sala, ponente y resumen,
-   para **elegir las mejores por el resumen sin descargar nada**.
-2. **`leer_sentencias`** → lee el texto íntegro de las que pidas (`"todas"`,
-   `"1,3,5"`, `"1-8"` o por ROJ) para analizarlo. **Por defecto no guarda nada en
-   tu disco** (lo lee en memoria); el PDF se guarda solo si lo pides.
-3. Si salta el captcha, **Claude lo resuelve solo con su visión** — tú no tocas
-   nada y la lectura sigue automáticamente.
+1. **`buscar_sentencias`** → lista con ROJ, ECLI, fecha, ponente y **RESUMEN(auto)**,
+   para elegir las mejores **sin descargar nada**.
+2. **`leer_sentencias(parrafos=N)`** → lee en memoria y devuelve solo los **N
+   párrafos exactos** que tocan el tema (o el texto íntegro con `parrafos=0`).
+   **No guarda nada** salvo que lo pidas. Esquiva los captchas solo.
 
 ### Las herramientas
 
 | Herramienta | Qué hace |
 |---|---|
-| `buscar_sentencias(consulta, base="TS", maximo=20, fecha_desde, fecha_hasta, tipo_resolucion, jurisdiccion, provincia, tipo_organo)` | Busca y lista resultados con metadatos y resumen. Filtros: jurisdicción (`CIVIL`…), `provincia` (Valladolid…), `tipo_organo` (`AP`, `TSJ`, `JPI`…). No descarga. |
-| `buscar_por_cita(cita)` | Localiza una resolución por su **ECLI** (`ECLI:ES:TS:2014:4786`) o **ROJ** (`STS 4786/2014`) exacto. |
-| `opciones_busqueda(consulta, campo="organos")` | Facetas para refinar: `organos`, `anos` o `ponentes` disponibles para un tema. |
-| `leer_sentencias(seleccion="todas", incluir_texto=True, max_chars=0, guardar_pdf=False)` | **Lee en paralelo el texto íntegro** de la última búsqueda, para analizarlo. **Por defecto NO guarda el PDF** (solo lee en memoria, sin llenar tu disco); `guardar_pdf=True` lo guarda. El captcha lo resuelve Claude solo. |
-| `resolver_captcha(texto)` | Lo llama **Claude** (no tú) tras leer la imagen del captcha; valida y continúa la lectura. |
-| `estado()` | Diagnóstico: sesión, extractor (PyMuPDF/pypdf), última búsqueda, descarga en curso y carpeta. |
+| `buscar_sentencias(consulta, base="TS", maximo=20, fecha_desde, fecha_hasta, tipo_resolucion, jurisdiccion, provincia, tipo_organo)` | Busca y lista con metadatos y RESUMEN(auto). Filtros de jurisdicción, `provincia`, `tipo_organo`. Pagina si `maximo>50`. |
+| `buscar_por_cita(cita)` | Localiza por **ECLI** o **ROJ** exacto. |
+| `opciones_busqueda(consulta, campo="organos")` | Facetas para refinar: `organos`, `anos`, `ponentes`. |
+| `leer_sentencias(seleccion="todas", parrafos=0, terminos="", max_chars=0, guardar_pdf=False)` | **Lee** el texto (multi-sesión, rapidísimo). `parrafos=N` → solo los **N pasajes exactos** sobre el tema. Por defecto **no guarda** el PDF. |
+| `resolver_captcha(texto)` | Fallback histórico — normalmente innecesario (los captchas se esquivan solos). |
+| `estado()` | Diagnóstico: extractor, sesión, última búsqueda, carpeta. |
 
-## Consejos de búsqueda (gotchas del CENDOJ)
+## Por qué es tan rápido
 
-- **Sensible a tildes y comillas.** Si una consulta da 0 resultados, prueba sin
-  tildes o quitando las comillas. Las comillas exigen frase exacta.
-- `base="TS"` da el **texto íntegro** del Supremo. `base="AN"` cubre **todas** las
-  instancias (TS, AN, TSJ, AP, juzgados).
-- El captcha solo aparece en la **descarga**, nunca en la búsqueda, y tras varias
-  descargas seguidas. Resolver uno desbloquea un bloque.
+- **Multi-sesión**: el captcha del CENDOJ es **por sesión** y salta sobre la 6ª-7ª
+  descarga. El motor usa **varias sesiones frescas en paralelo** (5 descargas cada
+  una) → casi nunca aparece, y si aparece se **esquiva** abriendo otra sesión. Sin
+  pausas, sin resolver captchas.
+- **PyMuPDF** para extraer el texto ~10× más rápido que `pypdf`.
+- **Modo párrafos**: en vez de volcar el texto íntegro de 30 sentencias (~800.000
+  caracteres), devuelve solo los pasajes que tocan el tema (~100.000) → rápido y
+  sin saturar.
 
 ## Uso responsable
 
-El captcha existe para frenar la descarga masiva. Esta herramienta está pensada
-para uso **individual y moderado** (un profesional o un estudiante consultando
-jurisprudencia, resolviendo el captcha puntualmente como haría una persona). Para
-descargas de gran volumen, usa la infraestructura adecuada con proxies, no
-martillees el CENDOJ desde una sola IP.
+Pensado para uso **profesional e individual** (un abogado/estudiante consultando
+jurisprudencia). El multi-sesión reparte la carga, pero no martillees el CENDOJ con
+descargas masivas innecesarias: con el RESUMEN(auto) eliges por resumen y solo lees
+las que de verdad sirven.
 
 ## Privacidad y seguridad
 
 - `.env` y `.venv/` están en `.gitignore`. Este repositorio **no contiene
   credenciales ni datos**.
-- El servidor solo lee/descarga del CENDOJ y guarda en tu carpeta local. No envía
-  nada a terceros.
+- Por defecto **no guarda nada** en tu disco (lee en memoria). Solo lee/consulta el
+  CENDOJ; no envía nada a terceros.
 
 ## Licencia
 

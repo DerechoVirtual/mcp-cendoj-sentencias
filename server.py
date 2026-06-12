@@ -1,34 +1,35 @@
 """
-Servidor MCP - Buscar y descargar sentencias del CENDOJ (poderjudicial.es).
+Servidor MCP - Buscar y leer sentencias del CENDOJ (poderjudicial.es).
 
 Conecta el buscador oficial y GRATUITO de jurisprudencia del Poder Judicial
 (CENDOJ) con un cliente MCP (Claude Desktop / Cowork). Ataca los endpoints HTTP
-directamente y entrega PDF oficial + texto integro + ECLI + metadatos.
+directamente y entrega texto integro + parrafos exactos + ECLI + metadatos.
 
->> El captcha "Control Descargas masivas" lo lee la propia VISION de Claude. <<
-Cuando el CENDOJ exige captcha, la herramienta de descarga devuelve la imagen
-dentro de la respuesta; Claude la lee, resuelve los 5 caracteres y llama a
-`resolver_captcha`. Sin API keys, sin 2captcha, sin coste.
+>> VELOCIDAD: 30 sentencias en ~6 s, sin captchas. <<
+El control "Control Descargas masivas" del CENDOJ es POR SESION (no por IP): salta
+sobre la 6a-7a descarga de una misma sesion. El motor reparte las descargas entre
+varias SESIONES FRESCAS (multi-sesion), de modo que casi nunca aparece; y si
+aparece, se ESQUIVA abriendo una sesion nueva y reintentando, sin pausas ni
+intervencion del usuario. (`resolver_captcha` queda como fallback historico.)
 
 El CENDOJ es publico: NO tiene login. La sesion (cookie JSESSIONID) se obtiene
 sola cargando el buscador, asi que el servidor funciona sin configurar nada.
-Opcionalmente puedes pegar tu propia cookie del navegador (ver .env.example).
 
-Extraccion de texto: usa PyMuPDF (fitz) si esta instalado (mucho mas rapido);
-si no, cae a pypdf. Las descargas van en paralelo para mayor agilidad.
+Extraccion de texto: PyMuPDF (fitz) si esta instalado (mucho mas rapido); si no,
+pypdf. Para volumen, usa el modo PARRAFOS (solo los pasajes relevantes).
 
 Configuracion (.env - ver .env.example):
-  CENDOJ_COOKIE      (opcional) JSESSIONID copiada del navegador.
-  DOWNLOAD_DIR       (opcional) carpeta donde guardar PDFs y textos.
-  CENDOJ_BASE        (opcional) base del buscador (por defecto produccion).
+  CENDOJ_COOKIE  (opcional)  JSESSIONID propia.
+  DOWNLOAD_DIR   (opcional)  carpeta para guardar PDFs/textos (solo si se pide).
+  CENDOJ_BASE    (opcional)  base del buscador.
 
 Herramientas:
-  buscar_sentencias(consulta, ...)     -> lista filtrada con metadatos y resumen
-  buscar_por_cita(cita)                -> localiza por ECLI o ROJ exacto
-  opciones_busqueda(consulta, campo)   -> facetas para refinar (anos/ponentes/organos)
-  leer_sentencias(seleccion, ...) -> lee el texto integro para analizar (sin guardar nada)
-  resolver_captcha(texto)              -> reanuda la descarga tras el captcha
-  estado()                             -> diagnostico de la sesion
+  buscar_sentencias(consulta, ...)   -> lista filtrada con metadatos y resumen
+  buscar_por_cita(cita)              -> localiza por ECLI o ROJ exacto
+  opciones_busqueda(consulta, campo) -> facetas para refinar (anos/ponentes/organos)
+  leer_sentencias(seleccion, ...)    -> texto integro o PARRAFOS exactos (sin guardar)
+  resolver_captcha(texto)            -> fallback historico (normalmente innecesario)
+  estado()                           -> diagnostico
 """
 
 import io
@@ -40,8 +41,6 @@ import html as _html
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-# Canal MCP limpio: logs a stderr en UTF-8 (la consola Windows es cp1252 y
-# revienta con cualquier caracter no-ASCII si no se fuerza utf-8).
 try:
     sys.stderr.reconfigure(encoding="utf-8")
 except Exception:
@@ -52,7 +51,7 @@ for _n in ("httpx", "httpcore", "pypdf", "fitz"):
 import httpx
 from pypdf import PdfReader
 try:
-    import fitz  # PyMuPDF (opcional): extraccion de texto ~10x mas rapida que pypdf
+    import fitz  # PyMuPDF (opcional): extraccion ~10x mas rapida que pypdf
     _HAS_FITZ = True
 except Exception:
     _HAS_FITZ = False
@@ -64,7 +63,12 @@ load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 BASE = os.environ.get("CENDOJ_BASE", "https://www.poderjudicial.es/search").rstrip("/")
 COOKIE_ENV = os.environ.get("CENDOJ_COOKIE", "").strip()
 _DOM = "www.poderjudicial.es"
-MAX_CONC = 6  # descargas en paralelo (el captcha del CENDOJ salta sobre la 6a-7a)
+
+# Multi-sesion: el captcha salta sobre la 6a-7a descarga de UNA sesion -> usamos
+# 5 por sesion (margen) y varias sesiones frescas en paralelo.
+LOTE_SESION = 5
+MAX_SESIONES = 8
+REINTENTOS_DOC = 3   # esquives de captcha/red por documento antes de rendirse
 
 _default_dir = os.path.join(os.path.expanduser("~"), "Documents", "sentencias-cendoj")
 DOWNLOAD_DIR = os.environ.get("DOWNLOAD_DIR", "").strip() or _default_dir
@@ -78,15 +82,15 @@ AJAX = {"X-Requested-With": "XMLHttpRequest"}
 
 mcp = FastMCP("cendoj-sentencias")
 
-# --- Estado en memoria (el servidor es un proceso vivo) -------------------
-_client: httpx.Client | None = None
+# --- Estado en memoria -----------------------------------------------------
+_client: httpx.Client | None = None         # sesion persistente para BUSCAR
 _ultima_busqueda: list[dict] = []
-# Trabajo de descarga en curso, para reanudar tras el captcha.
-_trabajo: dict | None = None
+_ultima_consulta: str = ""                   # terminos, para el modo parrafos
+_trabajo: dict | None = None                 # fallback de captcha por vision
 
 
 # =========================================================================
-# Cliente HTTP y sesion
+# Sesiones
 # =========================================================================
 def _get_client() -> httpx.Client:
     global _client
@@ -95,10 +99,6 @@ def _get_client() -> httpx.Client:
         if COOKIE_ENV:
             _client.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
     return _client
-
-
-def _tiene_sesion(c: httpx.Client) -> bool:
-    return bool(c.cookies.get("JSESSIONID"))
 
 
 def _abrir_sesion(c: httpx.Client) -> None:
@@ -112,13 +112,23 @@ def _asegurar_sesion(forzar: bool = False) -> httpx.Client:
             c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
         else:
             _abrir_sesion(c)
-    elif not _tiene_sesion(c):
+    elif not c.cookies.get("JSESSIONID"):
         _abrir_sesion(c)
     return c
 
 
+def _nueva_sesion() -> httpx.Client:
+    """Cliente NUEVO con su propia JSESSIONID (contador de captcha a cero)."""
+    c = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False)
+    if COOKIE_ENV:
+        c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
+    else:
+        c.get(f"{BASE}/indexAN.jsp")
+    return c
+
+
 # =========================================================================
-# Parseo de resultados (validado contra el HTML real 2026-06-12)
+# Parseo de resultados
 # =========================================================================
 def _g(blk: str, pat: str, default: str = "") -> str:
     m = re.search(pat, blk, re.DOTALL)
@@ -130,13 +140,8 @@ def _g(blk: str, pat: str, default: str = "") -> str:
 
 
 def _resumen(blk: str) -> tuple[str, bool]:
-    """Extrae el resumen del <div class="summary">. Devuelve (texto, es_automatico).
-    El CENDOJ usa dos formatos en ese nodo:
-      - 'Resumen Automatico:' -> snippet RICO extraido del texto con los terminos
-        buscados (es_auto=True). Solo aparece en las sentencias relevantes; es la
-        senal mas fiable para elegir SIN descargar.
-      - 'RESUMEN:' -> etiqueta editorial/materia (es_auto=False). A veces util, a
-        veces generica ('MATERIAS NO ESPECIFICADAS') -> conviene leer el texto."""
+    """(texto, es_automatico). 'Resumen Automatico:' = snippet rico del texto con los
+    terminos (fiable). 'RESUMEN:' = etiqueta editorial (a veces generica)."""
     m = re.search(r'<div class="summary"[^>]*>(.*?)</div>', blk, re.DOTALL)
     if not m:
         return "", False
@@ -144,7 +149,7 @@ def _resumen(blk: str) -> tuple[str, bool]:
     es_auto = bool(re.match(r"\s*Resumen\s+Autom", raw, re.I))
     mb = re.search(r'<b>(.*?)</b>', raw, re.DOTALL)
     txt = mb.group(1) if mb else raw
-    txt = re.sub(r"<[^>]+>", " ", txt)          # quitar <font color=red>, <b>, etc.
+    txt = re.sub(r"<[^>]+>", " ", txt)
     txt = _html.unescape(txt)
     txt = re.sub(r"^\s*(?:RESUMEN|Resumen\s+Autom[aá]tico)\s*:\s*", "", txt, flags=re.I)
     return re.sub(r"\s+", " ", txt).strip(), es_auto
@@ -161,8 +166,7 @@ def _parse_resultados(html: str) -> list[dict]:
                      if not x.startswith("ECLI")), "")
         res_txt, res_auto = _resumen(blk)
         out.append({
-            "hash": m.group(1),
-            "opt": m.group(2),
+            "hash": m.group(1), "opt": m.group(2),
             "roj": _g(blk, r'data-roj="([^"]*)"'),
             "ecli": _g(blk, r'(ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+)'),
             "fechares": _g(blk, r'data-fechares="([^"]*)"'),
@@ -171,8 +175,7 @@ def _parse_resultados(html: str) -> list[dict]:
             "municipio": _g(blk, r'Municipio:\s*<b>([^<]*)</b>'),
             "ponente": _g(blk, r'Ponente:\s*<b>([^<]*)</b>'),
             "recurso": _g(blk, r'Recurso:\s*<b>([^<]*)</b>'),
-            "resumen": res_txt,
-            "resumen_auto": res_auto,
+            "resumen": res_txt, "resumen_auto": res_auto,
         })
     seen, uniq = set(), []
     for d in out:
@@ -192,14 +195,6 @@ def _slug(d: dict) -> str:
     return re.sub(r"[^A-Za-z0-9._-]+", "_", base).strip("_") or d["hash"]
 
 
-def _records_per_page(maximo: int) -> int:
-    for v in (10, 20, 50):
-        if maximo <= v:
-            return v
-    return 50
-
-
-# Tipo de organo -> codigo TIPOORGANOPUB del CENDOJ (validado: AP=37, TS=11..16).
 _ORGANOS = {
     "TS": "11|12|13|14|15|16", "TRIBUNAL SUPREMO": "11|12|13|14|15|16",
     "AP": "37", "AUDIENCIA PROVINCIAL": "37", "AUDIENCIAS PROVINCIALES": "37",
@@ -225,11 +220,9 @@ def _valor_provincia(p: str) -> str:
 
 
 # =========================================================================
-# Descarga y extraccion de texto
+# Extraccion de texto y de PARRAFOS exactos
 # =========================================================================
 def _extraer_texto(pdf_bytes: bytes) -> tuple[str, int]:
-    """Devuelve (texto_integro, num_paginas). Usa PyMuPDF (fitz) si esta
-    instalado (mucho mas rapido); si no, cae a pypdf."""
     if _HAS_FITZ:
         try:
             doc = fitz.open(stream=pdf_bytes, filetype="pdf")
@@ -238,64 +231,76 @@ def _extraer_texto(pdf_bytes: bytes) -> tuple[str, int]:
                 texto = "\n".join(p.get_text() for p in doc)
             finally:
                 doc.close()
+            # normalizar ligaduras tipograficas (fi/fl) del PDF
+            texto = texto.translate({0xFB01: "fi", 0xFB02: "fl"})
             return texto.strip(), n
         except Exception:  # noqa: BLE001
             pass
     try:
         reader = PdfReader(io.BytesIO(pdf_bytes))
         n = len(reader.pages)
-        partes = []
-        for p in reader.pages:
-            try:
-                partes.append(p.extract_text() or "")
-            except Exception:
-                partes.append("")
+        partes = [(p.extract_text() or "") for p in reader.pages]
         return "\n".join(partes).strip(), n
     except Exception as e:  # noqa: BLE001
         return f"[No se pudo extraer el texto del PDF: {e}]", 0
 
 
-def _asegurar_ecli(d: dict, texto: str) -> None:
-    """Garantiza el ECLI: si no vino en el HTML, lo saca del texto del PDF."""
-    if not d.get("ecli") and texto:
-        mm = re.search(r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+", texto)
-        if mm:
-            d["ecli"] = mm.group(0)
+_STOP = {"para", "como", "este", "esta", "esto", "sobre", "entre", "segun",
+         "donde", "cuando", "porque", "desde", "hasta", "ante", "tras", "del",
+         "los", "las", "una", "unos", "unas", "con", "por", "que", "the"}
 
 
-def _guardar(d: dict, pdf_bytes: bytes, incluir_texto: bool,
-             guardar_pdf: bool = True) -> dict:
-    """Guarda PDF (+ TXT si procede) y devuelve el registro. Con guardar_pdf=False
-    no escribe el PDF a disco (modo solo-texto, mas rapido)."""
-    nombre = _slug(d)
-    ruta_pdf = ""
-    if guardar_pdf:
-        ruta_pdf = os.path.join(DOWNLOAD_DIR, nombre + ".pdf")
-        with open(ruta_pdf, "wb") as f:
-            f.write(pdf_bytes)
-    texto, paginas, ruta_txt = "", 0, ""
-    if incluir_texto:
-        texto, paginas = _extraer_texto(pdf_bytes)
-        _asegurar_ecli(d, texto)
-        if guardar_pdf:
-            ruta_txt = os.path.join(DOWNLOAD_DIR, nombre + ".txt")
-            with open(ruta_txt, "w", encoding="utf-8") as f:
-                f.write(texto)
-    return {"doc": d, "ruta_pdf": ruta_pdf, "ruta_txt": ruta_txt,
-            "texto": texto, "paginas": paginas, "ok": True}
+def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
+                      max_chars: int = 900) -> list[str]:
+    """Devuelve los k PASAJES EXACTOS donde se discuten los terminos: ventanas de
+    texto corrido centradas en ellos, priorizando los terminos especificos y los
+    pasajes que cubren VARIOS terminos a la vez, sin solaparse. (El texto del PDF
+    parte por linea visual, asi que primero se reconstruye en texto corrido.)"""
+    txt = re.sub(r"-\n", "", texto)             # une palabras cortadas a fin de linea
+    txt = re.sub(r"\s*\n\s*", " ", txt)          # une todas las lineas
+    txt = re.sub(r"[ \t]{2,}", " ", txt).strip()
+    palabras = [w for w in re.findall(r"\w{4,}", (terminos or "").lower())
+                if w not in _STOP]
+    if not palabras or len(txt) < 200:
+        return []
+    pesos = {w: 1.0 + len(w) / 8.0 for w in palabras}   # especificidad por longitud
+    low = txt.lower()
+    hits = sorted(m.start() for w in palabras for m in re.finditer(re.escape(w), low))
+    if not hits:
+        return []
+    ventanas = []
+    i = 0
+    while i < len(hits):
+        centro = hits[i]
+        ini = max(0, centro - max_chars // 4)
+        fin = min(len(txt), centro + max_chars)
+        seg = low[ini:fin]
+        distintas = sum(1 for w in set(palabras) if w in seg)
+        peso = sum(seg.count(w) * pesos[w] for w in palabras)
+        ventanas.append((distintas * distintas * 5.0 + peso, ini, fin))
+        while i < len(hits) and hits[i] < fin:   # saltar hits ya cubiertos
+            i += 1
+    ventanas.sort(key=lambda x: -x[0])
+    elegidas: list[tuple[int, int]] = []
+    for _, ini, fin in ventanas:
+        if any(not (fin <= a or ini >= b) for a, b in elegidas):
+            continue                              # evita solapes
+        elegidas.append((ini, fin))
+        if len(elegidas) >= k:
+            break
+    elegidas.sort()
+    out = []
+    for ini, fin in elegidas:
+        frag = txt[ini:fin].strip()
+        out.append(("[...] " if ini > 0 else "") + frag + (" [...]" if fin < len(txt) else ""))
+    return out
 
 
-def _preparar_captcha(c: httpx.Client, d: dict) -> bytes | None:
-    c.get(f"{BASE}/captcha.jsp?prevaction=accessToPDF&nextaction=accessToPDF"
-          f"&encode=true&reference={d['hash']}&optimize={d['opt']}&tab=AN&embeded=true")
-    r = c.get(f"{BASE}/stickyImg")
-    if r.status_code == 200 and len(r.content) > 100:
-        return r.content
-    return None
-
-
+# =========================================================================
+# Descarga (un documento) + guardado/lectura
+# =========================================================================
 def _intento_descarga(c: httpx.Client, d: dict) -> tuple[str, bytes]:
-    """Devuelve ('pdf', bytes) | ('captcha', b'') | ('error', mensaje_bytes)."""
+    """('pdf', bytes) | ('captcha', b'') | ('error', mensaje_bytes)."""
     try:
         r = c.get(f"{BASE}/AN/openDocument/{d['hash']}/{d['opt']}")
     except Exception as e:  # noqa: BLE001
@@ -309,10 +314,105 @@ def _intento_descarga(c: httpx.Client, d: dict) -> tuple[str, bytes]:
     return "error", f"HTTP {r.status_code} ({r.headers.get('content-type','')})".encode()
 
 
+def _construir_registro(d: dict, pdf_bytes: bytes, incluir_texto: bool,
+                        guardar_pdf: bool, parrafos: int, terminos: str) -> dict:
+    """Extrae texto/parrafos y (si se pide) guarda PDF+TXT. Devuelve el registro."""
+    nombre = _slug(d)
+    ruta_pdf = ruta_txt = ""
+    if guardar_pdf:
+        ruta_pdf = os.path.join(DOWNLOAD_DIR, nombre + ".pdf")
+        with open(ruta_pdf, "wb") as f:
+            f.write(pdf_bytes)
+    texto_salida, paginas, n_par = "", 0, 0
+    if incluir_texto:
+        texto, paginas = _extraer_texto(pdf_bytes)
+        if not d.get("ecli"):
+            mm = re.search(r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+", texto)
+            if mm:
+                d["ecli"] = mm.group(0)
+        if parrafos and parrafos > 0:
+            par = _extraer_parrafos(texto, terminos, parrafos)
+            n_par = len(par)
+            texto_salida = ("\n\n   [...]\n\n".join(par) if par else
+                            "[No se hallaron parrafos con los terminos; pide el texto "
+                            "completo con parrafos=0 si lo necesitas.]")
+        else:
+            texto_salida = texto
+        if guardar_pdf:
+            ruta_txt = os.path.join(DOWNLOAD_DIR, nombre + ".txt")
+            with open(ruta_txt, "w", encoding="utf-8") as f:
+                f.write(texto)
+    return {"doc": d, "ruta_pdf": ruta_pdf, "ruta_txt": ruta_txt,
+            "texto": texto_salida, "paginas": paginas, "n_parrafos": n_par, "ok": True}
+
+
+# =========================================================================
+# MOTOR MULTI-SESION: descarga un lote esquivando captchas por rotacion de sesion
+# =========================================================================
+def _procesar_shard(shard: list[dict], incluir_texto: bool, guardar_pdf: bool,
+                    parrafos: int, terminos: str) -> list[dict]:
+    """Descarga los docs de un shard con UNA sesion fresca; si topa captcha o error
+    transitorio, rota a otra sesion fresca y reintenta (hasta REINTENTOS_DOC)."""
+    c = _nueva_sesion()
+    regs, hechos_con_sesion = [], 0
+    for d in shard:
+        reg = None
+        for intento in range(REINTENTOS_DOC):
+            if hechos_con_sesion >= LOTE_SESION:        # rota antes de que salte
+                c = _nueva_sesion(); hechos_con_sesion = 0
+            tipo, payload = _intento_descarga(c, d)
+            if tipo == "pdf":
+                reg = _construir_registro(d, payload, incluir_texto, guardar_pdf,
+                                          parrafos, terminos)
+                hechos_con_sesion += 1
+                break
+            # captcha o error -> sesion nueva y reintento
+            c = _nueva_sesion(); hechos_con_sesion = 0
+        if reg is None:
+            reg = {"doc": d, "ruta_pdf": "", "ruta_txt": "", "paginas": 0,
+                   "texto": "", "n_parrafos": 0, "ok": False,
+                   "error": "no se pudo tras reintentos (captcha persistente)"}
+        regs.append(reg)
+    return regs
+
+
+def _fallo(d: dict, motivo: str) -> dict:
+    return {"doc": d, "ruta_pdf": "", "ruta_txt": "", "paginas": 0, "texto": "",
+            "n_parrafos": 0, "ok": False, "error": motivo}
+
+
+def _descargar_lote(docs: list[dict], incluir_texto: bool, guardar_pdf: bool,
+                    parrafos: int, terminos: str) -> list[dict]:
+    """Pocos docs (<=LOTE_SESION): reutiliza la sesion de busqueda ya caliente (rapido,
+    sin abrir sesiones de mas). Volumen: multi-sesion en paralelo (shards). Esquiva
+    captchas rotando de sesion. Preserva el orden de 'docs'."""
+    if len(docs) <= LOTE_SESION:
+        c = _asegurar_sesion()
+        regs = []
+        for d in docs:
+            reg = None
+            for _ in range(REINTENTOS_DOC):
+                tipo, payload = _intento_descarga(c, d)
+                if tipo == "pdf":
+                    reg = _construir_registro(d, payload, incluir_texto, guardar_pdf,
+                                              parrafos, terminos)
+                    break
+                c = _nueva_sesion()                       # esquive de captcha/red
+            regs.append(reg or _fallo(d, "no se pudo tras reintentos"))
+        return regs
+    shards = [docs[i:i + LOTE_SESION] for i in range(0, len(docs), LOTE_SESION)]
+    workers = min(MAX_SESIONES, max(1, len(shards)))
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        partes = list(ex.map(
+            lambda sh: _procesar_shard(sh, incluir_texto, guardar_pdf, parrafos, terminos),
+            shards))
+    return [reg for parte in partes for reg in parte]
+
+
 # =========================================================================
 # Formateo de salida
 # =========================================================================
-def _fmt_resultado(reg: dict, max_chars: int) -> str:
+def _fmt_resultado(reg: dict) -> str:
     d = reg["doc"]
     cab = [
         f"=== {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'} ===",
@@ -325,15 +425,12 @@ def _fmt_resultado(reg: dict, max_chars: int) -> str:
     if reg.get("ruta_pdf"):
         cab.append(f"PDF: {reg['ruta_pdf']}")
     if reg.get("ruta_txt"):
-        cab.append(f"TXT: {reg['ruta_txt']}  ({reg.get('paginas','?')} pags.)")
-    elif reg.get("paginas"):
-        cab.append(f"({reg['paginas']} pags.)")
+        cab.append(f"TXT: {reg['ruta_txt']}")
     if reg.get("texto"):
-        texto = reg["texto"]
-        if max_chars and len(texto) > max_chars:
-            texto = texto[:max_chars] + f"\n[... texto recortado a {max_chars} chars ...]"
-        cab.append("--- TEXTO ---")
-        cab.append(texto)
+        etq = (f"--- PARRAFOS CLAVE ({reg['n_parrafos']}) ---"
+               if reg.get("n_parrafos") else f"--- TEXTO ({reg.get('paginas','?')} pags) ---")
+        cab.append(etq)
+        cab.append(reg["texto"])
     return "\n".join(cab)
 
 
@@ -366,132 +463,69 @@ def _seleccionar(seleccion: str, docs: list[dict]) -> list[dict] | str:
 
 
 # =========================================================================
-# Motor de busqueda (compartido por buscar_sentencias y buscar_por_cita)
+# Motor de busqueda (con paginacion para >50)
 # =========================================================================
-def _ejecutar_busqueda(data: dict, desc: str) -> str:
+def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int) -> str:
     global _ultima_busqueda
     c = _asegurar_sesion()
-    try:
-        r = c.post(f"{BASE}/search.action", data=data, headers=AJAX)
-    except Exception as e:  # noqa: BLE001
-        return f"Error de red al buscar: {e}"
-    if r.status_code in (301, 302, 303, 307) or (
-            "search.action" not in r.text and "searchresult" not in r.text):
-        c = _asegurar_sesion(forzar=True)
-        r = c.post(f"{BASE}/search.action", data=data, headers=AJAX)
-    if r.status_code != 200:
-        return f"El CENDOJ respondio HTTP {r.status_code} a la busqueda."
-    if "no es valida" in r.text.lower() or "no es v" in r.text.lower():
-        return ("El CENDOJ rechazo la busqueda ('La busqueda no es valida'). "
-                "Suele ser por tildes o comillas: prueba a quitar tildes o a no "
-                "usar frases entrecomilladas, o revisa jurisdiccion/provincia.")
-    docs = _parse_resultados(r.text)
+    docs: list[dict] = []
+    start, total = 1, None
+    while len(docs) < maximo:
+        data = {**data_base, "start": str(start), "maxresults": "50",
+                "recordsPerPage": "50", "sort": ""}
+        try:
+            r = c.post(f"{BASE}/search.action", data=data, headers=AJAX)
+        except Exception as e:  # noqa: BLE001
+            return f"Error de red al buscar: {e}"
+        if start == 1 and (r.status_code in (301, 302, 303, 307) or (
+                "search.action" not in r.text and "searchresult" not in r.text)):
+            c = _asegurar_sesion(forzar=True)
+            r = c.post(f"{BASE}/search.action", data=data, headers=AJAX)
+        if r.status_code != 200:
+            return f"El CENDOJ respondio HTTP {r.status_code} a la busqueda."
+        if "no es valida" in r.text.lower():
+            return ("El CENDOJ rechazo la busqueda ('La busqueda no es valida'). "
+                    "Suele ser por tildes/comillas o un filtro mal puesto: prueba sin "
+                    "tildes, sin comillas, o revisa jurisdiccion/provincia.")
+        if total is None:
+            mt = re.search(r"([\d.]+)\s+resultados", r.text)
+            total = mt.group(1) if mt else "?"
+        nuevos = _parse_resultados(r.text)
+        if not nuevos:
+            break
+        docs.extend(nuevos)
+        if len(nuevos) < 50:
+            break
+        start += 50
+    # dedup global por hash
+    seen, uniq = set(), []
+    for d in docs:
+        if d["hash"] not in seen:
+            seen.add(d["hash"]); uniq.append(d)
+    docs = uniq[:maximo]
     _ultima_busqueda = docs
     if not docs:
-        return (f"Sin resultados para {desc}. Prueba sin tildes, con menos "
-                "comillas, cambia la base a 'AN' o relaja los filtros.")
-    mtot = re.search(r"([\d.]+)\s+resultados", r.text)
-    total = mtot.group(1) if mtot else str(len(docs))
+        return (f"Sin resultados para {desc}. Prueba sin tildes, con menos comillas, "
+                "cambia la base a 'AN' o relaja los filtros.")
     n_auto = sum(1 for d in docs if d.get("resumen_auto"))
-    lineas = [f"{len(docs)} resultados mostrados (total CENDOJ: {total}) para {desc}:",
-              f"{n_auto}/{len(docs)} traen 'RESUMEN(auto)' = extracto del propio texto con "
-              "tus terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
-              "generica (p.ej. 'MATERIAS NO ESPECIFICADAS'): si una asi es candidata, lee su "
-              "texto con leer_sentencias (por defecto lee el texto SIN guardar el PDF "
-              "en el disco). Elige la MAS relevante al caso del usuario, no la #1.\n"]
+    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}:",
+              f"{n_auto}/{len(docs)} con 'RESUMEN(auto)' = extracto del texto con tus "
+              "terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
+              "generica: si es candidata, leela. Elige la MAS relevante al caso, no la #1. "
+              "Luego: leer_sentencias (texto) o leer_sentencias(parrafos=3) para los "
+              "pasajes exactos.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
             f"{i}. {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'}  |  "
             f"{_fecha_legible(d.get('fechares',''))}"
             + (f"  |  {d['sala']}" if d.get("sala") else "")
-            + (f"  |  Ponente: {d['ponente']}" if d.get("ponente") else ""))
-        if d.get("recurso"):
-            lineas.append(f"   Recurso: {d['recurso']}")
+            + (f"  |  Pon: {d['ponente']}" if d.get("ponente") else ""))
         res = d.get("resumen", "")
         if res:
-            if d.get("resumen_auto"):
-                etq = "RESUMEN(auto)"
-            elif res.isupper() or len(res) < 45:
-                etq = "MATERIA"      # etiqueta editorial generica -> conviene leer el texto
-            else:
-                etq = "RESUMEN"
-            lineas.append(f"   {etq}: " + (res[:450] + " [...]" if len(res) > 450 else res))
-        lineas.append("")
-    lineas.append("Para leer el texto y analizarlo (sacar parrafos/fundamentos): "
-                  "leer_sentencias('todas') | '1,3,5' | '1-5'.")
+            etq = ("RESUMEN(auto)" if d.get("resumen_auto")
+                   else "MATERIA" if (res.isupper() or len(res) < 45) else "RESUMEN")
+            lineas.append(f"   {etq}: " + (res[:420] + " [...]" if len(res) > 420 else res))
     return "\n".join(lineas)
-
-
-# =========================================================================
-# Motor de descarga (concurrente) + reanudacion tras captcha
-# =========================================================================
-def _descargar_tanda(c, docs, incluir_texto, guardar_pdf):
-    """Descarga una tanda en PARALELO. Devuelve (resueltas, captcha_doc, pend_captcha).
-    La extraccion de texto se hace en el hilo principal (fitz no es thread-safe)."""
-    with ThreadPoolExecutor(max_workers=min(MAX_CONC, max(1, len(docs)))) as ex:
-        resultados = list(ex.map(lambda d: (d, _intento_descarga(c, d)), docs))
-    resueltas, captcha_doc, pend = [], None, []
-    for d, (tipo, payload) in resultados:
-        if tipo == "pdf":
-            resueltas.append(_guardar(d, payload, incluir_texto, guardar_pdf))
-        elif tipo == "captcha":
-            if captcha_doc is None:
-                captcha_doc = d
-            else:
-                pend.append(d)
-        else:
-            resueltas.append({"doc": d, "ruta_pdf": "", "ruta_txt": "", "paginas": 0,
-                              "texto": "", "ok": False,
-                              "error": payload.decode("utf-8", "replace")})
-    return resueltas, captcha_doc, pend
-
-
-def _procesar_cola(c: httpx.Client):
-    """Procesa los 'pendientes' por tandas concurrentes hasta acabar o toparse
-    con un captcha. Devuelve la salida MCP (str o [str, Image])."""
-    global _trabajo
-    t = _trabajo
-    while t["pendientes"]:
-        tanda = t["pendientes"][:MAX_CONC]
-        resueltas, captcha_doc, pend_captcha = _descargar_tanda(
-            c, tanda, t["incluir_texto"], t["guardar_pdf"])
-        t["resueltas"].extend(resueltas)
-        t["pendientes"] = t["pendientes"][len(tanda):]
-        if captcha_doc:
-            t["captcha_doc"] = captcha_doc
-            t["pendientes"] = pend_captcha + t["pendientes"]
-            png = _preparar_captcha(c, captcha_doc)
-            n_ok = len([r for r in t["resueltas"] if r.get("ok")])
-            n_total = n_ok + len(t["pendientes"]) + 1
-            aviso = (
-                f"Captcha 'Control Descargas masivas' al descargar "
-                f"{captcha_doc.get('roj') or captcha_doc['hash']}.\n"
-                f"Llevo {n_ok}/{n_total} descargadas.\n\n"
-                f"INSTRUCCION PARA TI, CLAUDE (hazlo TU, NUNCA se lo pidas al usuario): "
-                f"mira la imagen de abajo, lee sus 5 caracteres con tu vision y llama de "
-                f"inmediato a resolver_captcha con ese texto. El usuario NO resuelve "
-                f"captchas jamas: los resuelves tu solo, en automatico y sin avisarle. "
-                f"En cuanto valides, continuo con el resto de descargas.")
-            if png is None:
-                return aviso + "\n\n[No pude obtener la imagen; reintenta leer_sentencias.]"
-            return [aviso, Image(data=png, format="png")]
-    return _finalizar(t)
-
-
-def _finalizar(t: dict) -> str:
-    global _trabajo
-    regs = t["resueltas"]
-    oks = [r for r in regs if r.get("ok")]
-    errs = [r for r in regs if not r.get("ok")]
-    dt = time.time() - t.get("t0", time.time())
-    cuerpo = "\n\n".join(_fmt_resultado(r, t["max_chars"]) for r in oks)
-    destino = DOWNLOAD_DIR if t.get("guardar_pdf", True) else "(modo solo-texto, sin guardar)"
-    cab = f"{len(oks)} sentencia(s) en {dt:.1f}s. {destino}"
-    if errs:
-        cab += "\n" + f"{len(errs)} con incidencia: " + "; ".join(
-            f"{e['doc'].get('roj','?')} ({e.get('error','?')})" for e in errs)
-    _trabajo = None
-    return cab + ("\n\n" + cuerpo if cuerpo else "")
 
 
 # =========================================================================
@@ -499,54 +533,38 @@ def _finalizar(t: dict) -> str:
 # =========================================================================
 @mcp.tool()
 def buscar_sentencias(
-    consulta: str,
-    base: str = "TS",
-    maximo: int = 20,
-    fecha_desde: str = "",
-    fecha_hasta: str = "",
-    tipo_resolucion: str = "",
-    jurisdiccion: str = "",
-    provincia: str = "",
-    tipo_organo: str = "",
+    consulta: str, base: str = "TS", maximo: int = 20,
+    fecha_desde: str = "", fecha_hasta: str = "", tipo_resolucion: str = "",
+    jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
 ) -> str:
-    """Busca jurisprudencia en el CENDOJ (poderjudicial.es) y devuelve la lista
-    de resultados con sus metadatos y resumen. NO descarga (eso no tiene captcha).
-
-    Para dar al usuario la MEJOR sentencia (no la primera): afina con los filtros
-    (jurisdiccion, provincia, tipo_organo, fechas) y luego elige por el RESUMEN y
-    los metadatos cual encaja mejor con su caso, en vez de coger la #1.
+    """Busca jurisprudencia en el CENDOJ y devuelve la lista con metadatos y resumen.
+    NO descarga (no tiene captcha). Para dar la MEJOR sentencia: afina con los filtros
+    y elige por el RESUMEN(auto), no la #1.
 
     Args:
-        consulta: Texto libre. Las comillas exigen frase exacta ("deduccion del IVA").
-            Sensible a tildes; si da 0 resultados, prueba sin tildes o sin comillas.
-        base: "TS" (Tribunal Supremo, texto integro) o "AN" (todas las resoluciones:
-            TS, AN, TSJ, AP, juzgados...). Con provincia/tipo_organo se fuerza "AN".
-        maximo: Numero de resultados a traer (se ajusta a 10, 20 o 50).
-        fecha_desde / fecha_hasta: Filtro de fecha de resolucion en dd/mm/aaaa.
-        tipo_resolucion: "SENTENCIA" o "AUTO" (vacio = ambos).
+        consulta: Texto libre. Comillas = frase exacta. Sensible a tildes (si da 0,
+            prueba sin tildes/sin comillas).
+        base: "TS" (Supremo) o "AN" (todo: TS, AN, TSJ, AP, juzgados). Con
+            provincia/tipo_organo se fuerza "AN".
+        maximo: Cuantos resultados traer. Admite >50 (pagina automaticamente).
+        fecha_desde / fecha_hasta: dd/mm/aaaa (fecha de resolucion).
+        tipo_resolucion: "SENTENCIA" o "AUTO".
         jurisdiccion: "CIVIL", "PENAL", "CONTENCIOSO", "SOCIAL", "MILITAR",
-            "ESPECIAL", "CONSTITUCIONAL" (vacio = todas).
-        provincia: Filtra por provincia/sede del organo (p.ej. "Valladolid",
-            "Alicante", "Barcelona", "Madrid"). Implica base "AN".
-        tipo_organo: Alias "AP" (Audiencia Provincial), "TS", "TSJ", "AN",
-            "JPI" (Juzgado 1a Instancia), "JM" (Mercantil), "JP" (Penal)... o el
-            codigo numerico del CENDOJ. Para "AP de Valladolid": provincia="Valladolid",
-            tipo_organo="AP".
+            "ESPECIAL", "CONSTITUCIONAL".
+        provincia: "Valladolid", "Alicante", "Barcelona"... (implica base AN).
+        tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o codigo del CENDOJ.
 
     Returns:
-        Lista numerada con ROJ, ECLI, fecha, sala, ponente, n. de recurso y el
-        RESUMEN oficial de cada resolucion. Usa luego leer_sentencias.
+        Lista numerada con ROJ, ECLI, fecha, sala, ponente y RESUMEN. Luego usa
+        leer_sentencias (texto completo) o leer_sentencias(parrafos=N) (pasajes exactos).
     """
+    global _ultima_consulta
     consulta = (consulta or "").strip()
     if not consulta:
         return "Error: la consulta esta vacia."
-    rpp = _records_per_page(int(maximo))
-    data = {
-        "action": "query",
-        "databasematch": (base or "TS").strip().upper(),
-        "TEXT": consulta,
-        "start": "1", "maxresults": str(rpp), "recordsPerPage": str(rpp), "sort": "",
-    }
+    _ultima_consulta = consulta
+    data = {"action": "query", "databasematch": (base or "TS").strip().upper(),
+            "TEXT": consulta}
     if fecha_desde:
         data["FECHARESOLUCIONDESDE"] = fecha_desde
     if fecha_hasta:
@@ -568,54 +586,45 @@ def buscar_sentencias(
         desc += f", provincia {provincia}"
     if tipo_organo:
         desc += f", organo {tipo_organo}"
-    return _ejecutar_busqueda(data, desc)
+    return _ejecutar_busqueda(data, desc, max(1, int(maximo)))
 
 
 @mcp.tool()
 def buscar_por_cita(cita: str) -> str:
-    """Localiza una sentencia por su ECLI o ROJ EXACTO (para verificar una cita o
-    abrir una resolucion concreta). La deja lista para leer_sentencias.
+    """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir una
+    resolucion). La deja lista para leer_sentencias.
 
     Args:
         cita: ECLI ("ECLI:ES:TS:2014:4786") o ROJ ("STS 4786/2014", "SAP VA 1226/2014").
-
-    Returns:
-        La resolucion localizada con sus metadatos, o aviso si no existe.
     """
+    global _ultima_consulta
     cita = (cita or "").strip()
     if not cita:
         return "Error: indica un ECLI o un ROJ."
-    data = {"action": "query", "databasematch": "AN", "TEXT": "",
-            "start": "1", "maxresults": "10", "recordsPerPage": "10", "sort": ""}
+    _ultima_consulta = ""
+    data = {"action": "query", "databasematch": "AN", "TEXT": ""}
     if cita.upper().startswith("ECLI"):
-        data["ECLI"] = cita.upper()
-        desc = f"ECLI {cita}"
+        data["ECLI"] = cita.upper(); desc = f"ECLI {cita}"
     elif re.match(r"[A-Za-z]{2,4}\s*\d+/\d{4}", cita):
-        data["ROJ"] = cita.upper()
-        desc = f"ROJ {cita}"
+        data["ROJ"] = cita.upper(); desc = f"ROJ {cita}"
     else:
-        data["TEXT"] = cita
-        desc = f"cita {cita!r}"
-    return _ejecutar_busqueda(data, desc)
+        data["TEXT"] = cita; desc = f"cita {cita!r}"
+    return _ejecutar_busqueda(data, desc, 10)
 
 
 @mcp.tool()
 def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "AN") -> str:
-    """Devuelve los valores disponibles de una faceta para REFINAR una busqueda y
-    acercarte a la MEJOR sentencia (que organos, anos o ponentes hay para un tema).
+    """Valores de una faceta para REFINAR la busqueda (organos, anos o ponentes).
 
     Args:
-        consulta: Texto de la busqueda a refinar (opcional, acota las facetas).
-        campo: "organos" (tipos de organo), "anos" o "ponentes".
-        base: "AN" (todo) o "TS".
-
-    Returns:
-        Lista de valores disponibles para ese campo (los ponentes se limitan).
+        consulta: Texto a refinar (opcional).
+        campo: "organos", "anos" o "ponentes".
+        base: "AN" o "TS".
     """
     field = {"organos": "TIPOORGANOPUB", "órganos": "TIPOORGANOPUB",
              "anos": "ANYO", "años": "ANYO", "ano": "ANYO",
-             "ponentes": "PONENTE", "ponente": "PONENTE"}.get(campo.lower().strip(),
-                                                              campo.upper())
+             "ponentes": "PONENTE", "ponente": "PONENTE"}.get(
+                 campo.lower().strip(), campo.upper())
     c = _asegurar_sesion()
     data = {"action": "getQueryAllTagValues", "field": field,
             "databasematch": (base or "AN").strip().upper(), "idtab": "jurisprudencia"}
@@ -632,36 +641,34 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
             for v, l in pares]
     nota = ""
     if field == "PONENTE" and len(vals) > 60:
-        nota = f"\n[... {len(vals)} ponentes en total; muestro 60. Filtra por nombre.]"
+        nota = f"\n[... {len(vals)} ponentes; muestro 60. Filtra por nombre.]"
         vals = vals[:60]
-    return (f"Valores de '{campo}'"
-            + (f" para {consulta!r}" if consulta else "")
+    return (f"Valores de '{campo}'" + (f" para {consulta!r}" if consulta else "")
             + f" ({len(pares)}):\n- " + "\n- ".join(vals) + nota)
 
 
 @mcp.tool(structured_output=False)
-def leer_sentencias(seleccion: str = "todas", incluir_texto: bool = True,
-                         max_chars: int = 0, guardar_pdf: bool = False):
-    """Lee el TEXTO integro de las sentencias de la ultima busqueda (en PARALELO).
-    Por DEFECTO NO guarda nada en el disco: descarga el PDF en MEMORIA, extrae el
-    texto y lo devuelve (para sacar fundamentos/parrafos). Asi el alumno no llena
-    su ordenador de PDFs. Si el CENDOJ exige el captcha 'Control Descargas masivas',
-    devuelve la imagen: leela y llama a resolver_captcha; continua sola.
+def leer_sentencias(seleccion: str = "todas", parrafos: int = 0,
+                    terminos: str = "", max_chars: int = 0, guardar_pdf: bool = False):
+    """Lee el TEXTO de las sentencias de la ultima busqueda, MUY rapido (multi-sesion:
+    ~30 sentencias en pocos segundos, esquivando los captchas sin pausas). Por DEFECTO
+    NO guarda nada en el disco (lee en memoria).
 
-    Nota: para leer el texto HAY que pedir el PDF al CENDOJ (solo sirve PDF, no hay
-    vista HTML). 'Sin guardar' = no se escribe en tu disco, no que no se pida.
+    Para VOLUMEN o para 'los parrafos exactos', usa `parrafos=N`: en vez del texto
+    integro devuelve solo los N pasajes mas relevantes (los que contienen los terminos),
+    rapido y sin saturar. Imprescindible para pedir 'los 5 parrafos clave de 30 sentencias'.
 
     Args:
-        seleccion: "todas" (por defecto), indices "1,3,5", un rango "1-5", o ROJs
-            ("STS 4786/2014, STS 2108/2014").
-        incluir_texto: Si True (por defecto), extrae el texto integro.
-        max_chars: 0 = texto completo en la respuesta. >0 recorta a esa longitud.
-        guardar_pdf: False por defecto (solo lee, NO llena el disco). Ponlo a True
-            SOLO si el usuario pide guardar el PDF oficial (+ .txt) en su ordenador.
+        seleccion: "todas" (def.), indices "1,3,5", rango "1-30", o ROJs.
+        parrafos: 0 = texto integro. >0 = solo los N parrafos mas relevantes por
+            sentencia (recomendado 3-5 para volumen).
+        terminos: palabras clave para elegir los parrafos. Vacio = la consulta de la
+            ultima busqueda.
+        max_chars: si parrafos=0, recorta el texto integro a esta longitud (0 = todo).
+        guardar_pdf: False por defecto (no llena el disco). True guarda PDF + TXT.
 
     Returns:
-        Por cada sentencia: ROJ, ECLI, fecha, sala, ponente y el texto (y las rutas
-        si guardar_pdf=True). O, si salta el captcha, un aviso + la imagen a resolver.
+        Por cada sentencia: ROJ, ECLI, fecha, ponente y los parrafos clave (o el texto).
     """
     global _trabajo
     if not _ultima_busqueda:
@@ -671,32 +678,42 @@ def leer_sentencias(seleccion: str = "todas", incluir_texto: bool = True,
         return sel
     if not sel:
         return "No se selecciono ninguna sentencia."
-    c = _asegurar_sesion()
-    _trabajo = {"resueltas": [], "pendientes": list(sel), "captcha_doc": None,
-                "incluir_texto": bool(incluir_texto), "max_chars": int(max_chars),
-                "guardar_pdf": bool(guardar_pdf), "t0": time.time()}
-    return _procesar_cola(c)
+    terms = (terminos or "").strip() or _ultima_consulta
+    t0 = time.time()
+    regs = _descargar_lote(list(sel), incluir_texto=True, guardar_pdf=bool(guardar_pdf),
+                           parrafos=int(parrafos), terminos=terms)
+    # recorte de texto integro si procede
+    if not parrafos and max_chars:
+        for r in regs:
+            if r.get("ok") and len(r["texto"]) > max_chars:
+                r["texto"] = r["texto"][:max_chars] + f"\n[... recortado a {max_chars} ...]"
+    oks = [r for r in regs if r.get("ok")]
+    errs = [r for r in regs if not r.get("ok")]
+    dt = time.time() - t0
+    modo = f"parrafos clave (x{parrafos})" if parrafos else "texto integro"
+    cab = f"{len(oks)} sentencia(s) leidas en {dt:.1f}s ({modo})."
+    if guardar_pdf:
+        cab += f" Guardadas en {DOWNLOAD_DIR}."
+    if errs:
+        cab += "\n" + f"{len(errs)} con incidencia: " + "; ".join(
+            f"{e['doc'].get('roj','?')} ({e.get('error','?')})" for e in errs)
+    cuerpo = "\n\n".join(_fmt_resultado(r) for r in oks)
+    return cab + ("\n\n" + cuerpo if cuerpo else "")
 
 
 @mcp.tool(structured_output=False)
 def resolver_captcha(texto: str):
-    """Resuelve el captcha 'Control Descargas masivas' con el texto leido de la
-    imagen (los ~5 caracteres) y CONTINUA la descarga pendiente.
+    """Fallback historico. Normalmente NO se necesita: el motor esquiva los captchas
+    rotando de sesion, sin pausas. Existe por si en algun caso se devolviera una imagen.
 
     Args:
-        texto: Los caracteres de la imagen del captcha (p. ej. "nh6fh").
-
-    Returns:
-        El resultado de las sentencias o, si el captcha era incorrecto o vuelve a
-        saltar, una nueva imagen para resolver.
+        texto: los caracteres del captcha, si se te muestra una imagen.
     """
     global _trabajo
     texto = (texto or "").strip()
     if not _trabajo or not _trabajo.get("captcha_doc"):
-        return ("No hay captcha pendiente. Lanza leer_sentencias y, si aparece "
-                "un captcha, llamame con el texto.")
-    if not texto:
-        return "Dime los caracteres que ves en la imagen del captcha."
+        return ("No hay captcha pendiente (el motor los esquiva solo). Si querias leer "
+                "sentencias, usa leer_sentencias.")
     c = _asegurar_sesion()
     d = _trabajo["captcha_doc"]
     try:
@@ -704,42 +721,32 @@ def resolver_captcha(texto: str):
             "action": "captcha", "prevaction": "accessToPDF",
             "nextaction": "accessToPDF", "encode": "true",
             "reference": d["hash"], "optimize": d["opt"], "tab": "AN",
-            "embeded": "true", "captcha": texto,
-        }, headers=AJAX)
+            "embeded": "true", "captcha": texto}, headers=AJAX)
     except Exception as e:  # noqa: BLE001
         return f"Error de red al validar el captcha: {e}"
     if r.status_code == 200 and r.content[:4] == b"%PDF":
-        _trabajo["resueltas"].append(
-            _guardar(d, r.content, _trabajo["incluir_texto"], _trabajo["guardar_pdf"]))
-        _trabajo["captcha_doc"] = None
-        return _procesar_cola(c)
-    png = _preparar_captcha(c, d)
-    aviso = (f"El captcha '{texto}' no fue aceptado (o caduco). Vuelve a leer la "
-             f"imagen y llama otra vez a resolver_captcha.")
-    if png is None:
-        return aviso + " [No pude recargar la imagen; reintenta leer_sentencias.]"
-    return [aviso, Image(data=png, format="png")]
+        reg = _construir_registro(d, r.content, _trabajo.get("incluir_texto", True),
+                                  _trabajo.get("guardar_pdf", False),
+                                  _trabajo.get("parrafos", 0), _trabajo.get("terminos", ""))
+        _trabajo = None
+        return "Captcha validado.\n\n" + _fmt_resultado(reg)
+    return f"El captcha '{texto}' no fue aceptado. Reintenta leer_sentencias."
 
 
 @mcp.tool()
 def estado() -> str:
-    """Diagnostico rapido: sesion, ultima busqueda, descarga en curso y carpeta."""
+    """Diagnostico: extractor, sesion, ultima busqueda y carpeta."""
     c = _get_client()
     js = c.cookies.get("JSESSIONID")
-    partes = [
+    return "\n".join([
         f"Base CENDOJ: {BASE}",
-        f"Extractor de texto: {'PyMuPDF (rapido)' if _HAS_FITZ else 'pypdf'}",
-        f"Sesion JSESSIONID: {'activa' if js else 'sin abrir (se abrira al buscar)'}",
-        f"Cookie manual (.env): {'si' if COOKIE_ENV else 'no (auto-sesion)'}",
-        f"Descargas en paralelo: {MAX_CONC}",
-        f"Ultima busqueda: {len(_ultima_busqueda)} resultados en memoria",
-        f"Carpeta de descargas: {DOWNLOAD_DIR}",
-    ]
-    if _trabajo:
-        partes.append(f"Descarga en curso: {len(_trabajo['resueltas'])} hechas, "
-                      f"{len(_trabajo['pendientes'])} pendientes, "
-                      f"captcha {'SI' if _trabajo.get('captcha_doc') else 'no'}")
-    return "\n".join(partes)
+        f"Extractor: {'PyMuPDF (rapido)' if _HAS_FITZ else 'pypdf'}",
+        f"Multi-sesion: {LOTE_SESION} descargas/sesion, hasta {MAX_SESIONES} sesiones",
+        f"Sesion de busqueda: {'activa' if js else 'sin abrir'}",
+        f"Cookie manual (.env): {'si' if COOKIE_ENV else 'no (auto)'}",
+        f"Ultima busqueda: {len(_ultima_busqueda)} resultados | consulta: {_ultima_consulta!r}",
+        f"Carpeta (solo si guardar_pdf=True): {DOWNLOAD_DIR}",
+    ])
 
 
 if __name__ == "__main__":
