@@ -129,20 +129,25 @@ def _g(blk: str, pat: str, default: str = "") -> str:
     return s.strip()
 
 
-def _resumen(blk: str) -> str:
-    """Extrae el resumen del <div class="summary">, sea editorial ('RESUMEN:') o el
-    RESUMEN AUTOMATICO ('Resumen Automatico:') que el CENDOJ genera del texto. Este
-    ultimo es mucho mas rico y es clave para elegir la MEJOR sentencia sin descargar."""
+def _resumen(blk: str) -> tuple[str, bool]:
+    """Extrae el resumen del <div class="summary">. Devuelve (texto, es_automatico).
+    El CENDOJ usa dos formatos en ese nodo:
+      - 'Resumen Automatico:' -> snippet RICO extraido del texto con los terminos
+        buscados (es_auto=True). Solo aparece en las sentencias relevantes; es la
+        senal mas fiable para elegir SIN descargar.
+      - 'RESUMEN:' -> etiqueta editorial/materia (es_auto=False). A veces util, a
+        veces generica ('MATERIAS NO ESPECIFICADAS') -> conviene leer el texto."""
     m = re.search(r'<div class="summary"[^>]*>(.*?)</div>', blk, re.DOTALL)
     if not m:
-        return ""
+        return "", False
     raw = m.group(1)
+    es_auto = bool(re.match(r"\s*Resumen\s+Autom", raw, re.I))
     mb = re.search(r'<b>(.*?)</b>', raw, re.DOTALL)
     txt = mb.group(1) if mb else raw
     txt = re.sub(r"<[^>]+>", " ", txt)          # quitar <font color=red>, <b>, etc.
     txt = _html.unescape(txt)
     txt = re.sub(r"^\s*(?:RESUMEN|Resumen\s+Autom[aá]tico)\s*:\s*", "", txt, flags=re.I)
-    return re.sub(r"\s+", " ", txt).strip()
+    return re.sub(r"\s+", " ", txt).strip(), es_auto
 
 
 def _parse_resultados(html: str) -> list[dict]:
@@ -154,6 +159,7 @@ def _parse_resultados(html: str) -> list[dict]:
         lis = re.findall(r'<li[^>]*>\s*<b>([^<]+)</b>', blk)
         sala = next((_html.unescape(x).strip() for x in lis
                      if not x.startswith("ECLI")), "")
+        res_txt, res_auto = _resumen(blk)
         out.append({
             "hash": m.group(1),
             "opt": m.group(2),
@@ -165,7 +171,8 @@ def _parse_resultados(html: str) -> list[dict]:
             "municipio": _g(blk, r'Municipio:\s*<b>([^<]*)</b>'),
             "ponente": _g(blk, r'Ponente:\s*<b>([^<]*)</b>'),
             "recurso": _g(blk, r'Recurso:\s*<b>([^<]*)</b>'),
-            "resumen": _resumen(blk),
+            "resumen": res_txt,
+            "resumen_auto": res_auto,
         })
     seen, uniq = set(), []
     for d in out:
@@ -385,9 +392,13 @@ def _ejecutar_busqueda(data: dict, desc: str) -> str:
                 "comillas, cambia la base a 'AN' o relaja los filtros.")
     mtot = re.search(r"([\d.]+)\s+resultados", r.text)
     total = mtot.group(1) if mtot else str(len(docs))
+    n_auto = sum(1 for d in docs if d.get("resumen_auto"))
     lineas = [f"{len(docs)} resultados mostrados (total CENDOJ: {total}) para {desc}:",
-              "Elige por el RESUMEN y los metadatos la(s) MAS relevante(s) al caso; "
-              "no cojas la #1 por defecto.\n"]
+              f"{n_auto}/{len(docs)} traen 'RESUMEN(auto)' = extracto del propio texto con "
+              "tus terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
+              "generica (p.ej. 'MATERIAS NO ESPECIFICADAS'): si una asi es candidata, lee su "
+              "texto con descargar_sentencias(guardar_pdf=False) (lo lee SIN guardar el PDF). "
+              "Elige la MAS relevante al caso del usuario, no la #1.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
             f"{i}. {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'}  |  "
@@ -396,9 +407,15 @@ def _ejecutar_busqueda(data: dict, desc: str) -> str:
             + (f"  |  Ponente: {d['ponente']}" if d.get("ponente") else ""))
         if d.get("recurso"):
             lineas.append(f"   Recurso: {d['recurso']}")
-        if d.get("resumen"):
-            res = d["resumen"]
-            lineas.append("   RESUMEN: " + (res[:400] + " [...]" if len(res) > 400 else res))
+        res = d.get("resumen", "")
+        if res:
+            if d.get("resumen_auto"):
+                etq = "RESUMEN(auto)"
+            elif res.isupper() or len(res) < 45:
+                etq = "MATERIA"      # etiqueta editorial generica -> conviene leer el texto
+            else:
+                etq = "RESUMEN"
+            lineas.append(f"   {etq}: " + (res[:450] + " [...]" if len(res) > 450 else res))
         lineas.append("")
     lineas.append("Descargar: descargar_sentencias('todas') | '1,3,5' | '1-5'.")
     return "\n".join(lineas)
