@@ -263,14 +263,22 @@ _RUIDO_PROCESAL = ("nulidad de actuaciones", "indefension", "costas procesales",
                    "admision a tramite", "antecedentes de hecho", "procurador",
                    "tuvo entrada", "suplico", "notifiquese", "diligencia de ordenacion",
                    "acta de la vista", "se tuvo por")
+# Ordinales que encabezan cada fundamento (PRIMERO.-, DECIMO, VIGESIMO PRIMERO...),
+# para partir el texto en fundamentos COMPLETOS y devolverlos enteros (sin cortes).
+_ORDINALES_RE = re.compile(
+    r"\b(?:PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|S[EÉ]PTIMO|OCTAVO|NOVENO|"
+    r"D[EÉ]CIMO[A-ZÁÉÍÓÚ]*|UND[EÉ]CIMO|DUOD[EÉ]CIMO|VIG[EÉ]SIMO[A-ZÁÉÍÓÚ]*)\s*[.\-º:]",
+    re.I)
 
 
 def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
-                      max_chars: int = 900) -> list[str]:
-    """Devuelve los k PASAJES EXACTOS donde se discuten los terminos: ventanas de
-    texto corrido centradas en ellos, priorizando los terminos especificos y los
-    pasajes que cubren VARIOS terminos a la vez, sin solaparse. (El texto del PDF
-    parte por linea visual, asi que primero se reconstruye en texto corrido.)"""
+                      max_chars: int = 2800) -> list[str]:
+    """Devuelve los k FUNDAMENTOS JURIDICOS COMPLETOS mas relevantes a los terminos,
+    ENTEROS (texto integro, sin cortar a media frase ni puntos suspensivos). El texto
+    del PDF se reconstruye (parte por linea visual) y se divide en unidades por los
+    ordinales (PRIMERO, SEGUNDO...). Prioriza la seccion de Fundamentos (penaliza
+    Antecedentes), despr ioriza lo procesal y deduplica. max_chars solo actua como
+    recorte de SEGURIDAD (en fin de frase) si un fundamento fuera enorme."""
     txt = re.sub(r"-\n", "", texto)             # une palabras cortadas a fin de linea
     txt = re.sub(r"\s*\n\s*", " ", txt)          # une todas las lineas
     txt = re.sub(r"[ \t]{2,}", " ", txt).strip()
@@ -280,47 +288,46 @@ def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
         return []
     pesos = {w: 1.0 + len(w) / 8.0 for w in palabras}   # especificidad por longitud
     low = txt.lower()
-    # (A) NO se recorta el texto (evita perder doctrina por un 'fallo' citado o dejar
-    # vacio): se localiza el inicio de los FUNDAMENTOS y se PENALIZA lo que cae antes
-    # (Antecedentes de Hecho / encabezados), priorizandolos sin excluirlos.
+    # Localizar inicio de los FUNDAMENTOS para PENALIZAR lo anterior (Antecedentes).
     mi = _INICIO_FUND.search(txt)
     ini_fund = mi.start() if mi else 0
-    hits = sorted(m.start() for w in palabras for m in re.finditer(re.escape(w), low))
-    if not hits:
-        return []
-    ventanas = []
-    i = 0
-    while i < len(hits):
-        centro = hits[i]
-        ini = max(0, centro - max_chars // 4)
-        fin = min(len(txt), centro + max_chars)
-        seg = low[ini:fin]
+    # Partir el texto en FUNDAMENTOS COMPLETOS por los ordinales (PRIMERO, SEGUNDO...).
+    # Cada unidad se devuelve ENTERA -> nada de cortes ni puntos suspensivos.
+    cortes = sorted({0, len(txt)} | {m.start() for m in _ORDINALES_RE.finditer(txt)})
+    unidades = [(a, b) for a, b in zip(cortes, cortes[1:]) if b - a >= 80]
+    if not unidades:
+        unidades = [(0, len(txt))]
+    scored = []
+    for a, b in unidades:
+        seg = low[a:b]
         distintas = sum(1 for w in set(palabras) if w in seg)
+        if not distintas:
+            continue
         peso = sum(seg.count(w) * pesos[w] for w in palabras)
+        densidad = peso / (len(seg) / 800.0 + 1.0)   # normaliza: no premiar la longitud
         ruido = min(sum(seg.count(r) for r in _RUIDO_PROCESAL), 3)  # (C) suave, con tope
-        score = distintas * distintas * 5.0 + peso - ruido * 2.0
-        if centro < ini_fund:                    # (A) pasaje en Antecedentes de Hecho
+        score = distintas * distintas * 5.0 + densidad - ruido * 2.0
+        if a < ini_fund:                         # (A) unidad en Antecedentes de Hecho
             score -= 100.0
-        ventanas.append((score, ini, fin))
-        while i < len(hits) and hits[i] < fin:   # saltar hits ya cubiertos
-            i += 1
-    ventanas.sort(key=lambda x: -x[0])
+        scored.append((score, a, b))
+    scored.sort(key=lambda x: -x[0])
     elegidas: list[tuple[int, int]] = []
     claves: list[str] = []                       # (B) para deduplicar
-    for _, ini, fin in ventanas:
-        if any(not (fin <= a or ini >= b) for a, b in elegidas):
-            continue                              # evita solapes posicionales
-        clave = re.sub(r"\W+", "", low[ini:fin])[:220]
-        if any(SequenceMatcher(None, clave, c).ratio() > 0.75 for c in claves):
-            continue                              # (B) descarta pasajes casi identicos
-        elegidas.append((ini, fin)); claves.append(clave)
+    for _, a, b in scored:
+        clave = re.sub(r"\W+", "", low[a:b])[:300]
+        if any(SequenceMatcher(None, clave, c).ratio() > 0.7 for c in claves):
+            continue                              # (B) descarta fundamentos casi identicos
+        elegidas.append((a, b)); claves.append(clave)
         if len(elegidas) >= k:
             break
     elegidas.sort()
     out = []
-    for ini, fin in elegidas:
-        frag = txt[ini:fin].strip()
-        out.append(("[...] " if ini > 0 else "") + frag + (" [...]" if fin < len(txt) else ""))
+    for a, b in elegidas:
+        frag = txt[a:b].strip()
+        if len(frag) > max_chars:                # recorte de SEGURIDAD solo si es enorme,
+            corte = frag.rfind(". ", int(max_chars * 0.6), max_chars)  # y en fin de frase
+            frag = frag[:corte + 1] if corte > 0 else frag[:max_chars]
+        out.append(frag)
     return out
 
 
