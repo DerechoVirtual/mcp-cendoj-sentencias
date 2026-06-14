@@ -232,8 +232,10 @@ def _extraer_texto(pdf_bytes: bytes) -> tuple[str, int]:
                 texto = "\n".join(p.get_text() for p in doc)
             finally:
                 doc.close()
-            # normalizar ligaduras tipograficas (fi/fl) del PDF
+            # normalizar ligaduras (fi/fl) y quitar la marca de agua de paginacion
+            # del CENDOJ ("<n> JURISPRUDENCIA") que se cuela en mitad del texto.
             texto = texto.translate({0xFB01: "fi", 0xFB02: "fl"})
+            texto = re.sub(r"\s*\b\d+\s+JURISPRUDENCIA\b", " ", texto)
             return texto.strip(), n
         except Exception:  # noqa: BLE001
             pass
