@@ -40,6 +40,7 @@ import time
 import html as _html
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from difflib import SequenceMatcher
 
 try:
     sys.stderr.reconfigure(encoding="utf-8")
@@ -249,6 +250,20 @@ _STOP = {"para", "como", "este", "esta", "esto", "sobre", "entre", "segun",
          "donde", "cuando", "porque", "desde", "hasta", "ante", "tras", "del",
          "los", "las", "una", "unos", "unas", "con", "por", "que", "the"}
 
+# Inicio/fin de la seccion de razonamiento juridico (para ignorar Antecedentes de
+# Hecho y encabezados). Tolerante a tildes y a "F A L L A M O S" espaciado.
+_INICIO_FUND = re.compile(
+    r"FUNDAMENTOS?\s+DE\s+DERECHO|RAZONAMIENTOS?\s+JUR[IÍ]DICOS|FUNDAMENTOS?\s+JUR[IÍ]DICOS",
+    re.I)
+_FIN_FUND = re.compile(
+    r"\bF\s*A\s*L\s*L\s*A?\s*M?\s*O?\s*S\b|PARTE\s+DISPOSITIVA|\bACUERDA\b|\bACORDAMOS\b",
+    re.I)
+# Pasajes meramente procesales / de relleno: se despriorizan (no son el fondo).
+_RUIDO_PROCESAL = ("nulidad de actuaciones", "indefension", "costas procesales",
+                   "admision a tramite", "antecedentes de hecho", "procurador",
+                   "tuvo entrada", "suplico", "notifiquese", "diligencia de ordenacion",
+                   "acta de la vista", "se tuvo por")
+
 
 def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
                       max_chars: int = 900) -> list[str]:
@@ -265,6 +280,11 @@ def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
         return []
     pesos = {w: 1.0 + len(w) / 8.0 for w in palabras}   # especificidad por longitud
     low = txt.lower()
+    # (A) NO se recorta el texto (evita perder doctrina por un 'fallo' citado o dejar
+    # vacio): se localiza el inicio de los FUNDAMENTOS y se PENALIZA lo que cae antes
+    # (Antecedentes de Hecho / encabezados), priorizandolos sin excluirlos.
+    mi = _INICIO_FUND.search(txt)
+    ini_fund = mi.start() if mi else 0
     hits = sorted(m.start() for w in palabras for m in re.finditer(re.escape(w), low))
     if not hits:
         return []
@@ -277,15 +297,23 @@ def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
         seg = low[ini:fin]
         distintas = sum(1 for w in set(palabras) if w in seg)
         peso = sum(seg.count(w) * pesos[w] for w in palabras)
-        ventanas.append((distintas * distintas * 5.0 + peso, ini, fin))
+        ruido = min(sum(seg.count(r) for r in _RUIDO_PROCESAL), 3)  # (C) suave, con tope
+        score = distintas * distintas * 5.0 + peso - ruido * 2.0
+        if centro < ini_fund:                    # (A) pasaje en Antecedentes de Hecho
+            score -= 100.0
+        ventanas.append((score, ini, fin))
         while i < len(hits) and hits[i] < fin:   # saltar hits ya cubiertos
             i += 1
     ventanas.sort(key=lambda x: -x[0])
     elegidas: list[tuple[int, int]] = []
+    claves: list[str] = []                       # (B) para deduplicar
     for _, ini, fin in ventanas:
         if any(not (fin <= a or ini >= b) for a, b in elegidas):
-            continue                              # evita solapes
-        elegidas.append((ini, fin))
+            continue                              # evita solapes posicionales
+        clave = re.sub(r"\W+", "", low[ini:fin])[:220]
+        if any(SequenceMatcher(None, clave, c).ratio() > 0.75 for c in claves):
+            continue                              # (B) descarta pasajes casi identicos
+        elegidas.append((ini, fin)); claves.append(clave)
         if len(elegidas) >= k:
             break
     elegidas.sort()
