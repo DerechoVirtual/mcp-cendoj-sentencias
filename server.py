@@ -271,14 +271,28 @@ _ORDINALES_RE = re.compile(
     re.I)
 
 
+def _frase_atras(txt: str, pos: int) -> int:
+    """Inicio de la frase que contiene pos (tras el ultimo . ; : ! ? + espacio)."""
+    ult = 0
+    for m in re.finditer(r"[.;:!?]\s", txt[:pos]):
+        ult = m.end()
+    return ult
+
+
+def _frase_adelante(txt: str, pos: int) -> int:
+    """Fin (inclusive del punto) de la frase que contiene pos."""
+    m = re.search(r"[.;:!?]\s", txt[pos:])
+    return pos + m.start() + 1 if m else len(txt)
+
+
 def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
-                      max_chars: int = 2800) -> list[str]:
-    """Devuelve los k FUNDAMENTOS JURIDICOS COMPLETOS mas relevantes a los terminos,
-    ENTEROS (texto integro, sin cortar a media frase ni puntos suspensivos). El texto
-    del PDF se reconstruye (parte por linea visual) y se divide en unidades por los
-    ordinales (PRIMERO, SEGUNDO...). Prioriza la seccion de Fundamentos (penaliza
-    Antecedentes), despr ioriza lo procesal y deduplica. max_chars solo actua como
-    recorte de SEGURIDAD (en fin de frase) si un fundamento fuera enorme."""
+                      max_chars: int = 1800, min_chars: int = 450) -> list[str]:
+    """Devuelve los k PASAJES relevantes de tamano ADAPTATIVO: agrupa las apariciones
+    de los terminos en 'clusters' y devuelve, por cada uno, el bloque de FRASES
+    COMPLETAS que lo cubre (nunca corta a media frase). Ni dos lineas sueltas (se
+    expande hasta ~min_chars) ni el fundamento entero con relleno (se recorta en fin
+    de frase a ~max_chars). Prioriza la seccion de Fundamentos (penaliza Antecedentes),
+    despr ioriza lo procesal y deduplica."""
     txt = re.sub(r"-\n", "", texto)             # une palabras cortadas a fin de linea
     txt = re.sub(r"\s*\n\s*", " ", txt)          # une todas las lineas
     txt = re.sub(r"[ \t]{2,}", " ", txt).strip()
@@ -288,47 +302,62 @@ def _extraer_parrafos(texto: str, terminos: str, k: int = 3,
         return []
     pesos = {w: 1.0 + len(w) / 8.0 for w in palabras}   # especificidad por longitud
     low = txt.lower()
-    # Localizar inicio de los FUNDAMENTOS para PENALIZAR lo anterior (Antecedentes).
     mi = _INICIO_FUND.search(txt)
     ini_fund = mi.start() if mi else 0
-    # Partir el texto en FUNDAMENTOS COMPLETOS por los ordinales (PRIMERO, SEGUNDO...).
-    # Cada unidad se devuelve ENTERA -> nada de cortes ni puntos suspensivos.
-    cortes = sorted({0, len(txt)} | {m.start() for m in _ORDINALES_RE.finditer(txt)})
-    unidades = [(a, b) for a, b in zip(cortes, cortes[1:]) if b - a >= 80]
-    if not unidades:
-        unidades = [(0, len(txt))]
-    scored = []
-    for a, b in unidades:
-        seg = low[a:b]
+    hits = sorted(m.start() for w in palabras for m in re.finditer(re.escape(w), low))
+    if not hits:
+        return []
+    # Agrupar apariciones cercanas (<=350 chars) en un mismo "parrafo relevante".
+    clusters = [[hits[0]]]
+    for h in hits[1:]:
+        if h - clusters[-1][-1] <= 350:
+            clusters[-1].append(h)
+        else:
+            clusters.append([h])
+    cand = []
+    for cl in clusters:
+        ini = _frase_atras(txt, cl[0])
+        fin = _frase_adelante(txt, cl[-1])
+        guard = 0
+        while fin - ini < min_chars and guard < 8:   # MINIMO: que no sean dos lineas
+            nf = _frase_adelante(txt, fin + 1)
+            if nf > fin:
+                fin = nf
+            else:
+                na = _frase_atras(txt, max(0, ini - 2))
+                if na < ini:
+                    ini = na
+                else:
+                    break
+            guard += 1
+        if fin - ini > max_chars:                    # MAXIMO: ni el fundamento entero
+            corte = txt.rfind(". ", ini + int(max_chars * 0.6), ini + max_chars)
+            fin = corte + 1 if corte > ini else ini + max_chars
+        seg = low[ini:fin]
         distintas = sum(1 for w in set(palabras) if w in seg)
         if not distintas:
             continue
         peso = sum(seg.count(w) * pesos[w] for w in palabras)
-        densidad = peso / (len(seg) / 800.0 + 1.0)   # normaliza: no premiar la longitud
-        ruido = min(sum(seg.count(r) for r in _RUIDO_PROCESAL), 3)  # (C) suave, con tope
+        densidad = peso / (len(seg) / 800.0 + 1.0)
+        ruido = min(sum(seg.count(r) for r in _RUIDO_PROCESAL), 3)
         score = distintas * distintas * 5.0 + densidad - ruido * 2.0
-        if a < ini_fund:                         # (A) unidad en Antecedentes de Hecho
+        if cl[0] < ini_fund:                         # pasaje en Antecedentes de Hecho
             score -= 100.0
-        scored.append((score, a, b))
-    scored.sort(key=lambda x: -x[0])
+        cand.append((score, ini, fin))
+    cand.sort(key=lambda x: -x[0])
     elegidas: list[tuple[int, int]] = []
-    claves: list[str] = []                       # (B) para deduplicar
-    for _, a, b in scored:
-        clave = re.sub(r"\W+", "", low[a:b])[:300]
+    claves: list[str] = []                       # dedup
+    for _, ini, fin in cand:
+        if any(not (fin <= a or ini >= b) for a, b in elegidas):
+            continue
+        clave = re.sub(r"\W+", "", low[ini:fin])[:250]
         if any(SequenceMatcher(None, clave, c).ratio() > 0.7 for c in claves):
-            continue                              # (B) descarta fundamentos casi identicos
-        elegidas.append((a, b)); claves.append(clave)
+            continue
+        elegidas.append((ini, fin)); claves.append(clave)
         if len(elegidas) >= k:
             break
     elegidas.sort()
-    out = []
-    for a, b in elegidas:
-        frag = txt[a:b].strip()
-        if len(frag) > max_chars:                # recorte de SEGURIDAD solo si es enorme,
-            corte = frag.rfind(". ", int(max_chars * 0.6), max_chars)  # y en fin de frase
-            frag = frag[:corte + 1] if corte > 0 else frag[:max_chars]
-        out.append(frag)
-    return out
+    return [txt[ini:fin].strip() for ini, fin in elegidas]
 
 
 # =========================================================================
