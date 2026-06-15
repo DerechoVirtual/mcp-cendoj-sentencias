@@ -102,18 +102,60 @@ def _get_client() -> httpx.Client:
     return _client
 
 
+def _todas_jsid(c) -> list:
+    """Todas las cookies JSESSIONID del cliente (puede haber varias por path)."""
+    try:
+        return [ck for ck in c.cookies.jar if ck.name == "JSESSIONID"]
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def _jsid(c) -> str:
+    """JSESSIONID de forma SEGURA aunque httpx tenga varias con ese nombre
+    (evita 'CookieConflictError: Multiple cookies exist with name=JSESSIONID')."""
+    try:
+        return c.cookies.get("JSESSIONID") or ""
+    except Exception:  # noqa: BLE001
+        cks = _todas_jsid(c)
+        for ck in cks:
+            if (ck.path or "").startswith("/search"):
+                return ck.value or ""
+        return cks[-1].value if cks else ""
+
+
+def _dedup_jsid(c) -> None:
+    """Deja UNA sola cookie JSESSIONID (la del path /search) para no enviar cookies
+    duplicadas al CENDOJ, que responde 403 si recibe varias."""
+    cks = _todas_jsid(c)
+    if len(cks) <= 1:
+        return
+    elegida = next((ck for ck in cks if (ck.path or "").startswith("/search")), cks[-1])
+    val = elegida.value
+    try:
+        for ck in cks:
+            c.cookies.jar.clear(ck.domain, ck.path, ck.name)
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        c.cookies.set("JSESSIONID", val, domain=_DOM, path="/search")
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _abrir_sesion(c: httpx.Client) -> None:
     c.get(f"{BASE}/indexAN.jsp")
+    _dedup_jsid(c)
 
 
 def _asegurar_sesion(forzar: bool = False) -> httpx.Client:
     c = _get_client()
+    _dedup_jsid(c)  # si el cliente global acumuló varias JSESSIONID, deja una sola
     if forzar:
         if COOKIE_ENV:
             c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
         else:
             _abrir_sesion(c)
-    elif not c.cookies.get("JSESSIONID"):
+    elif not _jsid(c):
         _abrir_sesion(c)
     return c
 
@@ -125,6 +167,7 @@ def _nueva_sesion() -> httpx.Client:
         c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
     else:
         c.get(f"{BASE}/indexAN.jsp")
+    _dedup_jsid(c)
     return c
 
 
@@ -803,7 +846,7 @@ def resolver_captcha(texto: str):
 def estado() -> str:
     """Diagnostico: extractor, sesion, ultima busqueda y carpeta."""
     c = _get_client()
-    js = c.cookies.get("JSESSIONID")
+    js = _jsid(c)
     return "\n".join([
         f"Base CENDOJ: {BASE}",
         f"Extractor: {'PyMuPDF (rapido)' if _HAS_FITZ else 'pypdf'}",
