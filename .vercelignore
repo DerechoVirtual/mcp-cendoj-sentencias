@@ -1,0 +1,15 @@
+# NO subir a Vercel (credenciales, entornos, scratch)
+.env
+*.env
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.pyc
+uv.lock
+.claude/
+.git/
+_*
+sentencias-cendoj/
+instalar_en_claude_desktop.py
+instalar_en_claude_desktop.bat

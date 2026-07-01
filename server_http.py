@@ -66,27 +66,208 @@ mcp = FastMCP("Jurisprudenciator", stateless_http=True, json_response=True,
 
 
 # =========================================================================
+# TELEMETRIA (best-effort): registra cada invocacion del conector en Supabase
+# para detectar fallos / resultados pobres y mejorar el plugin. NUNCA rompe la
+# tool (si falta config o falla el POST, se ignora). Se activa SOLO si hay
+# SUPABASE_URL + key en el entorno; sin ellas, es completamente inerte.
+# =========================================================================
+import time as _time
+import threading as _threading
+import functools as _functools
+import inspect as _inspect
+import hashlib as _hashlib
+
+_SUPA_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+_SUPA_KEY = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+             or os.environ.get("SUPABASE_KEY") or "").strip()
+_SUPA_TABLE = os.environ.get("MCP_LOG_TABLE", "jpd_mcp_logs").strip()
+# Sal para anonimizar la IP (hash irreversible). No es un secreto de seguridad:
+# solo evita guardar IPs en claro (RGPD) permitiendo CONTAR clientes distintos.
+_TELE_SALT = (os.environ.get("TELEMETRY_SALT") or _SUPA_KEY or "jpd-cendoj")[:24]
+
+
+def _request_meta() -> dict:
+    """Metadatos del request HTTP actual para estimar 'cuanta gente' usa el
+    conector y 'durante cuanto tiempo', SIN tocar el esquema de las tools:
+      * ip_hash    -> sha256(salt+IP); NUNCA la IP en claro (RGPD).
+      * session_id -> Mcp-Session-Id que envia el cliente MCP (si lo manda).
+      * client     -> user-agent / cliente MCP.
+    Best-effort: fuera de un request HTTP (o si algo falla) devuelve {}."""
+    try:
+        req = mcp.get_context().request_context.request  # starlette Request | None
+        if req is None:
+            return {}
+        h = req.headers
+        xff = (h.get("x-forwarded-for") or "").split(",")[0].strip()
+        ip = xff or (getattr(getattr(req, "client", None), "host", "") or "")
+        meta: dict = {
+            "session_id": (h.get("mcp-session-id") or "").strip() or None,
+            "client": (h.get("user-agent") or "").strip()[:200] or None,
+        }
+        if ip:
+            meta["ip_hash"] = _hashlib.sha256(
+                (_TELE_SALT + ip).encode("utf-8")).hexdigest()[:32]
+        return meta
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def _enviar_log(payload: dict) -> None:
+    try:
+        import httpx as _httpx
+        url = f"{_SUPA_URL}/rest/v1/{_SUPA_TABLE}"
+        headers = {"apikey": _SUPA_KEY, "Authorization": f"Bearer {_SUPA_KEY}",
+                   "Content-Type": "application/json", "Prefer": "return=minimal"}
+        with _httpx.Client(timeout=6.0) as c:
+            r = c.post(url, json=payload, headers=headers)
+            # Robustez: si la columna 'query' aun no existe en la tabla, PostgREST
+            # devuelve 400 y NO inserta. Reintentamos sin ese campo para no perder
+            # el registro (asi el orden alter-tabla / deploy no es critico).
+            if r.status_code >= 400 and "query" in payload:
+                p2 = {k: v for k, v in payload.items() if k != "query"}
+                c.post(url, json=p2, headers=headers)
+    except Exception:
+        pass
+
+
+def _clasificar_error(out) -> "str | None":
+    """Si el resultado (texto) es un fallo 'blando' que la tool devuelve como
+    string (en vez de lanzar excepcion), devuelve un MOTIVO normalizado para el
+    panel; si es un resultado normal (incl. 'Sin resultados'), devuelve None."""
+    if not isinstance(out, str):
+        return None
+    m = re.search(r"respondio HTTP (\d{3})", out)
+    if m:
+        return f"CENDOJ HTTP {m.group(1)}"
+    if "no se pudo descargar" in out or "no se pudo resolver el codigo" in out:
+        return "descarga fallida"
+    if "con incidencia" in out:
+        return "lectura con incidencia"
+    if out.startswith("Error"):
+        return out[:60]
+    return None
+
+
+def _telemetria(tool: str):
+    """Decorador para registrar tool + args + ok/error + duracion + tamano de
+    salida. Se coloca DEBAJO de @mcp.tool() para que FastMCP registre la version
+    instrumentada; preserva firma/anotaciones/doc -> el schema queda intacto."""
+    def deco(func):
+        @_functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            t0 = _time.time()
+            ok = True
+            err = None
+            out = None
+            try:
+                out = func(*args, **kwargs)
+                return out
+            except Exception as e:  # noqa: BLE001
+                ok = False
+                err = str(e)[:500]
+                raise
+            finally:
+                if _SUPA_URL and _SUPA_KEY:
+                    try:
+                        ms = int((_time.time() - t0) * 1000)
+                        ba = None
+                        try:
+                            ba = _inspect.signature(func).bind(*args, **kwargs)
+                            ba.apply_defaults()
+                            argd = {k: str(v)[:300] for k, v in ba.arguments.items()}
+                        except Exception:
+                            argd = {"_args": str(args)[:300]}
+                        # Texto de busqueda del usuario (intencionalidad) en su
+                        # propia columna: la consulta al buscar, la cita, o las
+                        # citas a leer, segun la tool.
+                        _qkey = {"buscar_sentencias": "consulta",
+                                 "opciones_busqueda": "consulta",
+                                 "buscar_por_cita": "cita",
+                                 "leer_sentencias": "citas"}.get(tool)
+                        _query = None
+                        try:
+                            if _qkey and ba is not None:
+                                _qv = ba.arguments.get(_qkey)
+                                if _qv:
+                                    _query = str(_qv)[:1000]
+                        except Exception:
+                            _query = None
+                        # Marcar como ERROR los fallos "blandos" que la tool
+                        # devuelve como texto (HTTP 403/5xx del CENDOJ, descargas
+                        # fallidas...) para que SE VEAN en el panel, no como OK.
+                        if ok and isinstance(out, str):
+                            _motivo = _clasificar_error(out)
+                            if _motivo:
+                                ok = False
+                                err = _motivo
+                        payload = {
+                            "tool": tool,
+                            "args": json.dumps(argd, ensure_ascii=False)[:1500],
+                            "query": _query,
+                            "ok": ok,
+                            "error": err,
+                            "duration_ms": ms,
+                            "result_chars": len(out) if isinstance(out, str) else None,
+                        }
+                        # Enriquecer con IP(hash)/sesion/cliente del request HTTP
+                        # (estimacion de 'cuanta gente' y 'cuanto tiempo'). Se lee
+                        # AQUI, aun en el hilo de la tool, porque el contextvar del
+                        # request no existe ya en el hilo daemon de envio.
+                        payload.update(_request_meta())
+                        _threading.Thread(target=_enviar_log, args=(payload,),
+                                          daemon=True).start()
+                    except Exception:
+                        pass
+        wrapper.__signature__ = _inspect.signature(func)  # FastMCP ve la firma real
+        return wrapper
+    return deco
+
+
+# =========================================================================
 # Busqueda -> DEVUELVE DOCS (version stateless de _ejecutar_busqueda)
 # =========================================================================
 def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
     """Ejecuta la busqueda en el CENDOJ con una sesion fresca y devuelve la lista
     de documentos (con hash/opt para poder descargarlos). Sin estado global."""
-    c = eng._nueva_sesion()
+    import httpx
     docs: list[dict] = []
     start, total = 1, None
-    while len(docs) < maximo:
-        data = {**data_base, "start": str(start), "maxresults": "50",
-                "recordsPerPage": "50", "sort": ""}
+
+    def _peticion(data: dict):
+        # 1) DIRECTO (rapido, sin proxy)
+        r = None
         try:
-            r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX)
-            r.encoding = "utf-8"  # el CENDOJ sirve UTF-8 pero no siempre lo declara
-        except Exception as e:  # noqa: BLE001
-            raise RuntimeError(f"Error de red al buscar: {e}")
-        if start == 1 and (r.status_code in (301, 302, 303, 307) or (
-                "search.action" not in r.text and "searchresult" not in r.text)):
             c = eng._nueva_sesion()
             r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX)
             r.encoding = "utf-8"
+            if r.status_code != 403:
+                return r
+        except httpx.TransportError:
+            r = None
+        # 2) 403 o caida -> PROXY (prueba hasta 3, rotando, por si alguno es lento)
+        for _ in range(3):
+            prox = eng._pick_proxy()
+            if not prox:
+                break
+            try:
+                c = eng._nueva_sesion(proxy=prox)
+                rp = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX)
+                rp.encoding = "utf-8"
+                if rp.status_code != 403:
+                    return rp
+            except httpx.TransportError:
+                continue
+        if r is not None:
+            return r  # el directo (aunque sea 403); el flujo gestiona el status
+        raise RuntimeError("Error de red al buscar: el CENDOJ no respondio")
+
+    while len(docs) < maximo:
+        data = {**data_base, "start": str(start), "maxresults": "50",
+                "recordsPerPage": "50", "sort": ""}
+        r = _peticion(data)
+        if start == 1 and (r.status_code in (301, 302, 303, 307) or (
+                "search.action" not in r.text and "searchresult" not in r.text)):
+            r = _peticion(data)
         if r.status_code != 200:
             raise RuntimeError(f"El CENDOJ respondio HTTP {r.status_code}.")
         if "no es valida" in r.text.lower():
@@ -111,17 +292,24 @@ def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
     return out
 
 
-def _formatear_lista(docs: list[dict], desc: str) -> str:
+def _formatear_lista(docs: list[dict], desc: str, reciente=None) -> str:
     if not docs:
         return (f"Sin resultados para {desc}. Prueba sin tildes, con menos comillas, "
                 "cambia la base a 'AN' o relaja los filtros.")
     total = docs[0].get("_total", "?")
     n_auto = sum(1 for d in docs if d.get("resumen_auto"))
-    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}:",
+    orden_txt = ""
+    if reciente is True:
+        orden_txt = ", ordenadas por RECIENTES primero (dentro de cada tramo, por relevancia)"
+    elif reciente is False:
+        orden_txt = ", ordenadas por RELEVANCIA del CENDOJ"
+    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}{orden_txt}:",
               f"{n_auto}/{len(docs)} con 'RESUMEN(auto)' = extracto del texto con tus "
-              "terminos (senal de relevancia fiable). Elige la MAS relevante al caso, "
-              "no la #1. Para leerlas: leer_sentencias con sus ROJ o ECLI "
-              "(p.ej. 'STS 1177/2014, STS 1226/2014'), o parrafos=3 para los pasajes.\n"]
+              "terminos (senal de relevancia fiable). Prioriza la jurisprudencia RECIENTE "
+              "y elige la MAS relevante al caso (no por defecto la #1); recurre a una "
+              "antigua solo si es el hito que fija la doctrina. Para leerlas: "
+              "leer_sentencias con sus ROJ o ECLI (p.ej. 'STS 1177/2014, STS 1226/2014'), "
+              "o parrafos=3 para los pasajes.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
             f"{i}. {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'}  |  "
@@ -181,7 +369,7 @@ def httpx_client_factory():
     """Cliente httpx con los mismos headers/timeout que el motor, sin seguir redirects
     (necesitamos VER el 302 del captcha)."""
     import httpx
-    return httpx.Client(headers=eng.HEADERS, timeout=40.0, follow_redirects=False)
+    return httpx.Client(headers=eng.HEADERS, timeout=40.0, follow_redirects=False, proxy=eng._pick_proxy())
 
 
 def _bajar_imagen_captcha(c) -> bytes:
@@ -312,9 +500,17 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
     ya leida sin tener que tratar nada. Devuelve ("pdf", bytes) | ("error", mensaje).
     """
     ultimo_err = ""
+    forzar_proxy = False
     for _ in range(eng.REINTENTOS_DOC):
-        c = eng._nueva_sesion()
-        tipo, payload = eng._intento_descarga(c, d)
+        # DIRECTO primero (rapido); si el CENDOJ ya bloqueo con 403, por PROXY (rota IP).
+        proxy = eng._pick_proxy() if forzar_proxy else None
+        try:
+            c = eng._nueva_sesion(proxy=proxy)
+            tipo, payload = eng._intento_descarga(c, d)
+        except Exception as e:  # noqa: BLE001  (caida transitoria: rota a proxy y reintenta)
+            ultimo_err = f"el CENDOJ corto la conexion ({e})"
+            forzar_proxy = True
+            continue
         if tipo == "pdf":
             return "pdf", payload
         if tipo == "captcha":
@@ -334,6 +530,8 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
             ultimo_err = ultimo_err or "no se pudo resolver el codigo por vision"
             continue
         ultimo_err = payload.decode(errors="replace") if isinstance(payload, bytes) else str(payload)
+        if "403" in ultimo_err or "Forbidden" in ultimo_err:
+            forzar_proxy = True  # el CENDOJ bloqueo la IP directa: reintentar por proxy
     return "error", ultimo_err or "no se pudo descargar"
 
 
@@ -341,13 +539,17 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
 # HERRAMIENTAS MCP (stateless)
 # =========================================================================
 @mcp.tool()
+@_telemetria("buscar_sentencias")
 def buscar_sentencias(
     consulta: str, base: str = "TS", maximo: int = 20,
     fecha_desde: str = "", fecha_hasta: str = "", tipo_resolucion: str = "",
     jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
+    anios: int = 7, orden: str = "reciente",
 ) -> str:
     """Busca jurisprudencia en el CENDOJ (Tribunal Supremo y demas organos) y
     devuelve la lista con ROJ, ECLI, fecha, ponente y resumen. NO descarga.
+    Por defecto PRIORIZA la jurisprudencia RECIENTE (las de los ultimos anos van
+    primero; las muy antiguas caen al fondo, sin excluirse).
 
     Para leer las que elijas, llama luego a leer_sentencias con sus ROJ o ECLI.
 
@@ -355,11 +557,16 @@ def buscar_sentencias(
         consulta: Texto libre. Comillas = frase exacta. Si da 0, prueba sin tildes.
         base: "TS" (Supremo) o "AN" (todo). Con provincia/tipo_organo se fuerza "AN".
         maximo: Cuantos resultados (admite >50, pagina solo).
-        fecha_desde / fecha_hasta: dd/mm/aaaa.
+        fecha_desde / fecha_hasta: dd/mm/aaaa. Filtro DURO: usalo para restringir de
+            verdad (p.ej. materias reformadas hace poco).
         tipo_resolucion: "SENTENCIA" o "AUTO".
         jurisdiccion: "CIVIL", "PENAL", "CONTENCIOSO", "SOCIAL", "MILITAR".
         provincia: "Valladolid", "Madrid"... (implica base AN).
         tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o codigo CENDOJ.
+        anios: Ventana de recencia (por defecto 7). Se priorizan los ultimos 'anios'
+            anos; para materias afectadas por reformas recientes baja a 3-4.
+        orden: "reciente" (por defecto, recientes primero) o "relevancia" (orden
+            crudo del CENDOJ).
     """
     consulta = (consulta or "").strip()
     if not consulta:
@@ -387,14 +594,26 @@ def buscar_sentencias(
         desc += f", provincia {provincia}"
     if tipo_organo:
         desc += f", organo {tipo_organo}"
+    maximo = max(1, int(maximo))
+    reciente = (orden or "reciente").strip().lower() != "relevancia"
+    # Con recencia traemos un pool mayor (>= 50 = 1 pagina) para que las recientes
+    # relevantes tengan sitio antes de recortar a 'maximo'.
+    pool = max(maximo, 50) if reciente else maximo
     try:
-        docs = _buscar_docs(data, max(1, int(maximo)))
+        docs = _buscar_docs(data, pool)
     except RuntimeError as e:
         return str(e)
-    return _formatear_lista(docs, desc)
+    if reciente and docs:
+        total = docs[0].get("_total", "?")   # preservar el total del CENDOJ
+        docs = eng._ordenar_por_fecha(docs, int(anios))[:maximo]
+        docs[0]["_total"] = total
+    else:
+        docs = docs[:maximo]
+    return _formatear_lista(docs, desc, reciente)
 
 
 @mcp.tool()
+@_telemetria("buscar_por_cita")
 def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir
     una resolucion). Deja la lista lista para leer_sentencias.
@@ -413,6 +632,7 @@ def buscar_por_cita(cita: str) -> str:
 
 
 @mcp.tool()
+@_telemetria("opciones_busqueda")
 def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "AN") -> str:
     """Valores de una faceta para REFINAR la busqueda (organos, anos o ponentes).
 
@@ -450,6 +670,7 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
 
 
 @mcp.tool(structured_output=False)
+@_telemetria("leer_sentencias")
 def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
                     max_chars: int = 0):
     """Lee el TEXTO de sentencias concretas del CENDOJ. Stateless: indica las
@@ -515,6 +736,7 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
 
 
 @mcp.tool(structured_output=False)
+@_telemetria("resolver_captcha")
 def resolver_captcha(token: str, texto: str):
     """Valida el captcha que devolvio leer_sentencias y entrega el texto de la
     sentencia. STATELESS: recrea la sesion a partir del token (no hay memoria de
@@ -571,6 +793,7 @@ def resolver_captcha(token: str, texto: str):
 
 
 @mcp.tool()
+@_telemetria("estado")
 def estado() -> str:
     """Diagnostico del servidor remoto (extractor de PDF y base del CENDOJ)."""
     return "\n".join([

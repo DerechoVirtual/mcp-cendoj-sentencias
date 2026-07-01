@@ -10,3 +10,8 @@ dependencies = [
     "pymupdf>=1.24.0",
     "python-dotenv>=1.0.0",
 ]
+
+# Despliegue en Vercel (conector remoto por Streamable HTTP).
+# El endpoint MCP queda en https://<deploy>/mcp
+[tool.vercel]
+entrypoint = "vercel_app:app"

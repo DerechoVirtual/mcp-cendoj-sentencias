@@ -37,6 +37,7 @@ import os
 import re
 import sys
 import time
+import datetime as _dt
 import html as _html
 import logging
 from concurrent.futures import ThreadPoolExecutor
@@ -64,6 +65,18 @@ load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 BASE = os.environ.get("CENDOJ_BASE", "https://www.poderjudicial.es/search").rstrip("/")
 COOKIE_ENV = os.environ.get("CENDOJ_COOKIE", "").strip()
 _DOM = "www.poderjudicial.es"
+# Proxies de salida hacia el CENDOJ. Vacio = conexion directa (IP de Vercel, que el
+# CENDOJ bloquea por VOLUMEN con 403). CENDOJ_PROXY admite UNA o VARIAS URLs de proxy
+# separadas por coma (p.ej. "http://user:pass@host1:port,http://user:pass@host2:port").
+# Se ROTA una al azar en cada sesion -> el volumen se reparte entre muchas IPs y el
+# CENDOJ no rate-limita ninguna. Se activa SOLO con la env var.
+import random as _random
+_PROXIES = [p.strip() for p in os.environ.get("CENDOJ_PROXY", "").split(",") if p.strip()]
+
+
+def _pick_proxy():
+    """Un proxy al azar de la lista (rotacion por sesion), o None si no hay ninguno."""
+    return _random.choice(_PROXIES) if _PROXIES else None
 
 # Multi-sesion: el captcha salta sobre la 6a-7a descarga de UNA sesion -> usamos
 # 5 por sesion (margen) y varias sesiones frescas en paralelo.
@@ -96,7 +109,7 @@ _trabajo: dict | None = None                 # fallback de captcha por vision
 def _get_client() -> httpx.Client:
     global _client
     if _client is None:
-        _client = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False)
+        _client = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False, proxy=_pick_proxy())
         if COOKIE_ENV:
             _client.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
     return _client
@@ -160,13 +173,24 @@ def _asegurar_sesion(forzar: bool = False) -> httpx.Client:
     return c
 
 
-def _nueva_sesion() -> httpx.Client:
-    """Cliente NUEVO con su propia JSESSIONID (contador de captcha a cero)."""
-    c = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False)
+def _nueva_sesion(proxy=None) -> httpx.Client:
+    """Cliente NUEVO con su propia JSESSIONID (contador de captcha a cero).
+    proxy: None = conexion DIRECTA (rapida, sin penalizacion); una URL = sale por
+    ese proxy (mas lento, solo cuando el CENDOJ bloquea la IP directa con 403).
+    El GET de apertura se REINTENTA si el CENDOJ corta la conexion (transitorio):
+    un reintento con socket fresco casi siempre lo resuelve. Si agota intentos no
+    lanza: el cliente sirve igual y el POST siguiente reabre la sesion."""
+    c = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False, proxy=proxy)
     if COOKIE_ENV:
         c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
     else:
-        c.get(f"{BASE}/indexAN.jsp")
+        for _intento in range(3):
+            try:
+                c.get(f"{BASE}/indexAN.jsp")
+                break
+            except httpx.TransportError:
+                if _intento == 2:
+                    break  # agotados: seguimos sin sesion previa (el POST la reabre)
     _dedup_jsid(c)
     return c
 
@@ -572,14 +596,55 @@ def _seleccionar(seleccion: str, docs: list[dict]) -> list[dict] | str:
 
 
 # =========================================================================
+# Priorizacion por RECENCIA (el CENDOJ no deja ordenar por fecha en origen:
+# cualquier valor de 'sort' rompe la busqueda y los parametros de orden se
+# ignoran; verificado en vivo). Reordenamos nosotros SIN descartar: recientes
+# primero, y las muy antiguas al fondo (se recortan si hay suficientes recientes,
+# pero un hito clasico sigue apareciendo mas abajo, no se pierde).
+# =========================================================================
+def _anio_de(d: dict):
+    """Ano (int) de la fecha de resolucion 'AAAAMMDD', o None si no se pudo leer."""
+    f = (d.get("fechares") or "").strip()
+    return int(f[:4]) if len(f) >= 4 and f[:4].isdigit() else None
+
+
+def _ordenar_por_fecha(docs: list[dict], anios: int = 7) -> list[dict]:
+    """Reordena por RECENCIA conservando la relevancia del CENDOJ dentro de cada
+    tramo. Tramos por antiguedad: (0) <= 'anios', (1) hasta 2x'anios', (2) resto y
+    sin fecha. Es un sort estable, asi que no altera el orden relativo dentro del
+    tramo. 'anios' <= 0 desactiva la reordenacion."""
+    if anios <= 0 or not docs:
+        return docs
+    hoy = _dt.date.today().year
+
+    def tramo(d: dict) -> int:
+        a = _anio_de(d)
+        if a is None:
+            return 1  # sin fecha: tramo medio (no la hundimos del todo)
+        edad = hoy - a
+        if edad <= anios:
+            return 0
+        if edad <= anios * 2:
+            return 1
+        return 2
+
+    return sorted(docs, key=tramo)
+
+
+# =========================================================================
 # Motor de busqueda (con paginacion para >50)
 # =========================================================================
-def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int) -> str:
+def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int,
+                       anios: int = 7, orden: str = "reciente") -> str:
     global _ultima_busqueda
     c = _asegurar_sesion()
     docs: list[dict] = []
     start, total = 1, None
-    while len(docs) < maximo:
+    reciente = (orden or "reciente").strip().lower() != "relevancia"
+    # Con recencia traemos un pool mayor (min 50 = 1 pagina) para que las
+    # recientes-relevantes tengan sitio antes de recortar a 'maximo'.
+    pool = max(maximo, 50) if reciente else maximo
+    while len(docs) < pool:
         data = {**data_base, "start": str(start), "maxresults": "50",
                 "recordsPerPage": "50", "sort": ""}
         try:
@@ -611,18 +676,23 @@ def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int) -> str:
     for d in docs:
         if d["hash"] not in seen:
             seen.add(d["hash"]); uniq.append(d)
+    if reciente:
+        uniq = _ordenar_por_fecha(uniq, anios)  # recientes primero
     docs = uniq[:maximo]
     _ultima_busqueda = docs
     if not docs:
         return (f"Sin resultados para {desc}. Prueba sin tildes, con menos comillas, "
                 "cambia la base a 'AN' o relaja los filtros.")
     n_auto = sum(1 for d in docs if d.get("resumen_auto"))
-    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}:",
+    orden_txt = ("ordenadas por RECIENTES primero (dentro de cada tramo, por relevancia)"
+                 if reciente else "ordenadas por RELEVANCIA del CENDOJ")
+    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}, {orden_txt}:",
               f"{n_auto}/{len(docs)} con 'RESUMEN(auto)' = extracto del texto con tus "
               "terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
-              "generica: si es candidata, leela. Elige la MAS relevante al caso, no la #1. "
-              "Luego: leer_sentencias (texto) o leer_sentencias(parrafos=3) para los "
-              "pasajes exactos.\n"]
+              "generica: si es candidata, leela. Prioriza la jurisprudencia RECIENTE y "
+              "elige la MAS relevante al caso (no por defecto la #1); recurre a una "
+              "antigua solo si es el hito que fija la doctrina. Luego: leer_sentencias "
+              "(texto) o leer_sentencias(parrafos=3) para los pasajes exactos.\n"]
     for i, d in enumerate(docs, 1):
         lineas.append(
             f"{i}. {d.get('roj') or '?'}  |  {d.get('ecli') or 'ECLI ?'}  |  "
@@ -645,10 +715,11 @@ def buscar_sentencias(
     consulta: str, base: str = "TS", maximo: int = 20,
     fecha_desde: str = "", fecha_hasta: str = "", tipo_resolucion: str = "",
     jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
+    anios: int = 7, orden: str = "reciente",
 ) -> str:
     """Busca jurisprudencia en el CENDOJ y devuelve la lista con metadatos y resumen.
-    NO descarga (no tiene captcha). Para dar la MEJOR sentencia: afina con los filtros
-    y elige por el RESUMEN(auto), no la #1.
+    NO descarga (no tiene captcha). Por defecto PRIORIZA la jurisprudencia RECIENTE:
+    afina con los filtros y elige por el RESUMEN(auto), no la #1.
 
     Args:
         consulta: Texto libre. Comillas = frase exacta. Sensible a tildes (si da 0,
@@ -656,12 +727,18 @@ def buscar_sentencias(
         base: "TS" (Supremo) o "AN" (todo: TS, AN, TSJ, AP, juzgados). Con
             provincia/tipo_organo se fuerza "AN".
         maximo: Cuantos resultados traer. Admite >50 (pagina automaticamente).
-        fecha_desde / fecha_hasta: dd/mm/aaaa (fecha de resolucion).
+        fecha_desde / fecha_hasta: dd/mm/aaaa (fecha de resolucion). Filtro DURO:
+            usalo si quieres restringir de verdad (p.ej. materias reformadas hace poco).
         tipo_resolucion: "SENTENCIA" o "AUTO".
         jurisdiccion: "CIVIL", "PENAL", "CONTENCIOSO", "SOCIAL", "MILITAR",
             "ESPECIAL", "CONSTITUCIONAL".
         provincia: "Valladolid", "Alicante", "Barcelona"... (implica base AN).
         tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o codigo del CENDOJ.
+        anios: Ventana de recencia (por defecto 7). Las de los ultimos 'anios' anos
+            se muestran primero y las muy antiguas caen al fondo (no se excluyen).
+            Para materias afectadas por reformas recientes, baja a 3-4.
+        orden: "reciente" (por defecto, recientes primero) o "relevancia" (orden
+            crudo del CENDOJ, sin priorizar fecha).
 
     Returns:
         Lista numerada con ROJ, ECLI, fecha, sala, ponente y RESUMEN. Luego usa
@@ -695,7 +772,8 @@ def buscar_sentencias(
         desc += f", provincia {provincia}"
     if tipo_organo:
         desc += f", organo {tipo_organo}"
-    return _ejecutar_busqueda(data, desc, max(1, int(maximo)))
+    return _ejecutar_busqueda(data, desc, max(1, int(maximo)),
+                              anios=int(anios), orden=orden)
 
 
 @mcp.tool()
