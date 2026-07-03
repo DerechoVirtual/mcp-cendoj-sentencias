@@ -79,16 +79,23 @@ _INSTRUCTIONS = (
     "sumario_boe / novedades_boe.\n"
     "• Jurisprudencia sobre una cuestión → buscar_sentencias y luego "
     "leer_sentencias; verificar un ECLI/ROJ concreto → buscar_por_cita.\n"
-    "• Actos mercantiles/sociedades (Registro Mercantil) → sumario_borme.\n"
+    "• Publicaciones mercantiles del BORME por FECHA (de un día) → sumario_borme.\n"
+    "• Datos de una EMPRESA en el Registro Mercantil por NOMBRE o CIF "
+    "(existencia, administradores, actos inscritos: nombramientos, capital, "
+    "disolución…) → buscar_empresa_mercantil.\n"
+    "• Doctrina/consultas de HACIENDA (Dirección General de Tributos) sobre "
+    "tributos —IVA, IRPF, IS…— ('consultas', 'criterio' o 'instrucciones de "
+    "Hacienda') → buscar_consultas_hacienda; el texto íntegro de una consulta "
+    "(p.ej. V0282-26) → leer_consulta_hacienda.\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
-    "LÍMITES (importante para no bloquearte): NO incluye la doctrina "
-    "administrativa de consultas vinculantes de la DGT ni resoluciones del "
-    "TEAC (Hacienda), ni el Registro Público Concursal. Si te piden algo de "
-    "eso, NO te niegues en seco ni te limites a decir que no puedes: aporta con "
-    "estas herramientas la NORMATIVA aplicable (p.ej. el art. 20 de la Ley del "
-    "IVA para la exención de enseñanza) y la JURISPRUDENCIA relacionada, y "
-    "aclara con naturalidad que las consultas de la DGT/TEAC quedan fuera de "
-    "esta fuente.\n\n"
+    "LÍMITES (para no bloquearte): NO incluye resoluciones del TEAC, ni el "
+    "contenido o la fecha del depósito de CUENTAS ANUALES de una empresa (eso es "
+    "de pago en el Registro Mercantil), ni la búsqueda de CONCURSOS de acreedores "
+    "(Registro Público Concursal). Los datos mercantiles provienen de un índice "
+    "del BORME (informativo, sin fe pública). Si te piden algo fuera de alcance, "
+    "NO te niegues en seco: aporta lo más cercano con estas herramientas (la "
+    "normativa del BOE, la jurisprudencia, la consulta de la DGT o el historial "
+    "mercantil que sí tengas) y acláralo con naturalidad.\n\n"
     "ESTILO: responde directo y resolutivo. No expongas tu razonamiento interno "
     "ni menciones los nombres técnicos de las herramientas o de las fuentes; "
     "preséntate solo como Jurisprudenciator. No digas 'no puedo' si puedes "
@@ -847,6 +854,8 @@ def estado() -> str:
 # verificar citas legales; la jurisprudencia sigue su flujo CENDOJ.
 # =========================================================================
 import boe_engine as _boe
+import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
+import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
 
 
 @mcp.tool()
@@ -969,6 +978,53 @@ def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> s
     Devuelve las coincidencias con fecha, seccion, identificador y enlace. Nota:
     solo busca en el TITULO de cada item (no en el texto interior)."""
     return _boe.novedades(contiene, desde, hasta, seccion)
+
+
+@mcp.tool()
+@_telemetria("buscar_consultas_hacienda")
+def buscar_consultas_hacienda(consulta: str = "", numero: str = "", desde: str = "",
+                              hasta: str = "", normativa: str = "",
+                              tipo: str = "vinculantes", limite: int = 15) -> str:
+    """Busca la DOCTRINA de la Direccion General de Tributos (DGT): consultas
+    vinculantes y generales de Hacienda sobre tributos (IVA, IRPF, IS, IAE,
+    ITP...). USALA cuando pidan 'consultas / criterio / instrucciones de Hacienda'
+    sobre una cuestion fiscal, o doctrina administrativa tributaria.
+
+    consulta: texto libre (p.ej. 'exencion IVA ensenanza online').
+    numero: numero de consulta concreto (p.ej. 'V0282-26').
+    normativa: articulo citado (p.ej. '20-Uno-9').
+    desde / hasta: dd/mm/aaaa (fecha de la consulta).
+    tipo: 'vinculantes' (defecto) o 'generales'.
+
+    Devuelve la lista (numero, hechos, cuestion), mas recientes primero. Para el
+    texto integro de una, usa leer_consulta_hacienda con su numero."""
+    return _dgt.buscar(consulta, numero, desde, hasta, normativa, tipo, limite)
+
+
+@mcp.tool()
+@_telemetria("leer_consulta_hacienda")
+def leer_consulta_hacienda(numero: str) -> str:
+    """Texto INTEGRO de una consulta de la DGT (Hacienda) por su numero
+    (p.ej. 'V0282-26'): organo, fecha, normativa aplicable, descripcion de los
+    hechos, cuestion planteada y la CONTESTACION completa y literal. USALA tras
+    localizar una consulta con buscar_consultas_hacienda, o si te dan un numero."""
+    return _dgt.leer(numero)
+
+
+@mcp.tool()
+@_telemetria("buscar_empresa_mercantil")
+def buscar_empresa_mercantil(empresa: str) -> str:
+    """Ficha de una sociedad en el Registro Mercantil (BORME) por NOMBRE o CIF:
+    existencia, CIF, estado (activa/extinguida), tipo, provincia, ADMINISTRADORES
+    y apoderados (vigentes e historicos) y ultimos ACTOS inscritos (constitucion,
+    nombramientos/ceses, ampliaciones de capital, cambios de domicilio, disolucion...).
+    USALA para due diligence de una empresa, saber quien la administra o su
+    historial registral, buscando por su nombre o CIF (no por fecha).
+
+    NO incluye el deposito de cuentas anuales (fecha fiable) ni su contenido
+    financiero (de pago en el Registro Mercantil); es informativo (indice del
+    BORME, sin fe publica)."""
+    return _merc.buscar_empresa(empresa)
 
 
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
