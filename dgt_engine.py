@@ -125,7 +125,7 @@ def buscar(texto: str = "", numero: str = "", desde: str = "", hasta: str = "",
     return "\n".join(out)
 
 
-def leer(numero: str, max_chars: int = 12000) -> str:
+def leer(numero: str, max_chars: int = 55000) -> str:
     """Texto ÍNTEGRO de una consulta de la DGT por su número (p.ej. V0282-26):
     órgano, fecha, normativa, hechos, cuestión y contestación completa."""
     numero = (numero or "").strip().upper()
