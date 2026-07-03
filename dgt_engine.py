@@ -13,6 +13,7 @@ búsqueda y lectura van en la MISMA sesión (httpx.Client mantiene la cookie).
 import os
 import re
 import html as _html
+import urllib.parse as _up
 import httpx
 
 BASE = "https://petete.tributos.hacienda.gob.es/consultas"
@@ -98,12 +99,15 @@ def buscar(texto: str = "", numero: str = "", desde: str = "", hasta: str = "",
         return "Indica qué buscar: un texto (p.ej. 'exención IVA enseñanza online'), un número (V0282-26), una normativa o un rango de fechas."
     try:
         s = _session()
-        r = s.get(BASE + "/do/search", params=_params_busqueda(texto, numero, desde, hasta, normativa, tipo), headers=_AJAX)
+        # URL montada a mano (ASCII vía urlencode): httpx en el runtime peta al
+        # codificar params no-ASCII (tildes/ñ); así el crash desaparece.
+        qs = _up.urlencode(_params_busqueda(texto, numero, desde, hasta, normativa, tipo))
+        r = s.get(f"{BASE}/do/search?{qs}")
+        if getattr(r, "status_code", 0) != 200:
+            return f"El buscador de la DGT respondió HTTP {getattr(r, 'status_code', '?')}."
+        total, docs = _parse_listado(r.text)
     except Exception as e:  # noqa: BLE001
         return f"No pude consultar la doctrina de la DGT ahora mismo ({str(e)[:80]})."
-    if getattr(r, "status_code", 0) != 200:
-        return f"El buscador de la DGT respondió HTTP {getattr(r, 'status_code', '?')}."
-    total, docs = _parse_listado(r.text)
     if not docs:
         return (f"Sin consultas de la DGT para esa búsqueda"
                 + (f" ({texto!r})" if texto else "") + ". Prueba otros términos o quita filtros.")
@@ -130,23 +134,21 @@ def leer(numero: str, max_chars: int = 12000) -> str:
     try:
         s = _session()
         # 1) buscar por número (misma sesión) para obtener el ID interno + autorizar la lectura
-        r = s.get(BASE + "/do/search",
-                  params=_params_busqueda("", numero, "", "", "", "vinculantes"), headers=_AJAX)
+        r = s.get(f"{BASE}/do/search?" + _up.urlencode(_params_busqueda("", numero, "", "", "", "vinculantes")))
         _, docs = _parse_listado(r.text)
         if not docs:  # probar como consulta general
-            r = s.get(BASE + "/do/search",
-                      params=_params_busqueda("", numero, "", "", "", "generales"), headers=_AJAX)
+            r = s.get(f"{BASE}/do/search?" + _up.urlencode(_params_busqueda("", numero, "", "", "", "generales")))
             _, docs = _parse_listado(r.text)
         if not docs or not docs[0]["docid"]:
             return f"No encuentro la consulta {numero} en la DGT."
         docid = docs[0]["docid"]
         tab = "2" if numero.startswith("V") else "1"
-        d = s.get(BASE + "/do/document", params={"doc": docid, "tab": tab}, headers=_AJAX)
+        d = s.get(f"{BASE}/do/document?" + _up.urlencode({"doc": docid, "tab": tab}))
+        if getattr(d, "status_code", 0) != 200:
+            return f"La DGT respondió HTTP {getattr(d, 'status_code', '?')} al leer {numero}."
+        t = d.text
     except Exception as e:  # noqa: BLE001
         return f"No pude leer la consulta {numero} de la DGT ahora mismo ({str(e)[:80]})."
-    if getattr(d, "status_code", 0) != 200:
-        return f"La DGT respondió HTTP {getattr(d, 'status_code', '?')} al leer {numero}."
-    t = d.text
     num = _fila(t, "NUM-CONSULTA") or numero
     organo = _fila(t, "ORGANO")
     fecha = _fila(t, "FECHA-SALIDA")
