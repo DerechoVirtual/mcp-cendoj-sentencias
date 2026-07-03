@@ -18,7 +18,11 @@ import httpx
 BASE = "https://petete.tributos.hacienda.gob.es/consultas"
 _AJAX = {"X-Requested-With": "XMLHttpRequest", "Referer": BASE + "/",
          "Accept": "text/html, */*; q=0.01"}
-_VERIFY = os.environ.get("DGT_TLS_VERIFY", "1") != "0"  # local Windows: 0
+# petete usa una CA del sector público español (FNMT) que NO está en el bundle
+# certifi (ni en Windows ni en el runtime de Vercel) -> la verificación TLS falla
+# con CERTIFICATE_VERIFY_FAILED. Es un sitio PÚBLICO y de SOLO LECTURA, así que
+# desactivamos la verificación por defecto (se puede forzar con DGT_TLS_VERIFY=1).
+_VERIFY = os.environ.get("DGT_TLS_VERIFY", "0") != "0"
 
 
 def _session():
