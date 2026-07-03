@@ -817,7 +817,7 @@ def buscar(consulta: str, desde: str = "", hasta: str = "", limite: int = 15) ->
     out.append("\nPara el texto vigente de un artículo: articulo(ley, nº). Para el índice: leer con su ID.")
     return "\n".join(out)
 
-def leer_item(identificador: str, max_chars: int = 6000) -> str:
+def leer_item(identificador: str, max_chars: int = 55000) -> str:
     """Texto de un ítem suelto del BOE/BORME (anuncio, resolución, edicto,
     nombramiento, disposición) por su identificador (BOE-A-..., BOE-B-..., BORME-...)."""
     ident = (identificador or "").strip().upper()
