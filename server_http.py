@@ -47,6 +47,15 @@ os.environ.setdefault("DOWNLOAD_DIR", "/tmp/sentencias-cendoj")
 import server as eng  # motor ya probado (reutilizado, no duplicado)
 from mcp.server.fastmcp import FastMCP, Image
 from mcp.server.transport_security import TransportSecuritySettings
+from mcp.types import ToolAnnotations
+
+# Anotaciones de comportamiento OBLIGATORIAS para publicar en directorios (OpenAI
+# Apps exige readOnlyHint + destructiveHint + openWorldHint en TODAS las tools;
+# Anthropic exige title). TODAS nuestras tools son de SOLO LECTURA (no mutan nada
+# de las fuentes) y NO destructivas. openWorldHint=True cuando consultan fuentes
+# externas en vivo (CENDOJ / BOE / DGT / BORME); False para el diagnostico local.
+_RO = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=True)
+_RO_LOCAL = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
 
 # Detras de Vercel el Host es el dominio del deployment: desactivamos la proteccion
 # anti DNS-rebinding (servicio publico de scraping, sin datos sensibles). json_response
@@ -88,14 +97,18 @@ _INSTRUCTIONS = (
     "Hacienda') → buscar_consultas_hacienda; el texto íntegro de una consulta "
     "(p.ej. V0282-26) → leer_consulta_hacienda.\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
-    "LÍMITES (para no bloquearte): NO incluye resoluciones del TEAC, ni el "
-    "contenido o la fecha del depósito de CUENTAS ANUALES de una empresa (eso es "
-    "de pago en el Registro Mercantil), ni la búsqueda de CONCURSOS de acreedores "
-    "(Registro Público Concursal). Los datos mercantiles provienen de un índice "
-    "del BORME (informativo, sin fe pública). Si te piden algo fuera de alcance, "
-    "NO te niegues en seco: aporta lo más cercano con estas herramientas (la "
-    "normativa del BOE, la jurisprudencia, la consulta de la DGT o el historial "
-    "mercantil que sí tengas) y acláralo con naturalidad.\n\n"
+    "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
+    "doctrina DGT + Registro Mercantil. NO cubre (aún): ORDENANZAS y REGLAMENTOS "
+    "MUNICIPALES ni normativa AUTONÓMICA —eso se publica en el Boletín Oficial de "
+    "la PROVINCIA (BOP) o autonómico y en la web del ayuntamiento, NO en el BOE "
+    "estatal—; tampoco resoluciones del TEAC, ni el depósito/contenido de las "
+    "CUENTAS ANUALES de una empresa (de pago), ni CONCURSOS de acreedores. "
+    "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza municipal "
+    "de botellón/convivencia, o una ley autonómica), NO repitas búsquedas ni "
+    "encadenes decenas de llamadas: con UNA comprobación basta. Díselo rápido, "
+    "indica dónde está (BOP de la provincia / boletín autonómico / web del "
+    "ayuntamiento) y ofrece lo más cercano que SÍ tengas (normativa estatal "
+    "aplicable, jurisprudencia relacionada). Nunca te quedes dando vueltas.\n\n"
     "ESTILO: responde directo y resolutivo. No expongas tu razonamiento interno "
     "ni menciones los nombres técnicos de las herramientas o de las fuentes; "
     "preséntate solo como Jurisprudenciator. No digas 'no puedo' si puedes "
@@ -580,7 +593,7 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
 # =========================================================================
 # HERRAMIENTAS MCP (stateless)
 # =========================================================================
-@mcp.tool()
+@mcp.tool(title="Buscar sentencias", annotations=_RO)
 @_telemetria("buscar_sentencias")
 def buscar_sentencias(
     consulta: str, base: str = "TS", maximo: int = 20,
@@ -654,7 +667,7 @@ def buscar_sentencias(
     return _formatear_lista(docs, desc, reciente)
 
 
-@mcp.tool()
+@mcp.tool(title="Buscar por cita (ECLI/ROJ)", annotations=_RO)
 @_telemetria("buscar_por_cita")
 def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir
@@ -673,7 +686,7 @@ def buscar_por_cita(cita: str) -> str:
     return _formatear_lista(docs, f"cita {cita!r}")
 
 
-@mcp.tool()
+@mcp.tool(title="Opciones de búsqueda", annotations=_RO)
 @_telemetria("opciones_busqueda")
 def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "AN") -> str:
     """Valores de una faceta para REFINAR la busqueda (organos, anos o ponentes).
@@ -711,7 +724,7 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
             + f" ({len(pares)}):\n- " + "\n- ".join(vals) + nota)
 
 
-@mcp.tool(structured_output=False)
+@mcp.tool(structured_output=False, title="Leer sentencias", annotations=_RO)
 @_telemetria("leer_sentencias")
 def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
                     max_chars: int = 0):
@@ -777,7 +790,7 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     return cab + ("\n\n" + cuerpo if cuerpo else "")
 
 
-@mcp.tool(structured_output=False)
+@mcp.tool(structured_output=False, title="Resolver captcha", annotations=_RO)
 @_telemetria("resolver_captcha")
 def resolver_captcha(token: str, texto: str):
     """Valida el captcha que devolvio leer_sentencias y entrega el texto de la
@@ -834,7 +847,7 @@ def resolver_captcha(token: str, texto: str):
             "Vuelve a llamar a leer_sentencias para reintentar.")
 
 
-@mcp.tool()
+@mcp.tool(title="Estado del conector", annotations=_RO_LOCAL)
 @_telemetria("estado")
 def estado() -> str:
     """Diagnostico del servidor remoto (extractor de PDF y base del CENDOJ)."""
@@ -858,7 +871,7 @@ import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
 import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
 
 
-@mcp.tool()
+@mcp.tool(title="Buscar artículo de ley", annotations=_RO)
 @_telemetria("buscar_articulo")
 def buscar_articulo(ley: str, articulo: str) -> str:
     """Devuelve el TEXTO VIGENTE de un articulo de una ley espanola (legislacion
@@ -876,7 +889,7 @@ def buscar_articulo(ley: str, articulo: str) -> str:
     return _boe.articulo(ley, articulo)
 
 
-@mcp.tool()
+@mcp.tool(title="Verificar citas legales", annotations=_RO)
 @_telemetria("verificar_escrito")
 def verificar_escrito(texto: str, incluir_texto: bool = False) -> str:
     """Verifica las CITAS LEGALES de un escrito juridico (demanda, contestacion,
@@ -896,7 +909,7 @@ def verificar_escrito(texto: str, incluir_texto: bool = False) -> str:
     return _boe.verificar(texto, incluir_texto)
 
 
-@mcp.tool()
+@mcp.tool(title="Sumario del BOE", annotations=_RO)
 @_telemetria("sumario_boe")
 def sumario_boe(fecha: str, seccion: str = "", contiene: str = "") -> str:
     """Que se publico en el BOE de un dia concreto (TODAS las secciones I-V:
@@ -915,7 +928,7 @@ def sumario_boe(fecha: str, seccion: str = "", contiene: str = "") -> str:
     return _boe.sumario(fecha, seccion, contiene)
 
 
-@mcp.tool()
+@mcp.tool(title="Buscar legislación (BOE)", annotations=_RO)
 @_telemetria("buscar_boe")
 def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15) -> str:
     """Busca LEGISLACION (leyes, reales decretos, ordenes...), incluida la normativa
@@ -933,7 +946,7 @@ def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15
     return _boe.buscar(consulta, desde, hasta, limite)
 
 
-@mcp.tool()
+@mcp.tool(title="Leer ítem del BOE/BORME", annotations=_RO)
 @_telemetria("leer_boe")
 def leer_boe(identificador: str) -> str:
     """Lee el TEXTO de un item concreto del BOE o del BORME (un anuncio, edicto,
@@ -947,7 +960,7 @@ def leer_boe(identificador: str) -> str:
     return _boe.leer_item(identificador)
 
 
-@mcp.tool()
+@mcp.tool(title="Sumario del BORME", annotations=_RO)
 @_telemetria("sumario_borme")
 def sumario_borme(fecha: str, contiene: str = "") -> str:
     """Sumario del BORME (Boletin Oficial del Registro Mercantil) de un dia: actos
@@ -962,7 +975,7 @@ def sumario_borme(fecha: str, contiene: str = "") -> str:
     return _boe.sumario_borme(fecha, contiene)
 
 
-@mcp.tool()
+@mcp.tool(title="Novedades del BOE", annotations=_RO)
 @_telemetria("novedades_boe")
 def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> str:
     """Barre los sumarios del BOE entre dos fechas (maximo 31 dias) y devuelve los
@@ -980,7 +993,7 @@ def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> s
     return _boe.novedades(contiene, desde, hasta, seccion)
 
 
-@mcp.tool()
+@mcp.tool(title="Buscar consultas de Hacienda (DGT)", annotations=_RO)
 @_telemetria("buscar_consultas_hacienda")
 def buscar_consultas_hacienda(consulta: str = "", numero: str = "", desde: str = "",
                               hasta: str = "", normativa: str = "",
@@ -1001,7 +1014,7 @@ def buscar_consultas_hacienda(consulta: str = "", numero: str = "", desde: str =
     return _dgt.buscar(consulta, numero, desde, hasta, normativa, tipo, limite)
 
 
-@mcp.tool()
+@mcp.tool(title="Leer consulta de Hacienda (DGT)", annotations=_RO)
 @_telemetria("leer_consulta_hacienda")
 def leer_consulta_hacienda(numero: str) -> str:
     """Texto INTEGRO de una consulta de la DGT (Hacienda) por su numero
@@ -1011,7 +1024,7 @@ def leer_consulta_hacienda(numero: str) -> str:
     return _dgt.leer(numero)
 
 
-@mcp.tool()
+@mcp.tool(title="Buscar empresa (Registro Mercantil)", annotations=_RO)
 @_telemetria("buscar_empresa_mercantil")
 def buscar_empresa_mercantil(empresa: str) -> str:
     """Ficha de una sociedad en el Registro Mercantil (BORME) por NOMBRE o CIF:
@@ -1051,6 +1064,21 @@ async def _icon_png(request):
 
 app.add_route("/favicon.ico", _favicon_ico, methods=["GET"])
 app.add_route("/icon.png", _icon_png, methods=["GET"])
+
+# --- Verificacion de dominio de OpenAI Apps: servir el token en el well-known
+# URL raiz del host del MCP. El token es PUBLICO (reto de propiedad, no un
+# secreto); se puede sobreescribir por env sin re-desplegar. ---
+_OPENAI_CHALLENGE = os.environ.get(
+    "OPENAI_APPS_CHALLENGE", "9dKj0IPm1bhUSgy_Rp7c6kZ57zpUHyg_gJfLW-44NJI").strip()
+
+
+async def _openai_apps_challenge(request):
+    return _Response(_OPENAI_CHALLENGE, media_type="text/plain",
+                     headers={"Cache-Control": "no-store"})
+
+
+app.add_route("/.well-known/openai-apps-challenge", _openai_apps_challenge,
+              methods=["GET"])
 
 
 if __name__ == "__main__":
