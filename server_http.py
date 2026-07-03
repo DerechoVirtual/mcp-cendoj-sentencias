@@ -183,7 +183,8 @@ def _telemetria(tool: str):
                         _qkey = {"buscar_sentencias": "consulta",
                                  "opciones_busqueda": "consulta",
                                  "buscar_por_cita": "cita",
-                                 "leer_sentencias": "citas"}.get(tool)
+                                 "leer_sentencias": "citas",
+                                 "buscar_articulo": "ley"}.get(tool)
                         _query = None
                         try:
                             if _qkey and ba is not None:
@@ -797,11 +798,142 @@ def resolver_captcha(token: str, texto: str):
 def estado() -> str:
     """Diagnostico del servidor remoto (extractor de PDF y base del CENDOJ)."""
     return "\n".join([
-        "Jurisprudenciator - conector de jurisprudencia (remoto, stateless).",
+        "Jurisprudenciator - conector de jurisprudencia + legislacion (remoto, stateless).",
         f"Extractor PDF: {'PyMuPDF (rapido)' if eng._HAS_FITZ else 'pypdf'}",
-        "Flujo: buscar_sentencias -> leer_sentencias (por ROJ/ECLI). El control "
-        "antidescargas se resuelve automaticamente en el servidor.",
+        "Flujo jurisprudencia: buscar_sentencias -> leer_sentencias (por ROJ/ECLI). "
+        "El control antidescargas se resuelve automaticamente en el servidor.",
+        "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
+        "verificar_escrito (detector de citas legales erroneas).",
     ])
+
+
+# =========================================================================
+# LEGISLACION (BOE consolidado) — motor boe_engine.py, portado del MCP local
+# validado <1 s. SOLO se activa cuando el usuario pide articulos de ley o
+# verificar citas legales; la jurisprudencia sigue su flujo CENDOJ.
+# =========================================================================
+import boe_engine as _boe
+
+
+@mcp.tool()
+@_telemetria("buscar_articulo")
+def buscar_articulo(ley: str, articulo: str) -> str:
+    """Devuelve el TEXTO VIGENTE de un articulo de una ley espanola (legislacion
+    consolidada oficial), en menos de 1 segundo. USALA SOLO cuando el usuario
+    pida el contenido de un articulo concreto o necesites confirmar que dice la
+    ley vigente (NO para jurisprudencia: para sentencias usa buscar_sentencias).
+
+    ley: sigla (LEC, LECrim, CC, CP, CE, LOPJ, ET, LGT, LPAC, LAU, LPH, LSC...),
+         nombre ("Codigo Civil", "Ley de Arrendamientos Urbanos"), numero
+         ("Ley 1/2000", "LO 1/2025") o ID BOE ("BOE-A-2000-323").
+    articulo: numero del articulo ("18", "250", "439 bis", "art. 1902").
+
+    Devuelve el texto integro vigente + fecha de vigencia + que norma dio la
+    redaccion actual + enlace oficial. Ej.: buscar_articulo("LEC", "394")."""
+    return _boe.articulo(ley, articulo)
+
+
+@mcp.tool()
+@_telemetria("verificar_escrito")
+def verificar_escrito(texto: str, incluir_texto: bool = False) -> str:
+    """Verifica las CITAS LEGALES de un escrito juridico (demanda, contestacion,
+    recurso...) contra la legislacion consolidada vigente y DETECTA ERRORES.
+    USALA SOLO cuando el usuario pegue un escrito/borrador y pida revisar,
+    verificar o detectar errores en sus citas de articulos de ley.
+
+    Extrae cada articulo citado y comprueba automaticamente: (1) si existe o
+    esta derogado; (2) si la reforma que el escrito menciona es la que
+    realmente dio la redaccion vigente (atribuciones falsas); (3) si el
+    contenido real del articulo casa con lo que el escrito afirma (citas
+    equivocadas). Devuelve dossier con el texto vigente de cada articulo y la
+    lista de posibles errores; con esos datos, remata tu el diagnostico.
+
+    texto: el escrito completo (o el fragmento con las citas).
+    incluir_texto: True = articulado integro; False (defecto) = extractos."""
+    return _boe.verificar(texto, incluir_texto)
+
+
+@mcp.tool()
+@_telemetria("sumario_boe")
+def sumario_boe(fecha: str, seccion: str = "", contiene: str = "") -> str:
+    """Que se publico en el BOE de un dia concreto (TODAS las secciones I-V:
+    disposiciones, nombramientos, oposiciones, subvenciones, sanciones, justicia,
+    anuncios). USALA cuando el usuario pregunte que salio/se publico en el BOE de
+    una fecha, o quiera ver el sumario/boletin de un dia.
+
+    fecha: AAAA-MM-DD o DD/MM/AAAA.
+    seccion: opcional. '1' Disposiciones grales, '2A' Nombramientos, '2B'
+        Oposiciones, '3' Otras (subvenciones/convenios/sanciones), '4' Justicia,
+        '5' Anuncios ('2' abarca 2A+2B; '5' abarca 5A+5B).
+    contiene: opcional, filtra por texto en el titulo.
+
+    Devuelve el listado con identificador (BOE-A-...), titulo y enlace. Para leer
+    una entera usa leer_boe con su identificador."""
+    return _boe.sumario(fecha, seccion, contiene)
+
+
+@mcp.tool()
+@_telemetria("buscar_boe")
+def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15) -> str:
+    """Busca LEGISLACION (leyes, reales decretos, ordenes...) por texto del titulo
+    y rango de fechas de publicacion, ORDENADA por mas reciente. USALA cuando el
+    usuario quiera localizar/listar normas sobre una materia o ver que se ha
+    legislado ultimamente (NO para el texto de un articulo: eso es buscar_articulo;
+    NI para jurisprudencia: eso es buscar_sentencias).
+
+    consulta: palabras del titulo de la norma ("vivienda", "proteccion animal").
+    desde / hasta: opcional, AAAA-MM-DD (filtra por fecha de publicacion).
+    limite: cuantas normas devolver (defecto 15).
+
+    Devuelve titulo, rango, numero, fecha, ID BOE y enlace consolidado."""
+    return _boe.buscar(consulta, desde, hasta, limite)
+
+
+@mcp.tool()
+@_telemetria("leer_boe")
+def leer_boe(identificador: str) -> str:
+    """Lee el TEXTO de un item concreto del BOE o del BORME (un anuncio, edicto,
+    resolucion, nombramiento, orden o disposicion) por su identificador. USALA tras
+    localizar un item con sumario_boe, buscar_boe, sumario_borme o novedades_boe.
+
+    identificador: BOE-A-AAAA-N, BOE-B-AAAA-N o BORME-A-AAAA-...-N.
+
+    Devuelve titulo, organismo, fecha y el texto oficial + enlace. (Para el texto
+    VIGENTE y consolidado de un articulo de ley usa mejor buscar_articulo.)"""
+    return _boe.leer_item(identificador)
+
+
+@mcp.tool()
+@_telemetria("sumario_borme")
+def sumario_borme(fecha: str, contiene: str = "") -> str:
+    """Sumario del BORME (Boletin Oficial del Registro Mercantil) de un dia: actos
+    inscritos de sociedades por provincia (nombramientos/ceses de administradores,
+    constituciones, disoluciones) y anuncios mercantiles (concursos, juntas).
+    USALA para consultas mercantiles/societarias del Registro Mercantil.
+
+    fecha: AAAA-MM-DD o DD/MM/AAAA.
+    contiene: opcional, filtra por texto (p.ej. una provincia).
+
+    Para el detalle de una entrada usa leer_boe con su ID (BORME-A-...)."""
+    return _boe.sumario_borme(fecha, contiene)
+
+
+@mcp.tool()
+@_telemetria("novedades_boe")
+def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> str:
+    """Barre los sumarios del BOE entre dos fechas (maximo 31 dias) y devuelve los
+    items cuyo titulo contiene el texto o NIF indicado. Es la via para 'vigilar' el
+    BOE bajo demanda: notificaciones/edictos a un cliente, publicaciones sobre una
+    empresa, convocatorias sobre una materia en un periodo, etc.
+
+    contiene: texto o NIF a buscar (obligatorio).
+    desde / hasta: rango de fechas AAAA-MM-DD (obligatorio; tope 31 dias).
+    seccion: opcional (misma codificacion que sumario_boe: '3' subvenciones/
+        sanciones, '4' justicia/edictos, '5' anuncios...).
+
+    Devuelve las coincidencias con fecha, seccion, identificador y enlace. Nota:
+    solo busca en el TITULO de cada item (no en el texto interior)."""
+    return _boe.novedades(contiene, desde, hasta, seccion)
 
 
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
