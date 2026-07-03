@@ -673,9 +673,21 @@ def _fmt_item(scod: str, it: dict, con_sec=True) -> str:
     linea = f"· {sec}{ident} — {tit}"
     return linea + (f"\n   {url}" if url else "")
 
+_SEC_SHORT = {"1": "I", "2A": "II-A", "2B": "II-B", "3": "III", "4": "IV", "5A": "V-A", "5B": "V-B"}
+_SEC_LABEL = {"1": "I. Disposiciones generales", "2A": "II-A. Nombramientos",
+              "2B": "II-B. Oposiciones y concursos", "3": "III. Otras disposiciones",
+              "4": "IV. Administración de Justicia", "5A": "V-A. Anuncios · Contratación",
+              "5B": "V-B. Anuncios · Otros"}
+# Cuántos titulares mostrar por sección en el RESUMEN del día (compacto).
+_SEC_TOP = {"1": 15, "2A": 6, "2B": 6, "3": 8, "4": 5}
+
 def sumario(fecha: str, seccion: str = "", contiene: str = "") -> str:
-    """Qué se publicó en el BOE de un día (secciones I-V). Filtra por sección
-    (1, 2A, 2B, 3, 4, 5A, 5B; '2' vale para 2A+2B, '5' para 5A+5B) y/o por texto."""
+    """Qué se publicó en el BOE de un día (secciones I-V).
+
+    SIN filtro -> RESUMEN COMPACTO del día (recuentos por sección + titulares de
+    las secciones sustantivas; los anuncios solo se cuentan): pensado para
+    responder rapido en UNA sola llamada, sin leer entradas.
+    CON seccion o contiene -> listado detallado de esas entradas (con enlace)."""
     f8 = _fecha8(fecha)
     if not f8:
         return "Indica la fecha (AAAA-MM-DD o DD/MM/AAAA)."
@@ -685,23 +697,53 @@ def sumario(fecha: str, seccion: str = "", contiene: str = "") -> str:
     items = _items_sumario(d)
     if not items:
         return f"El BOE del {_fleg(f8)} no devolvió disposiciones (¿festivo/domingo?)."
-    qn = _norm(contiene) if contiene else ""
-    sel = [(s, it) for (s, sn, dn, en, it) in items if _match_sec(s, seccion)
-           and (not qn or qn in _norm(it.get("titulo", "")))]
-    # recuento por sección (siempre informativo)
-    from collections import Counter
+    from collections import Counter, OrderedDict
     cnt = Counter(s for (s, sn, dn, en, it) in items)
-    resumen = ", ".join(f"{k}:{cnt[k]}" for k in sorted(cnt))
-    cab = [f"BOE del {_fleg(f8)} — {len(items)} disposiciones. Por sección: {resumen}.",
-           "Secciones: 1=Disposiciones grales · 2A=Nombramientos · 2B=Oposiciones · "
-           "3=Otras (subvenciones/convenios/sanciones) · 4=Justicia · 5=Anuncios.\n"]
-    if not sel:
-        cab.append(f"(Sin ítems para el filtro seccion={seccion!r} contiene={contiene!r}.)")
+    orden = ["1", "2A", "2B", "3", "4", "5A", "5B"]
+    resumen = " · ".join(f"{_SEC_SHORT.get(k, k)}:{cnt[k]}"
+                         for k in orden if cnt.get(k)) or \
+              " · ".join(f"{k}:{cnt[k]}" for k in sorted(cnt))
+    idx = f"https://www.boe.es/boe/dias/{f8[:4]}/{f8[4:6]}/{f8[6:8]}/"
+    cab = [f"BOE del {_fleg(f8)} — {len(items)} disposiciones. Índice oficial: {idx}",
+           f"Por sección: {resumen}"]
+
+    # --- Modo DETALLE (hay filtro): lista las entradas concretas, con enlace ---
+    if seccion or contiene:
+        qn = _norm(contiene) if contiene else ""
+        sel = [(s, it) for (s, sn, dn, en, it) in items if _match_sec(s, seccion)
+               and (not qn or qn in _norm(it.get("titulo", "")))]
+        if not sel:
+            cab.append(f"\n(Sin ítems para seccion={seccion!r} contiene={contiene!r}.)")
+            return "\n".join(cab)
+        cap = 60
+        cab.append(f"\n{len(sel)} ítem(s)" + (f" (muestro {cap})" if len(sel) > cap else "") + ":")
+        cab += [_fmt_item(s, it) for (s, it) in sel[:cap]]
+        cab.append("\nPara leer una entera: leer_boe con su identificador.")
         return "\n".join(cab)
-    cap = 80
-    cab.append(f"{len(sel)} ítem(s)" + (f" (muestro {cap})" if len(sel) > cap else "") + ":")
-    cab += [_fmt_item(s, it) for (s, it) in sel[:cap]]
-    cab.append("\nPara leer uno entero: leer_boe con su identificador (BOE-A-...).")
+
+    # --- Modo RESUMEN (compacto): titulares de I-IV, anuncios solo contados ---
+    porsec = OrderedDict()
+    for (s, sn, dn, en, it) in items:
+        porsec.setdefault(s, []).append(it)
+    for code in ["1", "2A", "2B", "3", "4"]:
+        its = porsec.get(code)
+        if not its:
+            continue
+        n = _SEC_TOP[code]
+        cab.append(f"\n▸ {_SEC_LABEL[code]} ({len(its)}" +
+                   (f", muestro {n}" if len(its) > n else "") + "):")
+        for it in its[:n]:
+            t = re.sub(r"\s+", " ", (it.get("titulo", "") or "")).strip()
+            if len(t) > 140:
+                t = t[:140] + "…"
+            cab.append(f"  · {it.get('identificador', '')} — {t}")
+    na, nb = len(porsec.get("5A", [])), len(porsec.get("5B", []))
+    if na or nb:
+        cab.append(f"\n▸ V. Anuncios ({na + nb}): contratación {na}, otros {nb}. "
+                   "(Para verlos: sumario_boe con seccion=\"5\", o filtra con contiene=\"…\".)")
+    cab.append("\nEsto ya es el resumen del día: respóndelo directamente. Para el texto de "
+               "una entrada concreta usa leer_boe(identificador); para filtrar por materia, "
+               "sumario_boe(fecha, seccion, contiene).")
     return "\n".join(cab)
 
 def sumario_borme(fecha: str, contiene: str = "") -> str:
