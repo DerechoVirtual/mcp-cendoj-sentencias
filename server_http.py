@@ -190,12 +190,16 @@ def _clasificar_error(out) -> "str | None":
     panel; si es un resultado normal (incl. 'Sin resultados'), devuelve None."""
     if not isinstance(out, str):
         return None
-    m = re.search(r"respondio HTTP (\d{3})", out)
+    # Solo la CABECERA de la respuesta: el texto de una sentencia o de un
+    # articulo puede contener "con incidencia" o "no se pudo..." de forma
+    # natural y generaba FALSOS errores en el panel (visto 03..06-jul-2026).
+    cab = out[:600]
+    m = re.search(r"respondio HTTP (\d{3})", cab)
     if m:
         return f"CENDOJ HTTP {m.group(1)}"
-    if "no se pudo descargar" in out or "no se pudo resolver el codigo" in out:
+    if "no se pudo descargar" in cab or "no se pudo resolver el codigo" in cab:
         return "descarga fallida"
-    if "con incidencia" in out:
+    if re.search(r"\d+ con incidencia: ", cab):
         return "lectura con incidencia"
     if out.startswith("Error"):
         return out[:60]
@@ -281,32 +285,49 @@ def _telemetria(tool: str):
 # =========================================================================
 # Busqueda -> DEVUELVE DOCS (version stateless de _ejecutar_busqueda)
 # =========================================================================
+def _sanear_texto_cendoj(s: str) -> str:
+    """El buscador del CENDOJ se CUELGA (timeout) o devuelve HTTP 500 cuando la
+    consulta lleva apostrofos ("Rob'S" colgaba; "Jose´S Bar" daba 500 — visto en
+    telemetria 03..06-jul-2026). Se sustituyen por espacio; las comillas DOBLES
+    (frase exacta) se conservan."""
+    s = re.sub(r"['‘’‚‛´`]", " ", s or "")
+    return re.sub(r"\s{2,}", " ", s).strip()
+
+
 def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
     """Ejecuta la busqueda en el CENDOJ con una sesion fresca y devuelve la lista
     de documentos (con hash/opt para poder descargarlos). Sin estado global."""
     import httpx
+    if data_base.get("TEXT"):
+        data_base = {**data_base, "TEXT": _sanear_texto_cendoj(data_base["TEXT"])}
     docs: list[dict] = []
     start, total = 1, None
+    # Timeout por intento CORTO: una busqueda normal responde en 1-3 s; con el
+    # timeout de sesion (40 s) x (directo + 3 proxies) habia llamadas colgadas
+    # 160-280 s cuando el CENDOJ no respondia (madrugadas). Fail-fast.
+    _T_BUSQ = 15.0
 
     def _peticion(data: dict):
         # 1) DIRECTO (rapido, sin proxy)
         r = None
         try:
             c = eng._nueva_sesion()
-            r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX)
+            r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX,
+                       timeout=_T_BUSQ)
             r.encoding = "utf-8"
             if r.status_code != 403:
                 return r
         except httpx.TransportError:
             r = None
-        # 2) 403 o caida -> PROXY (prueba hasta 3, rotando, por si alguno es lento)
-        for _ in range(3):
+        # 2) 403 o caida -> PROXY (hasta 2, rotando)
+        for _ in range(2):
             prox = eng._pick_proxy()
             if not prox:
                 break
             try:
                 c = eng._nueva_sesion(proxy=prox)
-                rp = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX)
+                rp = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX,
+                            timeout=_T_BUSQ)
                 rp.encoding = "utf-8"
                 if rp.status_code != 403:
                     return rp
@@ -314,7 +335,9 @@ def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
                 continue
         if r is not None:
             return r  # el directo (aunque sea 403); el flujo gestiona el status
-        raise RuntimeError("Error de red al buscar: el CENDOJ no respondio")
+        raise RuntimeError(
+            "Error de red al buscar: el CENDOJ no respondio (le ocurre a veces, "
+            "sobre todo de madrugada, por mantenimiento). Reintenta en unos minutos.")
 
     while len(docs) < maximo:
         data = {**data_base, "start": str(start), "maxresults": "50",
@@ -380,26 +403,40 @@ def _formatear_lista(docs: list[dict], desc: str, reciente=None) -> str:
 
 
 # Un ROJ puede llevar provincia: "STS 4786/2014", "SAP VA 1226/2014", "AAP SE 1342/2017".
-_RE_ROJ = r"[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}"
+_RE_ROJ = r"(?<![A-Za-z])[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}"
+_RE_ECLI = r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+A?"
 
 
 def _norm_cita(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "").strip().upper())
 
 
+def _extraer_cita(cita: str) -> "str | None":
+    """Extrae el ECLI o ROJ normalizado contenido en la cadena, tolerando texto
+    extra ("STS 631/2023, de 20 de julio" -> "STS 631/2023"). Mandarlo en crudo
+    al CENDOJ provocaba HTTP 500 (visto en telemetria). None si no hay cita."""
+    s = _norm_cita(cita)
+    m = re.search(_RE_ECLI, s)
+    if m:
+        return m.group(0)
+    m = re.search(_RE_ROJ, s)
+    if m:
+        return re.sub(r"\s+", " ", m.group(0)).strip()
+    return None
+
+
+def _es_cita_exacta(cita: str) -> bool:
+    return _extraer_cita(cita) is not None
+
+
 def _es_match_exacto(d: dict, cita: str) -> bool:
     """True si el documento corresponde EXACTAMENTE a la cita (ECLI o ROJ).
     Los autos comparten numero con la sentencia homonima y solo se distinguen
     por el sufijo 'A' del ECLI, asi que la comparacion debe ser literal."""
-    cn = _norm_cita(cita)
+    cn = _extraer_cita(cita) or _norm_cita(cita)
     if cn.startswith("ECLI"):
         return _norm_cita(d.get("ecli", "")).replace(" ", "") == cn.replace(" ", "")
     return _norm_cita(d.get("roj", "")) == cn
-
-
-def _es_cita_exacta(cita: str) -> bool:
-    c = (cita or "").strip()
-    return c.upper().startswith("ECLI") or bool(re.fullmatch(_RE_ROJ, c))
 
 
 def _localizar(cita: str) -> list[dict]:
@@ -410,12 +447,13 @@ def _localizar(cita: str) -> list[dict]:
     if not cita:
         return []
     data = {"action": "query", "databasematch": "AN", "TEXT": ""}
-    if cita.upper().startswith("ECLI"):
-        data["ECLI"] = re.sub(r"\s+", "", cita.upper())
-    elif re.match(_RE_ROJ, cita):
-        data["ROJ"] = _norm_cita(cita)
+    ext = _extraer_cita(cita)
+    if ext and ext.startswith("ECLI"):
+        data["ECLI"] = ext.replace(" ", "")
+    elif ext:
+        data["ROJ"] = ext
     else:
-        data["TEXT"] = cita
+        data["TEXT"] = cita  # _buscar_docs sanea los apostrofos
     docs = _buscar_docs(data, 3)
     exactos = [d for d in docs if _es_match_exacto(d, cita)]
     if exactos:
@@ -781,7 +819,9 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
         terminos: palabras clave para elegir los parrafos (recomendado al usar parrafos).
         max_chars: si parrafos=0, recorta el texto integro a esta longitud (0 = todo).
     """
-    lista = [c.strip() for c in (citas or "").split(",") if c.strip()]
+    # Coma, punto y coma o salto de linea como separador (mandar "STS 369/2017;
+    # STS 834/2018" entero como UNA cita provocaba HTTP 500 del CENDOJ).
+    lista = [c.strip() for c in re.split(r"[,;\n]+", citas or "") if c.strip()]
     if not lista:
         return "Indica una o varias sentencias por su ROJ o ECLI (separados por coma)."
     docs: list[dict] = []

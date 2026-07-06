@@ -636,9 +636,19 @@ def _ordenar_por_fecha(docs: list[dict], anios: int = 7) -> list[dict]:
 # =========================================================================
 # Motor de busqueda (con paginacion para >50)
 # =========================================================================
+def _sanear_texto_cendoj(s: str) -> str:
+    """El buscador del CENDOJ se cuelga (timeout) o devuelve HTTP 500 con
+    apostrofos en la consulta ("Rob'S", "Jose´S Bar"). Se sustituyen por
+    espacio; las comillas DOBLES (frase exacta) se conservan."""
+    s = re.sub(r"['‘’‚‛´`]", " ", s or "")
+    return re.sub(r"\s{2,}", " ", s).strip()
+
+
 def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int,
                        anios: int = 7, orden: str = "reciente") -> str:
     global _ultima_busqueda
+    if data_base.get("TEXT"):
+        data_base = {**data_base, "TEXT": _sanear_texto_cendoj(data_base["TEXT"])}
     c = _asegurar_sesion()
     docs: list[dict] = []
     start, total = 1, None
@@ -792,10 +802,13 @@ def buscar_por_cita(cita: str) -> str:
         return "Error: indica un ECLI o un ROJ."
     _ultima_consulta = ""
     data = {"action": "query", "databasematch": "AN", "TEXT": ""}
-    if cita.upper().startswith("ECLI"):
-        data["ECLI"] = re.sub(r"\s+", "", cita.upper()); desc = f"ECLI {cita}"
-    elif re.match(r"[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}", cita):
-        data["ROJ"] = re.sub(r"\s+", " ", cita.upper()); desc = f"ROJ {cita}"
+    mE = re.search(r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+A?", cita.upper())
+    mR = re.search(r"(?<![A-Za-z])[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}",
+                   cita.upper())
+    if mE:
+        data["ECLI"] = mE.group(0); desc = f"ECLI {mE.group(0)}"
+    elif mR:
+        data["ROJ"] = re.sub(r"\s+", " ", mR.group(0)).strip(); desc = f"ROJ {data['ROJ']}"
     else:
         data["TEXT"] = cita; desc = f"cita {cita!r}"
     return _ejecutar_busqueda(data, desc, 10)
