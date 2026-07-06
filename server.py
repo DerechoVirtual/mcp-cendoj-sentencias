@@ -236,7 +236,7 @@ def _parse_resultados(html: str) -> list[dict]:
         out.append({
             "hash": m.group(1), "opt": m.group(2),
             "roj": _g(blk, r'data-roj="([^"]*)"'),
-            "ecli": _g(blk, r'(ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+)'),
+            "ecli": _g(blk, r'(ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+A?)'),
             "fechares": _g(blk, r'data-fechares="([^"]*)"'),
             "ref": _g(blk, r'data-reference="([^"]*)"'),
             "sala": sala,
@@ -460,7 +460,7 @@ def _construir_registro(d: dict, pdf_bytes: bytes, incluir_texto: bool,
     if incluir_texto:
         texto, paginas = _extraer_texto(pdf_bytes)
         if not d.get("ecli"):
-            mm = re.search(r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+", texto)
+            mm = re.search(r"ECLI:[A-Z]{2}:[A-Z0-9]+:\d+:\d+A?\b", texto)
             if mm:
                 d["ecli"] = mm.group(0)
         if parrafos and parrafos > 0:
@@ -572,10 +572,12 @@ def _seleccionar(seleccion: str, docs: list[dict]) -> list[dict] | str:
     if s in ("", "todas", "todo", "all"):
         return list(docs)
     elegidos: list[dict] = []
-    if re.search(r"[A-Za-z]{2,4}\s*\d+/\d{4}", seleccion):
+    if re.search(r"[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}", seleccion):
         for r in seleccion.split(","):
             r_norm = re.sub(r"\s+", " ", r.strip().upper())
-            m = next((d for d in docs if d.get("roj", "").upper() == r_norm), None)
+            m = next((d for d in docs
+                      if re.sub(r"\s+", " ", d.get("roj", "").strip().upper()) == r_norm),
+                     None)
             if m:
                 elegidos.append(m)
         return elegidos or "No se reconocio ningun ROJ de la lista en la ultima busqueda."
@@ -791,9 +793,9 @@ def buscar_por_cita(cita: str) -> str:
     _ultima_consulta = ""
     data = {"action": "query", "databasematch": "AN", "TEXT": ""}
     if cita.upper().startswith("ECLI"):
-        data["ECLI"] = cita.upper(); desc = f"ECLI {cita}"
-    elif re.match(r"[A-Za-z]{2,4}\s*\d+/\d{4}", cita):
-        data["ROJ"] = cita.upper(); desc = f"ROJ {cita}"
+        data["ECLI"] = re.sub(r"\s+", "", cita.upper()); desc = f"ECLI {cita}"
+    elif re.match(r"[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}", cita):
+        data["ROJ"] = re.sub(r"\s+", " ", cita.upper()); desc = f"ROJ {cita}"
     else:
         data["TEXT"] = cita; desc = f"cita {cita!r}"
     return _ejecutar_busqueda(data, desc, 10)

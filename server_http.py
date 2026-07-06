@@ -379,19 +379,48 @@ def _formatear_lista(docs: list[dict], desc: str, reciente=None) -> str:
     return "\n".join(lineas)
 
 
+# Un ROJ puede llevar provincia: "STS 4786/2014", "SAP VA 1226/2014", "AAP SE 1342/2017".
+_RE_ROJ = r"[A-Za-z]{2,5}(?:\s+[A-Za-z]{1,4})?\s*\d+/\d{4}"
+
+
+def _norm_cita(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").strip().upper())
+
+
+def _es_match_exacto(d: dict, cita: str) -> bool:
+    """True si el documento corresponde EXACTAMENTE a la cita (ECLI o ROJ).
+    Los autos comparten numero con la sentencia homonima y solo se distinguen
+    por el sufijo 'A' del ECLI, asi que la comparacion debe ser literal."""
+    cn = _norm_cita(cita)
+    if cn.startswith("ECLI"):
+        return _norm_cita(d.get("ecli", "")).replace(" ", "") == cn.replace(" ", "")
+    return _norm_cita(d.get("roj", "")) == cn
+
+
+def _es_cita_exacta(cita: str) -> bool:
+    c = (cita or "").strip()
+    return c.upper().startswith("ECLI") or bool(re.fullmatch(_RE_ROJ, c))
+
+
 def _localizar(cita: str) -> list[dict]:
-    """Localiza por ECLI o ROJ exacto (para leer_sentencias stateless)."""
+    """Localiza por ECLI o ROJ exacto (para leer_sentencias stateless).
+    Devuelve las coincidencias EXACTAS primero (un ROJ/ECLI que cae a texto
+    libre puede traer resoluciones de otro asunto)."""
     cita = (cita or "").strip()
     if not cita:
         return []
     data = {"action": "query", "databasematch": "AN", "TEXT": ""}
     if cita.upper().startswith("ECLI"):
-        data["ECLI"] = cita.upper()
-    elif re.match(r"[A-Za-z]{2,4}\s*\d+/\d{4}", cita):
-        data["ROJ"] = cita.upper()
+        data["ECLI"] = re.sub(r"\s+", "", cita.upper())
+    elif re.match(_RE_ROJ, cita):
+        data["ROJ"] = _norm_cita(cita)
     else:
         data["TEXT"] = cita
-    return _buscar_docs(data, 3)
+    docs = _buscar_docs(data, 3)
+    exactos = [d for d in docs if _es_match_exacto(d, cita)]
+    if exactos:
+        return exactos + [d for d in docs if not _es_match_exacto(d, cita)]
+    return docs
 
 
 # =========================================================================
@@ -673,8 +702,13 @@ def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir
     una resolucion). Deja la lista lista para leer_sentencias.
 
+    OJO con los AUTOS: comparten numero con la sentencia homonima y su ECLI
+    termina en 'A' (AAP SE 1342/2017 = ECLI:ES:APSE:2017:1342A; la sentencia
+    SAP SE 1342/2017 = ECLI:ES:APSE:2017:1342). Cita siempre el ECLI COMPLETO.
+
     Args:
-        cita: ECLI ("ECLI:ES:TS:2014:4786") o ROJ ("STS 4786/2014", "SAP VA 1226/2014").
+        cita: ECLI ("ECLI:ES:TS:2014:4786") o ROJ ("STS 4786/2014", "SAP VA 1226/2014",
+            "AAP SE 1342/2017").
     """
     cita = (cita or "").strip()
     if not cita:
@@ -740,7 +774,9 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
 
     Args:
         citas: ROJ o ECLI separados por coma. P.ej. "STS 1177/2014, STS 1226/2014"
-            o "ECLI:ES:TS:2014:4786". (Los ves en el resultado de buscar_sentencias.)
+            o "ECLI:ES:TS:2014:4786". (Los ves en el resultado de buscar_sentencias;
+            copialos LITERALES: el ECLI de un AUTO termina en 'A' y sin esa 'A'
+            se abriria la sentencia homonima.)
         parrafos: 0 = texto integro. >0 = solo los N parrafos mas relevantes.
         terminos: palabras clave para elegir los parrafos (recomendado al usar parrafos).
         max_chars: si parrafos=0, recorta el texto integro a esta longitud (0 = todo).
@@ -755,13 +791,24 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
             ds = _localizar(cita)
         except RuntimeError as e:
             return str(e)
-        if ds:
-            docs.append(ds[0])
-        else:
+        if not ds:
             no_encontradas.append(cita)
+            continue
+        # VERIFICACION: si la cita es un ECLI/ROJ exacto, solo se lee el documento
+        # que coincide LITERALMENTE. Nunca entregar otro texto en silencio (los
+        # autos y las sentencias comparten numero: AAP SE 1342/2017 = ECLI
+        # ...:1342A, SAP SE 1342/2017 = ...:1342).
+        if _es_cita_exacta(cita) and not _es_match_exacto(ds[0], cita):
+            parecido = ds[0]
+            no_encontradas.append(
+                f"{cita} (el mas parecido en CENDOJ es {parecido.get('roj') or '?'} | "
+                f"{parecido.get('ecli') or 'ECLI ?'}; si buscas un AUTO, su ECLI "
+                "termina en 'A')")
+            continue
+        docs.append(ds[0])
     if not docs:
         return ("No se localizo ninguna de esas citas en el CENDOJ: "
-                + ", ".join(no_encontradas))
+                + "; ".join(no_encontradas))
 
     parr = int(parrafos or 0)
     terms = (terminos or "").strip()
@@ -785,7 +832,7 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
         cab += "\n" + f"{len(errs)} con incidencia: " + "; ".join(
             f"{e['doc'].get('roj','?')} ({e.get('error','?')})" for e in errs)
     if no_encontradas:
-        cab += "\nNo localizadas: " + ", ".join(no_encontradas)
+        cab += "\nNo localizadas: " + "; ".join(no_encontradas)
     cuerpo = "\n\n".join(eng._fmt_resultado(r) for r in oks)
     return cab + ("\n\n" + cuerpo if cuerpo else "")
 
