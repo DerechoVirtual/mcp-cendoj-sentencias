@@ -197,10 +197,29 @@ def _clasificar_error(out) -> "str | None":
     m = re.search(r"respondio HTTP (\d{3})", cab)
     if m:
         return f"CENDOJ HTTP {m.group(1)}"
+    if re.search(r"\d+ con incidencia", cab):
+        # Extrae el MOTIVO dominante (antes se perdia en un generico "con incidencia").
+        low = cab.lower()
+        # SIN VISION: no hay key de ningun proveedor -> error LOUD en el panel. Es
+        # exactamente la averia que tumbo leer_sentencias el 08-jul-2026.
+        if "captcha vision no_key" in low or "sin vision" in low:
+            return "SIN VISION (falta key OpenAI/Gemini)"
+        codes = re.findall(r"http_(\d{3})", low)
+        if "captcha vision" in low and codes:
+            return "captcha vision " + "/".join(sorted(set(codes)))
+        if "vision" in low:
+            return "captcha vision sin lectura"
+        if "captcha rechazado" in low:
+            return "captcha rechazado"
+        if "captcha imagen no baja" in low:
+            return "captcha imagen no baja"
+        if "cendoj 403" in low or " 403" in low:
+            return "cendoj 403"
+        if "red:" in low or "corto la conexion" in low:
+            return "red cendoj"
+        return "lectura con incidencia"
     if "no se pudo descargar" in cab or "no se pudo resolver el codigo" in cab:
         return "descarga fallida"
-    if re.search(r"\d+ con incidencia: ", cab):
-        return "lectura con incidencia"
     if out.startswith("Error"):
         return out[:60]
     return None
@@ -567,36 +586,92 @@ def _mensaje_captcha(token: str, png: bytes, reintento: bool = False) -> list:
     return partes
 
 
-def _resolver_con_vision(png: bytes) -> str:
-    """Lee los caracteres del codigo de la imagen con un modelo de vision (OpenAI
-    gpt-4o-mini). Devuelve el texto (minusculas, solo alfanumerico) o '' si no hay
-    clave o falla. Es lo que permite que el cliente NUNCA tenga que tratar el
-    control antidescargas: lo resuelve el servidor a demanda del usuario."""
-    key = os.environ.get("OPENAI_API_KEY", "").strip()
-    if not key or not png:
-        return ""
+# --- Vision del captcha: DOS proveedores (OpenAI + Gemini de fallback) ---------
+# Que la lectura NO dependa de una sola key: si OpenAI muere (key caducada / sin
+# saldo / 429 sostenido), Gemini resuelve el captcha y leer_sentencias sigue
+# funcionando. Es lo que impide que la averia de UN proveedor tumbe la lectura de
+# sentencias (incidencia del 08-jul-2026, key de OpenAI KO). Ambos endpoints son
+# OpenAI-compatibles, asi que comparten el mismo cuerpo de peticion.
+_OPENAI_VISION_URL = "https://api.openai.com/v1/chat/completions"
+_GEMINI_VISION_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+# gemini-2.5-flash-lite NO es 'thinking' -> devuelve el texto directo (los flash /
+# 3.5-flash se gastan los tokens razonando y devuelven content vacio). Verificado.
+_GEMINI_VISION_MODEL = os.environ.get("GEMINI_VISION_MODEL", "gemini-2.5-flash-lite").strip()
+_VISION_PROMPT = ("Devuelve UNICAMENTE los caracteres alfanumericos que aparecen "
+                  "escritos en la imagen, en minusculas, sin espacios ni puntuacion "
+                  "ni explicacion. Ignora la linea que los cruza.")
+
+
+def _vision_try(uri: str, url: str, key: str, model: str) -> tuple[str, str]:
+    """Una llamada de vision a UN proveedor (endpoint OpenAI-compat), con 3
+    reintentos de los fallos TRANSITORIOS (429/5xx, timeout, red) y backoff corto.
+    Devuelve (codigo_alfanumerico, motivo): motivo '' si ok, o
+    'http_<code>' | 'timeout' | 'neterr' | 'vacio'."""
     import urllib.request
-    data_uri = "data:image/png;base64," + base64.b64encode(png).decode("ascii")
+    import urllib.error
     body = json.dumps({
-        "model": "gpt-4o-mini",
+        "model": model,
         "messages": [{"role": "user", "content": [
-            {"type": "text", "text": "Devuelve UNICAMENTE los caracteres "
-             "alfanumericos que aparecen escritos en la imagen, en minusculas, sin "
-             "espacios ni puntuacion ni explicacion. Ignora la linea que los cruza."},
-            {"type": "image_url", "image_url": {"url": data_uri}}]}],
-        "max_tokens": 16, "temperature": 0,
+            {"type": "text", "text": _VISION_PROMPT},
+            {"type": "image_url", "image_url": {"url": uri}}]}],
+        "max_tokens": 24, "temperature": 0,
     }).encode("utf-8")
-    req = urllib.request.Request(
-        "https://api.openai.com/v1/chat/completions", data=body,
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-        method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            data = json.loads(r.read().decode("utf-8"))
-        txt = data["choices"][0]["message"]["content"]
-        return re.sub(r"[^a-z0-9]", "", txt.strip().lower())
-    except Exception:  # noqa: BLE001
-        return ""
+    motivo = "vacio"
+    for intento in range(3):
+        req = urllib.request.Request(
+            url, data=body,
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+            method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            msg = (data.get("choices") or [{}])[0].get("message") or {}
+            txt = msg.get("content") or ""
+            code = re.sub(r"[^a-z0-9]", "", txt.strip().lower())
+            if code:
+                return code, ""
+            motivo = "vacio"   # el modelo no devolvio caracteres: imagen mala
+            break              # que el llamante pida una imagen nueva
+        except urllib.error.HTTPError as e:
+            motivo = f"http_{e.code}"
+            if e.code in (429, 500, 502, 503, 504):
+                _time.sleep(0.6 * (intento + 1))
+                continue       # transitorio del proveedor: backoff y reintenta
+            break              # 400/401/403...: no insistir con ESTE proveedor
+        except Exception as e:  # noqa: BLE001  (timeout / red)
+            motivo = "timeout" if "timed out" in str(e).lower() else "neterr"
+            _time.sleep(0.4 * (intento + 1))
+            continue
+    return "", motivo
+
+
+def _resolver_con_vision(png: bytes) -> tuple[str, str]:
+    """Lee el codigo del captcha por VISION con redundancia de proveedor: intenta
+    OpenAI (gpt-4o-mini) y, si no lo saca, Gemini (fallback). Devuelve (texto,
+    motivo): texto en minusculas alfanumerico, o '' si TODOS fallan.
+      motivo: 'sin_img' | 'no_key' (ningun proveedor con key) |
+              '<prov>:<motivo>[+<prov>:<motivo>]' si fallan (para la telemetria).
+    Tener DOS proveedores es lo que impide que la averia de una key tumbe la
+    lectura de sentencias (incidencia del 08-jul-2026)."""
+    if not png:
+        return "", "sin_img"
+    uri = "data:image/png;base64," + base64.b64encode(png).decode("ascii")
+    provs = []
+    ok = os.environ.get("OPENAI_API_KEY", "").strip()
+    gk = os.environ.get("GEMINI_API_KEY", "").strip()
+    if ok:
+        provs.append(("openai", _OPENAI_VISION_URL, ok, "gpt-4o-mini"))
+    if gk:
+        provs.append(("gemini", _GEMINI_VISION_URL, gk, _GEMINI_VISION_MODEL))
+    if not provs:
+        return "", "no_key"
+    motivos = []
+    for nombre, url, key, model in provs:
+        code, motivo = _vision_try(uri, url, key, model)
+        if code:
+            return code, ""
+        motivos.append(f"{nombre}:{motivo}")
+    return "", "+".join(motivos)
 
 
 def _validar_captcha(c, d: dict, texto: str) -> bytes:
@@ -624,35 +699,51 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
     ultimo_err = ""
     forzar_proxy = False
     for _ in range(eng.REINTENTOS_DOC):
-        # DIRECTO primero (rapido); si el CENDOJ ya bloqueo con 403, por PROXY (rota IP).
+        # DIRECTO primero (rapido); si el CENDOJ ya bloqueo con 403/captcha, por PROXY (rota IP).
         proxy = eng._pick_proxy() if forzar_proxy else None
         try:
             c = eng._nueva_sesion(proxy=proxy)
             tipo, payload = eng._intento_descarga(c, d)
         except Exception as e:  # noqa: BLE001  (caida transitoria: rota a proxy y reintenta)
-            ultimo_err = f"el CENDOJ corto la conexion ({e})"
+            ultimo_err = f"red: el CENDOJ corto la conexion ({type(e).__name__})"
             forzar_proxy = True
             continue
         if tipo == "pdf":
             return "pdf", payload
         if tipo == "captcha":
-            # Resolver en el servidor por vision, varios intentos con imagen nueva
+            # Resolver en el servidor por vision, varios intentos con imagen NUEVA
             # en la MISMA sesion (cada imagen va atada a su JSESSIONID).
+            fatal = False
             for _intento in range(4):
                 png = _bajar_imagen_captcha(c)
                 if not png:
-                    break
-                texto = _resolver_con_vision(png)
+                    ultimo_err = "captcha imagen no baja"
+                    continue  # pide otra imagen
+                texto, motivo = _resolver_con_vision(png)
                 if not texto:
-                    ultimo_err = "sin OPENAI_API_KEY o la vision fallo"
-                    break
+                    ultimo_err = f"captcha vision {motivo or 'vacio'}"
+                    # Fatal SOLO si NO hay vision utilizable: ningun proveedor con
+                    # key (no_key) o TODOS con auth rechazada (400/401/403). Un fallo
+                    # transitorio, 'vacio', o de UN solo proveedor ya se cubre con el
+                    # otro dentro de _resolver_con_vision -> pedimos imagen nueva.
+                    _partes = motivo.split("+") if motivo else []
+                    _solo_auth = bool(_partes) and all(
+                        re.search(r"http_(?:400|401|403)$", p) for p in _partes)
+                    if motivo == "no_key" or _solo_auth:
+                        fatal = True
+                        break
+                    continue  # transitorio o mala lectura: prueba otra imagen
                 pdf = _validar_captcha(c, d, texto)
                 if pdf:
                     return "pdf", pdf
-            ultimo_err = ultimo_err or "no se pudo resolver el codigo por vision"
+                ultimo_err = "captcha rechazado"  # leido, pero el CENDOJ no lo acepto
+            if fatal:
+                break  # la vision no funciona: mas sesiones no ayudan
+            forzar_proxy = True  # agotado el captcha por esta IP: rota a proxy
             continue
         ultimo_err = payload.decode(errors="replace") if isinstance(payload, bytes) else str(payload)
         if "403" in ultimo_err or "Forbidden" in ultimo_err:
+            ultimo_err = "cendoj 403 (IP bloqueada)"
             forzar_proxy = True  # el CENDOJ bloqueo la IP directa: reintentar por proxy
     return "error", ultimo_err or "no se pudo descargar"
 
