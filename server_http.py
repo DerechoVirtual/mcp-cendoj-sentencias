@@ -690,14 +690,16 @@ def _validar_captcha(c, d: dict, texto: str) -> bytes:
     return b""
 
 
-def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int):
+def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int,
+                         forzar_proxy_inicial: bool = False):
     """Descarga UN documento. Si el CENDOJ bloquea con su control antidescargas (lo
     normal desde IP de datacenter), el SERVIDOR resuelve el codigo de la imagen por
     vision y reintenta, de modo que el cliente (Claude o la web) recibe la sentencia
     ya leida sin tener que tratar nada. Devuelve ("pdf", bytes) | ("error", mensaje).
-    """
+    forzar_proxy_inicial=True arranca YA por PROXY (IP nueva), util en la 2a pasada de
+    reintento one-by-one: la IP directa que fallo antes suele seguir bloqueada."""
     ultimo_err = ""
-    forzar_proxy = False
+    forzar_proxy = bool(forzar_proxy_inicial)
     for _ in range(eng.REINTENTOS_DOC):
         # DIRECTO primero (rapido); si el CENDOJ ya bloqueo con 403/captcha, por PROXY (rota IP).
         proxy = eng._pick_proxy() if forzar_proxy else None
@@ -945,17 +947,41 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     terms = (terminos or "").strip()
     mc = int(max_chars or 0)
     oks: list[dict] = []
-    errs: list[dict] = []
+
+    def _leer_uno(d, forzar_proxy_inicial=False):
+        """Descarga+lee UN doc. Devuelve (registro_ok, None) o (None, motivo_error)."""
+        tipo, payload = _descargar_o_captcha(d, parr, terms, mc,
+                                             forzar_proxy_inicial=forzar_proxy_inicial)
+        if tipo != "pdf":
+            return None, (payload or "no se pudo descargar")
+        reg = eng._construir_registro(d, payload, incluir_texto=True,
+                                      guardar_pdf=False, parrafos=parr, terminos=terms)
+        if not parr and mc and reg.get("ok") and len(reg["texto"]) > mc:
+            reg["texto"] = reg["texto"][:mc] + f"\n[... recortado a {mc} ...]"
+        return reg, None
+
+    # 1a PASADA: leer cada documento (cada uno ya reintenta y escala a proxy dentro).
+    fallidos: list[tuple] = []
     for d in docs:
-        tipo, payload = _descargar_o_captcha(d, parr, terms, mc)
-        if tipo == "pdf":
-            reg = eng._construir_registro(d, payload, incluir_texto=True,
-                                          guardar_pdf=False, parrafos=parr, terminos=terms)
-            if not parr and mc and reg.get("ok") and len(reg["texto"]) > mc:
-                reg["texto"] = reg["texto"][:mc] + f"\n[... recortado a {mc} ...]"
+        reg, err = _leer_uno(d)
+        if reg is not None:
             oks.append(reg)
         else:
-            errs.append(eng._fallo(d, payload or "no se pudo descargar"))
+            fallidos.append((d, err))
+    # 2a PASADA (AUTO-CURACION): reintenta UNO A UNO los que fallaron, arrancando ya
+    # por PROXY (IP/sesion nueva). Es el "reintento una a una, que a veces resuelve"
+    # hecho por el propio servidor: los fallos transitorios de captcha/CENDOJ suelen
+    # ceder a la segunda con otra IP, sin que el cliente tenga que reintentar. Solo se
+    # ejecuta si hubo fallos -> cero impacto en las lecturas sanas.
+    errs: list[dict] = []
+    if fallidos:
+        _time.sleep(0.8)  # deja pasar la ventana de presion del CENDOJ
+        for d, err0 in fallidos:
+            reg, err = _leer_uno(d, forzar_proxy_inicial=True)
+            if reg is not None:
+                oks.append(reg)
+            else:
+                errs.append(eng._fallo(d, err or err0 or "no se pudo descargar"))
 
     modo = f"parrafos clave (x{parr})" if parr else "texto integro"
     cab = f"{len(oks)} sentencia(s) leidas ({modo})."
