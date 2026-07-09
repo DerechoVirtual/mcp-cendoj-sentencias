@@ -1,0 +1,2189 @@
+{
+ "meta": {
+  "municipio": "zaragoza",
+  "fuente": "sede electronica del Ayuntamiento de Zaragoza (normativa vigente)",
+  "url": "https://www.zaragoza.es/sede/servicio/normativa/"
+ },
+ "normas": [
+  {
+   "id": "zgz-3504",
+   "titulo": "Ordenanza Fiscal nº 17.2: Tasa por prestación de Servicios de Tratamiento de Residuos de competencia municipal",
+   "cat": "Abastecimiento, Saneamiento y Depuración",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "14/01/2026",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 12000
+  },
+  {
+   "id": "zgz-3564",
+   "titulo": "Ordenanza Fiscal nº 24.25: Tasa por la prestación de servicios vinculados al abastecimiento de agua",
+   "cat": "Abastecimiento, Saneamiento y Depuración",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "14/01/2026",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 43586
+  },
+  {
+   "id": "zgz-1542",
+   "titulo": "Ordenanza Municipal para la Ecoeficiencia y la Calidad de la Gestión Integral del Agua",
+   "cat": "Abastecimiento, Saneamiento y Depuración",
+   "ref": "",
+   "pub": "«BOPZ» núm. 29, de 07/02/2011",
+   "mod": "05/02/2024",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "anexos": [
+    {
+     "title": "Anexo I: Definiciones",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex1.pdf"
+    },
+    {
+     "title": "Anexo II: Condiciones de bombeo, almacenamiento de agua y dosificación de hipoclorito en las nuevas instalaciones que sean o puedan ser de titularidad municipal.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex2.pdf"
+    },
+    {
+     "title": "Anexo III: Requisitos de las instalaciones de tanques de tormenta y laminación.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex3.pdf"
+    },
+    {
+     "title": "Anexo IV: Requisitos de las acometidas a las instalaciones de abastecimiento y saneamiento. Esquemas de acometida.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex4.pdf"
+    },
+    {
+     "title": "Anexo V: Evacuación de aguas residuales.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex5.pdf"
+    },
+    {
+     "title": "Anexo VI: Instalación de tritubo.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex6.pdf"
+    },
+    {
+     "title": "Anexo VII: Condiciones generales para la instalación de contadores electrónicos.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex7.pdf"
+    },
+    {
+     "title": "Anexo VIII: Requisitos de las baterías de contadores.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex8.pdf"
+    },
+    {
+     "title": "Anexo IX: Sistema de medida y estimación de caudal.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex9.pdf"
+    },
+    {
+     "title": "Anexo X: Depósitos domiciliarios de agua. Recomendaciones de eliminación. Instalación general de agua en edificios.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex10.pdf"
+    },
+    {
+     "title": "Anexo XI: Datos a facilitar para la tramitación de solicitudes de alta y baja en el servicio.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex11.pdf"
+    },
+    {
+     "title": "Anexo XII: Tipología de usos.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex12.pdf"
+    },
+    {
+     "title": "Anexo XIII: Modelos de arquetas de contadores.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex13.pdf"
+    },
+    {
+     "title": "Anexo XIV: Consumos medios diarios estimados en función del calibre de uso.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex14.pdf"
+    },
+    {
+     "title": "Anexo XV: Requisitos de facturas y recibos.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex15.pdf"
+    },
+    {
+     "title": "Anexo XVI: Determinación de los factores K1, K2 y F.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex16.pdf"
+    },
+    {
+     "title": "Anexo XVII: Características técnicas y descripción de los mecanismos ahorradores en instalaciones",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex17.pdf"
+    },
+    {
+     "title": "Anexo XVIII: Plantas utilizadas en xerojardinería. Parámetros y criterios de diseño del espacio verde.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex18.pdf"
+    },
+    {
+     "title": "Anexo XIX: Limitaciones de los vertidos al ambiente.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex19.pdf"
+    },
+    {
+     "title": "Anexo XX: Documentación necesaria para la declaración de vertido.",
+     "link": "/cont/paginas/normativa/anexos/eco_agua_anex20.pdf"
+    }
+   ],
+   "texto_len": 175216
+  },
+  {
+   "id": "zgz-4043",
+   "titulo": "Ordenanza Reguladora de la prestación patrimonial de carácter público no tributaria por la prestación de servicios vinculados al Saneamiento y Depuración de Agua",
+   "cat": "Abastecimiento, Saneamiento y Depuración",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "20/01/2026",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "anexos": [],
+   "texto_len": 39795
+  },
+  {
+   "id": "zgz-4703",
+   "titulo": "Reglamento Municipal de Prestación del Servicio de Saneamiento y Depuración de Aguas de la Ciudad de Zaragoza",
+   "cat": "Abastecimiento, Saneamiento y Depuración",
+   "ref": "",
+   "pub": "«BOPZ» núm. 283, de 11/12/2013",
+   "mod": "26/11/2021",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "anexos": [],
+   "texto_len": 58209
+  },
+  {
+   "id": "zgz-228",
+   "titulo": "Ordenanzas Generales de Edificación",
+   "cat": "Administación General",
+   "ref": "",
+   "pub": "«BOE» núm. , de 12/01/1974",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Normativa Ordenanzas Generales de la Edificación",
+     "link": "/cont/paginas/normativa/anexos/anexos_edificacion.pdf"
+    }
+   ],
+   "texto_len": 153902
+  },
+  {
+   "id": "zgz-922",
+   "titulo": "Ordenanza de Administración Electrónica",
+   "cat": "Administración Electrónica",
+   "ref": "",
+   "pub": "«BOPZ» núm. 89, de 21/04/2010",
+   "mod": "13/05/2024",
+   "alias": [
+    "administracion electronica",
+    "sede electronica",
+    "registro electronico"
+   ],
+   "anexos": [],
+   "texto_len": 122104
+  },
+  {
+   "id": "zgz-3983",
+   "titulo": "Ordenanza sobre transparencia y libre acceso a la información.",
+   "cat": "Administración Electrónica",
+   "ref": "",
+   "pub": "«BOPZ» núm. 74, de 01/04/2014",
+   "mod": "04/12/2023",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica"
+   ],
+   "anexos": [],
+   "texto_len": 68360
+  },
+  {
+   "id": "zgz-5803",
+   "titulo": "Reglamento del Inventario General del Ayuntamiento de Zaragoza",
+   "cat": "Ayuntamiento de Zaragoza: Hacienda y Economía",
+   "ref": "",
+   "pub": "«BOA» núm. 187, de 25/09/2015",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 57532
+  },
+  {
+   "id": "zgz-3505",
+   "titulo": "Ordenanza Fiscal nº 19: Tasas por prestación de servicios o aprovechamientos especiales en el Cementerio Municipal de Torrero",
+   "cat": "Cementerio",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2018",
+   "mod": "06/02/2025",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto completo de la Ordenanza (en pdf)",
+     "link": "/cont/paginas/normativa/anexos/of-19-2019.pdf"
+    },
+    {
+     "title": "ANEXO I: Tarifas del Cementerio de Torrero",
+     "link": "/cont/paginas/normativa/anexos/of_19_2019_anexo.pdf"
+    }
+   ],
+   "texto_len": 13041
+  },
+  {
+   "id": "zgz-5683",
+   "titulo": "Ordenanza Municipal de Actividades y Servicios Funerarios en Zaragoza",
+   "cat": "Cementerio",
+   "ref": "",
+   "pub": "«BOPZ» núm. 289, de 19/12/2017",
+   "mod": "01/06/2022",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "anexos": [],
+   "texto_len": 78352
+  },
+  {
+   "id": "zgz-862",
+   "titulo": "Ordenanza Municipal de Cementerios de Zaragoza",
+   "cat": "Cementerio",
+   "ref": "",
+   "pub": "«BOPZ» núm. 152, de 06/07/2010",
+   "mod": "24/05/2022",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "anexos": [],
+   "texto_len": 59729
+  },
+  {
+   "id": "zgz-13228",
+   "titulo": "Ordenanza Fiscal nº 24.32: Tasa por la prestación del servicio de celebración de matrimonios civiles en el Pabellón de Ceremonias del Ayuntamiento de Zaragoza",
+   "cat": "Ceremonial y Protocolo",
+   "ref": "",
+   "pub": "«BOPZ» núm. 294, de 26/12/2023",
+   "mod": "10/01/2024",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 3164
+  },
+  {
+   "id": "zgz-69",
+   "titulo": "Reglamento de Protocolo, Ceremonial, Honores y Distinciones del Ayuntamiento de Zaragoza",
+   "cat": "Ceremonial y Protocolo",
+   "ref": "",
+   "pub": "«BOPZ» núm. 133, de 12/06/2008",
+   "mod": "14/06/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 56823
+  },
+  {
+   "id": "zgz-13033",
+   "titulo": "Ordenanza Audiovisual",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. 160, de 15/07/2022",
+   "mod": "25/11/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Ordenanza audiovisual en formato pdf",
+     "link": "/cont/paginas/normativa/anexos/ordenanza_audiovisual_zaragoza.pdf"
+    }
+   ],
+   "texto_len": 56770
+  },
+  {
+   "id": "zgz-42",
+   "titulo": "Reglamento Interno de la Escuela Municipal de Teatro",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. 39, de 17/02/2018",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 64425
+  },
+  {
+   "id": "zgz-62",
+   "titulo": "Reglamento de Régimen Interior de Escuelas Infantiles Municipales de Zaragoza",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. 273, de 26/11/2007",
+   "mod": "02/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 48782
+  },
+  {
+   "id": "zgz-43",
+   "titulo": "Reglamento de Régimen Interior del Conservatorio Municipal Elemental de Música",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de ",
+   "mod": "02/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 46626
+  },
+  {
+   "id": "zgz-23",
+   "titulo": "Reglamento de Régimen Interno de la Escuela Municipal de Música y Danza de Zaragoza",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 08/05/2015",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 79021
+  },
+  {
+   "id": "zgz-47",
+   "titulo": "Reglamento de Régimen Interno del Conservatorio Municipal Profesional de Danza de Zaragoza",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de ",
+   "mod": "02/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 79933
+  },
+  {
+   "id": "zgz-343",
+   "titulo": "Reglamento del Centro de Formación del Personal Municipal",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "«BOA» núm. 227, de 23/11/2009",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 21212
+  },
+  {
+   "id": "zgz-9283",
+   "titulo": "Reglamento para la participación en el Día del Libro de Zaragoza 2024",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "",
+   "mod": "26/02/2024",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "anexos": [
+    {
+     "title": "Instancia general.",
+     "link": "/cont/paginas/normativa/anexos/instancia_general.pdf"
+    }
+   ],
+   "texto_len": 8197
+  },
+  {
+   "id": "zgz-13352",
+   "titulo": "Reglamento para la participación en el Día del Libro de Zaragoza 2025",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "",
+   "mod": "03/03/2025",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "anexos": [],
+   "texto_len": 0,
+   "url_pdf": "https://www.zaragoza.es/contenidos/normativa/reglamento-dia-libro25.pdf"
+  },
+  {
+   "id": "zgz-13441",
+   "titulo": "Reglamento para la participación en el Día del Libro de Zaragoza 2026",
+   "cat": "Cultura y Educación",
+   "ref": "",
+   "pub": "",
+   "mod": "03/03/2026",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "anexos": [],
+   "texto_len": 9577
+  },
+  {
+   "id": "zgz-442",
+   "titulo": "Reglamento de Centros y Pabellones Deportivos Municipales",
+   "cat": "Deportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 258, de 08/11/2008",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 78955
+  },
+  {
+   "id": "zgz-3443",
+   "titulo": "Ordenanza Fiscal Nº 1:  Reguladora de la gestión, inspección y recaudación de los tributos y demás ingresos de derecho público",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "26/01/2026",
+   "alias": [
+    "ordenanza fiscal general",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales"
+   ],
+   "anexos": [],
+   "texto_len": 226114
+  },
+  {
+   "id": "zgz-1686",
+   "titulo": "Ordenanza Fiscal Nº 25.12: Tasa por utilización privativa y aprovechamientos especiales constituídos en el suelo, subsuelo o suelo de la vía pública a favor de empresas explotadoras de servicios de suministros",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2019",
+   "mod": "23/01/2023",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-25-12-2020.pdf"
+    }
+   ],
+   "texto_len": 24088
+  },
+  {
+   "id": "zgz-3444",
+   "titulo": "Ordenanza Fiscal Nº 2:  del Impuesto de Bienes Inmuebles (IBI)",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "26/01/2026",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "anexos": [],
+   "texto_len": 50583
+  },
+  {
+   "id": "zgz-3466",
+   "titulo": "Ordenanza Fiscal nº 10: Impuesto sobre Construcciones, Instalaciones y Obras",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "06/05/2026",
+   "alias": [
+    "icio",
+    "impuesto de obras"
+   ],
+   "anexos": [],
+   "texto_len": 100369
+  },
+  {
+   "id": "zgz-3467",
+   "titulo": "Ordenanza Fiscal nº 11: Tasa por Prestación de Servicios Generales",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 27/12/2023",
+   "mod": "17/01/2024",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 28575
+  },
+  {
+   "id": "zgz-3571",
+   "titulo": "Ordenanza Fiscal nº 13: Tasas por prestación de Servicios Urbanísticos",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "04/05/2026",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 90284
+  },
+  {
+   "id": "zgz-3468",
+   "titulo": "Ordenanza Fiscal nº 16: Tasa por prestación de servicios de extinción de incendios, salvamentos y asistencias técnicas",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 28/12/2024",
+   "mod": "19/03/2025",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 10837
+  },
+  {
+   "id": "zgz-3503",
+   "titulo": "Ordenanza Fiscal nº 17.1:  Tasa por prestación de servicios de recogida de residuos de competencia municipal",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "13/01/2026",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 12624
+  },
+  {
+   "id": "zgz-3543",
+   "titulo": "Ordenanza Fiscal nº 21: Tasa por prestación de servicios de Retirada y Depósito de Vehículos abandonados o estacionados defectuosa o abusivamente en la Vía pública, o por otras causas",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 28/12/2021",
+   "mod": "23/01/2023",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "ordenanza fiscal",
+     "link": "/cont/paginas/normativa/anexos/of-21-2019.pdf"
+    }
+   ],
+   "texto_len": 11705
+  },
+  {
+   "id": "zgz-1683",
+   "titulo": "Ordenanza Fiscal nº 23: Tasa por prestación de servicios de retirada o desplazamiento de elementos del alumbrado público o señalización viaria",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2019",
+   "mod": "23/01/2023",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 0,
+   "url_pdf": "https://www.zaragoza.es/contenidos/normativa/ordenanzas-fiscales/2020/OF-23-2020.pdf"
+  },
+  {
+   "id": "zgz-3546",
+   "titulo": "Ordenanza Fiscal nº 24.12: Tasa por prestación de Servicios de Laboratorio de Ensayos de Alumbrado",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "14/01/2026",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 10706
+  },
+  {
+   "id": "zgz-3547",
+   "titulo": "Ordenanza Fiscal nº 24.14: Tasa por prestación del servicio de Apeo y Poda de Árboles y\nretirada de otros elementos del mobiliario urbano por el Servicio de Parques, Jardines e Infraestructuras Verdes",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 28/12/2021",
+   "mod": "07/01/2022",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-24-14-2020.pdf"
+    }
+   ],
+   "texto_len": 10036
+  },
+  {
+   "id": "zgz-3548",
+   "titulo": "Ordenanza Fiscal nº 24.16: Tasa por prestación de servicios de rescate de animales de compañía y otros servicios del Centro de Protección Animal",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 28/12/2024",
+   "mod": "19/03/2025",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 12552
+  },
+  {
+   "id": "zgz-3563",
+   "titulo": "Ordenanza Fiscal nº 24.23: Tasa por prestación de servicios de instalación de escenarios",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2019",
+   "mod": "23/01/2023",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-24-23-2020.pdf"
+    }
+   ],
+   "texto_len": 45963
+  },
+  {
+   "id": "zgz-3565",
+   "titulo": "Ordenanza Fiscal nº 24.28: Tasa por la prestación de servicios de obras particulares realizadas por el Servicio de Conservación de Infraestructuras",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 287, de 16/12/2013",
+   "mod": "05/04/2021",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-24-28-2014.pdf"
+    }
+   ],
+   "texto_len": 6762
+  },
+  {
+   "id": "zgz-13227",
+   "titulo": "Ordenanza Fiscal nº 24.33: Tasa por autorización para el uso de espacios en el Centro de Etopía",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 28/12/2024",
+   "mod": "19/03/2025",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 12903
+  },
+  {
+   "id": "zgz-3567",
+   "titulo": "Ordenanza Fiscal nº 25.10: Tasa por aprovechamiento especial derivado del paso de vehículos de peso o tamaño superior al autorizado por las vías públicas",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 28/12/2024",
+   "mod": "19/03/2025",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-25-10-2014.pdf"
+    }
+   ],
+   "texto_len": 4116
+  },
+  {
+   "id": "zgz-3569",
+   "titulo": "Ordenanza Fiscal nº 25.11: Tasa por el estacionamiento de vehículos de tracción mecánica dentro de determinadas zonas de la ciudad",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 29/12/2016",
+   "mod": "20/01/2023",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-25-11-2017.pdf"
+    }
+   ],
+   "texto_len": 10108
+  },
+  {
+   "id": "zgz-3570",
+   "titulo": "Ordenanza Fiscal nº 25.13: Tasa por utilización privativa y aprovechamientos especiales constituidos en el suelo, subsuelo o vuelo de la vía pública a favor de empresas explotadoras de servicios de Telefonía Móvil",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2013",
+   "mod": "24/06/2026",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-25-13-2014.pdf"
+    }
+   ],
+   "texto_len": 7263
+  },
+  {
+   "id": "zgz-3566",
+   "titulo": "Ordenanza Fiscal nº 25: Tasas por utilización privativa o aprovechamiento especial del dominio público local.",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "24/02/2026",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [],
+   "texto_len": 82403
+  },
+  {
+   "id": "zgz-1687",
+   "titulo": "Ordenanza Fiscal nº 26: Contribuciones Especiales",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 295, de 26/12/2019",
+   "mod": "23/01/2023",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-26-2020.pdf"
+    }
+   ],
+   "texto_len": 66770
+  },
+  {
+   "id": "zgz-3463",
+   "titulo": "Ordenanza Fiscal nº 3: del Impuesto sobre Actividades Económicas (IAE)",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 28/12/2024",
+   "mod": "19/03/2025",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "anexos": [],
+   "texto_len": 53150
+  },
+  {
+   "id": "zgz-3464",
+   "titulo": "Ordenanza Fiscal nº 6: Impuesto sobre Vehículos de Tracción Mecánica",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 296, de 27/12/2025",
+   "mod": "12/01/2026",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion"
+   ],
+   "anexos": [],
+   "texto_len": 20231
+  },
+  {
+   "id": "zgz-1682",
+   "titulo": "Ordenanza Fiscal nº 7: Impuesto Municipal sobre Gastos Suntuarios",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 15/12/1989",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 4377
+  },
+  {
+   "id": "zgz-3203",
+   "titulo": "Ordenanza Fiscal nº. 20: Tasa por prestación de servicios guarda y custodia de muebles u objetos abandonados en la vía pública",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 30/12/1997",
+   "mod": "05/04/2021",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-20-2014.pdf"
+    }
+   ],
+   "texto_len": 3367
+  },
+  {
+   "id": "zgz-81",
+   "titulo": "Ordenanza General Municipal y Bases Reguladoras de Subvenciones del Ayuntamiento de Zaragoza y su Sector Público",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 236, de 13/10/2016",
+   "mod": "02/11/2022",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "anexos": [],
+   "texto_len": 141011
+  },
+  {
+   "id": "zgz-4767",
+   "titulo": "Ordenanza Municipal Reguladora de Instalaciones y Actividades Publicitarias",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 105, de 12/05/2014",
+   "mod": "11/07/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 85530
+  },
+  {
+   "id": "zgz-4886",
+   "titulo": "Ordenanza Municipal Reguladora del Procedimiento para el ejercicio de la Potestad Sancionadora",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 34, de 12/02/2014",
+   "mod": "24/01/2024",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 37550
+  },
+  {
+   "id": "zgz-3723",
+   "titulo": "Ordenanza Municipal reguladora de la instalación de Terrazas de Veladores",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 150, de 03/07/2021",
+   "mod": "11/10/2022",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "hosteleria"
+   ],
+   "anexos": [],
+   "texto_len": 77720
+  },
+  {
+   "id": "zgz-240",
+   "titulo": "Ordenanza Reguladora de Actividades Comerciales e Industriales en Terrenos Públicos",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 10/06/1981",
+   "mod": "22/01/2024",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 63004
+  },
+  {
+   "id": "zgz-79",
+   "titulo": "Ordenanza Reguladora de la Distribución Gratuita de Prensa en la Vía Pública",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 54, de 08/03/2004",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 20868
+  },
+  {
+   "id": "zgz-13269",
+   "titulo": "Ordenanza reguladora de los Entornos Controlados de Pruebas (SANDBOX) en la Ciudad de Zaragoza.",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 267, de 19/11/2024",
+   "mod": "12/12/2024",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 42424
+  },
+  {
+   "id": "zgz-3283",
+   "titulo": "Reglamento Regulador Venta Ambulante",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 58, de 13/03/2012",
+   "mod": "22/02/2021",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "anexos": [
+    {
+     "title": "Planos Distribución Puestos de Venta",
+     "link": "/cont/paginas/normativa/anexos/puestos_venta_ambulante.pdf"
+    }
+   ],
+   "texto_len": 51800
+  },
+  {
+   "id": "zgz-78",
+   "titulo": "Reglamento Regulador de las Reclamaciones Económico-Administrativas Municipales",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 291, de 20/12/2004",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 26452
+  },
+  {
+   "id": "zgz-80",
+   "titulo": "Reglamento Regulador del Rastro de la Plaza de Toros de Zaragoza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 238, de 16/10/2001",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "ANEXOS A LA ORDENANZA:(formato .pdf)",
+     "link": "/cont/paginas/normativa/anexos/anexo_rastro.pdf"
+    }
+   ],
+   "texto_len": 22443
+  },
+  {
+   "id": "zgz-83",
+   "titulo": "Reglamento de Acreditaciones Documentales de Contratistas del Ayuntamiento de Zaragoza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 144, de 28/06/1999",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 22055
+  },
+  {
+   "id": "zgz-85",
+   "titulo": "Reglamento de Funcionamiento del Mercado Mayorista de Pescado de la Unidad Alimentaria de Zaragoza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 13/02/1985",
+   "mod": "09/11/2022",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "anexos": [],
+   "texto_len": 47058
+  },
+  {
+   "id": "zgz-242",
+   "titulo": "Reglamento de Organización y Funcionamiento del Mercado Central de Frutas y Verduras de la Unidad Alimentaria de Zaragoza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 23/11/1974",
+   "mod": "24/05/2022",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "anexos": [],
+   "texto_len": 41158
+  },
+  {
+   "id": "zgz-244",
+   "titulo": "Reglamento de Prestación del Servicio de Mercados Mayoristas por la Empresa Mixta (Mercazaragoza)",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "",
+   "mod": "24/05/2022",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "anexos": [],
+   "texto_len": 0,
+   "url_pdf": "https://www.zaragoza.es/contenidos/normativa/Reglamento-Mercazaragoza-1973.pdf"
+  },
+  {
+   "id": "zgz-302",
+   "titulo": "Reglamento del Mercadillo de Coleccionismo de la plaza de San Francisco",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 95, de 28/04/2008",
+   "mod": "10/06/2026",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "anexos": [
+    {
+     "title": "Anexo I",
+     "link": "/cont/paginas/normativa/anexos/anexo_mer_col.pdf"
+    }
+   ],
+   "texto_len": 21975
+  },
+  {
+   "id": "zgz-443",
+   "titulo": "Reglamento del Mercadillo de la Plaza de San Bruno",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 233, de 08/10/2008",
+   "mod": "09/11/2022",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "anexos": [],
+   "texto_len": 22372
+  },
+  {
+   "id": "zgz-243",
+   "titulo": "Reglamento del Mercado Central de la Plaza de Lanuza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 24/08/1983",
+   "mod": "09/11/2022",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "anexos": [],
+   "texto_len": 85485
+  },
+  {
+   "id": "zgz-84",
+   "titulo": "Reglamento del Mercado de San Vicente de Paúl",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 27/02/1987",
+   "mod": "09/11/2022",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "anexos": [],
+   "texto_len": 91240
+  },
+  {
+   "id": "zgz-13103",
+   "titulo": "Reglamento del Tribunal Administrativo municipal de Recursos contractuales del Ayuntamiento de Zaragoza",
+   "cat": "Economía y Actividades Comerciales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 27, de 04/02/2023",
+   "mod": "25/05/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 34461
+  },
+  {
+   "id": "zgz-1562",
+   "titulo": "Ordenanza Municipal de los Espacios Juveniles",
+   "cat": "Juventud",
+   "ref": "",
+   "pub": "«BOPZ» núm. 228, de 04/10/2010",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 52183
+  },
+  {
+   "id": "zgz-1582",
+   "titulo": "Ordenanza Municipal de Distancias Minimas y Zonas Saturadas para Actividades Reguladas en la Ley 11/2005, de Espectaculos Públicos, Actividades Recreativas y Establecimientos Públicos de la Comunidad Autónoma de Aragón",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 249, de 29/10/2010",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Gráficos (I al XII)",
+     "link": "/cont/paginas/normativa/anexos/anexos_dist_minimas_2010.pdf"
+    }
+   ],
+   "texto_len": 27602
+  },
+  {
+   "id": "zgz-91",
+   "titulo": "Ordenanza Municipal de Instalaciones de Telecomunicación por transmisión-recepción de Ondas Radioeléctricas en el término municipal de Zaragoza",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 140, de 21/06/2001",
+   "mod": "11/12/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 34314
+  },
+  {
+   "id": "zgz-105",
+   "titulo": "Ordenanza Municipal de Protección contra Radiaciones Ionizantes",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 140, de 19/06/1986",
+   "mod": "20/01/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 28613
+  },
+  {
+   "id": "zgz-251",
+   "titulo": "Ordenanza Municipal de Protección del Medio Ambiente Atmosférico",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 132, de 11/06/1986",
+   "mod": "24/05/2022",
+   "alias": [
+    "medio ambiente",
+    "proteccion ambiental"
+   ],
+   "anexos": [
+    {
+     "title": "Anexos  del I al XI.",
+     "link": "/cont/paginas/normativa/anexos/anexo_atmosfe.pdf"
+    }
+   ],
+   "texto_len": 33583
+  },
+  {
+   "id": "zgz-102",
+   "titulo": "Ordenanza Municipal de Uso de Zonas Verdes",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 140, de 19/06/1986",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "anexos": [],
+   "texto_len": 17771
+  },
+  {
+   "id": "zgz-13277",
+   "titulo": "Ordenanza Municipal de Zona de Bajas Emisiones",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 192, de 21/08/2024",
+   "mod": "19/05/2025",
+   "alias": [
+    "zbe",
+    "zona de bajas emisiones",
+    "distintivo ambiental",
+    "restriccion de trafico",
+    "etiqueta ambiental",
+    "calidad del aire",
+    "emisiones",
+    "contaminacion atmosferica",
+    "calderas"
+   ],
+   "anexos": [],
+   "texto_len": 38955
+  },
+  {
+   "id": "zgz-100",
+   "titulo": "Ordenanza Municipal para la Protección y Gestión del Galacho de Juslibol y su entorno",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 5, de 08/01/1992",
+   "mod": "21/09/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 27603
+  },
+  {
+   "id": "zgz-94",
+   "titulo": "Ordenanza Reguladora de Ocupación de Vías Públicas con Contenedores",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 05/12/1998",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 14731
+  },
+  {
+   "id": "zgz-245",
+   "titulo": "Ordenanza de Ecoeficiencia Energética y utilización de Energías Renovables en los edificios y sus instalaciones",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 193, de 24/08/2009",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Anexos: I, II, III y IV",
+     "link": "/cont/paginas/normativa/anexos/anexos_eco.pdf"
+    }
+   ],
+   "texto_len": 51159
+  },
+  {
+   "id": "zgz-4084",
+   "titulo": "Ordenanza de Protección del Arbolado Urbano",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 141, de 22/06/2013",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "anexos": [
+    {
+     "title": "Anejo I: Listado de especies de arbolado",
+     "link": "/cont/paginas/normativa/anexos/anejo-1-arbolado.pdf"
+    },
+    {
+     "title": "Anejo II: Ficha de Inventario",
+     "link": "/cont/paginas/normativa/anexos/anejo-2-arbolado.pdf"
+    },
+    {
+     "title": "Anejo III: Relación de árboles clasificados provisionalmente en la Sección IV del Catálogo",
+     "link": "/cont/paginas/normativa/anexos/anejo-3-arbolado.pdf"
+    },
+    {
+     "title": "Anejo IV: Procedimientos referentes al Catálogo de Arboles Protegidos",
+     "link": "/cont/paginas/normativa/anexos/anejo-4-arbolado.pdf"
+    }
+   ],
+   "texto_len": 72117
+  },
+  {
+   "id": "zgz-4523",
+   "titulo": "Ordenanza municipal sobre la Protección, la Tenencia responsable y la Venta de Animales",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 290, de 19/12/2013",
+   "mod": "05/12/2024",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "anexos": [],
+   "texto_len": 72120
+  },
+  {
+   "id": "zgz-7903",
+   "titulo": "Ordenanza para el uso y gestión de la Marca \"Huerta de Zaragoza\"",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 168, de 24/07/2017",
+   "mod": "",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Anexos del I al XI: Definición, logotipos, solicitudes, parcelas, calendarios, fichas de venta...",
+     "link": "/cont/paginas/normativa/anexos/marca-huerta-zaragoza-anexos.pdf"
+    }
+   ],
+   "texto_len": 31735
+  },
+  {
+   "id": "zgz-247",
+   "titulo": "Ordenanza para la protección contra Ruidos y Vibraciones en el término municipal de Zaragoza",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 280, de 05/12/2001",
+   "mod": "23/05/2022",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido"
+   ],
+   "anexos": [
+    {
+     "title": "Normativa de ruidos",
+     "link": "/cont/paginas/normativa/anexos/anexos_ruidos.pdf"
+    }
+   ],
+   "texto_len": 68262
+  },
+  {
+   "id": "zgz-107",
+   "titulo": "Ordenanzas de zonas verdes y normas para la redacción de Proyectos de Parques y Jardines en el término Municipal de Zaragoza",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 16/08/1979",
+   "mod": "24/05/2022",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "anexos": [],
+   "texto_len": 40423
+  },
+  {
+   "id": "zgz-98",
+   "titulo": "Reglamento de la Guardería de Montes de Zaragoza",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 281, de 09/12/1995",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 24195
+  },
+  {
+   "id": "zgz-3883",
+   "titulo": "Reglamento regulador de la Muestra Local Agroecológica de Zaragoza",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "«BOPZ» núm. 68, de 25/03/2013",
+   "mod": "22/02/2021",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Anexo I: Plano de Ubicación",
+     "link": "/cont/paginas/normativa/anexos/anexoi_agro_eco.pdf"
+    },
+    {
+     "title": "Anexo II: Modelo de Solicitud",
+     "link": "/cont/paginas/normativa/anexos/anexoii_agro_eco.pdf"
+    }
+   ],
+   "texto_len": 50562
+  },
+  {
+   "id": "zgz-483",
+   "titulo": "Reglamento Orgánico Municipal",
+   "cat": "Organización Municipal",
+   "ref": "",
+   "pub": "«BOPZ» núm. 30, de 08/02/2005",
+   "mod": "15/05/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 246455
+  },
+  {
+   "id": "zgz-1222",
+   "titulo": "Reglamento del Registro General del Ayuntamiento de Zaragoza",
+   "cat": "Organización Municipal",
+   "ref": "",
+   "pub": "«BOPZ» núm. 7, de 11/01/2011",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Texto del Regalmento",
+     "link": "/cont/paginas/normativa/anexos/registro_general_10.pdf"
+    }
+   ],
+   "texto_len": 22915
+  },
+  {
+   "id": "zgz-942",
+   "titulo": "Ordenanza de los Centros Municipales de Convivencia para Personas Mayores",
+   "cat": "Participación Ciudadana",
+   "ref": "",
+   "pub": "«BOPZ» núm. 143, de 25/06/2010",
+   "mod": "24/05/2022",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas"
+   ],
+   "anexos": [],
+   "texto_len": 33883
+  },
+  {
+   "id": "zgz-4443",
+   "titulo": "Reglamento de Centros Cívicos",
+   "cat": "Participación Ciudadana",
+   "ref": "",
+   "pub": "«BOPZ» núm. 288, de 17/12/2013",
+   "mod": "22/02/2021",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 68424
+  },
+  {
+   "id": "zgz-12988",
+   "titulo": "Reglamento de funcionamiento del Centro Municipal de Protección Animal del Ayuntamiento de Zaragoza y del Voluntariado con Animales.",
+   "cat": "Participación Ciudadana",
+   "ref": "",
+   "pub": "«BOPZ» núm. 210, de 13/09/2021",
+   "mod": "09/11/2022",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "anexos": [],
+   "texto_len": 154658
+  },
+  {
+   "id": "zgz-109",
+   "titulo": "Reglamento de Órganos Territoriales y Participación Ciudadana",
+   "cat": "Participación Ciudadana",
+   "ref": "",
+   "pub": "«BOPZ» núm. 288, de 17/12/2005",
+   "mod": "05/04/2021",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "anexos": [],
+   "texto_len": 161419
+  },
+  {
+   "id": "zgz-13026",
+   "titulo": "Reglamento del Consejo Escolar Municipal de Zaragoza",
+   "cat": "Participación Ciudadana",
+   "ref": "",
+   "pub": "«BOPZ» núm. 95, de 29/04/2022",
+   "mod": "05/04/2024",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 31735
+  },
+  {
+   "id": "zgz-116",
+   "titulo": "Reglamento de Segunda Actividad del Cuerpo de la Policía Local",
+   "cat": "Policía Local",
+   "ref": "",
+   "pub": "«BOPZ» núm. 115, de 23/05/1997",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 14915
+  },
+  {
+   "id": "zgz-252",
+   "titulo": "Reglamento de la Agrupación de Voluntarios de Protección Civil",
+   "cat": "Policía Local",
+   "ref": "",
+   "pub": "«BOPZ» núm. 251, de 02/11/2005",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 31471
+  },
+  {
+   "id": "zgz-9663",
+   "titulo": "Reglamento de la Unidad Canina de Bomberos y Especialidad de Guía Canino del Ayuntamiento de Zaragoza.",
+   "cat": "Policía Local",
+   "ref": "",
+   "pub": "«BOPZ» núm. 226, de 01/10/2018",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 42546
+  },
+  {
+   "id": "zgz-115",
+   "titulo": "Reglamento del Cuerpo de la Policía Local de Zaragoza",
+   "cat": "Policía Local",
+   "ref": "",
+   "pub": "«BOPZ» núm. 67, de 22/03/1995",
+   "mod": "08/03/2021",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 94455
+  },
+  {
+   "id": "zgz-3544",
+   "titulo": "Ordenanza Fiscal nº 24.1: Tasa por prestación de servicios de vigilancia especial de establecimientos, espectáculos y esparcimientos públicos, acompañamiento de vehículos especiales,  señalización vial y otros servicios prestados por la Policía Local",
+   "cat": "Precios y Tributos",
+   "ref": "",
+   "pub": "«BOPZ» núm. 298, de 29/12/2015",
+   "mod": "05/04/2021",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-24-01-2016.pdf"
+    }
+   ],
+   "texto_len": 6973
+  },
+  {
+   "id": "zgz-3465",
+   "titulo": "Ordenanza Fiscal nº 9: Impuesto sobre el incremento del valor de los terrenos de naturaleza urbana",
+   "cat": "Precios y Tributos",
+   "ref": "",
+   "pub": "«BOPZ» núm. 29, de 06/02/2026",
+   "mod": "09/02/2026",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "anexos": [
+    {
+     "title": "Anexo 1: Coeficientes Plusvalía 2026 tras la entrada en vigor del Real Decreto-ley 16/2025",
+     "link": "/cont/paginas/normativa/anexos/anexo_coeficientes_plusvalia_2026.pdf"
+    },
+    {
+     "title": "Anexo 2: Coeficientes Plusvalía 2026 aplicables desde 28/01/2026",
+     "link": "/cont/paginas/normativa/anexos/anexoii_coefi_pluasvalia_280126.pdf"
+    }
+   ],
+   "texto_len": 61033
+  },
+  {
+   "id": "zgz-7983",
+   "titulo": "Ordenanza de Ayudas para el Pago de los Tributos del municipio de Zaragoza en especiales situaciones de necesidad.",
+   "cat": "Precios y Tributos",
+   "ref": "",
+   "pub": "«BOPZ» núm. 226, de 30/09/2016",
+   "mod": "20/09/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 7879
+  },
+  {
+   "id": "zgz-1602",
+   "titulo": "Ordenanza Municipal de Protección contra Incendios de Zaragoza",
+   "cat": "Prevención y Seguridad",
+   "ref": "",
+   "pub": "«BOPZ» núm. 4, de 07/01/2011",
+   "mod": "05/04/2021",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Ordenanza (en formato PDF)",
+     "link": "/cont/paginas/normativa/anexos/incendios-10.pdf"
+    },
+    {
+     "title": "Instrucción 1/2013, de 11 de enero, de la Consejera del Área de Servicios Públicos y Movilidad, por la que se establecen citerios de interpretación respecto a la aplicación de determinados preceptos de la Ordenanza Municipal de Protección contra Incendios de Zaragoza.",
+     "link": "/cont/paginas/normativa/anexos/bomberos-instruccion-tecnica.pdf"
+    }
+   ],
+   "texto_len": 46634
+  },
+  {
+   "id": "zgz-119",
+   "titulo": "Reglamento de la Especialidad de Rescate Vertical",
+   "cat": "Prevención y Seguridad",
+   "ref": "",
+   "pub": "«BOPZ» núm. 139, de 21/06/2005",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 31097
+  },
+  {
+   "id": "zgz-1763",
+   "titulo": "Reglamento de la Especialidad de Salvamento Acuático",
+   "cat": "Prevención y Seguridad",
+   "ref": "",
+   "pub": "«BOPZ» núm. 46, de 26/02/2011",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 34694
+  },
+  {
+   "id": "zgz-3545",
+   "titulo": "Ordenanza Fiscal nº 24.10: Tasa por prestación de servicios del Instituto Municipal de Salud Pública",
+   "cat": "Salud Pública",
+   "ref": "",
+   "pub": "«BOPZ» núm. 292, de 21/12/2012",
+   "mod": "05/11/2024",
+   "alias": [
+    "salubridad",
+    "salud publica",
+    "plagas",
+    "control sanitario",
+    "tasa",
+    "tasas"
+   ],
+   "anexos": [
+    {
+     "title": "Texto de la Norma",
+     "link": "/cont/paginas/normativa/anexos/of-24-10-2014.pdf"
+    }
+   ],
+   "texto_len": 11933
+  },
+  {
+   "id": "zgz-121",
+   "titulo": "Ordenanza Municipal de Higiene Alimentaria",
+   "cat": "Salud Pública",
+   "ref": "",
+   "pub": "«BOPZ» núm. 227, de 03/10/1988",
+   "mod": "03/11/2022",
+   "alias": [
+    "salubridad",
+    "salud publica",
+    "plagas",
+    "control sanitario"
+   ],
+   "anexos": [],
+   "texto_len": 148816
+  },
+  {
+   "id": "zgz-13139",
+   "titulo": "Ordenanza Municipal de limpieza viaria y gestión de residuos domésticos del municipio de Zaragoza",
+   "cat": "Salud Pública",
+   "ref": "",
+   "pub": "«BOPZ» núm. 123, de 02/06/2023",
+   "mod": "23/06/2023",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "anexos": [],
+   "texto_len": 174715
+  },
+  {
+   "id": "zgz-12063",
+   "titulo": "Ordenanza reguladora del consumo indebido de bebidas alcohólicas, fomento de la convivencia y prevención de actuaciones antisociales",
+   "cat": "Salud Pública",
+   "ref": "",
+   "pub": "«BOPZ» núm. 229, de 03/10/2020",
+   "mod": "23/02/2021",
+   "alias": [
+    "botellon",
+    "consumo de alcohol en la via publica",
+    "beber en la calle",
+    "convivencia",
+    "civismo",
+    "vandalismo",
+    "conductas incivicas"
+   ],
+   "anexos": [],
+   "texto_len": 33916
+  },
+  {
+   "id": "zgz-5144",
+   "titulo": "Ordenanza Municipal Reguladora de las Prestaciones Económicas de Urgente Necesidad",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 288, de 17/12/2014",
+   "mod": "20/01/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 36297
+  },
+  {
+   "id": "zgz-149",
+   "titulo": "Ordenanza Municipal de la Casa de las Culturas y la Solidaridad.",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 74, de 31/03/2007",
+   "mod": "02/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 31847
+  },
+  {
+   "id": "zgz-127",
+   "titulo": "Ordenanza Municipal para la Eliminación de Barreras de la Comunicación y del Transporte en el Municipio de Zaragoza",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 64, de 19/03/2002",
+   "mod": "03/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 23311
+  },
+  {
+   "id": "zgz-13087",
+   "titulo": "Ordenanza de Accesibilidad del Municipio de Zaragoza",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 88, de 20/04/2023",
+   "mod": "20/05/2024",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 142554
+  },
+  {
+   "id": "zgz-142",
+   "titulo": "Ordenanza de Supresión de Barreras Arquitectónicas y Urbanísticas del Municipio de Zaragoza",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOA» núm. 9, de 22/01/2001",
+   "mod": "09/11/2022",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "anexos": [
+    {
+     "title": "Gráficos",
+     "link": "/cont/paginas/normativa/anexos/anexo_barreras_arqui.pdf"
+    }
+   ],
+   "texto_len": 24047
+  },
+  {
+   "id": "zgz-822",
+   "titulo": "Ordenanza de la ciudad de Zaragoza sobre Prestaciones Sociales Domiciliarias.",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 290, de 19/12/2009",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 54539
+  },
+  {
+   "id": "zgz-13069",
+   "titulo": "Ordenanza reguladora del Servicio de información, valoración, diagnóstico y orientación social del Ayuntamiento de Zaragoza",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 83, de 14/04/2023",
+   "mod": "25/04/2023",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 40283
+  },
+  {
+   "id": "zgz-9043",
+   "titulo": "Reglamento Consejo Sectorial de Igualdad",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 285, de 14/12/2017",
+   "mod": "08/03/2021",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 30546
+  },
+  {
+   "id": "zgz-204",
+   "titulo": "Reglamento Municipal de Viviendas Tuteladas",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 290, de 19/12/2001",
+   "mod": "09/11/2022",
+   "alias": [
+    "vivienda"
+   ],
+   "anexos": [],
+   "texto_len": 12366
+  },
+  {
+   "id": "zgz-140",
+   "titulo": "Reglamento de la Casa de Acogida de Mujeres Maltratadas",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 211, de 12/09/1996",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 15293
+  },
+  {
+   "id": "zgz-124",
+   "titulo": "Reglamento de la Residencia Casa Amparo",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 29/11/2002",
+   "mod": "27/09/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 22314
+  },
+  {
+   "id": "zgz-13011",
+   "titulo": "Reglamento de los Centros Municipales de Servicios Sociales del Ayuntamiento de Zaragoza",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 50, de 03/03/2022",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 79130
+  },
+  {
+   "id": "zgz-145",
+   "titulo": "Reglamento del Albergue Municipal de Transeuntes",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 141, de 22/06/1994",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 8403
+  },
+  {
+   "id": "zgz-4983",
+   "titulo": "Reglamento del Catálogo de Viajes de los Centros de Convivencia para Mayores",
+   "cat": "Servicios Sociales",
+   "ref": "",
+   "pub": "«BOPZ» núm. 53, de 07/03/2014",
+   "mod": "08/03/2021",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas"
+   ],
+   "anexos": [],
+   "texto_len": 29594
+  },
+  {
+   "id": "zgz-13296",
+   "titulo": "Ordenanza de Movilidad Urbana de Zaragoza",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 192, de 21/08/2024",
+   "mod": "27/11/2024",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici"
+   ],
+   "anexos": [
+    {
+     "title": "INTRUCCIONES TÉCNICAS (descarga fichero .zip)",
+     "link": "/cont/paginas/normativa/anexos/itc_ordenanza.zip"
+    },
+    {
+     "title": "PLANOS (descarga fichero .zip)",
+     "link": "/cont/paginas/normativa/anexos/planos_ordenanza.zip"
+    }
+   ],
+   "texto_len": 216202
+  },
+  {
+   "id": "zgz-13291",
+   "titulo": "REGLAMENTO Municipal del Servicio de Estacionamiento Regulado en la Ciudad de Zaragoza",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 270, de 22/11/2024",
+   "mod": "16/01/2025",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro"
+   ],
+   "anexos": [
+    {
+     "title": "Texto del Reglamento en formato .pdf",
+     "link": "/cont/paginas/normativa/anexos/estacionamiento_regulado_24.pdf"
+    }
+   ],
+   "texto_len": 72015
+  },
+  {
+   "id": "zgz-154",
+   "titulo": "Reglamento Municipal del Servicio Urbano de Taxi de Zaragoza.",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 288, de 16/12/2020",
+   "mod": "30/10/2025",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro"
+   ],
+   "anexos": [
+    {
+     "title": " Publicación en el BOPZ (16.12.2020) (PDF)",
+     "link": "/cont/paginas/normativa/anexos/reglamento-taxi-16122020.pdf"
+    }
+   ],
+   "texto_len": 91600
+  },
+  {
+   "id": "zgz-5003",
+   "titulo": "Reglamento Municipal del Servicio de Estacionamiento Regulado en Superficie de la Ciudad de Zaragoza (POR DEROGAR)",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 137, de 18/06/2014",
+   "mod": "27/11/2024",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro"
+   ],
+   "anexos": [
+    {
+     "title": "Anexo 2: Planos",
+     "link": "/cont/paginas/normativa/anexos/anexo2-regulacion.pdf"
+    }
+   ],
+   "texto_len": 67515
+  },
+  {
+   "id": "zgz-1903",
+   "titulo": "Reglamento del Servicio Público de Transporte Urbano de Viajeros en Tranvía en la ciudad de Zaragoza.",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 5, de 09/01/2012",
+   "mod": "22/02/2021",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 50742
+  },
+  {
+   "id": "zgz-4163",
+   "titulo": "Reglamento del Servicio Público de Transporte Urbano de Viajeros por Autobús en la ciudad de Zaragoza",
+   "cat": "Tráfico y Transportes",
+   "ref": "",
+   "pub": "«BOPZ» núm. 160, de 15/07/2013",
+   "mod": "07/11/2022",
+   "alias": [],
+   "anexos": [
+    {
+     "title": "Resolución de las alegaciones",
+     "link": "/cont/paginas/normativa/anexos/resolucion_alegaciones.pdf"
+    }
+   ],
+   "texto_len": 45761
+  },
+  {
+   "id": "zgz-152",
+   "titulo": "Reglamento de la Oficina de Congresos de Zaragoza (Zaragoza Convention Bureau)",
+   "cat": "Turismo y Congresos",
+   "ref": "",
+   "pub": "«BOPZ» núm. 234, de 10/10/2012",
+   "mod": "09/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 16390
+  },
+  {
+   "id": "zgz-1622",
+   "titulo": "Ordenanza Municipal de Medios de Intervención en la Actividad Urbanística (MIAU)",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "«BOPZ» núm. 116, de 25/05/2011",
+   "mod": "24/05/2022",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "anexos": [
+    {
+     "title": "ANEXO I: Documentación requerida por tipo de solicitud: Licencias Urbanísticas, Comunicaciones previas, Declaraciones Responsables.         ",
+     "link": "/cont/paginas/normativa/anexos/miau-2019-anexo-i.pdf"
+    },
+    {
+     "title": "ANEXO II: Asignación de Procedimientos.",
+     "link": "/cont/paginas/normativa/anexos/miau-2019-anexo-ii.pdf"
+    },
+    {
+     "title": "ANEXO III: Documentación y contenidos de la Inspección Técnica de la Actividad.",
+     "link": "/cont/paginas/normativa/anexos/miau-2019-anexo-iii.pdf"
+    },
+    {
+     "title": "ANEXO IV: Declaración Responsable de la Dirección Facultativa.",
+     "link": "/cont/paginas/normativa/anexos/miau-2019-anexo-iv.pdf"
+    }
+   ],
+   "texto_len": 169134
+  },
+  {
+   "id": "zgz-203",
+   "titulo": "Ordenanza Municipal reguladora del deber de Conservación de Edificación e Inspección Técnica de Edificios (ITE)",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de 31/10/2002",
+   "mod": "23/02/2021",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "anexos": [],
+   "texto_len": 88362
+  },
+  {
+   "id": "zgz-1442",
+   "titulo": "Ordenanza de Fomento a la Rehabilitación (Texto Refundido)",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "«BOPZ» núm. 199, de 31/08/2010",
+   "mod": "24/05/2022",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "anexos": [],
+   "texto_len": 93293
+  },
+  {
+   "id": "zgz-233",
+   "titulo": "Ordenanza para Identificación y Rotulación de Vías y Fincas Urbanas",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "«BOPZ» núm. , de ",
+   "mod": "02/11/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 18046
+  },
+  {
+   "id": "zgz-234",
+   "titulo": "Ordenanzas de Zaragoza para la Construcción, Instalación y Uso de Estacionamientos y Garajes",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "«BOPZ» núm. 200, de 03/09/1983",
+   "mod": "24/05/2022",
+   "alias": [],
+   "anexos": [],
+   "texto_len": 31596
+  }
+ ]
+}

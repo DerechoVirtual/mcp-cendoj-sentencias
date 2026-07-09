@@ -1,0 +1,2070 @@
+{
+ "meta": {
+  "municipio": "valencia",
+  "fuente": "sede electronica del Ayuntamiento de Valencia (texto consolidado vigente)",
+  "url": "https://sede.valencia.es/sede/ordenanzas/"
+ },
+ "normas": [
+  {
+   "id": "val-61",
+   "titulo": "Ordenanza Fiscal General",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 249, de fecha 29/12/2023",
+   "mod": "",
+   "alias": [
+    "ordenanza fiscal general",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476303",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-164",
+   "titulo": "Ordenanza Fiscal reguladora de las Tasas por expedición de documentos administrativos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009452142",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-48",
+   "titulo": "Ordenanza fiscal reguladora de las Tasas por la ocupación de terrenos de uso público por mesas y sillas con finalidad lucrativa",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 189, de fecha 29/09/2021",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "tasa de terrazas",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269758",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-41",
+   "titulo": "Ordenanza fiscal reguladora de las Tasas por las enseñanzas impartidas en el Conservatorio Municipal de Música José Iturbi",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 120, de fecha 25/06/2020",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476498",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-49",
+   "titulo": "Ordenanza reguladora de la Tasa por Ocupación de Terrenos de Uso Público para Aparcamientos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0049_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-92",
+   "titulo": "Ordenanza reguladora de la Tasa por Prestación de servicios en Centro Residencial Municipal para Personas con Discapacidad Intelectual",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 250, de fecha 31/12/2019",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0092_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-167",
+   "titulo": "Ordenanza reguladora de la Tasa por aprovechamiento del Dominio Público Local mediante Cajeros Automáticos de Entidades Financieras instalados en la f",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0167_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-129",
+   "titulo": "Ordenanza reguladora de la Tasa por prestación de servicios administrativos en Pruebas y Expedientes de Selección de Personal",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476518",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-31460",
+   "titulo": "Ordenanza reguladora de las Contribuciones Especiales por el Servicio de Extinción de Incendios",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP nº 6, de fecha 12-01-2026",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009544044",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-40",
+   "titulo": "Ordenanza reguladora de las Tasas por Prestación de los Servicios Funerarios Municipales de Cementerios",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 247, de fecha 27/12/2016",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008270263",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-56",
+   "titulo": "Ordenanza reguladora de las Tasas por uso privativo o aprovechamiento especial de Instalaciones, Edificios municipales y Espacios públicos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 203, de fecha 21/10/2022",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008694433",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-16",
+   "titulo": "Ordenanza reguladora del Impuesto sobre Actividades Económicas",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 252, de fecha 31/12/2021",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476383",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-17",
+   "titulo": "Ordenanza reguladora del Impuesto sobre Bienes Inmuebles",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 249, de fecha 29/12/2023",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476596",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-18",
+   "titulo": "Ordenanza reguladora del Impuesto sobre Construcciones, Instalaciones y Obras",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 88, de fecha 10/05/2022",
+   "mod": "",
+   "alias": [
+    "icio",
+    "impuesto de obras"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476666",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-20",
+   "titulo": "Ordenanza reguladora del Impuesto sobre Vehículos de Tracción Mecánica",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 251, de fecha 31-12-2024",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250007834765",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-21",
+   "titulo": "Ordenanza reguladora del Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 251 de fecha 31-12-2024",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250007835054",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-25",
+   "titulo": "Tasa por Prestación del Servicio de Celebración de Bodas Civiles",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0025_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-47",
+   "titulo": "Tasa por Prestación del Servicio de Mercados",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 220, de fecha 16/11/2022",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0047_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-136",
+   "titulo": "Tasa por Utilización Privativa o Aprovechamiento Especial del Dominio Público Local por empresas que prestan servicios de Telefonía Móvil",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 217, de fecha 12/11/2018",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0136_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-43",
+   "titulo": "Tasa por estacionamiento de vehículos en la vía pública",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 252, de fecha 31/12/2021",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0043_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34804",
+   "titulo": "Tasa por la prestación del servicio de recogida y transporte de residuos sólidos urbanos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP nº 72, de fecha 17-04-2026",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009983179",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-52",
+   "titulo": "Tasa por la prestación del servicio de retirada de vehículos de la vía pública y subsiguiente custodia de los mismos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476434",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-40260",
+   "titulo": "Tasa por la utilización del dominio público local con Vehículos de Movilidad Personal y otros vehículos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 250, de fecha 31/12/2019",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001281524",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-38",
+   "titulo": "Tasa por los Servicios de Alcantarillado, Colectores y Estaciones de Bombeo",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP núm.247 de 27-12-2023",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0038_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-194",
+   "titulo": "Tasa utilización privativa o aprovechamiento especial del dominio público local por instalaciones de transporte de energía eléctrica, gas, a",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 242, de fecha 20/12/2017",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0194_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-46",
+   "titulo": "Tasas aplicables en mercados extraordinarios, mercadillos, rastros y cualquier otro tipo de venta no sedentaria en la ciudad de Valencia",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 189, de fecha 29/09/2021",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck",
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269896",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-60",
+   "titulo": "Tasas por Apertura de Calicatas o Zanjas en Terreno de Uso Público y cualquier Remoción del Pavimento o Aceras en la Vía Pública",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269965",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-50",
+   "titulo": "Tasas por Instalación de Quioscos en la Vía Pública",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 189, de fecha 29/09/2021",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269848",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-37",
+   "titulo": "Tasas por Prestación de los Servicios relativos a las Actuaciones Urbanísticas",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 250, de fecha 31/12/2019",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008270162",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-51",
+   "titulo": "Tasas por Reproducción de Documentos y Libros de Bibliotecas, Archivos Históricos y Hemerotecas",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0051_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-57",
+   "titulo": "Tasas por Utilización Privativa o Aprovechamiento Especial de Bienes de Dominio Público Municipal con Mercancías, Materiales de Construcción",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0051_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-58",
+   "titulo": "Tasas por Utilización privativa o Aprovechamientos especiales constituidos en el Suelo, Vuelo y Subsuelo de Terrenos de Uso Público municipal",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0058_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-42",
+   "titulo": "Tasas por el depósito de muebles y otros objetos en los almacenes municipales",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0042_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-59",
+   "titulo": "Tasas por entradas de vehículos a través de las aceras y reservas de vía pública para aparcamiento exclusivo, carga y descarga de mercanc",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269654",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-45",
+   "titulo": "Tasas por instalación de Anuncios ocupando Terrenos de Uso Público municipal",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0045_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-44",
+   "titulo": "Tasas por la prestación de los servicios de extinción de incendios, prevención de ruinas, socorro, salvamento y otros análogos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0044_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-54",
+   "titulo": "Tasas por la prestación del servicio de estadística municipal",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0054_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-55",
+   "titulo": "Tasas por los servicios motivados por espectáculos pirotécnicos",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0055_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-53",
+   "titulo": "Tasas por prestación de servicios de sanidad",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0053_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-91",
+   "titulo": "Tasas por realización de actuaciones singulares de regulación del tráfico",
+   "cat": "Fiscal / tributos",
+   "ref": "",
+   "pub": "BOP número 245, de fecha 23/12/2015",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0091_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-33443",
+   "titulo": "Estatuto Defensor/a de las personas mayores de la ciudad de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP nº 70, de fecha 12/04/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006475198",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30924",
+   "titulo": "Estatutos de la entidad pública empresarial Palacio de Congresos de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP nº 240, de fecha 16/12/2025",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009556851",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30724",
+   "titulo": "Estatutos del O.A.M Palau de la Música",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009112305",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30700",
+   "titulo": "Estatutos del Organismo Autónomo Municipal Fundación Deportiva Municipal",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 73, de fecha 20/04/2026",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009996730",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36429",
+   "titulo": "Estatutos del Organismo Autónomo Municipal Valencia Sostenible",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009478855",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30710",
+   "titulo": "Estatutos del Organismo Autónomo Municipal de Parques, Jardines i Biodiversidad Urbana",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 125, de fecha 01/07/2022",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006893553",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34846",
+   "titulo": "Normas de Utilización de las Instalaciones del Teatro El Musical de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 47, de fecha 07/03/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007628267",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34848",
+   "titulo": "Normativa de uso de las Bibliotecas Municipales de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 49, de fecha 11/03/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007628323",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-8",
+   "titulo": "Ordenanza Municipal Reguladora de la venta no sedentaria",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 51, de fecha 13/03/2019",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0008_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-7",
+   "titulo": "Ordenanza Municipal Reguladora de los Servicios de Consumo del Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0007_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-87",
+   "titulo": "Ordenanza Municipal de Captación Solar",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 149, de fecha 4/08/2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004328441",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-12",
+   "titulo": "Ordenanza Municipal de Parques y Jardines",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 136, de fecha 10/06/2003",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0012_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-13",
+   "titulo": "Ordenanza Municipal de Protección contra Incendios",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 267, de fecha 09/11/2007",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0013_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-128",
+   "titulo": "Ordenanza Municipal de Protección contra la Contaminación Acústica",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 93, de fecha 16/05/2023",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008881965",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-148",
+   "titulo": "Ordenanza Municipal de Utilización de las Playas y Zonas Adyacentes",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 121, de fecha 24/06/2016",
+   "mod": "",
+   "alias": [
+    "playa",
+    "playas",
+    "costa"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0148_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-84",
+   "titulo": "Ordenanza Municipal de Zanjas y Catas en el Dominio Público Municipal",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0084_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-70",
+   "titulo": "Ordenanza Municipal de limpieza urbana y recogida de residuos",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 96, de fecha 22/05/2026",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010184614",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-81",
+   "titulo": "Ordenanza Municipal sobre Publicidad",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 224, de fecha 21/09/2005",
+   "mod": "",
+   "alias": [
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0081_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-73",
+   "titulo": "Ordenanza Municipal sobre Tenencia de Animales",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 50, de fecha 28/02/1990",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0073_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-165",
+   "titulo": "Ordenanza Municipal sobre el ejercicio de la prostitución en la vía pública",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 190, de fecha 12/08/2013",
+   "mod": "",
+   "alias": [
+    "prostitucion"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0165_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-11",
+   "titulo": "Ordenanza Reguladora de la Instalación, Modificación y Funcionamiento de los Elementos y Equipos de Telecomunicación que utilicen el Espacio Radi",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 171, de fecha 21/07/2005",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0011_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-170",
+   "titulo": "Ordenanza Reguladora de la Ocupación de Dominio Público Municipal",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 205, de fecha 26/10/2015",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "quioscos",
+    "churrerias"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0170_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-198",
+   "titulo": "Ordenanza Reguladora del Banco de Tierras Agrícolas de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 66, de fecha 06/04/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0198_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-14",
+   "titulo": "Ordenanza Reguladora del Registro de Embarcaciones de l'Albufera",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 74, de fecha 30/03/2005",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0014_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-31664",
+   "titulo": "Ordenanza Reguladora del Sandbox Urbano de la Ciudad de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 181, de fecha 18/09/2024",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007465799",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-47903",
+   "titulo": "Ordenanza Reguladora del Servicio \"Menjar a Domicili\" del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 20, de fecha 01/02/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007086109",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-156",
+   "titulo": "Ordenanza Reguladora del uso de la Administración Electrónica en el Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 43, de fecha 29/02/2024",
+   "mod": "",
+   "alias": [
+    "administracion electronica",
+    "sede electronica",
+    "registro electronico"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006944202",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-68",
+   "titulo": "Ordenanza de Abastecimiento de Aguas",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 134, de fecha 15/07/2015",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0068_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-107",
+   "titulo": "Ordenanza de Accesibilidad en el Medio Urbano del Municipio de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 279, de fecha 23/11/2006",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0107_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-76",
+   "titulo": "Ordenanza de Aparcamientos",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 58, de fecha 25/03/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0076_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-111",
+   "titulo": "Ordenanza de Cementerios y Servicios Funerarios Municipales",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 15, de fecha 18/01/2007",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0111_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34969",
+   "titulo": "Ordenanza de Convivencia y Civismo en el espacio público",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "grafitis",
+    "mendicidad"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009714826",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-95",
+   "titulo": "Ordenanza de Movilidad",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009530984",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-184",
+   "titulo": "Ordenanza de francos, marjales y extremales",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0184_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-47847",
+   "titulo": "Ordenanza de las Prestaciones Económicas Individualizadas en materia de Servicios Sociales del Ajuntament de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 20, de fecha 01/02/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002258087",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-186",
+   "titulo": "Ordenanza general de Subvenciones del Ayuntamiento de València y sus Organismos Públicos",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 211, de fecha 02/11/2016",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0186_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-6",
+   "titulo": "Ordenanza municipal reguladora de los Mercados de Distrito",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 94, de fecha 17/05/2018",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0006_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-43167",
+   "titulo": "Ordenanza para el control de mosquitos con relevancia para la salud pública en el municipio de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 63, de fecha 01/04/2020",
+   "mod": "",
+   "alias": [
+    "salubridad",
+    "salud publica",
+    "plagas",
+    "control sanitario"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001543681",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-127",
+   "titulo": "Ordenanza para la protección lumínica del Parc Natural de l'Albufera incluido en el término municipal de València.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 154, de fecha 12/08/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0127_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-158",
+   "titulo": "Ordenanza reguladora de Obras de Edificación y Actividades del Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 168, de fecha 16/07/2012",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0158_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-35902",
+   "titulo": "Ordenanza reguladora de Obras en el Dominio Público Municipal para la instalación de Servicios Públicos",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 93, de fecha 19/05/2026",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010254269",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-33601",
+   "titulo": "Ordenanza reguladora de la Zona de Bajas Emisiones",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "zbe",
+    "zona de bajas emisiones",
+    "distintivo ambiental",
+    "restriccion de trafico",
+    "etiqueta ambiental",
+    "calidad del aire",
+    "emisiones",
+    "contaminacion atmosferica",
+    "calderas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006662201",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36277",
+   "titulo": "Ordenanza reguladora de la prestación patrimonial de carácter público no tributario por el servicio municipal de abastecimiento de agua potable y",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 182, de fecha 21/09/2022",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009921446",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36510",
+   "titulo": "Ordenanza reguladora de licencias urbanísticas y de actividades y otros títulos habilitantes del Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP núm.17, de 27/01/2026",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009587284",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-37250",
+   "titulo": "Ordenanza reguladora de los servicios para la promoción de la autonomía personal",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009663600",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-149",
+   "titulo": "Ordenanza reguladora del Funcionamiento de los Centros Municipales de Atención a Personas con Discapacidad Intelectual",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0149_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-44241",
+   "titulo": "Ordenanza reguladora del Servicio de Teleasistencia Domiciliaria del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 108, de fecha 08/06/2020",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001674290",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-37449",
+   "titulo": "Ordenanza reguladora del otorgamiento y uso de la tarjeta de estacionamiento para vehículos que transportan personas con diversidad funcional que presentan",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 74, de fecha 16/04/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20190001078166",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-195",
+   "titulo": "Ordenanza reguladora del procedimiento de concesión de autorizaciones para la gestión de los huertos urbanos del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 67, de fecha 09/04/2018",
+   "mod": "",
+   "alias": [
+    "huertos urbanos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0195_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-71",
+   "titulo": "Ordenanza y Normativa Municipal de Saneamiento",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 27, de fecha 10/02/2016",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0071_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-31",
+   "titulo": "Precio Público por Servicios Comunitarios para la Juventud",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 227, de fecha 25/11/2015",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0031_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-39",
+   "titulo": "Precio Público por el Servicio Municipal de Ayuda a Domicilio",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 14, de fecha 19/01/2018",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0039_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-50763",
+   "titulo": "Precio Público por el Servicio de Recarga Rápida de Vehículos Eléctricos en la vía pública.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 236, de fecha 09/12/2020",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210003122916",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-46612",
+   "titulo": "Precio Público por el Servicio de Recarga Semirrápida de Vehículos Eléctricos en la vía pública.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 189, de fecha 29/09/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200002076755",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-39206",
+   "titulo": "Precio público por el servicio \"Menjar a domicili\"",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 114, de fecha 16/06/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20190001223202",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36",
+   "titulo": "Precios Públicos de aplicación en las Instalaciones Deportivas Municipales y por la Prestación de Servicios del OAM Fundación Deportiva Muni",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 99, de fecha 24/05/2023",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0036_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30",
+   "titulo": "Precios Públicos de la Fundación Municipal de la Escuela Municipal de Jardinería y Paisaje",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 297, de fecha 14/12/2004",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0030_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-32",
+   "titulo": "Precios Públicos de la Universidad Popular",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 125, de fecha 29/06/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0032_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-23",
+   "titulo": "Precios Públicos por Entrada para visitar Museos y Monumentos Municipales",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 85, de fecha 05/05/2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220003938419",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-26",
+   "titulo": "Precios Públicos por Servicios de los centros ocupacionales Municipales de personas con discapacidad",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 248, de fecha 18/10/2013",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009178370",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-29",
+   "titulo": "Precios Públicos por la Asistencia a Cursos de Prevención, Técnicas de Extinción de Incendios y Evacuación de Personas",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 246, de fecha 16/10/2013",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004455700",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-181",
+   "titulo": "Precios Públicos por la Entrada al Teatro El Musical",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 94, de fecha 18/05/2017",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0181_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-35",
+   "titulo": "Precios Públicos por la Utilización del Palau de la Música y Congresos",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0035_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-35155",
+   "titulo": "Precios Públicos por la prestación del Servicio de Educación en Escuelas Infantiles",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 242, de fecha 17/12/2024",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007813776",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-200",
+   "titulo": "Precios públicos por entrada al Auditorio La Mutant",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 134, de fecha 12/07/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0200_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36665",
+   "titulo": "Precios públicos por los servicios y actividades prestados por el OAM Junta Central Fallera",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009368865",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-157",
+   "titulo": "Reglamento Fallero",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0157_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-153",
+   "titulo": "Reglamento Municipal para el uso del lenguaje no sexista",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 12, de fecha 14/01/2012",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0153_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-191",
+   "titulo": "Reglamento Municipal sobre el Registro de Encuestas y Estudios de Opinión",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 99, de fecha 25/05/2017",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0191_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-112",
+   "titulo": "Reglamento Orgánico de Gobierno y Administración del Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 149, de fecha 04/08/2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0112_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36712",
+   "titulo": "Reglamento Orgánico del Consejo Local de Comercio",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009356790",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-113",
+   "titulo": "Reglamento Orgánico del Pleno del Ayuntamiento de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP núm. 149, de 4-08-2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004290271",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-49886",
+   "titulo": "Reglamento Orgánico y Funcional de la Asesoría Jurídica del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 118, de fecha 22/06/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002876066",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-114",
+   "titulo": "Reglamento Orgánico y Funcional del Jurado Tributario Municipal",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 86, de fecha 08/05/2026",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010193672",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-86",
+   "titulo": "Reglamento Regulador del Contenido, Organización y Funcionamiento del Libro Registro Municipal de Solares y Edificios a Rehabilitar",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 52, de fecha 03/03/2005",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0086_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-102",
+   "titulo": "Reglamento Regulador del Servicio Municipal de Ayuda a Domicilio del Ajuntament de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 125, de fecha 01/07/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0102_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-79",
+   "titulo": "Reglamento Regulador del Servicio de Auto-Taxis y Auto-Turismo",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0079_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-37389",
+   "titulo": "Reglamento de Funcionamiento de la Caja Municipal de Depósitos",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009775722",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-30705",
+   "titulo": "Reglamento de Funcionamiento y Régimen Interno de la Junta Central Fallera de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004684920",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-44820",
+   "titulo": "Reglamento de Gobierno Abierto: Transparencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 129, de fecha 08/07/2020",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001739270",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-103",
+   "titulo": "Reglamento de Honores y Distinciones del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 209, de fecha 31/10/2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004607542",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-9",
+   "titulo": "Reglamento de Instalaciones Deportivas de la Ciudad de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 33, de fecha 09/02/2011",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0009_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-31089",
+   "titulo": "Reglamento de Objetos Perdidos",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 4, de fecha 07/01/2022",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004676701",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-105",
+   "titulo": "Reglamento de Régimen Interno del Consejo Escolar Municipal de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 127, de fecha 30/05/2014",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0105_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-145",
+   "titulo": "Reglamento de Transparencia y Participación Ciudadana",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 129, de fecha 08/07/2020",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica",
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0145_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-10",
+   "titulo": "Reglamento de Utilización de las Instalaciones de los Casals d'Esplai.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 5, de fecha 07/01/2004",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0010_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-192",
+   "titulo": "Reglamento de evaluación del desempeño y rendimiento y la carrera profesional horizontal del personal del Ayuntamiento de València.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 195, de fecha 07/10/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0192_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-64",
+   "titulo": "Reglamento de la Agrupación de Voluntarios de Protección Civil de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 46, de fecha 09/03/2015",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0064_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-131",
+   "titulo": "Reglamento de la Policía Local",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 79, de fecha 03/04/2008",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0131_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-75",
+   "titulo": "Reglamento de los Centros Municipales de Actividades para Personas Mayores",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 208, de fecha 27/10/2016",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0075_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-47231",
+   "titulo": "Reglamento de los Centros de Día Municipales de inserción sociolaboral de menores",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 8, de fecha 14/01/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002218973",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-94",
+   "titulo": "Reglamento de participación en las actividades de la Universidad Popular del Ayuntamiento de Valencia.",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0094_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-89",
+   "titulo": "Reglamento de prestación del servicio de transporte en autobús de EMT València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 205, de fecha 24/10/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0089_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-197",
+   "titulo": "Reglamento de régimen interno de los Centros de día para Personas Mayores Dependientes",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 70, de fecha 12/04/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0197_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-174",
+   "titulo": "Reglamento del Archivo Municipal de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 32, de fecha 17/02/2015",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0174_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-199",
+   "titulo": "Reglamento del Consejo Alimentario Municipal",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 98, de fecha 23/05/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0199_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-187",
+   "titulo": "Reglamento del Consejo Local de Cooperación",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 209, de fecha 28/10/2016",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0187_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-33157",
+   "titulo": "Reglamento del Consejo Local de Inclusión y Derechos Sociales",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20230006271744",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-185",
+   "titulo": "Reglamento del Consejo Local de Inmigración e Interculturalidad",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 150, de fecha 05/08/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0185_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-36605",
+   "titulo": "Reglamento del Consejo Local de la Música de Valencia",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009235946",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-201",
+   "titulo": "Reglamento del Consejo Municipal de Medio Ambiente",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 160, de fecha 20/08/2020",
+   "mod": "",
+   "alias": [
+    "medio ambiente",
+    "proteccion ambiental"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0201_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-196",
+   "titulo": "Reglamento del Consejo Municipal de Personas Mayores",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 70, de fecha 12/04/2018",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0196_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34178",
+   "titulo": "Reglamento del Consejo Municipal de Turismo",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 28, de fecha 08/02/2019",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008111733",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-142",
+   "titulo": "Reglamento del Consejo Municipal de las Mujeres y por la Igualdad",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 149, de fecha 03/08/2016",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0142_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-48696",
+   "titulo": "Reglamento del Consejo Municipal de personas con discapacidad y Estatuto del/de la Defensor/a de las personas con discapacidad de la ciudad de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 111, de fecha 11/06/2020",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002557006",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-147",
+   "titulo": "Reglamento del Consell Municipal d'Acció Social",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 155, de fecha 11/08/2017",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0147_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-154",
+   "titulo": "Reglamento del Registro general de facturas del Ayuntamiento de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 25, de fecha 31/01/2011",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0154_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-85",
+   "titulo": "Reglamento del Servicio de Abastecimiento de Agua Potable de la Ciudad de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 219, de fecha 14/09/2004",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0085_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-203",
+   "titulo": "Reglamento del Sistema de Gestión Patrimonial (SIGESPA)",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 231, de fecha 28/09/2002",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0203_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-34951",
+   "titulo": "Reglamento interno de uso de aeronaves no tripuladas pilotadas por control remoto (RPAS) por el cuerpo de la Policía Local de València",
+   "cat": "General",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007685264",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-98",
+   "titulo": "Reglamento municipal sobre uso y normalización del valenciano en el municipio de Valencia.",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 113, de fecha 14/05/2005",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0098_C",
+   "formato": "pdf"
+  },
+  {
+   "id": "val-50091",
+   "titulo": "Reglamento para la concesión de las distinciones honoríficas de Llaurador y Llauradora Exemplars y la Alta Distinción del Consell Agrari que otor",
+   "cat": "General",
+   "ref": "",
+   "pub": "BOP número 135, de fecha 15/07/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002937242",
+   "formato": "pdf"
+  }
+ ]
+}

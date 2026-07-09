@@ -4,22 +4,25 @@ Motor de ORDENANZAS Y REGLAMENTOS MUNICIPALES — conector Jurisprudenciator.
 
 Diseño para Vercel (stateless, disco read-only salvo /tmp), espejo de los otros
 motores (boe_engine / dgt_engine): lectura EN VIVO de la fuente oficial, catálogo
-mínimo empaquetado, caché /tmp con TTL, errores blandos como texto (nunca
-excepción al cliente).
+mínimo empaquetado por municipio, caché /tmp con TTL, errores blandos como texto
+(nunca excepción al cliente).
 
-Municipios: un ADAPTADOR por municipio registrado en ADAPTADORES. Añadir un
-municipio = catálogo en ordenanzas_data/<municipio>.json + adaptador + alias.
+ARQUITECTURA (multi-municipio, mismas 2 tools):
+  * AdaptadorBase — catálogo (ordenanzas_data/<municipio>.json), búsqueda por
+    scoring de tokens (0 red), resolución de norma (id / referencia / fuzzy).
+  * Un adaptador por FUENTE:
+      - _MadridAEBOE: Código electrónico AEBOE nº 329 (la sede del Ayuntamiento
+        —Cibelex— bloquea bots vía Akamai; el código AEBOE está consolidado y al
+        día y se sirve desde boe.es). El ePub trae un XHTML por norma y el
+        servidor soporta HTTP Range -> "lazy zip" (~30-150 KB por norma).
+      - _ZaragozaAPI: API JSON de la sede (servicio/normativa/<id>.json, campo
+        `text` con el articulado en HTML).
+      - AdaptadorWeb: genérico por catálogo (url por norma, HTML o PDF).
+  * Parsers a BLOQUES [(clase, texto)] comunes: el troceo por artículos, los
+    pasajes por términos y el texto íntegro trabajan siempre sobre bloques.
 
-MADRID (único cubierto de momento): fuente = Código electrónico AEBOE nº 329
-"Normativa del Ayuntamiento de Madrid" (~47 normas CONSOLIDADAS y al día por la
-propia AEBOE; la sede del Ayuntamiento —Cibelex— bloquea bots vía Akamai, y el
-código AEBOE se sirve desde boe.es, que ya consumimos a diario).
-  * Catálogo empaquetado (ordenanzas_data/madrid.json, ~21 KB): búsqueda 0-red.
-  * Lectura: el ePub del código (~24 MB) contiene un XHTML limpio por norma
-    (<p class="articulo">, <p class="parrafo">...). El servidor soporta HTTP
-    Range (206) -> "lazy zip": se baja SOLO el miembro comprimido de la norma
-    (~30-150 KB) parseando el central directory del ZIP. Fallback: descarga
-    completa del ePub cacheando todas las normas en /tmp de una vez.
+Añadir un municipio = ordenanzas_data/<municipio>.json + (adaptador o config
+AdaptadorWeb) + alta en ADAPTADORES. Las tools NO cambian.
 """
 import io
 import json
@@ -35,13 +38,24 @@ import zipfile
 import zlib
 import html as _html
 
+try:
+    import fitz  # PyMuPDF (ya es dependencia del conector)
+    _HAS_FITZ = True
+except Exception:  # noqa: BLE001
+    _HAS_FITZ = False
+try:
+    from pypdf import PdfReader
+    _HAS_PYPDF = True
+except Exception:  # noqa: BLE001
+    _HAS_PYPDF = False
+
 _HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(_HERE, "ordenanzas_data")            # read-only (repo)
 CACHE_DIR = os.path.join(tempfile.gettempdir(), "ordenanzas-cache")  # /tmp
 os.makedirs(CACHE_DIR, exist_ok=True)
-TTL = 7 * 24 * 3600  # el código AEBOE se actualiza ~mensualmente
+TTL = 7 * 24 * 3600
 
-_UA = {"User-Agent": "jurisprudenciator-ordenanzas/1.0"}
+_UA = {"User-Agent": "Mozilla/5.0 (compatible; jurisprudenciator-ordenanzas/2.0)"}
 
 
 # ---------------------------------------------------------------- utilidades
@@ -55,15 +69,17 @@ def _norm(s: str) -> str:
 _STOP = {"para", "como", "este", "esta", "esto", "sobre", "entre", "segun",
          "donde", "cuando", "porque", "desde", "hasta", "ante", "tras", "del",
          "los", "las", "una", "unos", "unas", "con", "por", "que", "de", "la",
-         "el", "en", "ordenanza", "ordenanzas", "reglamento", "municipal",
-         "municipales", "ayuntamiento"}
+         "el", "en", "ordenanza", "ordenanzas", "reglamento", "reglamentos",
+         "municipal", "municipales", "ayuntamiento"}
 
 
-def _http(url: str, rng: str = "", timeout: int = 25):
-    """GET con Range opcional. Devuelve (status, bytes, headers) o (código, b'', {})."""
+def _http(url: str, rng: str = "", timeout: int = 25, accept: str = ""):
+    """GET con Range/Accept opcionales. (status, bytes, headers) o (código, b'', {})."""
     h = dict(_UA)
     if rng:
         h["Range"] = rng
+    if accept:
+        h["Accept"] = accept
     req = urllib.request.Request(url, headers=h)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -163,136 +179,23 @@ def _zip_miembro_remoto(url: str, entrada, margen: int = 4096) -> bytes:
     raise RuntimeError(f"método de compresión {metodo} no soportado")
 
 
-# ---------------------------------------------------------------- adaptadores
-class _MadridAEBOE:
-    """Ordenanzas de MADRID capital desde el Código electrónico AEBOE nº 329."""
-    codigo = "madrid"
-    nombre = "Madrid"
-    aliases = ("madrid", "ayuntamiento de madrid", "madrid capital",
-               "villa de madrid", "ciudad de madrid", "madrid espana")
+# ==================================================================== PARSERS
+# Todos producen BLOQUES: lista de (clase, texto) con clases: 'articulo',
+# 'titulo_num', 'titulo_tit', 'anexo_tit', 'parrafo' (+ variantes 'parrafo_*').
+_CORTES = ("articulo", "titulo_num", "titulo_tit", "anexo_tit")
 
-    def __init__(self):
-        self._cat = None
-
-    def catalogo(self) -> dict:
-        if self._cat is None:
-            with open(os.path.join(DATA_DIR, "madrid.json"), encoding="utf-8") as f:
-                self._cat = json.load(f)
-        return self._cat
-
-    def fuente_corta(self) -> str:
-        m = self.catalogo()["meta"]
-        return f"texto consolidado AEBOE (Codigo {m['codigo']}, act. {m['actualizado']}) · {m['url']}"
-
-    # -------- búsqueda (0 red: catálogo empaquetado)
-    def buscar(self, consulta: str, limite: int) -> list:
-        normas = self.catalogo()["normas"]
-        q = [w for w in _norm(consulta).split() if w not in _STOP]
-        if not q:
-            return normas[:max(limite, len(normas)) if limite <= 0 else limite]
-        puntuadas = []
-        for n in normas:
-            texto = _norm(n["titulo"]) + " | " + " | ".join(n["alias"]) + " | " + _norm(n["cat"])
-            pts = 0
-            for w in q:
-                if re.search(rf"\b{re.escape(w)}\b", texto):
-                    pts += 3
-                elif w in texto:
-                    pts += 1
-            if pts:
-                puntuadas.append((pts, n))
-        puntuadas.sort(key=lambda x: -x[0])
-        return [n for _, n in puntuadas[:limite]]
-
-    # -------- resolución de una norma concreta
-    def resolver(self, ordenanza: str):
-        s = (ordenanza or "").strip()
-        porid = {n["id"]: n for n in self.catalogo()["normas"]}
-        m = re.search(r"(?:conso-)?(\d{4,6})\b", s)
-        if m and f"conso-{m.group(1)}" in porid:
-            return porid[f"conso-{m.group(1)}"]
-        sn = _norm(s)
-        for n in self.catalogo()["normas"]:
-            if n["ref"] and _norm(n["ref"]) == sn:
-                return n
-        candidatos = self.buscar(s, 3)
-        return candidatos[0] if candidatos else None
-
-    # -------- texto XHTML de una norma (caché -> lazy zip -> ePub completo)
-    def texto_xhtml(self, norma: dict) -> str:
-        partes, faltan = [], []
-        for f in norma["ficheros"]:
-            c = _cache_get(self.codigo, os.path.basename(f))
-            partes.append(c.decode("utf-8", "replace") if c else None)
-            if c is None:
-                faltan.append(f)
-        if faltan:
-            url = self.catalogo()["meta"]["epub_url"]
-            try:
-                d = _zip_dir_remoto(self.codigo, url)
-                for f in faltan:
-                    datos = _zip_miembro_remoto(url, d["e"][f])
-                    _cache_set(self.codigo, os.path.basename(f), datos)
-                    partes[norma["ficheros"].index(f)] = datos.decode("utf-8", "replace")
-            except _RangeNoSoportado as e:
-                self._cachear_epub_completo(e.cuerpo if len(e.cuerpo) > 1e6 else None)
-                return self.texto_xhtml(norma)
-            except Exception:  # noqa: BLE001 — fallback: bajar el ePub entero
-                self._cachear_epub_completo(None)
-                return self.texto_xhtml(norma)
-        return "\n".join(p for p in partes if p)
-
-    def _cachear_epub_completo(self, cuerpo):
-        url = self.catalogo()["meta"]["epub_url"]
-        if cuerpo is None:
-            st, cuerpo, _ = _http(url, timeout=60)
-            if st != 200:
-                raise RuntimeError(f"HTTP {st} descargando el ePub completo")
-        z = zipfile.ZipFile(io.BytesIO(cuerpo))
-        for n in z.namelist():
-            if re.fullmatch(r"OEBPS/conso-\d+(_\d+)?\.xhtml", n):
-                _cache_set(self.codigo, os.path.basename(n), z.read(n))
-
-
-_MADRID = _MadridAEBOE()
-ADAPTADORES = {_MADRID.codigo: _MADRID}
-
-
-def _resolver_municipio(municipio: str):
-    q = _norm(municipio)
-    for ad in ADAPTADORES.values():
-        if q == ad.codigo or q in (_norm(a) for a in ad.aliases):
-            return ad
-    for ad in ADAPTADORES.values():  # "ordenanzas de madrid", "madrid (capital)"...
-        if re.search(rf"\b{ad.codigo}\b", q):
-            return ad
-    return None
-
-
-def _no_cubierto(municipio: str) -> str:
-    cubiertos = ", ".join(sorted(a.nombre.upper() for a in ADAPTADORES.values()))
-    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Ordenanzas municipales "
-            f"disponibles SOLO de: {cubiertos}. Las de otros municipios se publican en el "
-            "Boletin Oficial de su PROVINCIA (BOP) y en la web/sede electronica del "
-            "ayuntamiento; no las tengo en linea. NO repitas esta llamada: informa al usuario "
-            "de donde encontrarla y ofrece normativa estatal (buscar_articulo / buscar_boe) o "
-            "jurisprudencia (buscar_sentencias) relacionada.")
-
-
-# ------------------------------------------------------- parseo del XHTML AEBOE
 _P_RE = re.compile(r"<p\b([^>]*)>(.*?)</p>", re.S)
 _CLASS_RE = re.compile(r'class="([^"]+)"')
 _IDX_RE = re.compile(r'<div id="textoindice">.*?</div>', re.S)
-_CORTES = ("articulo", "titulo_num", "titulo_tit", "anexo_tit")  # fin de un artículo
 
 
 def _texto_plano(frag: str) -> str:
     frag = re.sub(r"<[^>]+>", " ", frag)
-    return re.sub(r"\s+", " ", _html.unescape(frag)).replace(" ", " ").strip()
+    return re.sub(r"\s+", " ", _html.unescape(frag)).strip()  # \s cubre el nbsp
 
 
-def _bloques(xhtml: str) -> list:
-    """[(clase, texto)] del cuerpo de la norma (sin el índice)."""
+def _bloques_aeboe(xhtml: str) -> list:
+    """Bloques desde el XHTML de un Código AEBOE (clases propias del BOE)."""
     cuerpo = _IDX_RE.sub("", xhtml)
     out = []
     for m in _P_RE.finditer(cuerpo):
@@ -303,13 +206,134 @@ def _bloques(xhtml: str) -> list:
     return out
 
 
+_BLOCK_TAGS = re.compile(
+    r"</?(?:p|div|li|ul|ol|table|tr|h[1-6]|section|article)\b[^>]*>|<br\s*/?>", re.I)
+
+# Encabezado de artículo al inicio de línea: "Artículo 12.", "Art. 12 bis.-",
+# "ARTÍCULO 12:", "Artículo 12º.-", y catalán "ARTICLE 11-1." (número compuesto).
+_ART_LINEA = re.compile(
+    r"^(?:Art(?:[íi]cul[eo]|[íi]cle)?|ART[IÍ]CUL[EO]|ART[IÍ]CLE)\s*\.?\s*(\d+(?:[-–.]\d+)*)\s*"
+    r"(bis|ter|qu[aá]ter|quinquies|sexies)?\s*[ºª]?\s*(?:[.\-–—:]|$)", re.I)
+_TIT_LINEA = re.compile(
+    r"^(T[IÍ]TU?OL|T[IÍ]TULO|CAP[IÍ]TOL|CAP[IÍ]TULO|SECCI[OÓ]N?|SUBSECCI[OÓ]N?|"
+    r"PRE[AÁ]MBUL[OE]|EXPOSICI[OÓ]N?\s+DE\s+MOTI[UV]S?|LIBRO|LLIBRE)\b", re.I)
+_DISP_LINEA = re.compile(r"^Disposici(?:o|ó)n?(?:es|ons)?\b", re.I)
+_ANEXO_LINEA = re.compile(r"^ANNEX(?:OS)?\b|^ANEXOS?\b", re.I)
+
+
+def _html_a_texto(htm: str) -> str:
+    """HTML genérico -> texto plano con saltos de línea en los límites de bloque."""
+    htm = re.sub(r"<(script|style)\b.*?</\1>", " ", htm, flags=re.S | re.I)
+    htm = _BLOCK_TAGS.sub("\n", htm)
+    htm = re.sub(r"<[^>]+>", " ", htm)
+    htm = _html.unescape(htm)
+    lineas = [re.sub(r"[ \t\xa0]+", " ", ln).strip() for ln in htm.split("\n")]
+    return "\n".join(ln for ln in lineas if ln)
+
+
+def _bloques_desde_texto(texto: str) -> list:
+    """Bloques desde texto plano (HTML convertido o PDF extraído).
+    Clasifica cada línea y separa la rúbrica del artículo de su cuerpo cuando
+    van en la misma línea ("Artículo 5. Horarios.- El horario será...")."""
+    out = []
+    for linea in texto.split("\n"):
+        linea = linea.strip()
+        if not linea:
+            continue
+        if re.search(r"\.{4,}\s*\d*\s*$", linea):
+            continue  # linea de INDICE de PDF ("Articulo 5 .......... 81")
+        if _ART_LINEA.match(linea):
+            # rúbrica = hasta el primer punto tras el número (+rúbrica corta)
+            m = re.match(
+                r"^((?:Art(?:[íi]cul[eo]|[íi]cle)?|ART[IÍ]CUL[EO]|ART[IÍ]CLE)\s*\.?\s*\d+(?:[-–.]\d+)*\s*"
+                r"(?:bis|ter|qu[aá]ter|quinquies|sexies)?\s*[ºª]?\s*"
+                r"(?:[.\-–—:]\s*[^.]{0,140}?)?[.:])\s*[-–—]?\s*(.*)$", linea, re.I)
+            if m:
+                out.append(("articulo", m.group(1).strip()))
+                if m.group(2).strip():
+                    out.append(("parrafo", m.group(2).strip()))
+            else:
+                out.append(("articulo", linea))
+        elif _TIT_LINEA.match(linea) and len(linea) < 160:
+            out.append(("titulo_num", linea))
+        elif _DISP_LINEA.match(linea) and len(linea) < 200:
+            out.append(("titulo_num", linea))
+        elif _ANEXO_LINEA.match(linea) and len(linea) < 160:
+            out.append(("anexo_tit", linea))
+        else:
+            out.append(("parrafo", linea))
+    return out
+
+
+def _reparar_parrafos_pdf(texto: str) -> str:
+    """Los PDF salen troceados en LINEAS visuales: re-une cada parrafo (una
+    linea se pega a la anterior salvo que esta acabe en puntuacion de cierre o
+    que la nueva parezca un encabezado o item de lista)."""
+    out = []
+    for ln in texto.split("\n"):
+        ln = re.sub(r"[ \t\xa0]+", " ", ln).strip()
+        if not ln:
+            continue
+        # ruido tipico de reimpresiones del BOP: cabeceras/pies y nº de pagina
+        if re.match(r"^\d{1,3}$", ln) or (len(ln) < 120 and re.search(
+                r"Bolet[ií]n Oficial de la provincia|Dep[oó]sito Legal|"
+                r"^N[uú]mero\s+\d+\s*$", ln, re.I)):
+            continue
+        # lineas corruptas (fuentes CID sin unicode en PDFs viejos del BOP):
+        # o caracteres raros, o "texto" ASCII sin apenas vocales (cifrado CID)
+        raros = sum(1 for c in ln if not (c.isascii() or c in "áéíóúñÁÉÍÓÚÑüÜçÇ¿¡ºª€«»–—·àèìòùÀÈÌÒÙ ï·"))
+        if len(ln) > 12 and raros / len(ln) > 0.25:
+            continue
+        letras = [c for c in ln.lower() if c.isalpha()]
+        if len(letras) > 20:
+            vocales = sum(1 for c in letras if c in "aeiouáéíóúàèìòùü")
+            if vocales / len(letras) < 0.25:
+                continue
+        es_encabezado = (_ART_LINEA.match(ln) or _TIT_LINEA.match(ln)
+                         or _DISP_LINEA.match(ln) or _ANEXO_LINEA.match(ln)
+                         or re.match(r"^\d+\s*[.)-]\s", ln) or re.match(r"^[a-z]\)\s", ln, re.I))
+        if out and not es_encabezado and not re.search(r"[.:;!?]\s*$", out[-1]) \
+                and not (_ART_LINEA.match(out[-1]) and len(out[-1]) < 90):
+            if out[-1].endswith("-"):
+                out[-1] = out[-1][:-1] + ln          # palabra cortada a fin de linea
+            else:
+                out[-1] += " " + ln
+        else:
+            out.append(ln)
+    return "\n".join(out)
+
+
+def _pdf_a_texto(datos: bytes) -> str:
+    texto = ""
+    if _HAS_FITZ:
+        try:
+            doc = fitz.open(stream=datos, filetype="pdf")
+            try:
+                texto = "\n".join(p.get_text() for p in doc)
+            finally:
+                doc.close()
+            texto = texto.translate({0xFB01: "fi", 0xFB02: "fl"}).strip()
+        except Exception:  # noqa: BLE001
+            texto = ""
+    if not texto and _HAS_PYPDF:
+        try:
+            reader = PdfReader(io.BytesIO(datos))
+            texto = "\n".join((p.extract_text() or "") for p in reader.pages).strip()
+        except Exception as e:  # noqa: BLE001
+            return f"[No se pudo extraer el texto del PDF: {e}]"
+    if not texto:
+        return "[Sin extractor de PDF disponible]"
+    return _reparar_parrafos_pdf(texto)
+
+
 def _clave_art(texto: str) -> str:
-    """'Articulo 6 bis. Otorgamiento...' -> '6 bis' (normalizado)."""
+    """'Articulo 6 bis. Otorgamiento...' -> '6 bis'; 'ARTICLE 11-1. ...' -> '11 1'."""
     t = _norm(texto)
-    m = re.match(r"articulo\s+([0-9]+)(?:\s*[.\s]\s*)?(bis|ter|quater|quinquies|sexies)?", t)
+    m = re.match(r"art(?:iculo|icle|icul)?\s*(\d+(?:\s+\d+)*)\s*(bis|ter|quater|quinquies|sexies)?", t)
     if not m:
         return ""
-    return (m.group(1) + (" " + m.group(2) if m.group(2) else "")).strip()
+    num = re.sub(r"\s+", " ", m.group(1)).strip()
+    return (num + (" " + m.group(2) if m.group(2) else "")).strip()
 
 
 def _extraer_articulo(bloques: list, articulo: str):
@@ -320,6 +344,10 @@ def _extraer_articulo(bloques: list, articulo: str):
     for i, (cls, txt) in enumerate(bloques):
         if cls == "articulo":
             encontrados.append((_clave_art(txt), i, txt))
+    # puede haber VARIAS apariciones del mismo articulo: las del indice/TOC no
+    # tienen cuerpo (se descartan) y las de OTRA norma posterior en el mismo
+    # documento van despues -> gana la PRIMERA con cuerpo sustancial.
+    mejor = None
     for clave, i, rubrica in encontrados:
         if clave == a:
             cuerpo = []
@@ -327,7 +355,13 @@ def _extraer_articulo(bloques: list, articulo: str):
                 if cls in _CORTES or re.match(r"^disposici(on|ones)\b", _norm(txt)):
                     break
                 cuerpo.append(txt)
-            return rubrica, "\n\n".join(cuerpo)
+            candidato = (rubrica, "\n\n".join(cuerpo))
+            if len(candidato[1]) >= 150:
+                return candidato
+            if mejor is None or len(candidato[1]) > len(mejor[1]):
+                mejor = candidato
+    if mejor is not None:
+        return mejor
     cercanos = [r for c, _, r in encontrados
                 if c and a and c.split()[0] == a.split()[0]]
     return None, cercanos[:5]
@@ -384,6 +418,334 @@ def _indice_articulos(bloques: list) -> str:
     return "\n".join(filas)
 
 
+# ================================================================ ADAPTADORES
+class AdaptadorBase:
+    """Catálogo empaquetado + búsqueda + resolución. Subclases: bloques()."""
+    codigo = ""       # clave del registro y nombre del json (ordenanzas_data/)
+    nombre = ""       # "Madrid"
+    aliases = ()      # formas de nombrar el municipio
+
+    def __init__(self):
+        self._cat = None
+
+    def catalogo(self) -> dict:
+        if self._cat is None:
+            with open(os.path.join(DATA_DIR, self.codigo + ".json"), encoding="utf-8") as f:
+                self._cat = json.load(f)
+        return self._cat
+
+    def fuente_corta(self) -> str:
+        m = self.catalogo()["meta"]
+        act = f", act. {m['actualizado']}" if m.get("actualizado") else ""
+        return f"{m.get('fuente', 'fuente oficial')}{act} · {m.get('url', '')}".strip(" ·")
+
+    # -------- búsqueda (0 red: catálogo empaquetado)
+    def buscar(self, consulta: str, limite: int) -> list:
+        normas = self.catalogo()["normas"]
+        q = [w for w in _norm(consulta).split() if w not in _STOP]
+        if not q:
+            return normas[:limite]
+        puntuadas = []
+        for n in normas:
+            principal = _norm(n["titulo"]) + " | " + " | ".join(n.get("alias", []))
+            secundario = _norm(n.get("cat", "")) + " | " + " | ".join(n.get("kw", []))
+            pts = 0
+            for w in q:
+                if re.search(rf"\b{re.escape(w)}\b", principal):
+                    pts += 3          # titulo/alias mandan
+                elif w in principal:
+                    pts += 1
+                elif w in secundario:
+                    pts += 1          # categoria/keywords solo desempatan
+            if pts:
+                # las ordenanzas/reglamentos por delante de decretos y tarifas
+                if re.match(r"(ordenanza|ordenanca|reglamento|reglament)", _norm(n["titulo"])):
+                    pts += 1
+                puntuadas.append((pts, n))
+        # a igualdad de puntos gana el titulo MAS CORTO: la ordenanza principal
+        # ("Ordenanza de Movilidad") por delante de tasas de titulo kilometrico
+        puntuadas.sort(key=lambda x: (-x[0], len(x[1]["titulo"])))
+        return [n for _, n in puntuadas[:limite]]
+
+    # -------- resolución de una norma concreta
+    def resolver(self, ordenanza: str):
+        s = (ordenanza or "").strip()
+        normas = self.catalogo()["normas"]
+        porid = {n["id"]: n for n in normas}
+        if s in porid:
+            return porid[s]
+        m = re.search(r"(\d{2,7})", s)
+        if m:
+            for nid, n in porid.items():
+                if nid.split("-")[-1] == m.group(1):
+                    return n
+        sn = _norm(s)
+        for n in normas:
+            if n.get("ref") and _norm(n["ref"]) == sn:
+                return n
+        candidatos = self.buscar(s, 3)
+        return candidatos[0] if candidatos else None
+
+    # -------- cada subclase produce los bloques de una norma
+    def bloques(self, norma: dict) -> list:
+        raise NotImplementedError
+
+    def nota_extra(self, norma: dict) -> str:
+        """Texto adicional al pie (p.ej. anexos en PDF)."""
+        return ""
+
+
+class _MadridAEBOE(AdaptadorBase):
+    """Ordenanzas de MADRID capital desde el Código electrónico AEBOE nº 329."""
+    codigo = "madrid"
+    nombre = "Madrid"
+    aliases = ("madrid", "ayuntamiento de madrid", "madrid capital",
+               "villa de madrid", "ciudad de madrid", "madrid espana")
+
+    def fuente_corta(self) -> str:
+        m = self.catalogo()["meta"]
+        return f"texto consolidado AEBOE (Codigo {m['codigo']}, act. {m['actualizado']}) · {m['url']}"
+
+    def bloques(self, norma: dict) -> list:
+        return _bloques_aeboe(self.texto_xhtml(norma))
+
+    # -------- texto XHTML de una norma (caché -> lazy zip -> ePub completo)
+    def texto_xhtml(self, norma: dict) -> str:
+        partes, faltan = [], []
+        for f in norma["ficheros"]:
+            c = _cache_get(self.codigo, os.path.basename(f))
+            partes.append(c.decode("utf-8", "replace") if c else None)
+            if c is None:
+                faltan.append(f)
+        if faltan:
+            url = self.catalogo()["meta"]["epub_url"]
+            try:
+                d = _zip_dir_remoto(self.codigo, url)
+                for f in faltan:
+                    datos = _zip_miembro_remoto(url, d["e"][f])
+                    _cache_set(self.codigo, os.path.basename(f), datos)
+                    partes[norma["ficheros"].index(f)] = datos.decode("utf-8", "replace")
+            except _RangeNoSoportado as e:
+                self._cachear_epub_completo(e.cuerpo if len(e.cuerpo) > 1e6 else None)
+                return self.texto_xhtml(norma)
+            except Exception:  # noqa: BLE001 — fallback: bajar el ePub entero
+                self._cachear_epub_completo(None)
+                return self.texto_xhtml(norma)
+        return "\n".join(p for p in partes if p)
+
+    def _cachear_epub_completo(self, cuerpo):
+        url = self.catalogo()["meta"]["epub_url"]
+        if cuerpo is None:
+            st, cuerpo, _ = _http(url, timeout=60)
+            if st != 200:
+                raise RuntimeError(f"HTTP {st} descargando el ePub completo")
+        z = zipfile.ZipFile(io.BytesIO(cuerpo))
+        for n in z.namelist():
+            if re.fullmatch(r"OEBPS/conso-\d+(_\d+)?\.xhtml", n):
+                _cache_set(self.codigo, os.path.basename(n), z.read(n))
+
+
+class _ZaragozaAPI(AdaptadorBase):
+    """Ordenanzas de ZARAGOZA desde la API JSON de su sede electrónica
+    (https://www.zaragoza.es/sede/servicio/normativa/<id>.json, campo `text`)."""
+    codigo = "zaragoza"
+    nombre = "Zaragoza"
+    aliases = ("zaragoza", "ayuntamiento de zaragoza", "zaragoza capital",
+               "ciudad de zaragoza")
+    _DETALLE = "https://www.zaragoza.es/sede/servicio/normativa/{}.json"
+
+    def bloques(self, norma: dict) -> list:
+        nid = norma["id"].split("-")[-1]
+        clave = f"det_{nid}.json"
+        raw = _cache_get(self.codigo, clave)
+        if raw is None:
+            st, raw, _ = _http(self._DETALLE.format(nid), accept="application/json")
+            if st != 200:
+                raise RuntimeError(f"HTTP {st} pidiendo la norma a la sede de Zaragoza")
+            _cache_set(self.codigo, clave, raw)
+        d = json.loads(raw.decode("utf-8", "replace"))
+        htm = d.get("text") or ""
+        if len(_texto_plano(htm)) < 200:
+            # sin articulado en la ficha: el texto está en un PDF (link o anexo)
+            return self._bloques_pdf(norma)
+        return _bloques_desde_texto(_html_a_texto(htm))
+
+    def _bloques_pdf(self, norma: dict) -> list:
+        if norma.get("url_pdf"):
+            url = norma["url_pdf"]
+        elif norma.get("anexos"):
+            an = norma["anexos"][0]
+            url = an["link"] if an["link"].startswith("http") else "https://www.zaragoza.es" + an["link"]
+        else:
+            raise RuntimeError("la ficha no publica el articulado (ni HTML ni PDF)")
+        clave = "pdf_" + os.path.basename(url)
+        datos = _cache_get(self.codigo, clave)
+        if datos is None:
+            st, datos, _ = _http(url, timeout=40)
+            if st != 200:
+                raise RuntimeError(f"HTTP {st} descargando el PDF de la norma")
+            _cache_set(self.codigo, clave, datos)
+        return _bloques_desde_texto(_pdf_a_texto(datos))
+
+    def nota_extra(self, norma: dict) -> str:
+        anexos = norma.get("anexos") or []
+        if not anexos:
+            return ""
+        filas = [f"- {a['title']}: https://www.zaragoza.es{a['link']}"
+                 if not a["link"].startswith("http") else f"- {a['title']}: {a['link']}"
+                 for a in anexos[:10]]
+        return "\nAnexos (PDF oficiales):\n" + "\n".join(filas)
+
+
+class _BarcelonaAKN(AdaptadorBase):
+    """Ordenanzas de BARCELONA desde el portal Norma (vLex): cada norma expone
+    su texto consolidado en XML Akoma Ntoso (…/vid/<vid>/akn). El texto oficial
+    del portal esta en CATALAN."""
+    codigo = "barcelona"
+    nombre = "Barcelona"
+    aliases = ("barcelona", "ayuntamiento de barcelona", "ajuntament de barcelona",
+               "barcelona capital", "ciudad de barcelona", "bcn")
+
+    def bloques(self, norma: dict) -> list:
+        vid = norma["id"].split("-")[-1]
+        clave = f"akn_{vid}.xml"
+        raw = _cache_get(self.codigo, clave)
+        if raw is None:
+            for intento in (1, 2):
+                st, raw, _ = _http(norma["url"], timeout=30 * intento)
+                if st == 200:
+                    break
+            if st != 200:
+                raise RuntimeError(f"HTTP {st} pidiendo la norma al portal juridico")
+            _cache_set(self.codigo, clave, raw)
+        x = raw.decode("utf-8", "replace")
+        m = re.search(r'<block name="main">(.*?)</block>', x, re.S)
+        htm = _html.unescape(m.group(1)) if m else _html.unescape(x)
+        htm = re.sub(r'<nav class="toc".*?</nav>', " ", htm, flags=re.S)  # fuera el TOC
+        return _bloques_desde_texto(_html_a_texto(htm))
+
+    def nota_extra(self, norma: dict) -> str:
+        return "\nTexto oficial en catalan (portal juridico municipal): " + norma.get("web", "")
+
+
+class AdaptadorWeb(AdaptadorBase):
+    """Genérico: cada norma del catálogo trae url + formato ('html'|'pdf').
+    Para portales que publican el texto por norma en una URL estable."""
+
+    def __init__(self, codigo: str, nombre: str, aliases: tuple):
+        super().__init__()
+        self.codigo, self.nombre, self.aliases = codigo, nombre, aliases
+
+    def _descargar(self, norma: dict) -> bytes:
+        url = norma["url"]
+        clave = "doc_" + re.sub(r"[^A-Za-z0-9]+", "_", url)[-80:]
+        datos = _cache_get(self.codigo, clave)
+        if datos is None:
+            for intento in (1, 2):
+                st, datos, _ = _http(url, timeout=25 * intento)
+                if st == 200:
+                    break
+            if st != 200:
+                raise RuntimeError(f"HTTP {st} descargando la norma de la fuente oficial")
+            _cache_set(self.codigo, clave, datos)
+        return datos
+
+    @staticmethod
+    def _recortar_por_titulo(texto: str, titulo: str) -> str:
+        """Algunos ayuntamientos enlazan el BOP ENTERO del dia en vez de la norma
+        suelta: si el documento es enorme, saltar a la PRIMERA aparicion del
+        titulo pasada la zona de sumario (~6000 chars). Se prueba tambien la
+        aguja sin el tipo de norma ("Estatutos de el..." -> "Instituto del...")."""
+        if len(texto) < 100_000:
+            return texto
+        corto = re.sub(r"^(ordenanza|reglamento|estatutos|normas)\s+"
+                       r"(municipal(?:es)?\s+)?(reguladora?s?\s+)?(de[l]?\s+|de\s+l[ao]s?\s+)?",
+                       "", titulo, flags=re.I).strip()
+        for aguja in (titulo[:40].strip(), corto[:40].strip()):
+            if len(aguja) < 8:
+                continue
+            posiciones = [m.start() for m in re.finditer(re.escape(aguja), texto, re.I)]
+            cuerpo = [p for p in posiciones if p > 6000]
+            if cuerpo:
+                texto = texto[cuerpo[0]:]
+                # cortar la cola en la siguiente seccion institucional del BOP
+                m = re.search(r"\n(OTRAS ENTIDADES|ANUNCIOS PARTICULARES|JUZGADOS DE|"
+                              r"MANCOMUNIDAD DE|DIPUTACI[OÓ]N PROVINCIAL|"
+                              r"ADMINISTRACI[OÓ]N DE JUSTICIA)\b", texto[1500:])
+                if m:
+                    texto = texto[:1500 + m.start()]
+                return texto
+        return texto
+
+    def _texto_de(self, norma: dict, url: str) -> str:
+        datos = self._descargar(dict(norma, url=url))
+        if norma.get("formato") == "pdf" or datos[:5] == b"%PDF-":
+            return self._recortar_por_titulo(_pdf_a_texto(datos), norma["titulo"])
+        enc = "utf-8"
+        m = re.search(rb'charset=["\']?([A-Za-z0-9_-]+)', datos[:2000])
+        if m:
+            enc = m.group(1).decode("ascii", "replace")
+        htm = datos.decode(enc, "replace")
+        rec = self.catalogo()["meta"].get("recorte")
+        if rec:
+            m2 = re.search(rec, htm, re.S)
+            if m2:
+                htm = m2.group(1) if m2.groups() else m2.group(0)
+        return _html_a_texto(htm)
+
+    def bloques(self, norma: dict) -> list:
+        # algunos portales ponen de primer documento una caratula/resumen: si el
+        # texto es sospechosamente corto, probamos los siguientes candidatos y
+        # nos quedamos con el mas largo.
+        candidatas = [norma["url"]] + [u for u in norma.get("urls", []) if u != norma["url"]]
+        mejor = ""
+        for url in candidatas[:4]:
+            try:
+                texto = self._texto_de(norma, url)
+            except Exception:  # noqa: BLE001
+                continue
+            if len(texto) > len(mejor):
+                mejor = texto
+            if len(mejor) > 5000:
+                break
+        if not mejor:
+            raise RuntimeError("no se pudo descargar el texto de la fuente oficial")
+        return _bloques_desde_texto(mejor)
+
+
+_MADRID = _MadridAEBOE()
+_ZARAGOZA = _ZaragozaAPI()
+_BARCELONA = _BarcelonaAKN()
+_VALENCIA = AdaptadorWeb("valencia", "Valencia",
+                         ("valencia", "ayuntamiento de valencia", "ajuntament de valencia",
+                          "valencia capital", "ciudad de valencia"))
+_SEVILLA = AdaptadorWeb("sevilla", "Sevilla",
+                        ("sevilla", "ayuntamiento de sevilla", "sevilla capital",
+                         "ciudad de sevilla"))
+ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA, _SEVILLA)}
+
+
+def _resolver_municipio(municipio: str):
+    q = _norm(municipio)
+    for ad in ADAPTADORES.values():
+        if q == ad.codigo or q in (_norm(a) for a in ad.aliases):
+            return ad
+    for ad in ADAPTADORES.values():  # "ordenanzas de madrid", "madrid (capital)"...
+        if re.search(rf"\b{_norm(ad.nombre)}\b", q):
+            return ad
+    return None
+
+
+def _no_cubierto(municipio: str) -> str:
+    cubiertos = ", ".join(sorted(a.nombre.upper() for a in ADAPTADORES.values()))
+    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Ordenanzas municipales "
+            f"disponibles SOLO de: {cubiertos}. Las de otros municipios se publican en el "
+            "Boletin Oficial de su PROVINCIA (BOP) y en la web/sede electronica del "
+            "ayuntamiento; no las tengo en linea. NO repitas esta llamada: informa al usuario "
+            "de donde encontrarla y ofrece normativa estatal (buscar_articulo / buscar_boe) o "
+            "jurisprudencia (buscar_sentencias) relacionada.")
+
+
 # ================================================================ API pública
 def buscar(municipio: str, consulta: str = "", limite: int = 15) -> str:
     t0 = time.perf_counter()
@@ -391,24 +753,25 @@ def buscar(municipio: str, consulta: str = "", limite: int = 15) -> str:
     if not ad:
         return _no_cubierto(municipio)
     try:
-        limite = max(1, min(int(limite or 15), 60))
+        limite = max(1, min(int(limite or 15), 80))
         if not consulta.strip() and limite == 15:
-            limite = 60                       # consulta vacia = catalogo entero
+            limite = 80                      # consulta vacia = catalogo entero
         normas = ad.buscar(consulta, limite)
         meta = ad.catalogo()["meta"]
         if not normas:
             todas = ad.catalogo()["normas"]
-            cats = sorted({n["cat"] for n in todas})
+            cats = sorted({n.get("cat", "") for n in todas if n.get("cat")})
             return (f"Sin resultados para «{consulta}» en las ordenanzas de {ad.nombre} "
-                    f"(catalogo consolidado con las {len(todas)} normas principales del "
-                    f"Codigo AEBOE {meta['codigo']}). Prueba con otra materia o pide el "
-                    "catalogo entero (consulta vacia). Categorias: " + "; ".join(cats) +
-                    ". Si es una norma menor no incluida, estara en sede.madrid.es.")
+                    f"(catalogo con las {len(todas)} normas de {meta.get('fuente', 'la fuente oficial')}). "
+                    "Prueba con otra materia o pide el catalogo entero (consulta vacia). "
+                    "Categorias: " + "; ".join(cats) +
+                    f". Si es una norma menor no incluida, estara en {meta.get('url', 'la web municipal')}.")
         lineas = [f"【Ordenanzas y reglamentos de {ad.nombre.upper()}"
                   + (f" — resultados para «{consulta}»】" if consulta.strip() else " — catalogo】")]
         for i, n in enumerate(normas, 1):
             extra = " · ".join(x for x in (n.get("pub", ""), f"ult. mod. {n['mod']}" if n.get("mod") else "") if x)
-            lineas.append(f"\n{i}. {n['titulo']}\n   id: {n['id']} · {n['cat']}"
+            lineas.append(f"\n{i}. {n['titulo']}\n   id: {n['id']}"
+                          + (f" · {n['cat']}" if n.get("cat") else "")
                           + (f" · Ref. {n['ref']}" if n.get("ref") else "")
                           + (f"\n   {extra}" if extra else ""))
         dt = (time.perf_counter() - t0) * 1000
@@ -431,10 +794,9 @@ def leer(municipio: str, ordenanza: str, articulo: str = "", parrafos: int = 0,
         norma = ad.resolver(ordenanza)
         if not norma:
             return (f"No identifico la ordenanza «{ordenanza}» en {ad.nombre}. Usa el id que "
-                    "devuelve buscar_ordenanzas (p.ej. conso-66304), su referencia oficial o "
-                    "el titulo; o vuelve a buscar con otra materia.")
-        xhtml = ad.texto_xhtml(norma)
-        bloques = _bloques(xhtml)
+                    "devuelve buscar_ordenanzas, su referencia oficial o el titulo; o vuelve "
+                    "a buscar con otra materia.")
+        bloques = ad.bloques(norma)
         cab_extra = " · ".join(x for x in (norma.get("pub", ""),
                                            f"Ref. {norma['ref']}" if norma.get("ref") else "",
                                            f"Ultima modificacion: {norma['mod']}" if norma.get("mod") else "") if x)
@@ -457,7 +819,8 @@ def leer(municipio: str, ordenanza: str, articulo: str = "", parrafos: int = 0,
             texto = _texto_integro(bloques, int(max_chars or 0))
         dt = (time.perf_counter() - t0) * 1000
         cab = f"【{norma['titulo']} — Ayuntamiento de {ad.nombre}{rotulo}】"
-        pie = f"\n\nFuente: {ad.fuente_corta()} · {dt:.0f} ms"
+        pie = ad.nota_extra(norma)
+        pie += f"\n\nFuente: {ad.fuente_corta()} · {dt:.0f} ms"
         return cab + ("\n" + cab_extra if cab_extra else "") + "\n\n" + texto + pie
     except Exception as e:  # noqa: BLE001
         return f"Error leyendo la ordenanza en {municipio}: {e}"
