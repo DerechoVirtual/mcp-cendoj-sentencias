@@ -99,11 +99,13 @@ _INSTRUCTIONS = (
     "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
     "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
-    "leer_ordenanza. Cubierto: MADRID capital.\n"
+    "leer_ordenanza. Cubiertos: MADRID, BARCELONA, VALENCIA, SEVILLA, "
+    "ZARAGOZA, MÁLAGA, MURCIA, PALMA y LAS PALMAS DE GRAN CANARIA.\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT + Registro Mercantil + ordenanzas municipales CONSOLIDADAS de "
-    "MADRID capital. NO cubre (aún): ordenanzas de OTROS municipios ni normativa "
+    "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
+    "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
+    "Murcia, Palma, Las Palmas GC). NO cubre (aún): ordenanzas de OTROS municipios ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
     "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
     "resoluciones del TEAC, ni el depósito/contenido de las CUENTAS ANUALES de "
@@ -113,8 +115,8 @@ _INSTRUCTIONS = (
     "encadenes decenas de llamadas: con UNA comprobación basta. Díselo rápido, "
     "indica dónde está (BOP de la provincia / boletín autonómico / web del "
     "ayuntamiento) y ofrece lo más cercano que SÍ tengas (ordenanza análoga de "
-    "Madrid, normativa estatal aplicable, jurisprudencia relacionada). Nunca te "
-    "quedes dando vueltas.\n\n"
+    "una ciudad cubierta, normativa estatal aplicable, jurisprudencia "
+    "relacionada). Nunca te quedes dando vueltas.\n\n"
     "ESTILO: responde directo y resolutivo. No expongas tu razonamiento interno "
     "ni menciones los nombres técnicos de las herramientas o de las fuentes; "
     "preséntate solo como Jurisprudenciator. No digas 'no puedo' si puedes "
@@ -248,9 +250,10 @@ def _clasificar_error(out) -> "str | None":
 # (env JPD_AUTH_MODE=open|warn; 'open' = sin aviso). Redactado como beneficio,
 # nunca como advertencia tecnica: el publico son abogados sin perfil tecnico.
 _AVISO_DEFECTO = (
-    "💡 Aviso de Jurisprudenciator para el usuario (incluyelo al final de tu "
-    "respuesta): ya esta disponible tu URL personal del conector — gratis, "
-    "misma instalacion, 1 minuto. Consiguela en "
+    "💡 Aviso de Jurisprudenciator para el usuario — incluyelo al final de tu "
+    "respuesta UNA SOLA VEZ por conversacion (si ya lo mencionaste antes, "
+    "ignora esta linea por completo): ya esta disponible tu URL personal del "
+    "conector — gratis, misma instalacion, 1 minuto. Consiguela en "
     "https://jurisprudenciator.lexiaipro.org/instalacion y sustituye con ella "
     "la URL del conector cuando puedas."
 )
@@ -1124,8 +1127,9 @@ def estado() -> str:
         "El control antidescargas se resuelve automaticamente en el servidor.",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
-        "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza "
-        "(MADRID capital, texto consolidado AEBOE).",
+        "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
+        "Barcelona, Valencia, Sevilla, Zaragoza, Malaga, Murcia, Palma y "
+        "Las Palmas GC).",
     ])
 
 
@@ -1311,9 +1315,10 @@ def buscar_empresa_mercantil(empresa: str) -> str:
 
 
 # =========================================================================
-# ORDENANZAS MUNICIPALES — motor ordenanzas_engine.py (texto consolidado
-# oficial; por ahora MADRID capital via Codigo AEBOE 329, que la propia AEBOE
-# mantiene al dia). SOLO se activa cuando piden normativa de un ayuntamiento.
+# ORDENANZAS MUNICIPALES — motor ordenanzas_engine.py (fuente oficial por
+# ciudad: Codigo AEBOE 329 para Madrid, API JSON de la sede de Zaragoza,
+# Akoma Ntoso del portal Norma para Barcelona, PDF oficial por norma en el
+# resto). SOLO se activa cuando piden normativa de un ayuntamiento.
 # =========================================================================
 @mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO)
 @_telemetria("buscar_ordenanzas")
@@ -1325,10 +1330,12 @@ def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> s
     concreto. NO para leyes estatales (eso es buscar_articulo / buscar_boe) NI
     jurisprudencia (buscar_sentencias) NI normativa autonomica.
 
-    Municipios cubiertos (por ahora): MADRID capital. Si piden otro municipio,
+    Municipios cubiertos: Madrid, Barcelona, Valencia, Sevilla, Zaragoza,
+    Malaga, Murcia, Palma y Las Palmas de Gran Canaria. Si piden otro,
     esta tool lo indica en UNA llamada: no insistas ni reintentes.
 
-    municipio: "Madrid".
+    municipio: "Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza",
+        "Malaga", "Murcia", "Palma" o "Las Palmas".
     consulta: materia o nombre ("terrazas", "ruido", "IBI"). Vacia = catalogo entero.
     limite: cuantas devolver (defecto 15).
 
@@ -1346,9 +1353,10 @@ def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
     el usuario ya nombra la ordenanza y el municipio). NO para articulos de leyes
     estatales (eso es buscar_articulo).
 
-    municipio: "Madrid".
+    municipio: "Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza",
+        "Malaga", "Murcia", "Palma" o "Las Palmas".
     ordenanza: id devuelto por buscar_ordenanzas (p.ej. conso-66304), referencia
-        oficial (BOCM-m-...) o titulo/materia ("terrazas").
+        oficial o titulo/materia ("terrazas").
     articulo: opcional y RECOMENDADO, numero del articulo ("15", "6 bis"): rapido
         y corto. Si no existe, devuelve el indice de la norma como pista.
     parrafos: 0 = texto integro. >0 = solo los N pasajes mas relevantes.
@@ -1399,6 +1407,40 @@ async def _openai_apps_challenge(request):
 
 app.add_route("/.well-known/openai-apps-challenge", _openai_apps_challenge,
               methods=["GET"])
+
+# --- OAuth 2.1 (RFC 9728): Protected Resource Metadata. Cuando el conector
+# devuelve 401 con WWW-Authenticate (vercel_app.py, modo required o Bearer
+# caducado), el cliente (Claude) lee esta metadata para descubrir DONDE
+# loguearse: la web, que actua de Authorization Server. El `resource` se
+# deriva del Host para que los previews *.vercel.app (staging) funcionen sin
+# configuracion extra. ---
+from starlette.responses import JSONResponse as _JSONResponse
+
+_ISSUER_URL = (os.environ.get("JPD_ISSUER_URL")
+               or "https://jurisprudenciator.lexiaipro.org").rstrip("/")
+
+
+async def _prm_metadata(request):
+    host = (request.headers.get("x-forwarded-host")
+            or request.headers.get("host")
+            or "mcp.jurisprudenciator.lexiaipro.org")
+    return _JSONResponse(
+        {
+            "resource": f"https://{host}/mcp",
+            "authorization_servers": [_ISSUER_URL],
+            "bearer_methods_supported": ["header"],
+            "scopes_supported": ["jurisprudencia"],
+            "resource_name": "Jurisprudenciator",
+        },
+        headers={"Cache-Control": "public, max-age=3600",
+                 "Access-Control-Allow-Origin": "*"},
+    )
+
+
+app.add_route("/.well-known/oauth-protected-resource/mcp", _prm_metadata,
+              methods=["GET", "OPTIONS"])
+app.add_route("/.well-known/oauth-protected-resource", _prm_metadata,
+              methods=["GET", "OPTIONS"])
 
 
 if __name__ == "__main__":
