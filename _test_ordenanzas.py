@@ -188,6 +188,22 @@ TESTS = {
           terminos="vehiculos de movilidad personal patinete"),
         L("impuesto sobre bienes inmuebles", ["no encuentro el articulo"], articulo="999"),
     ],
+    "palma": [
+        B("civismo", ["convivencia"]),
+        B("botellon", ["convivencia"]),
+        B("terrazas", ["ocupacion de via publica"]),
+        B("ruido", ["ruido"]),
+        B("ibi", ["fiscales"]),
+        B("residuos", ["limpieza"]),
+        B("taxi", ["taxi"]),
+        B("mercados", ["mercados"]),
+        L("convivencia", ["consumo de bebidas alcoholicas en los espacios publicos"],
+          parrafos=3, terminos="queda prohibido el consumo de bebidas alcoholicas en los espacios publicos"),
+        L("ordenanzas fiscales", ["tipo de gravamen"], parrafos=2,
+          terminos="bienes inmuebles tipo de gravamen"),
+        L("ruido", ["ruido"], parrafos=2, terminos="valores limite niveles sonoros"),
+        L("ordenanzas fiscales", ["no encuentro el articulo"], articulo="9999"),
+    ],
 }
 
 

@@ -743,8 +743,11 @@ _MALAGA = AdaptadorWeb("malaga", "Malaga",
 _MURCIA = AdaptadorWeb("murcia", "Murcia",
                        ("murcia", "ayuntamiento de murcia", "murcia capital",
                         "ciudad de murcia"))
+_PALMA = AdaptadorWeb("palma", "Palma",
+                      ("palma", "palma de mallorca", "ajuntament de palma",
+                       "ayuntamiento de palma", "ciudad de palma"))
 ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
-                                     _SEVILLA, _MALAGA, _MURCIA)}
+                                     _SEVILLA, _MALAGA, _MURCIA, _PALMA)}
 
 
 def _resolver_municipio(municipio: str):
