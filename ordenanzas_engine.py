@@ -753,6 +753,14 @@ _LASPALMAS = AdaptadorWeb("laspalmas", "Las Palmas de Gran Canaria",
 ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
                                      _SEVILLA, _MALAGA, _MURCIA, _PALMA, _LASPALMAS)}
 
+# Cobertura AMPLIA por Boletín Oficial de la Provincia (BOP): cualquier
+# ayuntamiento de una provincia cubierta (por ahora Sevilla) se resuelve
+# buscando en su BOP en vivo. Motor separado (bop_engine); enrutado abajo.
+try:
+    import bop_engine as _bop
+except Exception:  # noqa: BLE001
+    _bop = None
+
 
 def _resolver_municipio(municipio: str):
     q = _norm(municipio)
@@ -767,12 +775,12 @@ def _resolver_municipio(municipio: str):
 
 def _no_cubierto(municipio: str) -> str:
     cubiertos = ", ".join(sorted(a.nombre.upper() for a in ADAPTADORES.values()))
-    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Ordenanzas municipales "
-            f"disponibles SOLO de: {cubiertos}. Las de otros municipios se publican en el "
-            "Boletin Oficial de su PROVINCIA (BOP) y en la web/sede electronica del "
-            "ayuntamiento; no las tengo en linea. NO repitas esta llamada: informa al usuario "
-            "de donde encontrarla y ofrece normativa estatal (buscar_articulo / buscar_boe) o "
-            "jurisprudencia (buscar_sentencias) relacionada.")
+    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Cubro las 9 mayores "
+            f"ciudades ({cubiertos}) y TODOS los ayuntamientos de la provincia de SEVILLA (via "
+            "su Boletin Oficial de la Provincia). Las ordenanzas de otros municipios se publican "
+            "en el BOP de su provincia y en la web/sede del ayuntamiento; aun no los tengo. NO "
+            "repitas esta llamada: informa de donde encontrarla y ofrece normativa estatal "
+            "(buscar_articulo / buscar_boe) o jurisprudencia (buscar_sentencias) relacionada.")
 
 
 # ================================================================ API pública
@@ -780,6 +788,10 @@ def buscar(municipio: str, consulta: str = "", limite: int = 15) -> str:
     t0 = time.perf_counter()
     ad = _resolver_municipio(municipio)
     if not ad:
+        if _bop is not None and _bop.provincia_de(municipio):
+            r = _bop.buscar(municipio, consulta, limite)   # cobertura por BOP
+            if r is not None:
+                return r
         return _no_cubierto(municipio)
     try:
         limite = max(1, min(int(limite or 15), 80))
@@ -818,6 +830,10 @@ def leer(municipio: str, ordenanza: str, articulo: str = "", parrafos: int = 0,
     t0 = time.perf_counter()
     ad = _resolver_municipio(municipio)
     if not ad:
+        if _bop is not None and _bop.provincia_de(municipio):
+            r = _bop.leer(municipio, ordenanza, articulo, parrafos, terminos, max_chars)
+            if r is not None:
+                return r
         return _no_cubierto(municipio)
     try:
         norma = ad.resolver(ordenanza)

@@ -99,13 +99,17 @@ _INSTRUCTIONS = (
     "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
     "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
-    "leer_ordenanza. Cubiertos: MADRID, BARCELONA, VALENCIA, SEVILLA, "
-    "ZARAGOZA, MÁLAGA, MURCIA, PALMA y LAS PALMAS DE GRAN CANARIA.\n"
+    "leer_ordenanza. Cubiertos: las 9 mayores ciudades (MADRID, BARCELONA, "
+    "VALENCIA, SEVILLA, ZARAGOZA, MÁLAGA, MURCIA, PALMA, LAS PALMAS) y TODOS "
+    "los ayuntamientos de la PROVINCIA DE SEVILLA (vía su BOP: Dos Hermanas, "
+    "Utrera, Écija, Alcalá de Guadaíra, Umbrete, Lora del Río, etc.).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
     "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
-    "Murcia, Palma, Las Palmas GC). NO cubre (aún): ordenanzas de OTROS municipios ni normativa "
+    "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de la PROVINCIA "
+    "DE SEVILLA (vía su BOP). NO cubre (aún): ordenanzas de municipios de otras "
+    "provincias ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
     "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
     "resoluciones del TEAC, ni el depósito/contenido de las CUENTAS ANUALES de "
@@ -1330,16 +1334,18 @@ def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> s
     concreto. NO para leyes estatales (eso es buscar_articulo / buscar_boe) NI
     jurisprudencia (buscar_sentencias) NI normativa autonomica.
 
-    Municipios cubiertos: Madrid, Barcelona, Valencia, Sevilla, Zaragoza,
-    Malaga, Murcia, Palma y Las Palmas de Gran Canaria. Si piden otro,
-    esta tool lo indica en UNA llamada: no insistas ni reintentes.
+    Municipios cubiertos: las 9 mayores ciudades (Madrid, Barcelona, Valencia,
+    Sevilla, Zaragoza, Malaga, Murcia, Palma, Las Palmas) y CUALQUIER
+    ayuntamiento de la PROVINCIA DE SEVILLA via su BOP (Dos Hermanas, Utrera,
+    Ecija, Umbrete, Lora del Rio, Osuna...). Si piden otro municipio, esta tool
+    lo indica en UNA llamada: no insistas ni reintentes.
 
-    municipio: "Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza",
-        "Malaga", "Murcia", "Palma" o "Las Palmas".
-    consulta: materia o nombre ("terrazas", "ruido", "IBI"). Vacia = catalogo entero.
+    municipio: "Madrid", "Dos Hermanas", "Utrera", "Umbrete"...
+    consulta: materia ("terrazas", "residuos/basura", "ruido", "IBI"). En los
+        municipios de Sevilla via BOP, la materia guia la busqueda en el boletin.
     limite: cuantas devolver (defecto 15).
 
-    Devuelve titulo, referencia oficial, ultima modificacion y el id para
+    Devuelve titulo, referencia oficial (CVE/BOP o BOCM) y el id para
     leer_ordenanza."""
     return _ord.buscar(municipio, consulta, limite)
 
@@ -1353,10 +1359,12 @@ def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
     el usuario ya nombra la ordenanza y el municipio). NO para articulos de leyes
     estatales (eso es buscar_articulo).
 
-    municipio: "Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza",
-        "Malaga", "Murcia", "Palma" o "Las Palmas".
-    ordenanza: id devuelto por buscar_ordenanzas (p.ej. conso-66304), referencia
-        oficial o titulo/materia ("terrazas").
+    municipio: cualquiera de las 9 ciudades o de la provincia de Sevilla
+        ("Madrid", "Dos Hermanas", "Utrera", "Umbrete", "Lora del Rio"...).
+    ordenanza: id de buscar_ordenanzas (p.ej. conso-66304), CVE del BOP
+        (BOP-SE-2024-091027), referencia oficial o titulo/materia ("terrazas",
+        "residuos"). En municipios de Sevilla, la materia localiza la ordenanza
+        en el BOP.
     articulo: opcional y RECOMENDADO, numero del articulo ("15", "6 bis"): rapido
         y corto. Si no existe, devuelve el indice de la norma como pista.
     parrafos: 0 = texto integro. >0 = solo los N pasajes mas relevantes.
