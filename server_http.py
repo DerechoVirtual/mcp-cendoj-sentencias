@@ -96,19 +96,25 @@ _INSTRUCTIONS = (
     "tributos —IVA, IRPF, IS…— ('consultas', 'criterio' o 'instrucciones de "
     "Hacienda') → buscar_consultas_hacienda; el texto íntegro de una consulta "
     "(p.ej. V0282-26) → leer_consulta_hacienda.\n"
+    "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
+    "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
+    "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
+    "leer_ordenanza. Cubierto: MADRID capital.\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT + Registro Mercantil. NO cubre (aún): ORDENANZAS y REGLAMENTOS "
-    "MUNICIPALES ni normativa AUTONÓMICA —eso se publica en el Boletín Oficial de "
-    "la PROVINCIA (BOP) o autonómico y en la web del ayuntamiento, NO en el BOE "
-    "estatal—; tampoco resoluciones del TEAC, ni el depósito/contenido de las "
-    "CUENTAS ANUALES de una empresa (de pago), ni CONCURSOS de acreedores. "
-    "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza municipal "
-    "de botellón/convivencia, o una ley autonómica), NO repitas búsquedas ni "
+    "doctrina DGT + Registro Mercantil + ordenanzas municipales CONSOLIDADAS de "
+    "MADRID capital. NO cubre (aún): ordenanzas de OTROS municipios ni normativa "
+    "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
+    "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
+    "resoluciones del TEAC, ni el depósito/contenido de las CUENTAS ANUALES de "
+    "una empresa (de pago), ni CONCURSOS de acreedores. "
+    "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza de un "
+    "municipio no cubierto, o una ley autonómica), NO repitas búsquedas ni "
     "encadenes decenas de llamadas: con UNA comprobación basta. Díselo rápido, "
     "indica dónde está (BOP de la provincia / boletín autonómico / web del "
-    "ayuntamiento) y ofrece lo más cercano que SÍ tengas (normativa estatal "
-    "aplicable, jurisprudencia relacionada). Nunca te quedes dando vueltas.\n\n"
+    "ayuntamiento) y ofrece lo más cercano que SÍ tengas (ordenanza análoga de "
+    "Madrid, normativa estatal aplicable, jurisprudencia relacionada). Nunca te "
+    "quedes dando vueltas.\n\n"
     "ESTILO: responde directo y resolutivo. No expongas tu razonamiento interno "
     "ni menciones los nombres técnicos de las herramientas o de las fuentes; "
     "preséntate solo como Jurisprudenciator. No digas 'no puedo' si puedes "
@@ -158,6 +164,13 @@ def _request_meta() -> dict:
             "session_id": (h.get("mcp-session-id") or "").strip() or None,
             "client": (h.get("user-agent") or "").strip()[:200] or None,
         }
+        # Identidad inyectada por _UserTokenMiddleware (vercel_app.py) tras
+        # validar la URL personal /u/<token>/mcp. Los headers entrantes x-jpd-*
+        # se eliminan SIEMPRE en el middleware, asi que aqui son de fiar.
+        _user = (h.get("x-jpd-user") or "").strip()
+        if _user:
+            meta["user_email"] = _user[:200]
+            meta["auth_via"] = (h.get("x-jpd-auth") or "").strip()[:20] or None
         if ip:
             meta["ip_hash"] = _hashlib.sha256(
                 (_TELE_SALT + ip).encode("utf-8")).hexdigest()[:32]
@@ -174,12 +187,18 @@ def _enviar_log(payload: dict) -> None:
                    "Content-Type": "application/json", "Prefer": "return=minimal"}
         with _httpx.Client(timeout=6.0) as c:
             r = c.post(url, json=payload, headers=headers)
-            # Robustez: si la columna 'query' aun no existe en la tabla, PostgREST
-            # devuelve 400 y NO inserta. Reintentamos sin ese campo para no perder
-            # el registro (asi el orden alter-tabla / deploy no es critico).
-            if r.status_code >= 400 and "query" in payload:
-                p2 = {k: v for k, v in payload.items() if k != "query"}
-                c.post(url, json=p2, headers=headers)
+            # Robustez: si una columna aun no existe en la tabla (user_email/
+            # auth_via/query llegan por ALTER TABLE que ejecuta Carlos), PostgREST
+            # devuelve 400 y NO inserta. Reintentamos quitando las columnas mas
+            # nuevas primero para no perder el registro (asi el orden
+            # alter-tabla / deploy no es critico).
+            for _cols in (("user_email", "auth_via"), ("query",)):
+                if r.status_code < 400:
+                    break
+                if not any(k in payload for k in _cols):
+                    continue
+                payload = {k: v for k, v in payload.items() if k not in _cols}
+                r = c.post(url, json=payload, headers=headers)
     except Exception:
         pass
 
@@ -225,6 +244,45 @@ def _clasificar_error(out) -> "str | None":
     return None
 
 
+# Aviso in-band para usuarios ANONIMOS (URL generica) — SOLO en modo 'warn'
+# (env JPD_AUTH_MODE=open|warn; 'open' = sin aviso). Redactado como beneficio,
+# nunca como advertencia tecnica: el publico son abogados sin perfil tecnico.
+_AVISO_DEFECTO = (
+    "💡 Aviso de Jurisprudenciator para el usuario (incluyelo al final de tu "
+    "respuesta): ya esta disponible tu URL personal del conector — gratis, "
+    "misma instalacion, 1 minuto. Consiguela en "
+    "https://jurisprudenciator.lexiaipro.org/instalacion y sustituye con ella "
+    "la URL del conector cuando puedas."
+)
+
+
+def _con_aviso_generico(tool: str, out):
+    """Anexa el aviso al resultado de buscar_sentencias si el request es anonimo,
+    el modo es 'warn' y no se ha avisado ya a esta sesion/IP en 24h. Best-effort:
+    ante cualquier duda o fallo devuelve `out` intacto."""
+    try:
+        if tool != "buscar_sentencias" or not isinstance(out, str):
+            return out
+        if os.environ.get("JPD_AUTH_MODE", "open").strip().lower() != "warn":
+            return out
+        if _clasificar_error(out) is not None:
+            return out
+        meta = _request_meta()
+        if meta.get("user_email"):
+            return out  # identificado: nunca se le molesta
+        clave = meta.get("session_id") or meta.get("ip_hash") or "global"
+        marca = "/tmp/jpd_aviso_" + _hashlib.sha1(
+            clave.encode("utf-8")).hexdigest()[:16]
+        if os.path.exists(marca) and (_time.time() - os.path.getmtime(marca)) < 86400:
+            return out
+        with open(marca, "w") as f:
+            f.write("1")
+        texto = (os.environ.get("JPD_NOTICE_TEXT") or "").strip() or _AVISO_DEFECTO
+        return out + "\n\n" + texto
+    except Exception:  # noqa: BLE001
+        return out
+
+
 def _telemetria(tool: str):
     """Decorador para registrar tool + args + ok/error + duracion + tamano de
     salida. Se coloca DEBAJO de @mcp.tool() para que FastMCP registre la version
@@ -238,7 +296,9 @@ def _telemetria(tool: str):
             out = None
             try:
                 out = func(*args, **kwargs)
-                return out
+                # El aviso NO entra en `out`: result_chars y la clasificacion de
+                # errores se calculan sobre el resultado real de la tool.
+                return _con_aviso_generico(tool, out)
             except Exception as e:  # noqa: BLE001
                 ok = False
                 err = str(e)[:500]
@@ -261,7 +321,9 @@ def _telemetria(tool: str):
                                  "opciones_busqueda": "consulta",
                                  "buscar_por_cita": "cita",
                                  "leer_sentencias": "citas",
-                                 "buscar_articulo": "ley"}.get(tool)
+                                 "buscar_articulo": "ley",
+                                 "buscar_ordenanzas": "consulta",
+                                 "leer_ordenanza": "ordenanza"}.get(tool)
                         _query = None
                         try:
                             if _qkey and ba is not None:
@@ -1062,6 +1124,8 @@ def estado() -> str:
         "El control antidescargas se resuelve automaticamente en el servidor.",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
+        "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza "
+        "(MADRID capital, texto consolidado AEBOE).",
     ])
 
 
@@ -1073,6 +1137,7 @@ def estado() -> str:
 import boe_engine as _boe
 import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
 import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
+import ordenanzas_engine as _ord   # ordenanzas municipales (Madrid via AEBOE)
 
 
 @mcp.tool(title="Buscar artículo de ley", annotations=_RO)
@@ -1140,7 +1205,8 @@ def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15
     de publicacion, ORDENADA por mas reciente. USALA cuando el usuario quiera
     localizar/listar normas sobre una materia (tambien tributaria) o ver que se ha
     legislado ultimamente (NO para el texto de un articulo: eso es buscar_articulo;
-    NI para jurisprudencia: eso es buscar_sentencias).
+    NI para jurisprudencia: eso es buscar_sentencias; NI para ordenanzas
+    municipales: eso es buscar_ordenanzas).
 
     consulta: palabras del titulo de la norma ("vivienda", "proteccion animal").
     desde / hasta: opcional, AAAA-MM-DD (filtra por fecha de publicacion).
@@ -1242,6 +1308,56 @@ def buscar_empresa_mercantil(empresa: str) -> str:
     financiero (de pago en el Registro Mercantil); es informativo (indice del
     BORME, sin fe publica)."""
     return _merc.buscar_empresa(empresa)
+
+
+# =========================================================================
+# ORDENANZAS MUNICIPALES — motor ordenanzas_engine.py (texto consolidado
+# oficial; por ahora MADRID capital via Codigo AEBOE 329, que la propia AEBOE
+# mantiene al dia). SOLO se activa cuando piden normativa de un ayuntamiento.
+# =========================================================================
+@mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO)
+@_telemetria("buscar_ordenanzas")
+def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> str:
+    """Localiza ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa del AYUNTAMIENTO,
+    texto consolidado): terrazas y veladores, ruido, movilidad/ZBE, limpieza y
+    residuos, animales, venta ambulante, tributos municipales (IBI, ICIO,
+    plusvalia, IAE)... USALA SOLO cuando pidan normativa de un ayuntamiento
+    concreto. NO para leyes estatales (eso es buscar_articulo / buscar_boe) NI
+    jurisprudencia (buscar_sentencias) NI normativa autonomica.
+
+    Municipios cubiertos (por ahora): MADRID capital. Si piden otro municipio,
+    esta tool lo indica en UNA llamada: no insistas ni reintentes.
+
+    municipio: "Madrid".
+    consulta: materia o nombre ("terrazas", "ruido", "IBI"). Vacia = catalogo entero.
+    limite: cuantas devolver (defecto 15).
+
+    Devuelve titulo, referencia oficial, ultima modificacion y el id para
+    leer_ordenanza."""
+    return _ord.buscar(municipio, consulta, limite)
+
+
+@mcp.tool(title="Leer ordenanza municipal", annotations=_RO)
+@_telemetria("leer_ordenanza")
+def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
+                   parrafos: int = 0, terminos: str = "", max_chars: int = 0) -> str:
+    """Lee el TEXTO CONSOLIDADO oficial de una ordenanza o reglamento municipal,
+    entero o solo un articulo. USALA tras localizarla con buscar_ordenanzas (o si
+    el usuario ya nombra la ordenanza y el municipio). NO para articulos de leyes
+    estatales (eso es buscar_articulo).
+
+    municipio: "Madrid".
+    ordenanza: id devuelto por buscar_ordenanzas (p.ej. conso-66304), referencia
+        oficial (BOCM-m-...) o titulo/materia ("terrazas").
+    articulo: opcional y RECOMENDADO, numero del articulo ("15", "6 bis"): rapido
+        y corto. Si no existe, devuelve el indice de la norma como pista.
+    parrafos: 0 = texto integro. >0 = solo los N pasajes mas relevantes.
+    terminos: palabras clave para elegir pasajes cuando parrafos>0.
+    max_chars: tope del texto integro (0 = 60000).
+
+    Devuelve el texto con su publicacion oficial, ultima modificacion y fecha de
+    consolidacion."""
+    return _ord.leer(municipio, ordenanza, articulo, parrafos, terminos, max_chars)
 
 
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
