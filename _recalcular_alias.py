@@ -24,6 +24,8 @@ GENERADORES = {
     "valencia": "_gen_catalogo_valencia",
     "zaragoza": "_gen_catalogo_zaragoza",
     "barcelona": "_gen_catalogo_barcelona",
+    "malaga": "_gen_catalogo_malaga",
+    "sevilla": "_gen_catalogo_sevilla",
 }
 
 

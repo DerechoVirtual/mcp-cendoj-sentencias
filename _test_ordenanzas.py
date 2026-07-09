@@ -148,6 +148,26 @@ TESTS = {
         L("terrazas de veladores", ["veladores"], parrafos=2, terminos="horario maximo veladores"),
         L("instituto del taxi", ["no encuentro el articulo"], articulo="999"),
     ],
+    "malaga": [
+        B("terrazas", ["ocupacion de la via publica"]),
+        B("botellon", ["convivencia"]),
+        B("ruido", ["ruido y vibraciones"]),
+        B("movilidad", ["ordenanza de movilidad"]),
+        B("zbe", ["movilidad"]),
+        B("ibi", ["bienes inmuebles"]),
+        B("playas", ["playas"]),
+        B("publicidad", ["publicitari"]),
+        B("ite", ["inspeccion tecnica"]),
+        B("subvenciones", ["subvenciones"]),
+        L("convivencia", ["bebidas alcoholicas"], parrafos=2,
+          terminos="bebidas alcoholicas via publica"),
+        L("ordenanza de movilidad", ["zona de bajas emisiones"], parrafos=2,
+          terminos="zona de bajas emisiones distintivo ambiental"),
+        L("ruido y vibraciones", ["limite"], parrafos=2, terminos="valores limite niveles sonoros dBA"),
+        L("impuesto sobre bienes inmuebles", ["gravamen"], parrafos=2, terminos="tipo de gravamen"),
+        L("playas", ["playa"], parrafos=2, terminos="animales perros prohibido playa"),
+        L("ordenanza de movilidad", ["no encuentro el articulo"], articulo="9999"),
+    ],
 }
 
 

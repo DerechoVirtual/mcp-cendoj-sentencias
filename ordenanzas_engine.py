@@ -722,7 +722,11 @@ _VALENCIA = AdaptadorWeb("valencia", "Valencia",
 _SEVILLA = AdaptadorWeb("sevilla", "Sevilla",
                         ("sevilla", "ayuntamiento de sevilla", "sevilla capital",
                          "ciudad de sevilla"))
-ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA, _SEVILLA)}
+_MALAGA = AdaptadorWeb("malaga", "Malaga",
+                       ("malaga", "ayuntamiento de malaga", "malaga capital",
+                        "ciudad de malaga"))
+ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
+                                     _SEVILLA, _MALAGA)}
 
 
 def _resolver_municipio(municipio: str):

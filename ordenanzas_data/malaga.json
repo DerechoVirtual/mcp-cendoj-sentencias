@@ -1,0 +1,1675 @@
+{
+ "meta": {
+  "municipio": "malaga",
+  "fuente": "Ayuntamiento de Malaga (normativa municipal, PDF oficial por norma)",
+  "url": "https://www.malaga.eu/el-ayuntamiento/normativa-municipal/"
+ },
+ "normas": [
+  {
+   "id": "mlg-640",
+   "titulo": "Ordenanza de Movilidad de la ciudad de Malaga",
+   "cat": "Movilidad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "zbe",
+    "zona de bajas emisiones"
+   ],
+   "url": "https://movilidad.malaga.eu/opencms/export/sites/movilidad/.content/galerias/Documentos-del-site/Ordenanza-de-Movilidad-de-la-Ciudad-de-Malaga-2024.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-752",
+   "titulo": "Ordenanza Específica reguladora de la ayuda económica a personas propietarias de viviendas con escasos recursos económicos para el mantenimiento de su medio habitual",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vivienda"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/752/DocumentoNormativa752",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-802",
+   "titulo": "Ordenanza General de Gestión Inspección y Recaudación de Ingresos de Derecho Público",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ordenanza fiscal general",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/802/DocumentoNormativa802",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-763",
+   "titulo": "Ordenanza General de Subvenciones del Ayuntamiento de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/763/DocumentoNormativa763",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-698",
+   "titulo": "Ordenanza Municipal Reguladora de Bienestar, Protección y Tenencia Responsable de Animales",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/698/DocumentoNormativa698",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-734",
+   "titulo": "Ordenanza Municipal Reguladora de la Prestación Patrimonial de Carácter Público No Tributario por los Servicios de Tratamiento y/o Eliminación de Residuos Sólidos Urbanos, así como otros Servicios Específicos y Extraordinarios de Eliminación de Residuos",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/734/DocumentoNormativa734",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-683",
+   "titulo": "Ordenanza Municipal Reguladora del Servicio de Transporte de Viajeros en Coches de Caballos",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/683/DocumentoNormativa683",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-639",
+   "titulo": "Ordenanza Municipal de Conservación e Inspección Técnica de las Edificaciones",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/639/DocumentoNormativa639",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-493",
+   "titulo": "Ordenanza Municipal de Protección contra Incendios",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/493/DocumentoNormativa493",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-765",
+   "titulo": "Ordenanza Municipal de Transporte Público Regular de Uso Especial de Escolares y Otros Usuarios de Transporte",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/765/DocumentoNormativa765",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-794",
+   "titulo": "Ordenanza Municipal de tramitación de licencias urbanísticas, declaraciones responsables y demás medios de intervención en el uso del suelo y la edificación- OMLU",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/794/DocumentoNormativa794",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-685",
+   "titulo": "Ordenanza Municipal del Servicio de Taxi",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/685/DocumentoNormativa685",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-607",
+   "titulo": "Ordenanza Reguladora de la Administración Electrónica del Excmo. Ayuntamiento de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "administracion electronica",
+    "sede electronica",
+    "registro electronico"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/607/DocumentoNormativa607",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-666",
+   "titulo": "Ordenanza Reguladora de la Cesión y Uso de Bienes Inmuebles de Titularidad Municipal a Asociaciones y Entidades sin Ánimo de Lucro",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/666/DocumentoNormativa666",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-713",
+   "titulo": "Ordenanza Reguladora de la Ocupación de la Vía Pública",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "horario de terrazas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/713/DocumentoNormativa713",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-594",
+   "titulo": "Ordenanza Reguladora de la Venta Ambulante",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/594/DocumentoNormativa594",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-772",
+   "titulo": "Ordenanza Reguladora de la prestación patrimonial de carácter público no tributario por la prestación de los servicios de saneamiento y depuración de aguas residuales y otros servicios conexos",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/772/DocumentoNormativa772",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-807",
+   "titulo": "Ordenanza Reguladora de la prestación patrimonial de carácter público no tributario por la prestación del servicio de abastecimio de agua potable, y otros servicios conexos",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/807/DocumentoNormativa807",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-452",
+   "titulo": "Ordenanza Reguladora de las Subvenciones para el Fomento de la Rehabilitación, Adecuación y Reparación de Edificios",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/452/DocumentoNormativa452",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-749",
+   "titulo": "Ordenanza Reguladora de los Mercados Minoristas del Excmo. Ayuntamiento de Málaga 2021",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/749/DocumentoNormativa749",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-800",
+   "titulo": "Ordenanza Reguladora de los Patrocinios Privados de Actividades Municipales",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/800/DocumentoNormativa800",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-601",
+   "titulo": "Ordenanza Reguladora del Funcionamiento del Registro Público Municipal de Demandantes de Vivienda Protegida",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vivienda"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/601/DocumentoNormativa601",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-539",
+   "titulo": "Ordenanza Reguladora del Procedimiento de Ejercicio de Actividades (ORPEA).",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/539/DocumentoNormativa539",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-14",
+   "titulo": "Ordenanza de Promoción y Conservación de Zonas Verdes",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/14/DocumentoNormativa14",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-385",
+   "titulo": "Ordenanza de Urbanización",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/385/DocumentoNormativa385",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-793",
+   "titulo": "Ordenanza de la Feria de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/793/DocumentoNormativa793",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-9",
+   "titulo": "Ordenanza de las Instalaciones y las Actividades Publicitarias",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/9/DocumentoNormativa9",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-262",
+   "titulo": "Ordenanza de medidas para moderar la velocidad en la ciudad de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "velocidad",
+    "limite de velocidad"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/262/DocumentoNormativa262",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-773",
+   "titulo": "Ordenanza de rótulos e instalaciones publicitarias",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/773/DocumentoNormativa773",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-796",
+   "titulo": "Ordenanza de sectores de aparcamiento regulado (SARE) en superficie y con limitación horaria en la ciudad de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/796/DocumentoNormativa796",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-15",
+   "titulo": "Ordenanza de uso y disfrute de las Playas del Término Municipal de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "playa",
+    "playas",
+    "costa"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/15/DocumentoNormativa15",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-630",
+   "titulo": "Ordenanza del Ciclo Integral del Agua",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/630/DocumentoNormativa630",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-16",
+   "titulo": "Ordenanza frente a la Contaminación Atmosférica",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "calidad del aire",
+    "emisiones",
+    "contaminacion atmosferica",
+    "calderas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/16/DocumentoNormativa16",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-27",
+   "titulo": "Ordenanza general de Obras y Servicios en la Vía Pública",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/27/DocumentoNormativa27",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-733",
+   "titulo": "Ordenanza para la Limpieza de Espacios Públicos y Gestión Integral de los Residuos Sólidos Urbanos",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/733/DocumentoNormativa733",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-434",
+   "titulo": "Ordenanza para la Prevención y Control de Ruido y Vibraciones",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/434/DocumentoNormativa434",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-782",
+   "titulo": "Ordenanza para la garantía de la convivencia ciudadana y la protección del espacio urbano de la ciudad de Málaga (2023)",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "consumo de alcohol en la via publica"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/782/DocumentoNormativa782",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-783",
+   "titulo": "Ordenanza para la prestación del servicio público de transporte urbano colectivo de viajeros en la ciudad de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/783/DocumentoNormativa783",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-602",
+   "titulo": "Ordenanza por la que se regula el procedimiento de adjudicación de viviendas protegidas en alquiler a unidades familiares o de convivencia en situación o riesgo de exclusión social, cambios y traslados de viviendas arrendadas y permutas de viviendas accesibles",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "vivienda",
+    "consumo de alcohol en la via publica"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/602/DocumentoNormativa602",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-134",
+   "titulo": "Ordenanza reguladora de Accesibilidad del Municipio",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/134/DocumentoNormativa134",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-135",
+   "titulo": "Ordenanza reguladora de Cementerios y otros Servicios Funerarios en el Municipio de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/135/DocumentoNormativa135",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-176",
+   "titulo": "Ordenanza reguladora de la Distribución Gratuita de Prensa en la Vía Pública",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/176/DocumentoNormativa176",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-136",
+   "titulo": "Ordenanza reguladora de la Nominación y Rotulación de Calles y demás Vías Urbanas de la Ciudad de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/136/DocumentoNormativa136",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-780",
+   "titulo": "Ordenanza reguladora de la ocupación del dominio público y espacios libres abiertos al uso público mediante la instalación de quioscos en la ciudad de Málaga",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/780/DocumentoNormativa780",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-759",
+   "titulo": "Ordenanza reguladora de la prestación patrimonial de carácter público no tributaria por los servicios y actividades relacionadas con la recogida de residuos sólidos urbanos generados por la realización de actividades económicas realizadas por Limpieza de Málaga, S.A.M. 2022",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/759/DocumentoNormativa759",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-785",
+   "titulo": "Ordenanza reguladora de las prestaciones económicas de los servicios sociales comunitarios",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/785/DocumentoNormativa785",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-741",
+   "titulo": "Ordenanza reguladora del Registro Municipal de Solares y Edificaciones Ruinosas",
+   "cat": "Ordenanzas administrativas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/741/DocumentoNormativa741",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-806",
+   "titulo": "Ordenanza Fiscal Nº 22, Reguladora de la tasa por el estacionamiento regulado de vehículos en las vías públicas de la ciudad de Málaga.",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/806/DocumentoNormativa806",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-776",
+   "titulo": "Ordenanza Nº 01. Impuesto sobre Bienes Inmuebles 2024",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/776/DocumentoNormativa776",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-754",
+   "titulo": "Ordenanza Nº 02. Impuesto sobre Actividades Económicas 2022",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/754/DocumentoNormativa754",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-742",
+   "titulo": "Ordenanza Nº 03. Impuesto sobre Vehículos de Tracción Mecánica",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/742/DocumentoNormativa742",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-789",
+   "titulo": "Ordenanza Nº 04. Impuesto sobre Construcciones, Instalaciones y Obras",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "icio",
+    "impuesto de obras"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/789/DocumentoNormativa789",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-804",
+   "titulo": "Ordenanza Nº 05. Impuesto sobre el incremento del valor de los terrenos de naturaleza urbana",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/804/DocumentoNormativa804",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-689",
+   "titulo": "Ordenanza Nº 06. Reguladora de tasa por ocupación de terrenos de uso o dominio público por Cajeros Automáticos de Entidades Financieras instalados en la fachada de establecimientos y manipulables desde la vía pública",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/689/DocumentoNormativa689",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-760",
+   "titulo": "Ordenanza Nº 07/2022 reguladora de la tasa por aprovechamiento especial de espacios de dominio público de los monumentos Alcazaba y Castillo de Gibralfaro",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/760/DocumentoNormativa760",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-562",
+   "titulo": "Ordenanza Nº 08. Tasa por Prestación del Servicio de Inspección y Control Sanitarios en Mataderos, Salas de Despiece, Centros de Abastecimiento y Establecimientos del Sector Alimentario en General 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/562/DocumentoNormativa562",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-805",
+   "titulo": "Ordenanza Nº 09. Tansmisiones onerosas de titularidad de los quioscos situados en la vía pública.",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/805/DocumentoNormativa805",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-801",
+   "titulo": "Ordenanza Nº 09. Tasa por la transmisión onerosa de la titularidad de los quioscos situados en la vía pública 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/801/DocumentoNormativa801",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-756",
+   "titulo": "Ordenanza Nº 10/2022. Reguladora de las Tasas por la Utilización Privativa o Aprovechamiento especial de la Vía Pública",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/756/DocumentoNormativa756",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-791",
+   "titulo": "Ordenanza Nº 11. Celebración de bodas civiles en el Ayuntamiento de Málaga",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/791/DocumentoNormativa791",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-690",
+   "titulo": "Ordenanza Nº 12. Tasa por la utilización de espacios en edificios municipales",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/690/DocumentoNormativa690",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-567",
+   "titulo": "Ordenanza Nº 13. Tasas por Derechos de Examen",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/567/DocumentoNormativa567",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-568",
+   "titulo": "Ordenanza Nº 14. Tasa por la Prestación de Servicios en Materia de Auto-taxi y otras actuaciones relacionadas con los mismos 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/568/DocumentoNormativa568",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-635",
+   "titulo": "Ordenanza Nº 15. Tasas por Actuaciones Urbanísticas 2013",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/635/DocumentoNormativa635",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-673",
+   "titulo": "Ordenanza Nº 16. Tasas por la realización de actividades administrativas con motivo de la apertura de establecimientos 2016",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/673/DocumentoNormativa673",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-647",
+   "titulo": "Ordenanza Nº 17. Reguladora de la Tasa por el Mantenimiento y Prestacción de los Servicios de Extinción de Incendios, Salvamento, Prevención y Emergencias que se Realizan desde los Servicios Municipales del Ayuntamiento de Málaga 2014",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/647/DocumentoNormativa647",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-573",
+   "titulo": "Ordenanza Nº 20. Tasa sobre Protección Arqueológica 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/573/DocumentoNormativa573",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-766",
+   "titulo": "Ordenanza Nº 23. Tasa por Derechos de Examen para la obtención del Certificado Municipal de Conductor de Taxi",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/766/DocumentoNormativa766",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-577",
+   "titulo": "Ordenanza Nº 24. Tasa por las Actuaciones Administrativas relacionadas con los Coches de Caballos 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/577/DocumentoNormativa577",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-171",
+   "titulo": "Ordenanza Nº 25. Contribuciones Especiales",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/171/DocumentoNormativa171",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-649",
+   "titulo": "Ordenanza Nº 29. Reguladora de la Tasa por la Prestación de Determinados Servicios Especiales por la Policía Local 2014",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/649/DocumentoNormativa649",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-113",
+   "titulo": "Ordenanza Nº 30. Tasas por Realización de Obras",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/113/DocumentoNormativa113",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-743",
+   "titulo": "Ordenanza Nº 32/2021. Precio Publico por la Prestación de Servicios en el Centro Más Joven 'La Caja Blanca' Dependiente del Área de Juventud",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/743/DocumentoNormativa743",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-622",
+   "titulo": "Ordenanza Nº 33. Tasas por ocupación de terrenos de uso público con mercancías, materiales de construcción, escombros, vallas, puntales, asnillas, andamios y otras instalaciones análogas 2013",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/622/DocumentoNormativa622",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-722",
+   "titulo": "Ordenanza Nº 34. Precios Públicos para la prestación de los servicios de la Orquesta Filarmónica de Málaga",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/722/DocumentoNormativa722",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-737",
+   "titulo": "Ordenanza Nº 35. Precios Públicos por la participación en programas de actividades formativas y lúdicas organizadas por el Área de Juventud del Ayuntamiento de Málaga.",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/737/DocumentoNormativa737",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-694",
+   "titulo": "Ordenanza Nº 41. Tasas por utilización privativa o los aprovechamientos especiales constituidos en el Subsuelo, Suelo o Vuelo de la Vía Pública Municipal o Terrenos de Uso Público 2017",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/694/DocumentoNormativa694",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-720",
+   "titulo": "Ordenanza Nº 42. Tasa por la entrada y/o salida de vehículos a/o desde edificios, establecimientos, instalaciones o parcelas de uso público y la reserva de vía pública para estacionamiento parar 2019",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/720/DocumentoNormativa720",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-717",
+   "titulo": "Ordenanza Nº 46. Precio público por la prestación de servicios en el centro zoonsanitario municipal",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/717/DocumentoNormativa717",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-584",
+   "titulo": "Ordenanza Nº 48. Precio Público por la Prestación del Servicio para la Descontaminación y Eliminación de Vehículos al final de su Vida Útil 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/584/DocumentoNormativa584",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-651",
+   "titulo": "Ordenanza Nº 49. Tasa por Prestación de Servicios de Mercados Municipales 2014",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/651/DocumentoNormativa651",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-586",
+   "titulo": "Ordenanza Nº 50. Precios Públicos de los Servicios y las Actividades de la Fundación Deportiva Municipal de Málaga 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/586/DocumentoNormativa586",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-757",
+   "titulo": "Ordenanza Nº 51/2022 reguladora del precio público por la prestación del servicio de visitas al jardín botánico-histórico \"La Concepción\"",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/757/DocumentoNormativa757",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-744",
+   "titulo": "Ordenanza Nº 52/2021. Reguladora del Precio Público por la Prestación del Servicio de Ayuda a Domicilio",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/744/DocumentoNormativa744",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-595",
+   "titulo": "Ordenanza Nº 53. Tasa por el Aprovechamiento Especial del Recinto e Instalaciones del Parque del Oeste 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/595/DocumentoNormativa595",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-589",
+   "titulo": "Ordenanza Nº 56. Precio Público por las Publicaciones de la Escuela de Policía Local, Protección Civil y Extinción de Incendios del Excmo. Ayuntamiento de Málaga 2012",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/589/DocumentoNormativa589",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-710",
+   "titulo": "Ordenanza Nº 57. Precio Público por las Actividades y Servicios desarrollados por la Escuela de Policía Local, Protección Civil y Extinción de Incendios del Excmo. Ayuntamiento de Málaga",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/710/DocumentoNormativa710",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-792",
+   "titulo": "Ordenanza Nº 59 Reguladora de la tasa por utilización privada o aprovechamiento especial de estapcios de dominio público del Jardín Botánico-Histórico \"La Concepción\" y finca \"La Consula \" así como celebración de bodas civiles",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/792/DocumentoNormativa792",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-438",
+   "titulo": "Ordenanza Nº 60. Precio Público por realización de Fotocopias a los Ciudadanos que las soliciten en relación con Expedientes de los que entienda la Administración Municipal o Documentos que obren o se aporten en las Dependencias Municipales",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/438/DocumentoNormativa438",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-609",
+   "titulo": "Ordenanza Reguladora del Callejero Fiscal y Clasificación Viaria en el Municipio de Málaga",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/609/DocumentoNormativa609",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-655",
+   "titulo": "Normas de funcionamiento del Registro de Convenios y Protocolos del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/655/DocumentoNormativa655",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-157",
+   "titulo": "Reglamento Orgánico Jurado Tributario",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/157/DocumentoNormativa157",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-786",
+   "titulo": "Reglamento Orgánico de Gobierno y Administración del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/786/DocumentoNormativa786",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-787",
+   "titulo": "Reglamento Orgánico de Participación Ciudadana",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/787/DocumentoNormativa787",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-781",
+   "titulo": "Reglamento Orgánico del Consejo Social de la Ciudad",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/781/DocumentoNormativa781",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-706",
+   "titulo": "Reglamento Orgánico del Pleno del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/706/DocumentoNormativa706",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-633",
+   "titulo": "Reglamento Orgánico del Tribunal Administrativo de Recursos Contractuales del Excmo. Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/633/DocumentoNormativa633",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-65",
+   "titulo": "Reglamento de Funcionamiento del Registro Municipal de Licitadores",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/65/DocumentoNormativa65",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-784",
+   "titulo": "Reglamento de Organización y Funcionamiento del Real Cuerpo de Bomberos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/784/DocumentoNormativa784",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-146",
+   "titulo": "Reglamento de Régimen Interior de los Servicios de Cementerios Municipales de la Ciudad de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/146/DocumentoNormativa146",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-768",
+   "titulo": "Reglamento de Suministro Domiciliario del Agua 2020",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/768/DocumentoNormativa768",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-148",
+   "titulo": "Reglamento de Uso y Funcionamiento de las Instalaciones Deportivas Municipales de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/148/DocumentoNormativa148",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-271",
+   "titulo": "Reglamento de funcionamiento de las instalaciones denominadas \"Puntos Limpios\"",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/271/DocumentoNormativa271",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-775",
+   "titulo": "Reglamento de la Agrupación de Voluntariado de Protección Civil del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/775/DocumentoNormativa775",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-143",
+   "titulo": "Reglamento de la ESPAM",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/143/DocumentoNormativa143",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-266",
+   "titulo": "Reglamento de la Ley General de Subvenciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/266/DocumentoNormativa266",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-729",
+   "titulo": "Reglamento de la Red de Bibliotecas Públicas Municipales de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/729/DocumentoNormativa729",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-250",
+   "titulo": "Reglamento de protocolo y ceremonial del Excmo. Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/250/DocumentoNormativa250",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-451",
+   "titulo": "Reglamento del Servicio de Ayuda a Domicilio del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/451/DocumentoNormativa451",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-730",
+   "titulo": "Reglamento del Sistema Municipal de Archivo",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/730/DocumentoNormativa730",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-803",
+   "titulo": "Reglamento del Voluntariado del Centro de Protección Animal Municipal de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/803/DocumentoNormativa803",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-629",
+   "titulo": "Reglamento para el Ejercicio de la Potestad Sancionadora por Comisión de Infracciones Leves Competencia del Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/629/DocumentoNormativa629",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-160",
+   "titulo": "Reglamento para la Prestación del Servicio Público de Transporte Urbano Colectivo de Viajeros",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/160/DocumentoNormativa160",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-251",
+   "titulo": "Reglamento para la concesión de honores y distinciones del Excmo. Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/251/DocumentoNormativa251",
+   "formato": "pdf"
+  },
+  {
+   "id": "mlg-246",
+   "titulo": "Reglamento regulador del Registro Municipal de Parejas de Hecho del Excmo. Ayuntamiento de Málaga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.malaga.eu/visorcontenido/NRMDocumentDisplayer/246/DocumentoNormativa246",
+   "formato": "pdf"
+  }
+ ]
+}
