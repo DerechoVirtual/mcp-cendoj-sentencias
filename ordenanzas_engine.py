@@ -247,7 +247,14 @@ def _bloques_desde_texto(texto: str) -> list:
             m = re.match(
                 r"^((?:Art(?:[íi]cul[eo]|[íi]cle)?|ART[IÍ]CUL[EO]|ART[IÍ]CLE)\s*\.?\s*\d+(?:[-–.]\d+)*\s*"
                 r"(?:bis|ter|qu[aá]ter|quinquies|sexies)?\s*[ºª]?\s*"
-                r"(?:[.\-–—:]\s*[^.]{0,140}?)?[.:])\s*[-–—]?\s*(.*)$", linea, re.I)
+                r"(?:[.\-–—:]\s*[^.:]{0,80}?)?\s*[.:])\s*[-–—]?\s*(.*)$", linea, re.I)
+            if m and not m.group(2).strip() and len(m.group(1)) > 28:
+                # la "rubrica" se trago una clausula entera ("Articulo 3º.- El
+                # tipo de gravamen sera:"): re-partir en minimo tras el numero
+                m = re.match(
+                    r"^((?:Art(?:[íi]cul[eo]|[íi]cle)?|ART[IÍ]CUL[EO]|ART[IÍ]CLE)\s*\.?\s*"
+                    r"\d+(?:[-–.]\d+)*\s*(?:bis|ter|qu[aá]ter|quinquies|sexies)?\s*[ºª]?\s*\.?)"
+                    r"\s*[-–—]?\s*(.*)$", linea, re.I)
             if m:
                 out.append(("articulo", m.group(1).strip()))
                 if m.group(2).strip():
@@ -458,9 +465,14 @@ class AdaptadorBase:
                 elif w in secundario:
                     pts += 1          # categoria/keywords solo desempatan
             if pts:
+                tn = _norm(n["titulo"])
                 # las ordenanzas/reglamentos por delante de decretos y tarifas
-                if re.match(r"(ordenanza|ordenanca|reglamento|reglament)", _norm(n["titulo"])):
+                if re.match(r"(ordenanza|ordenanca|reglamento|reglament)", tn):
                     pts += 1
+                # los reglamentos de ORGANOS (consejos, comisiones...) al final
+                if re.search(r"\b(consejo|consell|comision|comissio|observatorio|"
+                             r"mesa) (sectorial|asesor|municipal|de)\b", tn):
+                    pts -= 2
                 puntuadas.append((pts, n))
         # a igualdad de puntos gana el titulo MAS CORTO: la ordenanza principal
         # ("Ordenanza de Movilidad") por delante de tasas de titulo kilometrico
@@ -679,7 +691,10 @@ class AdaptadorWeb(AdaptadorBase):
 
     def _texto_de(self, norma: dict, url: str) -> str:
         datos = self._descargar(dict(norma, url=url))
-        if norma.get("formato") == "pdf" or datos[:5] == b"%PDF-":
+        if norma.get("formato") == "zip" and norma.get("miembro"):
+            with zipfile.ZipFile(io.BytesIO(datos)) as z:
+                datos = z.read(norma["miembro"])
+        if norma.get("formato") in ("pdf", "zip") or datos[:5] == b"%PDF-":
             return self._recortar_por_titulo(_pdf_a_texto(datos), norma["titulo"])
         enc = "utf-8"
         m = re.search(rb'charset=["\']?([A-Za-z0-9_-]+)', datos[:2000])
@@ -725,8 +740,11 @@ _SEVILLA = AdaptadorWeb("sevilla", "Sevilla",
 _MALAGA = AdaptadorWeb("malaga", "Malaga",
                        ("malaga", "ayuntamiento de malaga", "malaga capital",
                         "ciudad de malaga"))
+_MURCIA = AdaptadorWeb("murcia", "Murcia",
+                       ("murcia", "ayuntamiento de murcia", "murcia capital",
+                        "ciudad de murcia"))
 ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
-                                     _SEVILLA, _MALAGA)}
+                                     _SEVILLA, _MALAGA, _MURCIA)}
 
 
 def _resolver_municipio(municipio: str):

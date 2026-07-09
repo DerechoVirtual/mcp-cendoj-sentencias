@@ -168,6 +168,26 @@ TESTS = {
         L("playas", ["playa"], parrafos=2, terminos="animales perros prohibido playa"),
         L("ordenanza de movilidad", ["no encuentro el articulo"], articulo="9999"),
     ],
+    "murcia": [
+        B("botellon", ["conductas en el espacio publico", "bebidas alcoholicas"]),
+        B("alcohol", ["bebidas alcoholicas"]),
+        B("ibi", ["bienes inmuebles"]),
+        B("ruido", ["medio ambiente"]),
+        B("movilidad", ["ordenanza de movilidad"]),
+        B("terrazas", ["mesas y sillas"]),
+        B("plusvalia", ["impuesto plusvalia"]),
+        B("icio", ["impuesto icio"]),
+        B("vados", ["vados"]),
+        B("mercados", ["mercado"]),
+        L("venta dispensacion y suministro de bebidas alcoholicas",
+          ["prohibido el consumo de bebidas alcoholicas en las vias y espacios publicos"],
+          parrafos=2, terminos="prohibido consumo bebidas alcoholicas via publica"),
+        L("impuesto sobre bienes inmuebles", ["tipo de gravamen"], parrafos=2,
+          terminos="tipo de gravamen"),
+        L("ordenanza de movilidad", ["movilidad"], parrafos=2,
+          terminos="vehiculos de movilidad personal patinete"),
+        L("impuesto sobre bienes inmuebles", ["no encuentro el articulo"], articulo="999"),
+    ],
 }
 
 

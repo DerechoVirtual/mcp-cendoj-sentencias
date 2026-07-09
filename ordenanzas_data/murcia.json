@@ -1,0 +1,1626 @@
+{
+ "meta": {
+  "municipio": "murcia",
+  "fuente": "Ayuntamiento de Murcia (web institucional, PDF oficial por norma)",
+  "url": "https://web.murcia.es/institucional/ordenanzas"
+ },
+ "normas": [
+  {
+   "id": "mur-ordenanza-ampliacion-de-la-o-r-a-a-la-avenida-abenar",
+   "titulo": "Ordenanza Ampliación de la O.R.A a la Avenida Abenarabi, Plaza Inocencio Medina y calle Actor Isidoro Máiquez",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza_ampliacionora_2014.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-reguladora-de-la-instalacion-y-f",
+   "titulo": "Ordenanza Municipal Reguladora de la Instalación y Funcionamiento de Infraestructuras Radioeléctricas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/radioelectricas.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-reguladora-de-la-licencia-de-pri",
+   "titulo": "Ordenanza Municipal Reguladora de la Licencia de Primera Ocupación",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/licencia1ocupa.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-de-captacion-solar",
+   "titulo": "Ordenanza Municipal de Captación Solar",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/oocaptacionsolar.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-sobre-edificacion-y-uso-del-suel",
+   "titulo": "Ordenanza Municipal sobre Edificación y Uso del Suelo",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/edificacion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-sobre-proteccion-del-medio-ambie",
+   "titulo": "Ordenanza Municipal sobre Protección del Medio Ambiente Contra la Emisión de Ruidos y Vibraciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido",
+    "medio ambiente",
+    "proteccion ambiental"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ruidos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-sobre-proteccion-y-tenencia-de-a",
+   "titulo": "Ordenanza Municipal sobre Protección y Tenencia de Animales de Compañía",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ord-anim.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-sobre-simplificacion-administrat",
+   "titulo": "Ordenanza Municipal sobre Simplificación Administrativa en Materia de Implantación de Actividades y Ejecución de Obras",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/oms_adaptacion_ds.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-sobre-condiciones-tecnicas-estet",
+   "titulo": "Ordenanza Municipal sobre condiciones Técnicas, Estéticas y de Ornato Público en espacios urbanos catalogados del Municipio de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/orde_ornato_publico_espacios_publicos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-actuacion-municipal-en-re",
+   "titulo": "Ordenanza Reguladora de la Actuación Municipal en Relación con la Venta, Dispensación y Suministro de Bebidas Alcohólicas, así como su Consumo en Espacios y Vías Públicas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "botellon",
+    "consumo de alcohol en la via publica",
+    "beber en la calle"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordbotelleo.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-administracion-electronic",
+   "titulo": "Ordenanza Reguladora de la Administración Electrónica del Ayto Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "administracion electronica",
+    "sede electronica",
+    "registro electronico"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/admon_electronica.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-venta-ambulante",
+   "titulo": "Ordenanza Reguladora de la Venta Ambulante",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ventaambulante.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-retirada-o-inmovilizacion",
+   "titulo": "Ordenanza Reguladora de la retirada o inmovilización de vehículos en la vía pública",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ord_retirada_vehiculos_grua.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-los-centros-de-estancias-diu",
+   "titulo": "Ordenanza Reguladora de los Centros de Estancias Diurnas del Ayuntamiento de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/centros_ed.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-procedimiento-para-el-ejerc",
+   "titulo": "Ordenanza Reguladora del Procedimiento para el Ejercicio de la Potestad Sancionadora por la Administración Pública del Excmo. Ayuntamiento de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/proc_sancio.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-uso-funcionamiento-organiza",
+   "titulo": "Ordenanza Reguladora del Uso, Funcionamiento, Organización y Gestión del Centro de Iniciativas Municipales (CIM-M)",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza_cim-m.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-para-otorgamiento-y-uso-de-tarj",
+   "titulo": "Ordenanza Reguladora para Otorgamiento y uso de Tarjetas de Aparcamiento a personas de Movilidad Reducida",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanzaaparcamiento.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-aplicacion-en-las-licencias-y-en-la-eje",
+   "titulo": "Ordenanza de Aplicación en las Licencias y en la Ejecución de Zanjas y Catas en Espacio Público Municipal",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/zanjas.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-plazas-y-mercados-del-ayuntamiento-de-m",
+   "titulo": "Ordenanza de Plazas y Mercados del Ayuntamiento de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/plazasymercad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-proteccion-de-la-atmosfera",
+   "titulo": "Ordenanza de Protección de la Atmósfera",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/atmosfera.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-regulacion-de-distribucion-de-prensa-gr",
+   "titulo": "Ordenanza de Regulación de Distribución de Prensa Gratuita en la Vía Pública",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/prensagratuita.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-limpieza-viaria",
+   "titulo": "Ordenanza de limpieza viaria",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ordenanza-limpieza-viaria-actualizada.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-movilidad",
+   "titulo": "Ordenanza de movilidad",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/aprobac-definitiva-ordenanza-movilidad-2025.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-de-transparencia-de-acceso-a-la-informacio",
+   "titulo": "Ordenanza de transparencia, de acceso a la informacion, reutilización de la información y buen gobierno",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/7197-2017.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-del-cementerio-municipal",
+   "titulo": "Ordenanza del Cementerio Municipal",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza-del-cementerio-municipal.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-del-cementerio-municipal-nuestro-padre-jes",
+   "titulo": "Ordenanza del Cementerio Municipal \"Nuestro Padre Jesús\"",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ord-cem.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-del-servicio-de-bicicletas-publicas-del-mu",
+   "titulo": "Ordenanza del Servicio de Bicicletas Públicas del Municipio de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ord_servicio_bicicletas2014.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-del-servicio-de-regulacion-y-control-del-e",
+   "titulo": "Ordenanza del Servicio de Regulación y Control del Estacionamiento en diversas Vías Publicas de la Ciudad de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanzaora.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-del-servicio-de-estacionamiento-regulado-e",
+   "titulo": "Ordenanza del servicio de estacionamiento regulado en vías públicas de murcia (s.e.r.) del ayuntamiento de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-06/borm_orde_ser_estacionamientos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-general-de-subvenciones-y-premios",
+   "titulo": "Ordenanza general de subvenciones y premios",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ord_gral_subvenciones-y-premios.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-de-areas-verdes-y-arbolado-viari",
+   "titulo": "Ordenanza municipal de areas verdes y arbolado viario del municipio de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/om_areasverdes_adef.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-de-hidrantes-y-columna-seca",
+   "titulo": "Ordenanza municipal de hidrantes y columna seca",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza-municipal-de-hidrantes-y-columna-seca.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-reguladora-de-la-publicidad-exte",
+   "titulo": "Ordenanza municipal reguladora de la publicidad exterior",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-06/borm_apr_def_orde_pub_exterior.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-reguladora-de-los-residuos-de-la",
+   "titulo": "Ordenanza municipal reguladora de los residuos de la construccion y demolición",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-05/borm-23-05-2025.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-municipal-reguladora-de-los-vados-de-murci",
+   "titulo": "Ordenanza municipal reguladora de los vados de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza-reguladora-vados.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-para-la-regulacion-de-la-prestacion-del-se",
+   "titulo": "Ordenanza para la Regulación de la Prestación del Servicio de Teleasistencia Domiciliaria",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/teleasistencia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-para-luchar-contra-la-prostitucion-en-el-m",
+   "titulo": "Ordenanza para luchar contra la Prostitución en el Municipio de Murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "prostitucion"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ord_prostitucion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-determinadas-actividades-o-c",
+   "titulo": "Ordenanza reguladora de determinadas actividades o conductas en el espacio publico del municipio de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "consumo de alcohol en la via publica"
+   ],
+   "url": "https://www.murcia.es/documents/11263/242162/Ordenanza-reg-determinadas-actividades-conductas-espacio-publico-2019.pdf",
+   "formato": "pdf",
+   "urls": [
+    "https://www.murcia.es/documents/11263/242162/Ordenanza-reg-determinadas-actividades-conductas-espacio-publico-2019.pdf",
+    "https://web.murcia.es/sites/default/files/2025-02/ordenanza-reg-determinadas-actividades-conductas-espacio-publico-2019.pdf"
+   ]
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-gestion-del-servicio-publ",
+   "titulo": "Ordenanza reguladora de la gestión del servicio público de transporte mediante autobuses de líneas urbanas de titularidad municipal y régimen sancionador",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ord_transporte-autobuses-lineas-urbanas_0.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-la-ocupacion-de-via-publica",
+   "titulo": "Ordenanza reguladora de la ocupación de vía pública con terrazas y otras instalaciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "hosteleria"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-06/orde_ocupa_via-publica-terrazas.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-de-subvenciones-para-proyectos",
+   "titulo": "Ordenanza reguladora de subvenciones para proyectos de ayuda humanitaria",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ord_subven_ayuda-humanitaria.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-deber-de-conservacion-de-la",
+   "titulo": "Ordenanza reguladora del deber de conservación de la propiedad inmueble",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ordenanza-reg_conservacion_propiedad_inmueble.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-regimen-sancionador-aplicab",
+   "titulo": "Ordenanza reguladora del régimen sancionador aplicable a los viajeros del tranvia de murcia por comision de infracciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/ord-reg-sancionador-viajeros-del-tranvia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-servicio-de-atencion-domici",
+   "titulo": "Ordenanza reguladora del servicio de atención domiciliaria en el municipio de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza-reguladora-servicio-atencion-domiciliaria.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-del-servicio-de-respiro-familia",
+   "titulo": "Ordenanza reguladora del servicio de respiro familiar en domicilios en el municipio de murcia",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/r20170721_respfamiliar.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanza-reguladora-taxi-2015",
+   "titulo": "Ordenanza reguladora taxi 2015",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ordenanza_taxi_2015.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-ordenanzas-municipal-reguladora-de-la-instalacion-de",
+   "titulo": "Ordenanzas Municipal Reguladora de la Instalación de Quioscos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/instalacionquioscos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-of-indice-fiscal-de-calles-2026",
+   "titulo": "Ordenanza fiscal: INDICE FISCAL DE CALLES 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/INDICE FISCAL DE CALLES-2026.pdf"
+  },
+  {
+   "id": "mur-of-3-4-impuesto-icio-2026",
+   "titulo": "Ordenanza fiscal: Impuesto ICIO 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/3.4 Impuesto ICIO-2026.pdf"
+  },
+  {
+   "id": "mur-of-3-5-impuesto-plusvalia-2026",
+   "titulo": "Ordenanza fiscal: Impuesto Plusvalía 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/3.5 Impuesto-Plusvalía-2026.pdf"
+  },
+  {
+   "id": "mur-of-3-2-impuesto-sobre-actividades-economicas-2026",
+   "titulo": "Ordenanza fiscal: Impuesto sobre Actividades Económicas 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/3.2 Impuesto sobre Actividades Económicas-2026.pdf"
+  },
+  {
+   "id": "mur-of-3-1-impuesto-sobre-bienes-inmuebles-2026",
+   "titulo": "Ordenanza fiscal: Impuesto sobre Bienes Inmuebles 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/3.1 Impuesto sobre Bienes Inmuebles-2026.pdf"
+  },
+  {
+   "id": "mur-of-3-3-impuesto-sobre-vehiculos-de-traccion-mecanic",
+   "titulo": "Ordenanza fiscal: Impuesto sobre Vehículos de Tracción Mecánica 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/3.3 Impuesto sobre Vehículos de Tracción Mecánica-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-0-ordenanza-general-2026",
+   "titulo": "Ordenanza fiscal: Ordenanza General 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.0 Ordenanza General-2026.pdf"
+  },
+  {
+   "id": "mur-of-0-0-portada-indice-2026",
+   "titulo": "Ordenanza fiscal: PORTADA INDICE 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/0.0 PORTADA-INDICE 2026.pdf"
+  },
+  {
+   "id": "mur-of-4-2-precio-deportes-centros-municipales-2026",
+   "titulo": "Ordenanza fiscal: Precio Deportes Centros Municipales 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.2.Precio Deportes Centros Municipales-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-6-precio-publico-acogida-animales-zoonosis-202",
+   "titulo": "Ordenanza fiscal: Precio Público Acogida Animales Zoonosis 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas",
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.6 Precio Público-Acogida Animales-Zoonosis-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-10-precio-publico-bicicletas-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Bicicletas 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.10.Precio Público-Bicicletas-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-1-precio-publico-escuelas-infantiles-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Escuelas Infantiles 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.1.Precio Público-Escuelas Infantiles-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-5-precio-publico-espacios-cultura-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Espacios Cultura 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.5 Precio Público-Espacios Cultura-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-16-precio-publico-estancias-diurnas-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Estancias Diurnas 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.16 Precio Público Estancias Diurnas-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-13-precio-publico-instalaciones-fomento-empleo",
+   "titulo": "Ordenanza fiscal: Precio Público Instalaciones fomento empleo 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.13 Precio Público Instalaciones fomento empleo-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-4-precio-publico-museo-ciencia-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Museo Ciencia 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.4.Precio Público-Museo Ciencia-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-3-precio-publico-so-educacion-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Sº Educacion 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.3.Precio Público-Sº Educacion-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-8-precio-publico-so-juventud-11-04-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Sº Juventud 11.04.2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.8. Precio Público-Sº Juventud-11.04.2026.pdf"
+  },
+  {
+   "id": "mur-of-4-9-precio-publico-venta-planos-2026",
+   "titulo": "Ordenanza fiscal: Precio Público Venta Planos 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.9.Precio Público-Venta Planos-2026.pdf"
+  },
+  {
+   "id": "mur-of-4-12-precio-publico-por-alquiler-salas-luz-mural",
+   "titulo": "Ordenanza fiscal: Precio Público por alquiler salas luz muralla 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/4.12 Precio Público por alquiler salas luz-muralla-2026.pdf"
+  },
+  {
+   "id": "mur-of-2-2-tasa-aprov-especial-entrada-vehiculos-2026",
+   "titulo": "Ordenanza fiscal: Tasa Aprov.Especial Entrada Vehículos 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.2.Tasa Aprov.Especial-Entrada Vehículos-2026.pdf"
+  },
+  {
+   "id": "mur-of-2-6-tasa-aprov-especial-mercadillos-semanales-20",
+   "titulo": "Ordenanza fiscal: Tasa Aprov.Especial Mercadillos Semanales 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.6.Tasa Aprov.Especial Mercadillos Semanales-2026.pdf"
+  },
+  {
+   "id": "mur-of-2-4-tasa-aprov-especial-mesas-y-sillas-05-07-202",
+   "titulo": "Ordenanza fiscal: Tasa Aprov.Especial Mesas y Sillas 05.07.2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "tasa de terrazas",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.4 Tasa Aprov.Especial Mesas y Sillas-05.07.2026.pdf"
+  },
+  {
+   "id": "mur-of-2-5-tasa-aprov-especial-quioscos-2026",
+   "titulo": "Ordenanza fiscal: Tasa Aprov.Especial Quioscos 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.5.Tasa Aprov.Especial Quioscos-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-6-tasa-cementerio-2026",
+   "titulo": "Ordenanza fiscal: Tasa Cementerio 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.6.Tasa Cementerio-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-8-tasa-puestos-y-casetas-en-mercados-2026",
+   "titulo": "Ordenanza fiscal: Tasa Puestos y Casetas en Mercados 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.8.Tasa-Puestos y Casetas en Mercados-2026.pdf"
+  },
+  {
+   "id": "mur-of-2-3-tasa-suelo-subsuelo-vuelo-emp-suministros-20",
+   "titulo": "Ordenanza fiscal: Tasa Suelo Subsuelo Vuelo Emp. Suministros 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.3.Tasa Suelo-Subsuelo-Vuelo-Emp. Suministros 2026.pdf"
+  },
+  {
+   "id": "mur-of-2-1-tasa-suelo-subsuelo-vuelo-ord-general-2026",
+   "titulo": "Ordenanza fiscal: Tasa Suelo Subsuelo Vuelo Ord. General 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/2.1.Tasa Suelo-Subsuelo-Vuelo-Ord. General-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-16-tasa-zoonosis-2026",
+   "titulo": "Ordenanza fiscal: Tasa Zoonosis 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.16 Tasa Zoonosis 2026.pdf"
+  },
+  {
+   "id": "mur-of-1-17-tasa-mantenimiento-seis-2026",
+   "titulo": "Ordenanza fiscal: Tasa mantenimiento SEIS 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.17 Tasa mantenimiento SEIS-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-11-tasa-para-cobro-de-deudas-en-apremio-2026",
+   "titulo": "Ordenanza fiscal: Tasa para cobro de deudas en apremio 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.11 Tasa para cobro de deudas en apremio-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-1-tasa-por-expedicion-de-documentos-2026",
+   "titulo": "Ordenanza fiscal: Tasa por Expedición de Documentos 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.1.Tasa por Expedición de Documentos 2026.pdf"
+  },
+  {
+   "id": "mur-of-1-2-tasa-por-licencia-de-autotaxis-2026",
+   "titulo": "Ordenanza fiscal: Tasa por Licencia de Autotaxis 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.2.Tasa por Licencia de Autotaxis 2026.pdf"
+  },
+  {
+   "id": "mur-of-1-3-tasa-por-prestacion-so-urbanisticos-2026",
+   "titulo": "Ordenanza fiscal: Tasa por Prestación Sº Urbanísticos 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.3.Tasa por Prestación Sº Urbanísticos 2026.pdf"
+  },
+  {
+   "id": "mur-of-1-7-tasa-por-recogida-de-basuras-2026",
+   "titulo": "Ordenanza fiscal: Tasa por Recogida de Basuras 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.7.Tasa por Recogida de Basuras-2026.pdf"
+  },
+  {
+   "id": "mur-of-1-15-tasa-por-retirada-y-deposito-de-vehiculos-g",
+   "titulo": "Ordenanza fiscal: Tasa por Retirada y Depósito de Vehículos GRÚA 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.15.Tasa por Retirada y Depósito de Vehículos-GRÚA 2026.pdf"
+  },
+  {
+   "id": "mur-of-1-9-tasa-por-matrimonios-civiles-y-uniones-de-he",
+   "titulo": "Ordenanza fiscal: Tasa por matrimonios civiles y uniones de hecho 2026",
+   "cat": "Ordenanzas fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/documentos/2026-ordenanzas-fiscales-en-vigor-a-partir-de-05.07.2026.zip",
+   "formato": "zip",
+   "miembro": "2026 Ordenanzas Fiscales en vigor a partir de 05.07.2026/1.9 Tasa por matrimonios civiles y uniones de hecho 2026.pdf"
+  },
+  {
+   "id": "mur-estatutos-del-consejo-municipal-de-servicios-sociale",
+   "titulo": "Estatutos del Consejo Municipal de Servicios Sociales del Ayuntamiento de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Estatutos%20Consejo%20Municipal%20Servicios%20Sociales.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-normas-generales-de-funcionamiento-en-mercados-seman",
+   "titulo": "Normas Generales de Funcionamiento en Mercados Semanales 2020",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Normas-Funcionamiento-Mercados-Semanales-2020.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-consejo-sectorial-sobre-el-ruido",
+   "titulo": "Reglamento Consejo Sectorial sobre el Ruido",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Rgto.%20CONSEJO%20SECTORIAL%20SOBRE%20EL%20RUIDO.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-especial-para-la-concesion-de-honores-y-d",
+   "titulo": "Reglamento Especial para la concesión de Honores y Distinciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2026-03/reglamento-especial-para-la-concesion-de-honores-y-distinciones-del-ayuntamiento-de-murcia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-municipal-de-creacion-y-supresion-de-fich",
+   "titulo": "Reglamento Municipal de creación y supresión de ficheros de carácter personal del Ayuntamiento de Murcia (BORM 22-10-2008)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Ficheros_BORM.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-municipal-del-registro-de-demandantes-de",
+   "titulo": "Reglamento Municipal del Registro de Demandantes de Vivienda",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vivienda"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/REGISTRO_DEMANDANTES_VIVIENDA2013.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-municipal-del-servicio-de-alcantarillado",
+   "titulo": "Reglamento Municipal del Servicio de Alcantarillado y desagúe de las aguas residuales",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/alcantarillado.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-organico-de-organizacion-y-funcionamiento",
+   "titulo": "Reglamento Orgánico de Organización y Funcionamiento del Consejo Social de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reg_CSM.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-organico-de-la-comision-especial-de-suger",
+   "titulo": "Reglamento Orgánico de la Comisión Especial de Sugerencias y Reclamaciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/REGLAMENTO-ORGANICO-COMISION-ESPECIAL-SUGERENCIAS-RECLAMACIONES-2021.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-registro-de-facturas-2013",
+   "titulo": "Reglamento Registro de Facturas 2013",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/RGLTO_REGISTRO_FACTURAS2013.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-regulador-de-la-denominacion-y-rotulacion",
+   "titulo": "Reglamento Regulador de la Denominación y Rotulación de Vías, Espacios y Edificios Públicos de Titularidad Municipal y Numeración de Edificios, del Municipio de Murcia (28-07-2016 y 27-04-2023)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-03/regl-denom-rotulacion-espacios-edif-publicos-2016-2023.pdf.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-creacion-y-regulacion-del-consejo-sect",
+   "titulo": "Reglamento de Creación y Regulación del Consejo Sectorial del Patrimonio Cultural del Municipio de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/REGTO-CONSEJO-SECTORIAL-PATRIMONIO-CULTURAL-MUN-MURCIA-2023.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-participacion-ciudadana-y-distritos",
+   "titulo": "Reglamento de Participación Ciudadana y Distritos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reg_Partic_Ciudad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-regimen-interior-del-centro-de-estanci",
+   "titulo": "Reglamento de Régimen Interior del Centro de Estancias Diurnas de Cabezo de Torres",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reglamento_centro_estancias_diurnas_cabezo_torres.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-regimen-interno-organizacion-y-funcion",
+   "titulo": "Reglamento de Régimen Interno, Organización y Funcionamiento de los Centros Municipales de Servicios Sociales del Ayuntamiento de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/R130605_ReglRICMSSoc.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-creacion-y-supresion-de-ficheros-de-ca",
+   "titulo": "Reglamento de creación y supresión de ficheros de carácter personal del Excmo. Ayuntamiento de Murcia (Complementario)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/complementario_2008.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-funcionamiento-del-registro-general-de",
+   "titulo": "Reglamento de funcionamiento del registro general del ayuntamiento de murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/rgto-funciona_registro-general.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-honores-y-distinciones-del-cuerpo-de-l",
+   "titulo": "Reglamento de honores y distinciones del Cuerpo de la Policía Local de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reglamento%20de%20honores%20y%20distinciones%20del%20Cuerpo%20de%20la%20PL%20de%20Murcia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-la-comision-asesora-de-salud-publica",
+   "titulo": "Reglamento de la comision asesora de salud publica",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "salubridad",
+    "salud publica",
+    "plagas",
+    "control sanitario"
+   ],
+   "url": "https://web.murcia.es/sites/default/files/2025-04/rgto-comision-asesora-salud-publica.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-de-regulacion-de-la-mesa-del-transporte-p",
+   "titulo": "Reglamento de regulación de la Mesa del Transporte Público",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/RGTO.%20MESA%20DEL%20TRANSPORTE.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-del-consejo-economico-administrativo-de-m",
+   "titulo": "Reglamento del Consejo Económico-Administrativo de Murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reg_Cons_Eco_advo.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-del-consejo-local-de-comercio",
+   "titulo": "Reglamento del Consejo Local de Comercio",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reglamento%20del%20Consejo%20Local%20de%20Comercio.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-del-observatorio-municipal-de-la-biciclet",
+   "titulo": "Reglamento del Observatorio Municipal de la Bicicleta",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Reglamento-Obsvervatorio-Bicicleta-2017.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-del-registro-municipal-de-uniones-de-hech",
+   "titulo": "Reglamento del Registro Municipal de Uniones de Hecho",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/ReglamentoParejasHecho.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-del-servicio-de-la-caja-municipal-de-gara",
+   "titulo": "Reglamento del Servicio de la Caja Municipal de Garantías y Depósitos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/reglamento-del-servicio-de-la-caja-municipal-de-garantias-y-depositos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-organico-del-gobierno-y-administracion-de",
+   "titulo": "Reglamento orgánico del gobierno y administración del ayuntamiento de murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-11/reglamento-organico-del-gobierno-y-administracion_0.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-organico-del-pleno-del-ayuntamiento-de-mu",
+   "titulo": "Reglamento orgánico del pleno del ayuntamiento de murcia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-07/actualizado-regto-pleno-murcia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "mur-reglamento-y-normas-de-funcionamiento-de-la-comision",
+   "titulo": "Reglamento y Normas de Funcionamiento de la Comisión Municipal de Prevención, Seguimiento y Control del Absentismo y Abandono Escolar",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://web.murcia.es/sites/default/files/2025-02/Comision%20Absentismo%20Abandono%20Escolar.pdf",
+   "formato": "pdf"
+  }
+ ]
+}
