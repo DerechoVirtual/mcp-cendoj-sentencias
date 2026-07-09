@@ -204,6 +204,22 @@ TESTS = {
         L("ruido", ["ruido"], parrafos=2, terminos="valores limite niveles sonoros"),
         L("ordenanzas fiscales", ["no encuentro el articulo"], articulo="9999"),
     ],
+    "laspalmas": [
+        B("convivencia", ["convivencia ciudadana"], municipio="Las Palmas"),
+        B("ruido", ["ruidos y vibraciones"], municipio="Las Palmas"),
+        B("trafico", ["trafico"], municipio="Las Palmas de Gran Canaria"),
+        B("ibi", ["bienes inmuebles"], municipio="Las Palmas"),
+        B("icio", ["construcciones"], municipio="Las Palmas"),
+        B("plusvalia", ["incremento"], municipio="Las Palmas"),
+        B("edificacion", ["edificacion"], municipio="Las Palmas"),
+        L("convivencia", ["pintadas", "quedan prohibidos"], parrafos=2,
+          terminos="via publica prohibido ensuciar", municipio="Las Palmas"),
+        L("ruidos y vibraciones", ["niveles maximos admisibles"], parrafos=2,
+          terminos="niveles maximos admisibles", municipio="Las Palmas"),
+        L("impuesto sobre bienes inmuebles", ["tipo de gravamen", "0,62"], parrafos=2,
+          terminos="tipo de gravamen", municipio="Las Palmas"),
+        L("trafico", ["no encuentro el articulo"], articulo="9999", municipio="Las Palmas"),
+    ],
 }
 
 
