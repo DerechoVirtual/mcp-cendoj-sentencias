@@ -205,6 +205,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _toledo_buscar(prov, texto, categoria, rpp)
     if fam == "huelva":
         return _huelva_buscar(prov, texto, categoria, rpp)
+    if fam == "murcia":
+        return _murcia_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -217,7 +219,72 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _toledo_texto(prov, m)
     if fam == "huelva":
         return _huelva_texto(prov, m)
+    if fam == "murcia":
+        return _murcia_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend BORM (Murcia: REST JSON, anti-bot Radware -> sesión con cookie) --
+_MURCIA_OP = {}
+
+
+def _murcia_op(base):
+    o = _MURCIA_OP.get("op")
+    if o and time.time() - _MURCIA_OP.get("t", 0) < 600:
+        return o
+    cj = http.cookiejar.CookieJar()
+    o = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    o.addheaders = [("User-Agent", _UA), ("Referer", base + "/")]
+    try:
+        o.open(base + "/", timeout=20).read()
+    except Exception:  # noqa: BLE001
+        pass
+    _MURCIA_OP.update(op=o, t=time.time())
+    return o
+
+
+def _murcia_buscar(prov, texto, muni=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    op = _murcia_op(cfg["base"])
+    body = {"textoLibre": texto or "ordenanza", "fechaDesde": "", "fechaHasta": "", "anunciante": "",
+            "rango": 0, "tipo": "libre", "nombre": "", "apellidos": "", "nif": "", "etiqueta": 0,
+            "origen": 0, "idApartado": "", "anuncianteFaceta": muni or "", "idCategoria": "272",
+            "tipoBusqueda": 0}
+    req = urllib.request.Request(cfg["base"] + "/services/buscador", data=json.dumps(body).encode(),
+        headers={"Content-Type": "application/json", "User-Agent": _UA,
+                 "Referer": cfg["base"] + "/", "Accept": "application/json"})
+    try:
+        d = json.loads(op.open(req, timeout=30).read().decode("utf-8", "replace"))
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for a in (d.get("anuncios") or [])[:max(rpp, 20)]:
+        # doble filtro (la faceta a veces no acota) por nombre de municipio
+        if muni and _norm(a.get("anunciante") or "") != _norm(muni):
+            continue
+        fe = a.get("fechaPublicacion") or ""
+        mfe = re.search(r"(\d{2})[/-](\d{2})[/-](\d{4})", fe)
+        orden = (mfe.group(3) + mfe.group(2) + mfe.group(1)) if mfe else re.sub(r"\D", "", fe)[:8] or "0"
+        idA = a.get("idAnuncio")
+        out.append({"url": cfg["base"] + f"/services/anuncio/{idA}/txt", "idAnuncio": idA,
+                    "titulo": _html.unescape(a.get("sumario") or ""), "cve": str(idA or ""),
+                    "fecha": (mfe.group(0) if mfe else ""), "orden": orden})
+    return out
+
+
+def _murcia_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    idA = m.get("idAnuncio") if isinstance(m, dict) else m
+    if not idA:
+        return "", "sin-id"
+    op = _murcia_op(cfg["base"])
+    try:
+        req = urllib.request.Request(cfg["base"] + f"/services/anuncio/{idA}/txt",
+                                     headers={"User-Agent": _UA, "Referer": cfg["base"] + "/"})
+        t = op.open(req, timeout=30).read().decode("utf-8", "replace")
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
+    return (t, "txt") if len(t) > 100 else ("", "sin-texto")
 
 
 # ---- backend bope_web (Huelva: POST Solr + PDF con capa de texto) ---------

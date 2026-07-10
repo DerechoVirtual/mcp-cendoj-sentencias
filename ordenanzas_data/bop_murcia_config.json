@@ -1,0 +1,8 @@
+{
+ "id": "murcia_prov",
+ "nombre": "Murcia",
+ "familia": "murcia",
+ "base": "https://www.borm.es",
+ "mapa": "bop_murcia_municipios.json",
+ "indice_desde": 2009
+}
