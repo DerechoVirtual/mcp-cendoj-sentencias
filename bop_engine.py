@@ -211,6 +211,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _alicante_buscar(prov, texto, categoria, rpp)
     if fam == "jaen":
         return _jaen_buscar(prov, texto, categoria, rpp)
+    if fam == "malaga":
+        return _malaga_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -229,7 +231,66 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _alicante_texto(prov, m)
     if fam == "jaen":
         return _jaen_texto(prov, m)
+    if fam == "malaga":
+        return _malaga_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend Sphinx (Málaga: buscador xhr_sphinxsearch + HTML edicto) ------
+def _malaga_buscar(prov, texto, ine=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    # Sphinx hace AND con varias palabras -> usar el término MÁS DISTINTIVO (el raw
+    # más largo) y ranquear en local; así una consulta multipalabra no da 0.
+    raw = _familias(texto or "ordenanza")[0]
+    q = max(raw, key=len) if raw else (texto or "ordenanza")
+    crit = f"texto = {q}"
+    if ine:
+        crit += f" #AND# cod_provincia_municipio = {ine}"
+    data = {"pag": "res", "parametros": crit, "ordenar_por": "fecha_unix", "orden": "desc"}
+    try:
+        r = _rest_post(cfg["base"] + "/inc/xhr_sphinxsearch.php", data,
+                       referer=cfg["base"] + "/buscar.php").decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for art in re.finditer(r"<article>(.*?)</article>", r, re.S):
+        blk = art.group(1)
+        ed = re.search(r"edicto\.php\?edicto=([\w-]+)", blk)
+        if not ed:
+            continue
+        p = re.search(r"<p>(.*?)</p>", blk, re.S)
+        raw = _html.unescape(re.sub(r"<[^>]+>", " ", p.group(1) if p else blk))
+        raw = re.sub(r"\s+", " ", raw).strip()
+        # el título limpio = desde la 1ª mención normativa ("Ordenanza/Reglamento/
+        # Tasa…"); así se salta la cabecera de sección y el "Por el Pleno… aprobar".
+        mn = re.search(r"((?:orden(?:anza|za)|reglamento|tasa|precio p[uú]blico|"
+                       r"impuesto)\b.*)", raw, re.I)
+        tit = mn.group(1) if mn else re.sub(
+            r"^ADMINISTRACI[ÓO]N LOCAL\s+.*?(?:Anuncio|Edicto|Expediente:\S*)\s*", "", raw, flags=re.I)
+        m8 = re.search(r"(\d{4})(\d{2})(\d{2})", ed.group(1))
+        orden = (m8.group(1) + m8.group(2) + m8.group(3)) if m8 else "0"
+        fecha = f"{m8.group(3)}/{m8.group(2)}/{m8.group(1)}" if m8 else ""
+        out.append({"url": cfg["base"] + "/edicto.php?edicto=" + ed.group(1), "eid": ed.group(1),
+                    "titulo": (tit or raw)[:180], "cve": f"BOP-MA-{ed.group(1)}",
+                    "fecha": fecha, "orden": orden})
+        if len(out) >= max(rpp, 20):
+            break
+    return out
+
+
+def _malaga_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    eid = m.get("eid") if isinstance(m, dict) else m
+    if not eid:
+        return "", "sin-id"
+    try:
+        req = urllib.request.Request(cfg["base"] + "/edicto.php?edicto=" + eid,
+                                     headers={"User-Agent": _UA, "Referer": cfg["base"] + "/buscar.php"})
+        html = urllib.request.urlopen(req, timeout=40).read().decode("utf-8", "replace")
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
+    t = _html_a_texto(html)
+    return (t, "html") if len(t) > 200 else ("", "sin-texto")
 
 
 # ---- backend BOP Digit@l (Jaén: índice de ordenanzas por municipio + PDF) ---
@@ -800,6 +861,37 @@ def _mejor(res, materia):
     return top[0] if top else None
 
 
+def _no_demote(r, fam):
+    for pat, guardia in _DEMOTE:
+        if re.search(pat, r["titulo"], re.I) and not (guardia and any(guardia in w for w in fam)):
+            return False
+    return True
+
+
+def _mejor_fulltext(res, materia):
+    """Para backends de BÚSQUEDA FULL-TEXT (Sphinx/Solr con relevancia): el propio
+    buscador ya ordenó por relevancia a la materia (aunque el TÍTULO frasee distinto,
+    p.ej. 'ocupación de la vía pública' para 'terrazas'). Se respeta ese orden: se
+    coge la 1ª ordenanza no-demotada, prefiriendo las que además llevan la materia en
+    el título."""
+    raw, core, soft = _familias(materia)
+    fam = set(raw) | core | soft
+    cand = [r for r in res if _es_ordenanza(r["titulo"]) and _no_demote(r, fam)]
+    if not cand:
+        return None
+    con_materia = [r for r in cand if any(_hit(w, _mnorm(r["titulo"])) for w in fam)]
+    definitivas = [r for r in (con_materia or cand) if re.search(r"definitiv", r["titulo"], re.I)]
+    return (definitivas or con_materia or cand)[0]
+
+
+def _ranquear_fulltext(res, materia):
+    raw, core, soft = _familias(materia)
+    fam = set(raw) | core | soft
+    cand = [r for r in res if _es_ordenanza(r["titulo"]) and _no_demote(r, fam)]
+    con = [r for r in cand if any(_hit(w, _mnorm(r["titulo"])) for w in fam)]
+    return con + [r for r in cand if r not in con]     # materia-en-título primero, resto en orden Sphinx
+
+
 # ---- lectura del PDF (directo u OCR paralelo) -----------------------------
 _PALS = re.compile(r"\b(de|la|el|los|art[íi]culo|ordenanza|ayuntamiento|que|para|del|por)\b", re.I)
 _OCR_PROMPT = ("Actúa como un motor OCR de documentos oficiales públicos. Devuelve "
@@ -1039,12 +1131,16 @@ def buscar(municipio, consulta="", limite=12):
         return None  # no cubierto por ningún BOP -> el caller decide
     cat = _categoria(prov, municipio)
     nombre = _nombre_muni(prov, municipio)
+    fulltext = PROVINCIAS[prov].get("fulltext")
     t0 = time.time()
     try:
-        res = _candidatos(prov, cat, consulta)
+        res = _buscar_raw(prov, consulta or "ordenanza", cat, rpp=40) if fulltext \
+            else _candidatos(prov, cat, consulta)
     except Exception as e:  # noqa: BLE001
         return f"Error consultando el BOP de {PROVINCIAS[prov]['nombre']}: {e}"
-    if consulta.strip():
+    if consulta.strip() and fulltext:
+        ords = _ranquear_fulltext(res, consulta)
+    elif consulta.strip():
         ords = _ranquear(res, consulta)
     else:
         ords = [r for r in res if _es_ordenanza(r["titulo"])]
@@ -1079,6 +1175,10 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
         if mcve:
             res = _buscar_raw(prov, mcve.group(0), cat, rpp=10) or _buscar_raw(prov, mcve.group(0), None, rpp=10)
             m = next((r for r in res if r["cve"] == mcve.group(0)), None) or (res[0] if res else None)
+        elif PROVINCIAS[prov].get("fulltext"):
+            # backend full-text (Sphinx): confiar en la relevancia del buscador
+            res = _buscar_raw(prov, ordenanza, cat, rpp=40)
+            m = _mejor_fulltext(res, ordenanza)
         else:
             # 1) consulta directa de la materia (camino rápido)
             res = _buscar_raw(prov, ordenanza, cat, rpp=60)
