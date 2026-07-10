@@ -209,6 +209,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _murcia_buscar(prov, texto, categoria, rpp)
     if fam == "alicante":
         return _alicante_buscar(prov, texto, categoria, rpp)
+    if fam == "jaen":
+        return _jaen_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -225,7 +227,94 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _murcia_texto(prov, m)
     if fam == "alicante":
         return _alicante_texto(prov, m)
+    if fam == "jaen":
+        return _jaen_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend BOP Digit@l (Jaén: índice de ordenanzas por municipio + PDF) ---
+_JAEN = {}   # {"op": opener, "cache": {codigo: (items, ts)}}
+_MESES = {"enero": "01", "febrero": "02", "marzo": "03", "abril": "04", "mayo": "05",
+          "junio": "06", "julio": "07", "agosto": "08", "septiembre": "09",
+          "octubre": "10", "noviembre": "11", "diciembre": "12"}
+
+
+def _jaen_op(base):
+    d = _JAEN.get(base)
+    if d and time.time() - d["ts"] < 600:
+        return d["op"]
+    cj = http.cookiejar.CookieJar()
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    op.addheaders = [("User-Agent", _UA)]
+    try:
+        op.open(base + "/ordenanzas", timeout=25).read()
+    except Exception:  # noqa: BLE001
+        pass
+    _JAEN[base] = {"op": op, "ts": time.time(), "cache": {}}
+    return op
+
+
+def _jaen_buscar(prov, texto, codigo=None, rpp=40):
+    # el índice devuelve TODAS las ordenanzas del municipio (una petición); se
+    # ignora `texto` y se ranquea en local. Caché por municipio (evita 4 POSTs).
+    cfg = PROVINCIAS[prov]
+    if not codigo:
+        return []
+    ent = _JAEN.get(cfg["base"], {})
+    cache = ent.get("cache", {})
+    hit = cache.get(codigo)
+    if hit and time.time() - hit[1] < 120:
+        return hit[0]
+    op = _jaen_op(cfg["base"])
+    cache = _JAEN[cfg["base"]]["cache"]
+    try:
+        req = urllib.request.Request(cfg["base"] + "/resultados",
+            data=urllib.parse.urlencode({"codigoSubseccion": codigo}).encode(),
+            headers={"User-Agent": _UA, "Content-Type": "application/x-www-form-urlencoded",
+                     "Referer": cfg["base"] + "/ordenanzas"})
+        r = op.open(req, timeout=25)
+        tok = re.search(r"/resultados/([^/]+)/", r.geturl())
+        r.read()
+        if not tok:
+            return []
+        html_ = op.open(cfg["base"] + f"/resultados/{tok.group(1)}/0/{max(rpp, 40)}/DESC",
+                        timeout=25).read().decode("iso-8859-1", "replace")
+    except Exception:  # noqa: BLE001
+        return []
+    res = html_[html_.find("id='resultados'"):]
+    out = []
+    for mm in re.finditer(r"/edicto/(\d+)/N'[^>]*>.*?</a>(.*?)</li>", res, re.S):
+        eid = mm.group(1)
+        txt = _html.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", mm.group(2)))).strip()
+        mfe = re.match(r"BOP de (\d{1,2})-([a-záéíóú]+)-(\d{4})\s*(.*)$", txt, re.I)
+        if mfe:
+            dia, mes, anio, titulo = mfe.group(1), _MESES.get(mfe.group(2).lower(), "00"), mfe.group(3), mfe.group(4)
+            fecha = f"{int(dia):02d}/{mes}/{anio}"; orden = f"{anio}{mes}{int(dia):02d}"
+        else:
+            titulo, fecha, orden = txt, "", "0"
+        out.append({"url": cfg["base"] + f"/edicto/{eid}/N", "eid": eid,
+                    "titulo": titulo.strip(), "cve": f"BOP-JA-{eid}",
+                    "fecha": fecha, "orden": orden})
+    cache[codigo] = (out, time.time())
+    return out
+
+
+def _jaen_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    eid = m.get("eid") if isinstance(m, dict) else m
+    if not eid:
+        return "", "sin-id"
+    op = _jaen_op(cfg["base"])
+    try:
+        ed = op.open(cfg["base"] + f"/edicto/{eid}/N", timeout=25).read().decode("iso-8859-1", "replace")
+        dl = re.search(r"(descargarws\.dip[^\"'\s]*)", ed)
+        if not dl:
+            return "", "sin-descarga"
+        url = cfg["base"] + "/" + dl.group(1).lstrip("/")
+        pdf = op.open(urllib.request.Request(url, headers={"User-Agent": _UA}), timeout=45).read()
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
+    return _pdf_bytes_texto(pdf)
 
 
 # ---- backend eConsulta (Alicante: webservice JSON + PDF directo) -----------
