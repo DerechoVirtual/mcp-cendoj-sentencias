@@ -207,6 +207,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _huelva_buscar(prov, texto, categoria, rpp)
     if fam == "murcia":
         return _murcia_buscar(prov, texto, categoria, rpp)
+    if fam == "alicante":
+        return _alicante_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -221,7 +223,64 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _huelva_texto(prov, m)
     if fam == "murcia":
         return _murcia_texto(prov, m)
+    if fam == "alicante":
+        return _alicante_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend eConsulta (Alicante: webservice JSON + PDF directo) -----------
+def _uw(v):
+    return (v[0] if isinstance(v, list) and v else (v or "")) if v is not None else ""
+
+
+# el webservice de Alicante LIMITA la ventana temporal (~5 años) -> se consulta
+# por ventanas y se fusiona.
+_ALC_VENTANAS = [("01/01/2023", "31/12/2027"), ("01/01/2018", "31/12/2022")]
+
+
+def _alicante_buscar(prov, texto, publicante=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not publicante:
+        return []                      # el webservice exige publicante para acotar
+    vistos = {}
+
+    def ventana(win):
+        desde, hasta = win
+        xml = (f"<raiz><entrada><registro><desde>{desde}</desde><hasta>{hasta}</hasta>"
+               f"<texto>{_html.escape(texto or 'ordenanza')}</texto><tipoorganismo></tipoorganismo>"
+               f"<publicante>{_html.escape(publicante)}</publicante></registro></entrada></raiz>")
+        u = cfg["base"] + cfg["ws"] + "?" + urllib.parse.urlencode({"nemo": "BOP_EDI", "usuario": "-", "param": xml})
+        try:
+            d = json.loads(_rest_get(u, 30).decode("utf-8", "replace"))
+        except Exception:  # noqa: BLE001
+            return []
+        reg = d.get("bop", {}).get("registro") or []
+        return [reg] if isinstance(reg, dict) else reg
+
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for regs in ex.map(ventana, _ALC_VENTANAS):
+            for r in regs:
+                pdf = _uw(r.get("ubicacion"))
+                if not pdf or pdf in vistos:
+                    continue
+                fe = _uw(r.get("fechaPublica"))
+                mfe = re.search(r"(\d{2})[/-](\d{2})[/-](\d{4})", fe)
+                orden = (mfe.group(3) + mfe.group(2) + mfe.group(1)) if mfe else re.sub(r"\D", "", fe)[:8] or "0"
+                vistos[pdf] = {"url": pdf, "pdf": pdf,
+                               "titulo": _html.unescape(_uw(r.get("extracto"))),
+                               "cve": f"BOP-A-{_uw(r.get('anyo'))}-{_uw(r.get('nBop'))}",
+                               "fecha": (mfe.group(0) if mfe else ""), "orden": orden}
+    return list(vistos.values())
+
+
+def _alicante_texto(prov, m):
+    pdf = m.get("pdf") if isinstance(m, dict) else m
+    if not pdf:
+        return "", "sin-pdf"
+    try:
+        return _pdf_bytes_texto(_getb(pdf, 50))
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
 
 
 # ---- backend BORM (Murcia: REST JSON, anti-bot Radware -> sesión con cookie) --
@@ -543,6 +602,8 @@ _EXPANSION = [
     (r"ayuda a domicilio|servicios sociales|dependencia",
      ["ayuda a domicilio", "ayudas tecnicas", "servicios sociales"], []),
     (r"examen|oposicion|derechos de examen", ["derechos de examen"], ["examen", "seleccion"]),
+    (r"boda|matrimonio civil|celebracion civil|union civil",
+     ["celebraciones civiles", "matrimonio civil", "bodas civiles"], []),
     (r"honor|distincion|protocolo|ceremonial", ["honores", "distinciones", "protocolo", "ceremonial"], []),
     (r"infancia|adolescencia|menores", ["infancia", "adolescencia"], ["consejo"]),
     (r"mosquito|mosca|plaga|insecto", ["mosquitos", "moscas", "plagas", "control de plagas"], []),
@@ -572,7 +633,8 @@ _DEMOTE = [
     (r"honores|condecorac|protocolo|ceremonial", "honores"),
     (r"\bpersonal\b|plantilla|oferta de empleo|\brpt\b|negociaci[oó]n", "negociacion"),
     (r"presupuesto", "presupuesto"),
-    (r"derogaci[oó]n", None),
+    (r"derogaci[oó]n|desistimiento|no aprobaci[oó]n|inadmisi[oó]n|anulaci[oó]n", None),
+    (r"lista provisional|admitidos y excluidos|tribunal", "examen"),
 ]
 
 
