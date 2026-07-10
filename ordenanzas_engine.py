@@ -375,15 +375,21 @@ def _extraer_articulo(bloques: list, articulo: str):
 
 
 def _extraer_pasajes(bloques: list, terminos: str, k: int) -> str:
-    """Los k párrafos más relevantes (con su artículo de contexto), en orden."""
+    """Los k párrafos más relevantes (con su artículo de contexto), en orden.
+    Ignora párrafos triviales (títulos/índice repetidos, <60 chars) y deduplica
+    contenido idéntico (típico de OCR con cabecera de página repetida)."""
     palabras = [w for w in _norm(terminos).split() if len(w) >= 4 and w not in _STOP]
-    ultimo_art, filas = "", []
+    ultimo_art, filas, vistos_txt = "", [], set()
     for i, (cls, txt) in enumerate(bloques):
         if cls == "articulo":
             ultimo_art = txt
             continue
-        if not cls.startswith("parrafo"):
-            continue
+        if not cls.startswith("parrafo") or len(txt) < 60:
+            continue                    # descarta líneas título/índice/cabecera
+        clave = _norm(txt)[:120]
+        if clave in vistos_txt:
+            continue                    # dedup (cabeceras OCR repetidas)
+        vistos_txt.add(clave)
         tn = _norm(txt)
         pts = sum(3 if re.search(rf"\b{re.escape(w)}\b", tn) else (1 if w in tn else 0)
                   for w in palabras)
@@ -399,6 +405,25 @@ def _extraer_pasajes(bloques: list, terminos: str, k: int) -> str:
         vistos_art.add(art)
         salida.append(pre + txt)
     return "\n\n[...]\n\n".join(salida)
+
+
+def _primeros_articulos(bloques: list, k: int) -> str:
+    """Los primeros k artículos con cuerpo sustancial (fallback cuando el término
+    del usuario no aparece literal, p.ej. sinónimo)."""
+    out, i = [], 0
+    while i < len(bloques) and len(out) < k:
+        cls, txt = bloques[i]
+        if cls == "articulo":
+            cuerpo = []
+            for cls2, t2 in bloques[i + 1:]:
+                if cls2 in ("articulo", "titulo_num", "anexo_tit"):
+                    break
+                if len(t2) >= 40:
+                    cuerpo.append(t2)
+            if cuerpo:
+                out.append(txt + "\n" + "\n".join(cuerpo)[:900])
+        i += 1
+    return "\n\n[...]\n\n".join(out)
 
 
 def _texto_integro(bloques: list, max_chars: int) -> str:
@@ -750,8 +775,36 @@ _LASPALMAS = AdaptadorWeb("laspalmas", "Las Palmas de Gran Canaria",
                           ("las palmas", "las palmas de gran canaria", "lpgc",
                            "ayuntamiento de las palmas",
                            "ayuntamiento de las palmas de gran canaria"))
+# León capital: sus ordenanzas CONSOLIDADAS viven en aytoleon.es (PDF por norma);
+# es mejor fuente que el BOP de León (que solo indexa 2025+). El resto de la
+# provincia de León se resuelve por el BOP (bop_engine) — ver enrutado abajo.
+class _LeonCapital(AdaptadorWeb):
+    """León capital: aytoleon.es es flaky (arranque de conexión lento) y una
+    norma va escaneada (Movilidad, 310 págs). Para GARANTIZAR <5 s servimos el
+    TEXTO YA EXTRAÍDO y empaquetado en el repo (ordenanzas_data/leon_capital_textos/
+    <id>.txt; el escaneado se OCR-eó una sola vez al generar). Fallback: live."""
+
+    def bloques(self, norma: dict) -> list:
+        d = self.catalogo()["meta"].get("textos_dir")
+        fich = norma.get("texto")
+        if d and fich:
+            fp = os.path.join(DATA_DIR, d, fich)
+            try:
+                with open(fp, encoding="utf-8") as f:
+                    t = f.read()
+                if len(t) > 300:
+                    return _bloques_desde_texto(t)
+            except Exception:  # noqa: BLE001 — cae a descarga en vivo
+                pass
+        return super().bloques(norma)
+
+
+_LEON = _LeonCapital("leon_capital", "León",
+                     ("leon", "ayuntamiento de leon", "leon capital", "ciudad de leon",
+                      "excmo ayuntamiento de leon"))
 ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
-                                     _SEVILLA, _MALAGA, _MURCIA, _PALMA, _LASPALMAS)}
+                                     _SEVILLA, _MALAGA, _MURCIA, _PALMA, _LASPALMAS,
+                                     _LEON)}
 
 # Cobertura AMPLIA por Boletín Oficial de la Provincia (BOP): cualquier
 # ayuntamiento de una provincia cubierta (por ahora Sevilla) se resuelve
@@ -762,12 +815,28 @@ except Exception:  # noqa: BLE001
     _bop = None
 
 
+def _split_prov(municipio: str):
+    """'Baza (Granada)' / 'Astorga, León' -> ('Baza', 'Granada'). Sin sufijo -> (muni, None)."""
+    m = re.match(r"^\s*(.*?)\s*[,(]\s*([\wÁÉÍÓÚÜÑáéíóúüñ .'\-]+?)\s*\)?\s*$", municipio or "")
+    if m and m.group(1).strip():
+        return m.group(1).strip(), m.group(2).strip()
+    return (municipio or "").strip(), None
+
+
 def _resolver_municipio(municipio: str):
-    q = _norm(municipio)
+    """Resuelve a un adaptador de CIUDAD (catálogo curado) o None (→ BOP/no cubierto).
+    Regla anti-secuestro: si viene 'Municipio, Provincia' y el municipio NO es una
+    capital cubierta, devolvemos None para que lo resuelva el BOP de esa provincia
+    (evita que 'Astorga, León' caiga en el catálogo de León capital)."""
+    muni, prov = _split_prov(municipio)
+    qm = _norm(muni)
     for ad in ADAPTADORES.values():
-        if q == ad.codigo or q in (_norm(a) for a in ad.aliases):
+        if qm == ad.codigo or qm == _norm(ad.nombre) or qm in (_norm(a) for a in ad.aliases):
             return ad
-    for ad in ADAPTADORES.values():  # "ordenanzas de madrid", "madrid (capital)"...
+    if prov:                          # provincia explícita y no es capital -> BOP
+        return None
+    q = _norm(municipio)
+    for ad in ADAPTADORES.values():   # "ordenanzas de madrid", "ciudad de león"...
         if re.search(rf"\b{_norm(ad.nombre)}\b", q):
             return ad
     return None
@@ -857,9 +926,12 @@ def leer(municipio: str, ordenanza: str, articulo: str = "", parrafos: int = 0,
         elif parrafos and int(parrafos) > 0:
             texto = _extraer_pasajes(bloques, terminos or ordenanza, int(parrafos))
             if not texto:
-                return (f"Ningun pasaje de {norma['titulo']} ({ad.nombre}) machea "
-                        f"terminos=«{terminos}». Prueba con otras palabras o pide un "
-                        "articulo concreto. Indice:\n" + _indice_articulos(bloques)[:3000])
+                # el término (sinónimo del usuario) puede no estar LITERAL en el
+                # texto (p.ej. "plusvalía" -> "incremento de valor") o el articulado
+                # no trocearse: en vez de fallar, devolvemos los primeros artículos.
+                rotulo = " — (primeros artículos; el término exacto no aparece literal)"
+                texto = _primeros_articulos(bloques, int(parrafos)) \
+                    or _texto_integro(bloques, min(int(max_chars or 0) or 3500, 6000))
         else:
             texto = _texto_integro(bloques, int(max_chars or 0))
         dt = (time.perf_counter() - t0) * 1000

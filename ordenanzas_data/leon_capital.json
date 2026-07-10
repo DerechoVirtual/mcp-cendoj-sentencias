@@ -1,0 +1,731 @@
+{
+ "meta": {
+  "municipio": "leon_capital",
+  "nombre": "León",
+  "fuente": "Ayuntamiento de León (ordenanzas municipales consolidadas, PDF oficial por norma)",
+  "url": "https://www.aytoleon.es/es/tu-ayuntamiento/normativas/Paginas/default.aspx",
+  "textos_dir": "leon_capital_textos",
+  "actualizado": "2026-07"
+ },
+ "normas": [
+  {
+   "id": "leon-001",
+   "titulo": "Ordenanza reguladora del servicio de taxi",
+   "cat": "Transporte",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "licencia de taxi",
+    "auto-taxi",
+    "vtc",
+    "servicio de taxi"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20REGULADORA%20DEL%20SERVICIO%20DE%20TAXI%20EN%20EL%20T%C3%89RMINO%20MUNICIPAL%20DE%20LE%C3%93N.pdf",
+   "formato": "pdf",
+   "texto": "leon-001.txt"
+  },
+  {
+   "id": "leon-002",
+   "titulo": "Ordenanza reguladora de la ORA (zona azul)",
+   "cat": "Tráfico",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "estacionamiento regulado",
+    "aparcamiento regulado",
+    "estacionamiento limitado"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/TR%C3%81FICO-ORDENANZA%20ORA.pdf",
+   "formato": "pdf",
+   "texto": "leon-002.txt"
+  },
+  {
+   "id": "leon-003",
+   "titulo": "Ordenanza de la Inspección Técnica de Edificios (ITE)",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "conservacion de edificios",
+    "deber de conservacion"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/20251201%20Ordenanza%20de%20la%20Inspecci%C3%B3n%20T%C3%A9cnica%20de%20Edificos.pdf",
+   "formato": "pdf",
+   "texto": "leon-003.txt"
+  },
+  {
+   "id": "leon-004",
+   "titulo": "Ordenanza de Movilidad de la Ciudad de León",
+   "cat": "Movilidad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "zbe",
+    "zona de bajas emisiones",
+    "patinete",
+    "vmp",
+    "vehiculos de movilidad personal",
+    "bicicleta",
+    "estacionamiento",
+    "emisiones"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/20251016%20Ordenanza%20Movilidad%20de%20la%20Ciudad%20de%20Le%C3%B3n.pdf",
+   "formato": "pdf",
+   "texto": "leon-004.txt"
+  },
+  {
+   "id": "leon-005",
+   "titulo": "Ordenanza reguladora de vados para el acceso de vehículos",
+   "cat": "Vía pública",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "entrada de vehiculos",
+    "paso de carruajes",
+    "reserva de aparcamiento"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/20251008%2C%20Ordenanza%20municipal%20reguladora%20de%20vados%20para%20el%20acceso%20de%20veh%C3%ADculos%20en%20el%20municipio%20de%20Le%C3%B3n.pdf",
+   "formato": "pdf",
+   "texto": "leon-005.txt"
+  },
+  {
+   "id": "leon-006",
+   "titulo": "Ordenanza sobre protección de la convivencia ciudadana y prevención de conductas antisociales",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "conductas antisociales",
+    "conductas incivicas",
+    "espacio publico",
+    "ordenanza civica",
+    "grafiti",
+    "gamberrismo"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/20250911_Ordenanza_sobre_protecci%C3%B3n_de_la_convivencia_ciudadana.pdf",
+   "formato": "pdf",
+   "texto": "leon-006.txt"
+  },
+  {
+   "id": "leon-007",
+   "titulo": "Ordenanza reguladora de las ayudas al estudio",
+   "cat": "Ayudas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ayudas al estudio",
+    "becas",
+    "beca de estudio"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20REGULADORA%20DE%20LAS%20AYUDAS%20AL%20ESTUDIO.pdf",
+   "formato": "pdf",
+   "texto": "leon-007.txt"
+  },
+  {
+   "id": "leon-008",
+   "titulo": "Ordenanza reguladora de las ayudas a la natalidad",
+   "cat": "Ayudas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "natalidad",
+    "fomento de la natalidad",
+    "ayuda por nacimiento",
+    "cheque bebe"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20REGULADORA%20DE%20LAS%20AYUDAS%20A%20LA%20NATALIDAD.pdf",
+   "formato": "pdf",
+   "texto": "leon-008.txt"
+  },
+  {
+   "id": "leon-009",
+   "titulo": "Ordenanza reguladora de la limpieza en espacios públicos y privados, residuos y economía circular",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "recogida de residuos",
+    "recogida de basura",
+    "economia circular",
+    "higiene urbana",
+    "limpieza viaria",
+    "solidos urbanos",
+    "reciclaje",
+    "punto limpio"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/MEDIO%20AMBIENTE%20-%20ORDENANZA%20REGULADORA%20DE%20LA%20LIMPIEZA%20EN%20ESPACIOS%20P%C3%9ABLICOS%20Y%20PRIVADOS%20RESIDUOS%20Y%20ECONOM%C3%8DA%20CIRCULAR%20.pdf",
+   "formato": "pdf",
+   "texto": "leon-009.txt"
+  },
+  {
+   "id": "leon-010",
+   "titulo": "Ordenanza reguladora del estacionamiento y pernocta de autocaravanas",
+   "cat": "Movilidad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "autocaravana",
+    "caravana",
+    "pernocta",
+    "estacionamiento de caravanas",
+    "camper"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20REGULADORA%20DEL%20ESTACIONAMIENTO%20Y%20PERNOCTA%20DE%20VEH%C3%8DCULOS%20AUTOCARAVANAS.pdf",
+   "formato": "pdf",
+   "texto": "leon-010.txt"
+  },
+  {
+   "id": "leon-011",
+   "titulo": "Ordenanza municipal de terrazas y elementos auxiliares de hostelería y restauración",
+   "cat": "Vía pública",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "velador",
+    "veladores",
+    "mesas y sillas",
+    "hosteleria",
+    "restauracion",
+    "ocupacion de via publica"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20MUNICIPAL%20DE%20TERRAZAS%20Y%20ELEMENTOS%20AUXILIARES%20DE%20HOSTELER%C3%8DA%20Y%20RESTAURACI%C3%93N%20EN%20EL%20MUNICIPIO%20DE%20LE%C3%93N.pdf",
+   "formato": "pdf",
+   "texto": "leon-011.txt"
+  },
+  {
+   "id": "leon-013",
+   "titulo": "Ordenanza para la lucha contra la prostitución y la trata con fines de explotación sexual",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "prostitucion",
+    "trata",
+    "explotacion sexual"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20PARA%20LA%20LUCHA%20CONTRA%20LA%20PROSTITUCI%C3%93N%20Y%20LA%20TRATA%20CON%20FINES%20%20DE%20EXPLOTACI%C3%93N%20SEXUAL%20EN%20EL%20MUNICIPIO%20DE%20LE%C3%93N.pdf",
+   "formato": "pdf",
+   "texto": "leon-013.txt"
+  },
+  {
+   "id": "leon-015",
+   "titulo": "Ordenanza de circulación y seguridad vial de peatones y ciclistas",
+   "cat": "Tráfico",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "peatones",
+    "ciclistas",
+    "seguridad vial",
+    "circulacion de peatones"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/TR%C3%81FICO-ORDENANZA%20DE%20CIRCULACI%C3%93N%20Y%20SEGURIDAD%20VIAL%20DE%20PEATONES%20Y%20CICLISTAS.pdf",
+   "formato": "pdf",
+   "texto": "leon-015.txt"
+  },
+  {
+   "id": "leon-016",
+   "titulo": "Ordenanza de tráfico y seguridad vial",
+   "cat": "Tráfico",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "trafico",
+    "seguridad vial",
+    "circulacion",
+    "multa de trafico",
+    "sancion de trafico"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/TR%C3%81FICO-ORDENANZA%20DE%20TRAFICO%20Y%20SEGURIDAD%20VIAL.pdf",
+   "formato": "pdf",
+   "texto": "leon-016.txt"
+  },
+  {
+   "id": "leon-017",
+   "titulo": "Ordenanza especial de estacionamiento para personas con discapacidad",
+   "cat": "Tráfico",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "discapacidad",
+    "tarjeta de estacionamiento",
+    "movilidad reducida",
+    "pmr",
+    "aparcamiento discapacitados"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/TR%C3%81FICO-ORDENANZA%20ESPECIAL%20DE%20ESTACIONAMIENTO%20PARA%20PERSONAS%20CON%20DISCAPACIDAD.pdf",
+   "formato": "pdf",
+   "texto": "leon-017.txt"
+  },
+  {
+   "id": "leon-018",
+   "titulo": "Ordenanza sobre la regulación del tráfico en el casco histórico",
+   "cat": "Tráfico",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "casco historico",
+    "casco antiguo",
+    "trafico centro",
+    "acceso casco"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/TR%C3%81FICO-ORDENANZA%20SOBRE%20LA%20REGULACION%20DEL%20TRAFICO%20EN%20EL%20CASCO%20HISTORICO.pdf",
+   "formato": "pdf",
+   "texto": "leon-018.txt"
+  },
+  {
+   "id": "leon-019",
+   "titulo": "Ordenanza municipal de parques y jardines",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "zonas verdes",
+    "arbolado",
+    "espacios verdes",
+    "areas de juego"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/MEDIO%20AMBIENTE%20-%20ORDENANZA%20MUNICIPAL%20DE%20PARQUES%20Y%20JARDINES.pdf",
+   "formato": "pdf",
+   "texto": "leon-019.txt"
+  },
+  {
+   "id": "leon-020",
+   "titulo": "Ordenanza reguladora de la instalación y funcionamiento de infraestructuras de radiocomunicación",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "antenas",
+    "radiocomunicacion",
+    "telefonia movil",
+    "infraestructuras de telecomunicaciones",
+    "estaciones base"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/MEDIO%20AMBIENTE%20-%20ORDENANZA%20MUNICIPAL%20REGULADORA%20DE%20LA%20INSTALACI%C3%93N%20Y%20FUNCIONAMIENTO%20DE%20INFRAESTRUCTURAS%20DE%20RADIOCOMUNICACI%C3%93N.pdf",
+   "formato": "pdf",
+   "texto": "leon-020.txt"
+  },
+  {
+   "id": "leon-022",
+   "titulo": "Ordenanza municipal sobre la protección del medio ambiente contra la emisión de ruidos y vibraciones",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "medio ambiente",
+    "ruido",
+    "ruidos",
+    "vibraciones",
+    "contaminacion acustica",
+    "acustica",
+    "proteccion del medio ambiente",
+    "molestias por ruido",
+    "aislamiento acustico"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/MEDIO%20AMBIENTE%20-%20ORDENANZA%20MUNICIPAL%20SOBRE%20LA%20PROTECCI%C3%93N%20DEL%20MEDIO%20AMBIENTE%20CONTRA%20LA%20EMISI%C3%93N%20DE%20RUIDOS%20Y%20VIBRACIONES.pdf",
+   "formato": "pdf",
+   "texto": "leon-022.txt"
+  },
+  {
+   "id": "leon-023",
+   "titulo": "Ordenanza reguladora de la publicidad exterior mediante carteles, carteleras o vallas publicitarias",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "vallas",
+    "carteleras",
+    "rotulos"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/MEDIO%20AMBIENTE%20-%20ORDENANZA%20REGULADORA%20DE%20LA%20PUBLICIDAD%20EXTERIOR%20MEDIANTE%20CARTELES%2C%20CARTELERAS%20O%20VALLAS%20PUBLICITARIAS.pdf",
+   "formato": "pdf",
+   "texto": "leon-023.txt"
+  },
+  {
+   "id": "leon-024",
+   "titulo": "Ordenanza ordenadora de la distancia de establecimientos de bebidas alcohólicas",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "alcohol",
+    "bebidas alcoholicas",
+    "distancia de locales",
+    "establecimientos de bebidas"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20ORDENADORA%20DISTANCIA%20ESTABLECIMIENTOS%20BEBIDAS%20ALCOH%C3%93LICAS.pdf",
+   "formato": "pdf",
+   "texto": "leon-024.txt"
+  },
+  {
+   "id": "leon-025",
+   "titulo": "Ordenanza de transparencia y acceso a la información",
+   "cat": "Gobierno abierto",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion",
+    "buen gobierno",
+    "gobierno abierto",
+    "datos abiertos"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20DE%20TRANSPARENCIA%20Y%20ACCESO%20A%20LA%20INFORMACI%C3%93N.pdf",
+   "formato": "pdf",
+   "texto": "leon-025.txt"
+  },
+  {
+   "id": "leon-026",
+   "titulo": "Ordenanza municipal de huertos",
+   "cat": "Medio Ambiente",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "huertos",
+    "huertos urbanos",
+    "huertos municipales",
+    "huerto ecologico"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Generales/ORDENANZA%20MUNICIPAL%20DE%20HUERTOS.pdf",
+   "formato": "pdf",
+   "texto": "leon-026.txt"
+  },
+  {
+   "id": "leon-027",
+   "titulo": "Ordenanza fiscal del impuesto sobre el incremento de valor de los terrenos de naturaleza urbana (plusvalía)",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "incremento de valor",
+    "iivtnu",
+    "terrenos de naturaleza urbana",
+    "impuesto de plusvalia"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Impuestos/ORDENANZA%20FISCAL%20REGULADORA%20DEL%20IMPUESTO%20SOBRE%20EL%20INCREMENTO%20DE%20VALOR%20DE%20LOS%20TERRENOS%20DE%20NATURALEZA%20URBANA.pdf",
+   "formato": "pdf",
+   "texto": "leon-027.txt"
+  },
+  {
+   "id": "leon-028",
+   "titulo": "Ordenanza fiscal del impuesto sobre construcciones, instalaciones y obras (ICIO)",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "icio",
+    "construcciones instalaciones y obras",
+    "obras",
+    "impuesto de obras",
+    "licencia de obras"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Impuestos/ORDENANZA%20FISCAL%20REGULADORA%20DEL%20IMPUESTO%20SOBRE%20CONSTRUCCIONES%2C%20INSTALACIONES%20Y%20OBRAS..pdf",
+   "formato": "pdf",
+   "texto": "leon-028.txt"
+  },
+  {
+   "id": "leon-029",
+   "titulo": "Ordenanza fiscal del impuesto sobre bienes inmuebles (IBI)",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "bienes inmuebles",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Impuestos/ORDENANZA%20FISCAL%20REGULADORA%20DEL%20IMPUESTO%20SOBRE%20BIENES%20INMUEBLES.pdf",
+   "formato": "pdf",
+   "texto": "leon-029.txt"
+  },
+  {
+   "id": "leon-030",
+   "titulo": "Ordenanza fiscal del impuesto sobre actividades económicas (IAE)",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "iae",
+    "actividades economicas",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Impuestos/ORDENANZA%20FISCAL%20REGULADORA%20DEL%20IMPUESTO%20SOBRE%20ACTIVIDADES%20ECONOMICAS.pdf",
+   "formato": "pdf",
+   "texto": "leon-030.txt"
+  },
+  {
+   "id": "leon-031",
+   "titulo": "Ordenanza fiscal del impuesto sobre vehículos de tracción mecánica (IVTM)",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "vehiculos de traccion mecanica",
+    "impuesto de circulacion",
+    "impuesto de vehiculos",
+    "traccion mecanica"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Impuestos/ORDENANZA%20FISCAL%20REGULADORA%20DEL%20IMPUESTO%20SOBRE%20VEHICULOS%20TRACCION%20MECANICA.pdf",
+   "formato": "pdf",
+   "texto": "leon-031.txt"
+  },
+  {
+   "id": "leon-032",
+   "titulo": "Tasa por tratamiento y eliminación de residuos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa de residuos",
+    "tratamiento de residuos",
+    "eliminacion de residuos",
+    "tasa de tratamiento"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20TRATAMIENTO%20Y%20ELIMINACI%C3%93N%20RESIDUOS.pdf",
+   "formato": "pdf",
+   "texto": "leon-032.txt"
+  },
+  {
+   "id": "leon-033",
+   "titulo": "Tasa por recogida de basuras y otros residuos sólidos urbanos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa de basura",
+    "recogida de basuras",
+    "tasa de recogida",
+    "residuos solidos urbanos",
+    "tasa de residuos domiciliaria"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20RECOGIDA%20DE%20BASURAS%20%20Y%20OTROS%20RESIDUOS%20S%C3%93LIDOS%20URBANOS%202022.pdf",
+   "formato": "pdf",
+   "texto": "leon-033.txt"
+  },
+  {
+   "id": "leon-034",
+   "titulo": "Tasa por retirada de vehículos y su depósito (grúa)",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "grua",
+    "retirada de vehiculos",
+    "deposito de vehiculos",
+    "tasa de grua",
+    "inmovilizacion"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20RETIRADA%20DE%20VEH%C3%8DCULOS%20Y%20SU%20DEP%C3%93SITO.pdf",
+   "formato": "pdf",
+   "texto": "leon-034.txt"
+  },
+  {
+   "id": "leon-035",
+   "titulo": "Tasa por el servicio de recogida de perros",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "recogida de perros",
+    "perros",
+    "animales",
+    "perrera",
+    "tasa de perros"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20EL%20SERVICIO%20DE%20RECOGIDA%20DE%20PERROS.pdf",
+   "formato": "pdf",
+   "texto": "leon-035.txt"
+  },
+  {
+   "id": "leon-036",
+   "titulo": "Tasa por la prestación de servicios ambientales",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "servicios ambientales",
+    "tasa ambiental"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20LA%20PRESTACI%C3%93N%20DE%20SERVICIOS%20AMBIENTALES.pdf",
+   "formato": "pdf",
+   "texto": "leon-036.txt"
+  },
+  {
+   "id": "leon-039",
+   "titulo": "Tasa por expedición de documentos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "expedicion de documentos",
+    "compulsa",
+    "certificados",
+    "tasa de documentos"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20EXPEDICI%C3%93N%20DE%20DOCUMENTOS.pdf",
+   "formato": "pdf",
+   "texto": "leon-039.txt"
+  },
+  {
+   "id": "leon-040",
+   "titulo": "Tasa por instalación de quioscos en la vía pública",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "kiosco",
+    "quioscos"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20INSTALACI%C3%93N%20DE%20QUIOSCOS%20EN%20LA%20V%C3%8DA%20P%C3%9ABLICA.pdf",
+   "formato": "pdf",
+   "texto": "leon-040.txt"
+  },
+  {
+   "id": "leon-041",
+   "titulo": "Tasa por prestación de servicios en mercados municipales",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercado",
+    "mercados municipales",
+    "puesto de mercado",
+    "abastos"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20PRESTACI%C3%93N%20DE%20SERVICIOS%20Y%20APROVECHAMIENTOS%20ESPECIALES%20MERCADOS%20MUNICIPALES.pdf",
+   "formato": "pdf",
+   "texto": "leon-041.txt"
+  },
+  {
+   "id": "leon-042",
+   "titulo": "Tasa por prestación del servicio de ayuda a domicilio",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ayuda a domicilio",
+    "sad",
+    "servicios sociales",
+    "dependencia"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Ordenanzas%20Tasas/TASAS%20POR%20PRESTACION%20DEL%20SERVICIO%20DE%20AYUDA%20A%20DOMICILIO.pdf",
+   "formato": "pdf",
+   "texto": "leon-042.txt"
+  },
+  {
+   "id": "leon-043",
+   "titulo": "Reglamento de participación ciudadana",
+   "cat": "Participación",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consejos de participacion",
+    "consulta ciudadana"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Reglamentos/REGLAMENTO%20DE%20PARTICIPACI%C3%93N%20CIUDADANA.pdf",
+   "formato": "pdf",
+   "texto": "leon-043.txt"
+  },
+  {
+   "id": "leon-044",
+   "titulo": "Reglamento del Consejo de las Mujeres",
+   "cat": "Igualdad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "consejo de las mujeres",
+    "igualdad",
+    "mujeres"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Reglamentos/Reglamento%20del%20CONSEJO%20DE%20LAS%20MUJERES.pdf",
+   "formato": "pdf",
+   "texto": "leon-044.txt"
+  },
+  {
+   "id": "leon-045",
+   "titulo": "Reglamento de la Agrupación de Voluntarios de Protección Civil",
+   "cat": "Protección Civil",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "proteccion civil",
+    "voluntariado",
+    "agrupacion de voluntarios",
+    "emergencias"
+   ],
+   "url": "https://www.aytoleon.es/es/tu-ayuntamiento/corporaci%C3%B3n/secretaria/Reglamentos/REGLAMENTO%20DE%20LA%20AGRUPACI%C3%93N%20DE%20VOLUNTARIADO%20DE%20PROTECCI%C3%93N%20CIVIL%2020250409%2C%20Reglamento%20de%20la%20Agrupaci%C3%B3n%20de%20Voluntarios%20de%20Protecci%C3%B3n%20Civil.pdf",
+   "formato": "pdf",
+   "texto": "leon-045.txt"
+  }
+ ]
+}
