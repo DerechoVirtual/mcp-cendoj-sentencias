@@ -113,6 +113,11 @@ def _cargar_mapas():
             m = json.load(open(os.path.join(_DATA, cfg["mapa"]), encoding="utf-8"))
         except Exception:  # noqa: BLE001
             m = {}
+        # algunos listados de entidades traen basura (p.ej. el BOP de Cáceres lista
+        # "Lepe", que es de Huelva). La config puede declarar `excluir`.
+        excl = {_norm(x) for x in cfg.get("excluir", [])}
+        if excl:
+            m = {k: v for k, v in m.items() if _norm(k) not in excl}
         _MAPAS[prov] = m
         _IDX[prov] = {}
         _NOMBRES[prov] = {}
@@ -196,6 +201,10 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
     fam = PROVINCIAS[prov].get("familia", "saga")
     if fam == "caceres":
         return _caceres_buscar(prov, texto, categoria, rpp)
+    if fam == "toledo":
+        return _toledo_buscar(prov, texto, categoria, rpp)
+    if fam == "huelva":
+        return _huelva_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -204,7 +213,95 @@ def _texto(prov, m, ocr=True, max_pag=10):
     fam = PROVINCIAS[prov].get("familia", "saga")
     if fam == "caceres":
         return _caceres_texto(prov, m)
+    if fam == "toledo":
+        return _toledo_texto(prov, m)
+    if fam == "huelva":
+        return _huelva_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend bope_web (Huelva: POST Solr + PDF con capa de texto) ---------
+def _rest_post(url, data, timeout=30, referer=""):
+    h = {"User-Agent": _UA, "Content-Type": "application/x-www-form-urlencoded",
+         "X-Requested-With": "XMLHttpRequest"}
+    if referer:
+        h["Referer"] = referer
+    return urllib.request.urlopen(urllib.request.Request(url, data=urllib.parse.urlencode(data).encode(),
+                                                         headers=h), timeout=timeout).read()
+
+
+def _huelva_buscar(prov, texto, codigo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    data = {"tipo": 3, "Seccion": 1, "Categoria": 8, "PClave": texto or "ordenanza",
+            "Fecha_Desde": "01/01/2009", "Fecha_Hasta": "31/12/2027"}
+    if codigo:
+        data["Entidad"] = codigo
+    try:
+        d = json.loads(_rest_post(cfg["base"] + "/lib/bope/anuncios_bop/SOLRajaxAnuncios2.php",
+                                  data, referer=cfg["base"] + "/servicios/bope_web/").decode("utf-8", "replace"))
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for a in (d.get("Anuncios") or [])[:max(rpp, 20)]:
+        fe = a.get("fecha_publicacion") or ""
+        mfe = re.search(r"(\d{2})[/-](\d{2})[/-](\d{4})", fe)
+        orden = (mfe.group(3) + mfe.group(2) + mfe.group(1)) if mfe else re.sub(r"\D", "", fe)[:8] or "0"
+        doc = a.get("documento") or ""
+        out.append({"url": cfg["base"] + "/portalweb/bope/anuncios/" + doc if doc else cfg["base"],
+                    "titulo": _html.unescape(a.get("titulo") or ""), "cve": a.get("csv") or "",
+                    "fecha": (mfe.group(0) if mfe else ""), "orden": orden, "documento": doc})
+    return out
+
+
+def _huelva_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    doc = m.get("documento") if isinstance(m, dict) else ""
+    if not doc:
+        return "", "sin-doc"
+    try:
+        pdf = _getb(cfg["base"] + "/portalweb/bope/anuncios/" + doc, 50)
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
+    return _pdf_bytes_texto(pdf)
+
+
+# ---- backend SOLR expuesto (Toledo: webEbop/solr_select.jsp) --------------
+def _solr_escape(s):
+    return re.sub(r'(["\\])', r"\\\1", s or "")
+
+
+def _toledo_buscar(prov, texto, facet=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    # busca el término en el CONTENIDO, filtrado por municipio; el ranking por
+    # TÍTULO (subject) lo hace el motor genérico sobre los candidatos.
+    partes = []
+    if facet:
+        partes.append(f'publisher_facet:"{_solr_escape(facet)}"')
+    t = (texto or "ordenanza").strip()
+    partes.append(f"contents:({_solr_escape(t)})")
+    q = urllib.parse.urlencode({"q": " AND ".join(partes), "wt": "json",
+                                "rows": max(rpp, 20), "sort": "publication_date desc",
+                                "fl": "subject,contents,publication_date,insert_number,insert_year,bop_number"})
+    try:
+        d = json.loads(_rest_get(cfg["base"] + "/solr_select.jsp?" + q).decode("utf-8", "replace"))
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for x in d.get("response", {}).get("docs", []):
+        pd = str(x.get("publication_date") or "")            # yyyymmdd... o ISO
+        orden = re.sub(r"\D", "", pd)[:8] or "0"
+        fe = f"{orden[6:8]}/{orden[4:6]}/{orden[:4]}" if len(orden) == 8 else ""
+        cve = f"BOP-TO-{x.get('insert_year','')}-{x.get('insert_number','')}"
+        out.append({"url": cfg["base"] + f"#{cve}", "titulo": _html.unescape(x.get("subject") or ""),
+                    "cve": cve, "fecha": fe, "orden": orden,
+                    "contents": x.get("contents") or ""})
+    return out
+
+
+def _toledo_texto(prov, m):
+    # el texto viene INLINE en el propio doc (campo contents) -> 0 red extra
+    c = m.get("contents") if isinstance(m, dict) else ""
+    return (c, "solr") if c else ("", "sin-texto")
 
 
 # ---- backend REST-JSON (Cáceres: API pública Diputación) ------------------
@@ -341,9 +438,16 @@ _EXPANSION = [
     (r"animal|perro|gato|mascota|tenencia|felin|canin",
      ["animal", "perro", "tenencia", "mascota", "proteccion", "bienestar",
       "colonias felinas", "felin", "canin"], []),
-    (r"movilidad|trafico|circulacion|patinete|\bvmp\b|bicicleta|estacionamiento|aparcamiento|zona azul",
-     ["movilidad", "trafico", "circulacion", "vehiculos de movilidad personal", "vmp", "patinete",
-      "estacionamiento", "aparcamiento"], ["vehiculo"]),
+    # VMP/patinete: CORE estrecho (no arrastrar estacionamiento/circulación, que
+    # macheaban modificaciones fiscales genéricas)
+    (r"patinete|\bvmp\b|vehiculos? de movilidad|movilidad personal|monopatin",
+     ["vehiculos de movilidad personal", "vmp", "patinete", "movilidad personal"], []),
+    (r"\bmovilidad\b", ["movilidad", "vehiculos de movilidad personal"], ["trafico", "circulacion"]),
+    (r"\btrafico\b|circulacion|seguridad vial|peaton|ciclista",
+     ["trafico", "circulacion", "seguridad vial"], ["vehiculo"]),
+    (r"estacionamiento|aparcamiento|zona azul|\bora\b",
+     ["estacionamiento", "aparcamiento", "zona azul", "ora"], []),
+    (r"bicicleta|\bbici\b", ["bicicleta", "bici"], []),
     (r"\bzbe\b|bajas emisiones|baja emision|zona de bajas|emisiones",
      ["zonas de bajas emisiones", "bajas emisiones", "zbe", "baja emision"], []),
     (r"impuesto (de |sobre )?(circulacion|vehiculos)|\bivtm\b|traccion mecanica",
