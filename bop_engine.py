@@ -26,11 +26,14 @@ import html as _html
 import json
 import os
 import re
+import ssl
 import time
 import unicodedata
 import urllib.parse
 import urllib.request
 import http.cookiejar
+
+_SSL_NOVERIFY = ssl._create_unverified_context()
 
 try:
     import fitz  # PyMuPDF
@@ -213,6 +216,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _jaen_buscar(prov, texto, categoria, rpp)
     if fam == "malaga":
         return _malaga_buscar(prov, texto, categoria, rpp)
+    if fam == "cadiz":
+        return _cadiz_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -233,7 +238,78 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _jaen_texto(prov, m)
     if fam == "malaga":
         return _malaga_texto(prov, m)
+    if fam == "cadiz":
+        return _cadiz_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend OpenCms Cádiz (búsqueda -> boletines -> PDF del día con #page) --
+def _cadiz_get(url, timeout=30):
+    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": _UA}),
+                                  timeout=timeout, context=_SSL_NOVERIFY).read()
+
+
+def _cadiz_anuncios(base, slug, organo):
+    try:
+        page = _cadiz_get(base + "/boletin/" + slug).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    on = _norm(organo)
+    for mm in re.finditer(r"(\d{3}\.\d{3})\.-\s*(Ayuntamiento de [^.<]+?)\.\s*(.*?)\s*"
+                          r'<a[^>]+href="([^"]+\.pdf#page=(\d+))"', page, re.S):
+        if _norm(mm.group(2)) != on:
+            continue
+        tit = _html.unescape(re.sub(r"<[^>]+>", " ", mm.group(3))).strip().rstrip(".")
+        pdf = mm.group(4)
+        out.append({"titulo": re.sub(r"\s+", " ", tit), "pdf": base + pdf if pdf.startswith("/") else pdf,
+                    "cve": f"BOP-CA-{mm.group(1)}", "page": int(mm.group(5))})
+    return out
+
+
+def _cadiz_buscar(prov, texto, organo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organo:
+        return []
+    raw = _familias(texto or "ordenanza")[0]
+    q = max(raw, key=len) if raw else (texto or "ordenanza")
+    p = {"tipo_": cfg["tipo"], "ruta_": "/sites/default/.content/BOP_F/", "incluirFiltros_": "true",
+         "num_elements_": "20", "num_columns_": "1",
+         "listConfig": "/.content/Lista_L/Lista_L_00001.html", "usepagination": "true",
+         "page": "1", "texto": q, "organo_remitente": organo, "sortModifier": "desc"}
+    try:
+        r = _cadiz_get(cfg["base"] + "/system/modules/es.dipucadiz.listas/elements/list-inner.jsp?"
+                       + urllib.parse.urlencode(p)).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return []
+    slugs = list(dict.fromkeys(re.findall(r"/boletin/(Boletin-numero-\d+-del-ano-\d+)", r)))[:4]
+    out = []
+    with _cf.ThreadPoolExecutor(max_workers=4) as ex:
+        for i, ans in enumerate(ex.map(lambda s: _cadiz_anuncios(cfg["base"], s, organo), slugs)):
+            for a in ans:
+                m8 = re.search(r"ano-(\d+)", slugs[i])
+                a["orden"] = (m8.group(1) if m8 else "0") + f"{len(slugs)-i:03d}"
+                a["fecha"] = ""
+                a["url"] = a["pdf"]
+                out.append(a)
+    return out
+
+
+def _cadiz_texto(prov, m):
+    pdf = m.get("pdf") if isinstance(m, dict) else m
+    page = (m.get("page") if isinstance(m, dict) else 1) or 1
+    if not pdf:
+        return "", "sin-pdf"
+    try:
+        data = _cadiz_get(pdf.split("#")[0], 50)
+    except Exception as e:  # noqa: BLE001
+        return "", f"err:{e}"
+    if not _HAS_FITZ or data[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    doc = fitz.open(stream=data, filetype="pdf")
+    a, b_ = max(0, page - 1), min(doc.page_count, page + 4)   # el anuncio empieza en #page
+    txt = "\n".join(doc[i].get_text() for i in range(a, b_))
+    return (txt, "pdf-dia") if len(txt) > 200 else ("", "sin-texto")
 
 
 # ---- backend Sphinx (Málaga: buscador xhr_sphinxsearch + HTML edicto) ------
