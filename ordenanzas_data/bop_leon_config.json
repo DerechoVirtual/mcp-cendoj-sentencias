@@ -1,0 +1,9 @@
+{
+ "id": "leon",
+ "base": "https://bop.dipuleon.es",
+ "resultados": "/publica/buscador-anuncios/resultados-anuncios/",
+ "anuncio_pdf": "Documentos-Anuncios-en-PDF",
+ "anuncio_href": "/publica/buscador-anuncios/anuncio/",
+ "mapa": "bop_leon_municipios.json",
+ "nombre": "León"
+}

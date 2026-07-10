@@ -1,0 +1,9 @@
+{
+ "id": "granada",
+ "base": "https://bop.dipgra.es",
+ "resultados": "/publica/buscador-anuncios/resultados-anuncios/",
+ "anuncio_pdf": "Documentos-Anuncios-en-PDF",
+ "anuncio_href": "/publica/buscador-anuncios/anuncio/",
+ "mapa": "bop_granada_municipios.json",
+ "nombre": "Granada"
+}
