@@ -188,8 +188,99 @@ def _getb(url, timeout=40):
     return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": _UA}), timeout=timeout).read()
 
 
-# ---- búsqueda -------------------------------------------------------------
+# ---- búsqueda: DESPACHO POR FAMILIA DE PLATAFORMA -------------------------
+# Cada provincia trae "familia" en su config (default "saga"). El motor genérico
+# (ranking, pasajes, mensaje honesto) es común; solo cambia el BACKEND que
+# produce la lista de anuncios [{url,titulo,cve,fecha,orden}] y el texto de uno.
 def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
+    fam = PROVINCIAS[prov].get("familia", "saga")
+    if fam == "caceres":
+        return _caceres_buscar(prov, texto, categoria, rpp)
+    return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
+
+
+def _texto(prov, m, ocr=True, max_pag=10):
+    """(texto, via) del anuncio m, según la familia de la provincia."""
+    fam = PROVINCIAS[prov].get("familia", "saga")
+    if fam == "caceres":
+        return _caceres_texto(prov, m)
+    return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend REST-JSON (Cáceres: API pública Diputación) ------------------
+def _rest_get(url, timeout=25):
+    return urllib.request.urlopen(urllib.request.Request(
+        url, headers={"User-Agent": _UA, "Accept": "application/json"}), timeout=timeout).read()
+
+
+def _epoch_a_fecha(ms):
+    try:
+        t = time.gmtime(int(ms) / 1000)
+        return f"{t.tm_mday:02d}/{t.tm_mon:02d}/{t.tm_year}", f"{t.tm_year}{t.tm_mon:02d}{t.tm_mday:02d}"
+    except Exception:  # noqa: BLE001
+        return "", "0"
+
+
+def _caceres_buscar(prov, texto, entidad=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    q = {"grupo": cfg.get("grupo", 1), "texto": texto or "ordenanza",
+         "start": 0, "limit": max(rpp, 20)}
+    if entidad:
+        q["entidad"] = entidad
+    url = cfg["base"] + "/bop/services/anuncios/busquedaAvanzada?" + urllib.parse.urlencode(q)
+    try:
+        d = json.loads(_rest_get(url).decode("utf-8", "replace"))
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for a in (d.get("data") or []):
+        csv = a.get("csv") or ""
+        tit = re.sub(r"^BOP[A-Z]?-\d{4}-\d+\s*", "", a.get("tituloAnuncio") or "").strip()
+        fecha, orden = _epoch_a_fecha(a.get("fechaPublicacion"))
+        out.append({"url": cfg["base"] + "/bop/services/anuncios/contenidoHtmlIdAnuncio?csv=" + urllib.parse.quote(csv),
+                    "titulo": _html.unescape(tit), "cve": csv, "csv": csv,
+                    "fecha": a.get("fecha") or fecha, "orden": orden})
+    return out
+
+
+def _caceres_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    csv = (m.get("csv") or m.get("cve")) if isinstance(m, dict) else m
+    if not csv:
+        return "", "sin-csv"
+    txt = ""
+    try:
+        url = cfg["base"] + "/bop/services/anuncios/contenidoHtmlIdAnuncio?csv=" + urllib.parse.quote(csv)
+        d = json.loads(_rest_get(url).decode("utf-8", "replace"))
+        node = d.get("data") if isinstance(d.get("data"), dict) else d
+        txt = _html_a_texto((node or {}).get("contenidoHtml") or "")
+    except Exception:  # noqa: BLE001
+        txt = ""
+    # el HTML a veces trae solo el preámbulo ("aprobación definitiva…"); el texto
+    # íntegro está en el PDF -> fallback a PDF (con OCR si va escaneado/CID).
+    if len(txt) < 1500:
+        try:
+            pdf = _rest_get(cfg["base"] + "/bop/services/anuncios/contenidoPdfIdAnuncio?csv="
+                            + urllib.parse.quote(csv), timeout=50)
+            if pdf[:5] == b"%PDF-":
+                pt, _ = _pdf_bytes_texto(pdf)
+                if len(pt) > len(txt):
+                    return pt, "pdf"
+        except Exception:  # noqa: BLE001
+            pass
+    return txt, ("html" if txt else "sin-texto")
+
+
+def _html_a_texto(html):
+    html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
+    html = re.sub(r"(?i)<br\s*/?>", "\n", html)
+    html = re.sub(r"(?i)</(p|div|li|tr|h\d)>", "\n", html)
+    txt = _html.unescape(re.sub(r"<[^>]+>", " ", html))
+    txt = re.sub(r"[ \t\xa0]+", " ", txt)
+    return re.sub(r"\n\s*\n\s*\n+", "\n\n", txt).strip()
+
+
+def _saga_buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
     cfg = PROVINCIAS[prov]
     op, params, _ = _get_sesion(prov)
     p = dict(params)
@@ -253,6 +344,8 @@ _EXPANSION = [
     (r"movilidad|trafico|circulacion|patinete|\bvmp\b|bicicleta|estacionamiento|aparcamiento|zona azul",
      ["movilidad", "trafico", "circulacion", "vehiculos de movilidad personal", "vmp", "patinete",
       "estacionamiento", "aparcamiento"], ["vehiculo"]),
+    (r"\bzbe\b|bajas emisiones|baja emision|zona de bajas|emisiones",
+     ["zonas de bajas emisiones", "bajas emisiones", "zbe", "baja emision"], []),
     (r"impuesto (de |sobre )?(circulacion|vehiculos)|\bivtm\b|traccion mecanica",
      ["vehiculos de traccion mecanica", "traccion mecanica", "ivtm"], ["vehiculo", "impuesto"]),
     (r"\bibi\b|bienes inmuebles|contribucion", ["bienes inmuebles", "ibi"], ["impuesto"]),
@@ -454,12 +547,12 @@ def _pdf_de_anuncio(prov, url_anuncio):
     return cfg["base"] + u if u.startswith("/") else u
 
 
-def _texto(prov, url_anuncio, ocr=True, max_pag=10):
-    """(texto, via). 'directo' si el PDF tiene capa de texto; 'ocr(Np)' si no."""
-    pdf_url = _pdf_de_anuncio(prov, url_anuncio)
-    if not pdf_url or not _HAS_FITZ:
+def _pdf_bytes_texto(datos, ocr=True, max_pag=12):
+    """(texto, via) desde bytes PDF: capa de texto si es español real; si no, OCR
+    paralelo del articulado (cap de páginas). Compartido por todas las familias."""
+    if not _HAS_FITZ or datos[:5] != b"%PDF-":
         return "", "sin-pdf"
-    doc = fitz.open(stream=_getb(pdf_url, 50), filetype="pdf")
+    doc = fitz.open(stream=datos, filetype="pdf")
     directo = "\n".join(doc[i].get_text() for i in range(doc.page_count))
     if len(_PALS.findall(directo)) >= 15 and len(directo) / max(1, doc.page_count) > 250:
         return directo, "directo"
@@ -469,7 +562,17 @@ def _texto(prov, url_anuncio, ocr=True, max_pag=10):
     pngs = [doc[i].get_pixmap(dpi=150).tobytes("png") for i in range(n)]
     with _cf.ThreadPoolExecutor(max_workers=min(8, n)) as ex:
         pags = list(ex.map(_ocr_pagina, pngs))
-    return "\n".join(p for p in pags if p), f"ocr({n}p)"
+    nota = "" if doc.page_count <= max_pag else \
+        f"\n[Documento largo de {doc.page_count} págs; transcrito el articulado (primeras {n}).]"
+    return "\n".join(p for p in pags if p) + nota, f"ocr({n}/{doc.page_count}p)"
+
+
+def _saga_texto(prov, url_anuncio, ocr=True, max_pag=10):
+    """(texto, via). 'directo' si el PDF tiene capa de texto; 'ocr(Np)' si no."""
+    pdf_url = _pdf_de_anuncio(prov, url_anuncio)
+    if not pdf_url:
+        return "", "sin-pdf"
+    return _pdf_bytes_texto(_getb(pdf_url, 50), ocr, max_pag)
 
 
 def _limpia(t):
@@ -493,11 +596,15 @@ def _articulos(texto):
 
 def _articulo_num(articulos, num):
     n = _norm(re.sub(r"^art\w*\.?\s*", "", num.strip(), flags=re.I))
+    # puede haber VARIAS ocurrencias del mismo nº (índice/TOC sin cuerpo + el
+    # artículo real): quedarse con el cuerpo MÁS LARGO (el articulado de verdad).
+    mejor = None
     for rub, cuerpo in articulos:
         m = re.search(r"(\d+)", rub)
         if m and _norm(m.group(1)) == n and len(cuerpo) > len(rub) + 20:
-            return cuerpo
-    return None
+            if mejor is None or len(cuerpo) > len(mejor):
+                mejor = cuerpo
+    return mejor
 
 
 def _pasajes(texto, terminos, k=3):
@@ -546,28 +653,29 @@ def _nombre_muni(prov, municipio):
 
 def _candidatos(prov, cat, materia, profundo=True):
     """Escalera de recall: consulta de materia + volcados genéricos del municipio
-    (el filtro por categoría acota, así el ranking se hace en local). Dedup por URL."""
-    vistos = {}
-
-    def add(rs):
-        for r in rs:
-            vistos.setdefault(r["url"], r)
-
+    (el filtro por categoría acota; el ranking se hace en local). Las consultas se
+    lanzan EN PARALELO (el cuello era hacerlas en serie). Dedup por URL."""
+    consultas = []
     if materia.strip():
-        try:
-            add(_buscar_raw(prov, materia, cat, rpp=60))
-        except Exception:  # noqa: BLE001
-            pass
+        consultas.append((materia, 60))
     if profundo:
         for q in ("ordenanza", "reglamento", "tasa"):
-            if _norm(q) in _norm(materia):
-                continue
-            try:
-                add(_buscar_raw(prov, q, cat, rpp=100))
-            except Exception:  # noqa: BLE001
-                pass
-            if not materia.strip() and len(vistos) >= 40:
-                break
+            if _norm(q) not in _norm(materia):
+                consultas.append((q, 100))
+    if not consultas:
+        consultas = [("ordenanza", 100)]
+
+    def run(c):
+        try:
+            return _buscar_raw(prov, c[0], cat, rpp=c[1])
+        except Exception:  # noqa: BLE001
+            return []
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=min(4, len(consultas))) as ex:
+        for rs in ex.map(run, consultas):
+            for r in rs:
+                vistos.setdefault(r["url"], r)
     return list(vistos.values())
 
 
@@ -661,7 +769,7 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
     if not m:
         return _honesto(prov, nombre, ordenanza, _supra(prov, ordenanza))
     try:
-        texto, via = _texto(prov, m["url"])
+        texto, via = _texto(prov, m)
     except Exception as e:  # noqa: BLE001
         return f"Localicé la ordenanza «{m['titulo']}» ({m.get('cve','')}) pero no pude leer su PDF: {e}"
     if not texto:

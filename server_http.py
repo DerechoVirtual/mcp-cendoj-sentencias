@@ -101,16 +101,16 @@ _INSTRUCTIONS = (
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
     "leer_ordenanza. Cubiertos: las 9 mayores ciudades (MADRID, BARCELONA, "
     "VALENCIA, SEVILLA, ZARAGOZA, MÁLAGA, MURCIA, PALMA, LAS PALMAS) y TODOS "
-    "los ayuntamientos de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA Y LEÓN "
-    "(vía su BOP: Dos Hermanas, Lora del Río, Bormujos, Motril, Baza, "
-    "Barbastro, Jaca, Ponferrada, Astorga, etc.).\n"
+    "los ayuntamientos de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEÓN Y "
+    "CÁCERES (vía su BOP: Dos Hermanas, Lora del Río, Bormujos, Motril, Baza, "
+    "Barbastro, Jaca, Ponferrada, Astorga, Plasencia, Trujillo, Coria, etc.).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
     "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
     "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
-    "DE SEVILLA, GRANADA, HUESCA y LEÓN (vía su BOP; índice electrónico ~2022 en "
-    "adelante). NO cubre (aún): ordenanzas de municipios de otras "
+    "DE SEVILLA, GRANADA, HUESCA, LEÓN y CÁCERES (vía su BOP). NO cubre (aún): "
+    "ordenanzas de municipios de otras "
     "provincias ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
     "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
@@ -1338,7 +1338,7 @@ def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> s
 
     Municipios cubiertos: las 9 mayores ciudades (Madrid, Barcelona, Valencia,
     Sevilla, Zaragoza, Malaga, Murcia, Palma, Las Palmas) y CUALQUIER
-    ayuntamiento de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA y LEON via su BOP
+    ayuntamiento de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEON y CACERES via su BOP
     (Dos Hermanas, Lora del Rio, Bormujos, Motril, Baza, Barbastro, Jaca,
     Ponferrada, Astorga...). Si piden otro municipio, esta tool lo indica en UNA
     llamada: no insistas ni reintentes.
