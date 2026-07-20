@@ -1,0 +1,603 @@
+ORDENANZA MUNICIPAL DE TERRAZAS Y ELEMENTOS AUXILIARES DE HOSTELERÍA Y RESTAURACIÓN EN EL MUNICIPIO DE LEÓN.
+ÍNDICE
+PREÁMBULO ..................................................................................................................................................... 3
+TÍTULO I - DISPOSICIONES GENERALES ................................................................................................. 6
+Artículo 1. Objeto. .......................................................................................................................................... 6
+Artículo 2. Ámbito de aplicación y supuestos excluidos. ......................................................................... 6
+Artículo 3. Definiciones. ................................................................................................................................ 7
+Artículo 4. Actividades susceptibles de instalar terrazas. ....................................................................... 8
+Artículo 5. Obligaciones fiscales. ................................................................................................................ 8
+Artículo 6. Elementos que delimitan y acondicionan la terraza. ............................................................ 8
+Artículo 7. Mobiliario de la terraza. ............................................................................................................. 9
+Artículo 8. Condiciones generales de ubicación....................................................................................... 9
+Artículo 9. Condiciones de ubicación en función del emplazamiento. ................................................ 10
+1. En calles: .............................................................................................................................................. 11
+2. En calles peatonales o de plataforma única: .................................................................................. 12
+3. En plazas: ............................................................................................................................................. 12
+4. En calzada: .......................................................................................................................................... 13
+Artículo 10. Condiciones de orden estético. ............................................................................................ 14
+Artículo 11. Disposiciones técnicas de superficie para ubicación de la terraza. ............................... 15
+Artículo 12. Horario de ejercicio. ............................................................................................................... 17
+TÍTULO II.- PROHIBICIONES Y OBLIGACIONES .................................................................................... 18
+Artículo 13. Prohibiciones. ......................................................................................................................... 18
+Artículo 14. Obligaciones. .......................................................................................................................... 20
+TÍTULO III.- RÉGIMEN JURÍDICO ............................................................................................................... 23
+Artículo 15. Naturaleza de la autorización. .............................................................................................. 23
+Artículo 16. Vigencia de la autorización. .................................................................................................. 23
+Artículo 17. Solicitantes. ............................................................................................................................. 24
+Artículo 18. Solicitud y documentación. ................................................................................................... 24
+Artículo 19. Procedimiento. ........................................................................................................................ 26
+Artículo 20. Contenido de la autorización. ............................................................................................... 27
+Artículo 21. Ampliación, reducción y renuncia de la instalación. ......................................................... 27
+Artículo 22. Renovación de la autorización. ............................................................................................ 28
+Artículo 23. Extinción de la autorización. ................................................................................................. 28
+Artículo 24. Modificación o suspensión temporal de la autorización. .................................................. 29
+Artículo 25. Cambio de titularidad de la autorización. ........................................................................... 29
+Artículo 26. Registro Público. .................................................................................................................... 30
+TÍTULO IV.- RÉGIMEN SANCIONADOR .................................................................................................... 30
+Artículo 27. Régimen general sobre el régimen sancionador. ............................................................. 30
+Artículo 28. Sujeto responsable. ............................................................................................................... 31
+Artículo 29. Infracciones. ............................................................................................................................ 31
+Artículo 30. Clasificación de las infracciones. ......................................................................................... 31 1.- Infracciones leves: ............................................................................................................................. 31 2.- Infracciones graves: .......................................................................................................................... 32
+3. Infracciones muy graves: ................................................................................................................... 33
+Artículo 31. Sanciones. ............................................................................................................................... 34
+Artículo 32. Multiplicidad de infracciones. ............................................................................................... 35
+Artículo 33. Criterios de graduación. ........................................................................................................ 35
+Artículo 34. Prescripción de las infracciones y sanciones. ................................................................... 35
+Artículo 35. Competencia. .......................................................................................................................... 35
+Artículo 36. Procedimiento y medidas provisionales. ............................................................................ 35
+Artículo 37. Intervención de los elementos de la terraza. ..................................................................... 36
+Artículo 38. Recuperación de oficio. ......................................................................................................... 36
+Artículo 39. Inspección. .............................................................................................................................. 37
+Artículo 40. Defensa del usuario. .............................................................................................................. 38
+DISPOSICIONES ADICIONALES ................................................................................................................ 38
+Disposición adicional primera.- Mapa de terrazas. ................................................................................ 38
+Disposición adicional segunda.- Comisión de seguimiento. ................................................................. 38
+DISPOSICIONES TRANSITORIAS .............................................................................................................. 39
+Disposición transitoria primera.- Adaptaciones a la ordenanza. .......................................................... 39
+Disposición transitoria segunda.- Validez de las autorizaciones concedidas. ................................... 39
+Disposición transitoria tercera.- Tramitación electrónica. ..................................................................... 40
+DISPOSICIÓN DEROGATORIA ................................................................................................................... 40
+DISPOSICIONES FINALES........................................................................................................................... 40
+Disposición final primera.- Canal electrónico. ......................................................................................... 40
+Disposición final segunda.- Habilitación al Ayuntamiento..................................................................... 40
+Disposición final tercera.- Entrada en vigor. ........................................................................................... 40
+ANEXO I.- Término municipal de León, zona Casco histórico y zona ampliada.
+ANEXO II.- Condiciones estéticas y prescripciones técnicas. (Mobiliario y superficie por módulo).
+ANEXO III.- Plano de la ciudad dividido por sectores.
+ANEXO IV.- Planos de diversas plazas de la ciudad con indicación de su superficie máxima de ocupación.
+PREÁMBULO I.- La necesidad de desarrollar y aprobar un nuevo marco regulador que garantice la accesibilidad de toda la población a los espacios públicos y que permita su utilización por los establecimientos de hostelería y restauración hace imprescindible la redacción de una nueva ordenanza municipal de terrazas y elementos auxiliares de hostelería y restauración en el municipio de León. La actual ordenanza, vigente desde el año 2009, presenta importantes lagunas en el cumplimiento de la normativa de accesibilidad y no entra en detalles que son esenciales como la regulación del uso del espacio público, el cumplimiento de medidas estéticas o el incremento del control que sobre estos establecimientos debe realizarse.
+El municipio de León precisa, pues, de la aprobación de una nueva regulación que se adapte a todos los cambios efectuados en la normativa de los últimos años, especialmente la relativa a la accesibilidad universal de la Orden TMA/851/2021, de 23 de julio, por la que se desarrolla el documento técnico de condiciones básicas de accesibilidad y no discriminación para el acceso y la utilización de los espacios públicos urbanizados. También se ha tenido en cuenta Ley 8/2021, de 2 de junio, por la que se reforma la legislación civil y procesal para el apoyo a las personas con discapacidad en el ejercicio de su capacidad jurídica, así como la Ley 2/2013, de 15 de mayo, de Igualdad de Oportunidades para las Personas con Discapacidad y la Ley 1/2024, de 8 de febrero, de apoyo al proyecto de vida de las personas con discapacidad en Castilla y León.
+El articulado de esta disposición, elaborado en coordinación con las asociaciones de profesionales y representantes vecinales, pretende armonizar los intereses de toda la ciudadanía, priorizando el uso del espacio público sobre el privado, dando una respuesta a la mayor demanda existente de su ocupación por el auge del turismo, sector generador de riqueza y empleo en nuestra ciudad. Asimismo, la presente regulación se ha redactado pensando en el interés general y procurando una mejora de la convivencia en todo el término municipal.
+La necesidad de dar nuevo enfoque moderno y sostenible a la utilización del espacio público inspira el articulado de esta ordenanza que busca conseguir la plena accesibilidad, una mayor seguridad, una mejor limpieza y una coherencia estética de las terrazas en el conjunto de la ciudad.
+El artículo 129 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, recoge los principios de buena regulación, que son los de necesidad, eficacia, proporcionalidad, seguridad jurídica, transparencia y eficiencia.
+Esta ordenanza cumple con los mencionados principios, en los siguientes términos:
+1. En relación con los principios de necesidad y eficacia, ya que viene justificada por razones de interés general, como son:
+ Flexibilizar el tamaño de las terrazas, ajustándolo a las diferentes épocas del año.
+Las autorizaciones se referirán al número de veladores a instalar en cada período con indicación de la superficie de uso autorizado expresada en metros cuadrados.
+ Agilizar y clarificar el procedimiento de concesión de las autorizaciones.
+ Permitir el acceso al uso de las terrazas por parte de establecimientos que no pueden disponerlas en la acera, posibilitando el uso de zonas de la calzada, con el objeto de contribuir al mantenimiento y mejora de las actividades hosteleras y de restauración, cuyo impacto en la economía global de la ciudad es relevante.
+ Mejorar la estética urbana, exigiendo unos niveles de calidad en cuanto a materiales y diseño, favoreciendo asimismo el ornato público y el bienestar ciudadano.
+ Asegurar las exigencias de la normativa de accesibilidad mediante el respeto permanente del itinerario peatonal, las distancias entre veladores y el espacio reservado o prioritario de ocupación de aquellas personas que así lo necesiten.
+ Diferenciar la casuística que se da en la ciudad. No solo se delimita una zona o entorno central, de especial protección, sino que, además, se regulan de forma diferenciada las exigencias de ubicación en calles peatonales, plazas y calzada.
+2. En cuanto al principio de proporcionalidad, se entiende que la iniciativa contiene la regulación imprescindible para alcanzar los objetivos propuestos, teniendo en cuenta que al tratarse, en muchos casos, de usos especiales o privativos del dominio público, la intensidad normativa será la adecuada en cuanto al valor a proteger.
+Debe tenerse en cuenta que no existe, en modo alguno un derecho preexistente por parte del particular o empresa, de modo que la autorización es el único título habilitante y debe regirse por la normativa que lo ampare.
+3. Por lo que se refiere al principio de seguridad jurídica, la propuesta es acorde al resto del ordenamiento y coherente con el conjunto de políticas públicas de este Ayuntamiento, ya que, en lo que es su objeto principal, que es la regulación del uso demanial, es plenamente conforme con la legislación patrimonial vigente, y en los aspectos de incidencia colateral, se remite en todo caso al cumplimiento de esta (medio ambiente, ruido, urbanismo, etc.).
+4. Por último, la transparencia, la participación y la accesibilidad, esta última entendida desde el ámbito de la calidad normativa, se han respetado no solo en el procedimiento de elaboración de esta ordenanza sino también en su contenido, siendo relevantes dos aspectos:
+ De un lado la creación de una Comisión de seguimiento que reúna los intereses afectados y que examine permanentemente el cumplimiento de la ordenanza y los posibles desajustes que pudieran existir.
+ De otro lado, en determinados casos, la ordenación conjunta a partir de la propia iniciativa de los hosteleros y restauradores como fórmula de autogestión, práctica habitual en el derecho comparado y preferente al mero enfoque prescriptivo.
+II. La presente ordenanza contiene 40 artículos agrupados en 4 títulos, 3 disposiciones adicionales, 2 disposiciones transitorias, 1 disposición derogatoria y 3 finales, además de 4 anexos.
+El texto persigue una serie de objetivos que se van plasmando en el contenido de la ordenanza y que se pueden sintetizar del siguiente modo:
+El título I, relativo a las disposiciones generales, introduce fundamentalmente como novedades la mayor precisión en la definición de la terraza y de sus elementos auxiliares así como los elementos que delimitan y acondicionan las terrazas y el mobiliario.
+También son destacables la regulación de las condiciones generales de ubicación y las condiciones especiales de ubicación en función del emplazamiento donde se presentan las mayores novedades, pudiendo resaltarse las siguientes:
+ Se permiten únicamente las terrazas que no requieren anclaje en vía pública.
+ Se regulan las terrazas de establecimientos sitos en centros comerciales u hoteles.
+ Se delimita el porcentaje de superficie susceptible de uso en las plazas y las distancias ante cualquier elemento urbano.
+ Se regula la posibilidad excepcional y condiciones de colocación de terrazas sobre la calzada.
+ Se establecen unos criterios estéticos de obligada observancia, con el objetivo de mejorar la estética urbana, en la que las terrazas tienen un impacto relevante.
+Asimismo, se regula la exhibición publicitaria en las terrazas y sus elementos.
+ Se regulan los calefactores, imponiendo aquellos ambientalmente sostenibles.
+ Se establece la accesibilidad como centro de las disposiciones técnicas de superficie, garantizando veladores adaptados a personas con movilidad reducida en función de la superficie de las terrazas y exceptuando aquellas en las que por su estrechez, ubicación o características se justifique inviable.
+El título II, sobre prohibiciones y obligaciones, incorpora medidas tendentes a garantizar el control del adecuado uso de las terrazas y la compatibilidad de estas con el resto de los usos del espacio público y demás bienes jurídicamente protegidos.
+Por ello, se establecen:
+ La obligación de delimitar el perímetro de la terraza, para prevenir todo exceso de ocupación superior a lo autorizado.
+ La obligación de disponer recipientes con tapa para los residuos generados, a fin de evitar generar suciedad en el espacio público.
+El título III, del régimen jurídico, incorpora novedades tendentes a la simplificación de trámites y al mejor ejercicio de las labores de prevención. En tal sentido:
+ Se pormenoriza la documentación a aportar y se fija el contenido de la autorización claramente inspirada en la protección de los consumidores y usuarios de la vía pública.
+ Se mantiene la renovación automática.
+ Se conciben las autorizaciones como título que habilita el uso de un determinado espacio. Con ello se dota de la necesaria flexibilidad al titular de la explotación, para adaptar los elementos a colocar a las circunstancias ambientales.
+ Se determinan las condiciones de ampliación, reducción, renuncia, renovación, extinción de la autorización, cambio de titularidad y especialmente su modificación o suspensión temporal.
+El título IV, sobre el régimen sancionador, presenta ligeras adaptaciones a la normativa relativa al procedimiento común, incorporando los tipos infractores correspondientes al incumplimiento de las nuevas disposiciones materiales; así como reajusta la calificación de algunos tipos en aras a la garantía de los bienes jurídicos de especial protección.
+Se hace también especial referencia a la intervención de los elementos de la terraza, la recuperación de oficio y las facultades de inspección.
+Por último, las disposiciones contemplan la forma y plazo para adaptar la situación de las instalaciones actuales que no se ajustan a las condiciones que la nueva norma exige. Se recoge la posibilidad de creación de un mapa de terrazas y de un canal electrónico como ejercicio de transparencia y se prevé la creación de una comisión de seguimiento.
+Con el referido objetivo, y en base a las competencias del Ayuntamiento de León en materia de bienes de dominio público, la ordenanza se ampara en las previsiones contenidas en la Ley 7/1985, de 2 de abril, reguladora de las Bases del Régimen Local, en la Ley 33/2003, de 3 de noviembre, de Patrimonio de las Administraciones Públicas, y en el Real Decreto 1372/1986, de 13 de junio, por el que se aprueba el Reglamento de Bienes de las Entidades Locales.
+TÍTULO I - DISPOSICIONES GENERALES
+Artículo 1. Objeto.
+El objeto de la presente ordenanza es regular el procedimiento, condiciones y requisitos necesarios para la instalación y funcionamiento de terrazas y veladores en espacios de uso público, que sirvan de complemento temporal a un establecimiento del sector hostelero y de restauración, así como otras instalaciones auxiliares que pueden ser complementarias de las mismas.
+Artículo 2. Ámbito de aplicación y supuestos excluidos.
+1.
+Esta ordenanza será de aplicación, no sólo a la instalación de terrazas en los terrenos de uso y dominio público del municipio de León sino que es extensiva a los terrenos de dominio privado de uso público en superficie. En este último caso, las personas titulares de las terrazas no tendrán que abonar la tasa por ocupación de terrenos de uso público local, al no ser el espacio en el que se colocan, domino público municipal.
+2. La ordenanza no será de aplicación en los siguientes supuestos:
+a) Terrazas situadas en espacios de titularidad y uso privado. El carácter de uso privado de esos espacios deberá quedar claramente delimitado por elementos permanentes de obra como, por ejemplo, un vallado, una tapia u otros que impidan o restrinjan el libre uso público.
+b) Instalaciones complementarias de actividades principales desarrolladas al amparo de una concesión administrativa municipal que deberán adecuarse a esta ordenanza, salvo que se indique en el pliego de condiciones, o de las ejercidas con motivo de celebraciones ocasionales y de actos festivos populares, con sujeción al calendario y requisitos establecidos por la actividad municipal competente.
+c) Actos de ocupación de la vía pública que siendo de carácter hostelero y de restauración se realicen con ocasión de ferias, festejos, actividades deportivas y análogas, los cuales se sujetarán a sus normas específicas.
+3.
+No obstante, las instalaciones reguladas en esta ordenanza quedan sujetas a la normativa sectorial que les sea de aplicación, por lo que sus determinaciones son plenamente exigibles, aun cuando no se haga expresa referencia a las mismas.
+Artículo 3. Definiciones.
+1. Se entiende por velador el conjunto compuesto por mesa y hasta cuatro sillas instalado en terrenos de uso público, con finalidad lucrativa para el servicio de establecimientos de hostelería y restauración.
+Sin embargo, a los efectos de lo dispuesto en esta ordenanza, se asimilarán al concepto de velador otras instalaciones, tales como mesas y sillas altas, toneles con taburetes u otros conjuntos de elementos destinados igualmente a servir de soporte de las consumiciones y asiento de los clientes, siempre y cuando tengan idéntica naturaleza mueble. A tales elementos les serán de aplicación todas las disposiciones sobre los veladores establecidas en esta ordenanza.
+La terraza configurará un espacio con puestos para que los clientes puedan permanecer sentados, sin que se permita la realización de las consumiciones de pie.
+2. Se entiende por terraza, el uso de una zona de suelo de dominio público o privado afecto al uso público, susceptible de aprovechamientos relacionados con actividades propias de la hostelería y restauración, mediante la colocación de mesas o veladores, sillas y sombrillas, toldos u otros elementos auxiliares, siempre que no requieran la realización de obras en el pavimento.
+Dichas instalaciones tendrán en todo caso carácter temporal y en precario sin que pueda generar derecho real ni obligación personal alguna, no pudiendo invocarse la realización de inversiones a efectos de indemnización o responsabilidad alguna.
+3. Son elementos auxiliares móviles aquellos de dimensiones inferiores a 1 metro2, tales como carritos u otros, destinados al depósito de accesorios como servilletas, cubiertos o similares, que no pueden ser destinados al uso u acomodo por parte de los clientes.
+4. Elemento industrial móvil es el aparato portátil de funcionamiento autónomo cuya función es garantizar, mejorar o complementar las condiciones de seguridad, confort o funcionalidad, como calefactores, extintores o similares.
+5. Son instalaciones desmontables aquellas que estén constituidas por elementos prefabricados, sin elaboración de materiales en obra ni empleo de soldaduras, y que se monten y se desmonten mediante procesos secuenciales, pudiendo realizarse su levantamiento sin demolición, siendo el conjunto de sus elementos fácilmente desmontable y transportable.
+Artículo 4. Actividades susceptibles de instalar terrazas.
+1. Las terrazas se autorizarán cuando estén vinculadas a establecimientos de hostelería y de restauración.
+2. En el caso de mercados municipales y grandes establecimientos comerciales, la autorización de instalación de una terraza podrá otorgarse a cualquier titular de los establecimientos de hostelería y restauración ubicados en él, independientemente de si las fachadas de dichos establecimientos tienen o no acceso desde la vía pública.
+3. Las terrazas sitas en calles peatonales, plazas y todas las que se encuentren ubicadas dentro del plano comprendido en el anexo I de esta ordenanza deberán contar obligatoriamente con servicio de atención en terraza a partir de 6 veladores concedidos y en calzada en todas ellas.
+Artículo 5. Obligaciones fiscales.
+Los aprovechamientos objeto de esta ordenanza estarán sujetos al pago de las tasas establecidas en las respectivas ordenanzas fiscales, en función de la zona, del tipo de aprovechamiento y demás criterios en ellas contenidos, salvo en el supuesto descrito en el artículo 2 apartado primero.
+Artículo 6. Elementos que delimitan y acondicionan la terraza.
+Se podrán instalar los siguientes elementos para delimitar o acondicionar la terraza, que serán los siguientes:
+a) Tarima o cubrimiento del pavimento, el cual deberá ser fácilmente desmontable.
+b) Toldo o sombrilla sin sujeción al pavimento, que deberá de ser recogido o plegado fuera del horario del establecimiento.
+c) Elemento separador sin sujeción al pavimento, sólo para el fondo de la terraza, en paralelo a la calzada, a partir de una línea situada a 0,50 metros del bordillo y de 1,80 metros de la fachada.
+d) Elemento separador sin sujeción al pavimento, sólo para el fondo de la terraza, en el caso de ocupación de la calzada, a partir de una línea situada en el límite del estacionamiento.
+e) Protecciones laterales. La superficie ocupada por la instalación del velador podrá ser delimitada con protecciones laterales en un máximo de tres lados, que acoten el recinto y permitan identificar el obstáculo a las personas con discapacidad visual. Estas protecciones deberán ser móviles, fácilmente desmontables y deberán ser retiradas junto al resto de la terraza. En su adecuación a las condiciones del entorno queda sujeto a previa autorización municipal. Deberán reunir las condiciones técnicas establecidas en la normativa de accesibilidad y en el anexo II.
+Artículo 7. Mobiliario de la terraza.
+Se pueden instalar, entre otros, los elementos de mobiliario de la terraza siguientes:
+mesas; mesas altas de baja capacidad con dos taburetes; sillas; sombrillas; toldos; un elemento auxiliar de información, tal y como es el caso del menú, siendo una única unidad autorizable por terraza; mesa auxiliar; elementos industriales como extintores, calefactores o la climatización así como elementos de jardinería.
+Se instalarán los modelos más ligeros, menos consumidores de espacio y con menor impacto ambiental, visual y arquitectónico en todos los casos.
+Artículo 8. Condiciones generales de ubicación.
+Las instalaciones deberán cumplir las siguientes condiciones generales:
+a) La colocación de veladores y sombrillas así como los demás elementos en las vías públicas deberá, en todo caso, respetar su uso común preferente. Además, ningún elemento de la terraza provocará que el nivel de iluminación del paso peatonal se vea disminuido por la noche. En caso contrario, será obligatorio igualar el nivel de iluminación.
+b) La disposición de las terrazas mantendrá un itinerario peatonal con una anchura libre de paso no inferior a 1,80 metros que garantice el giro, cruce y cambio de dirección de las personas, independientemente de sus características o modo de desplazamiento y una altura libre de paso no inferior a 2,20 metros, sin perjuicio de la excepción prevista en el apartado 4.2 del artículo 9. Se garantizará, asimismo, el paso transversal confrontante con los pasos de peatones y con los accesos y salidas de locales y portales de viviendas, garajes y badenes.
+c) Con carácter general y preferente, el itinerario peatonal discurrirá de manera colindante a la línea de fachada, por lo que las terrazas se disponen separadas de la misma, en paralelo y de manera longitudinal a esta.
+d) Para la ubicación de las terrazas se aplicarán las siguientes distancias específicas:
+1º.
+El espacio entre terrazas consecutivas ha de ser como mínimo de 1,50 metros.
+2º.
+2 metros de las paradas de vehículos de transporte público y de los pasos de peatones.
+3º.
+1,50 metros de las salidas de emergencia.
+4º.
+1,50 metros de los puntos fijos de venta y otros servicios situados en la vía pública, de forma que se permita a la ciudadanía el acceso y uso de los distintos servicios ubicados en la vía pública. También se mantendrá la distancia de 1,50 metros a los elementos de alumbrado, señales indicativas o de tráfico o similares, y a cualquier elemento de mobiliario urbano.
+En todo caso, no se afectará la funcionalidad de los distintos elementos situados en la vía pública, no permitiéndose la ocultación de la señalización por mobiliario de la terraza como sombrillas o toldos.
+5º.
+1 metro de los vados para paso de vehículos, 1 metro de entradas peatonales a edificios y 1 metro de rebajes para personas con movilidad reducida.
+6º.
+0,50 metros de los bordillos, salvo si existe valla de protección.
+7º.
+0,50 metros de la acera-bici.
+8º.
+0,50 metros desde cada lado de los pavimentos podo-táctiles destinados al guiado, advertencia o localización de elemento por parte de las personas con discapacidad visual.
+9º.
+1,50 metros desde línea de bordillo para cualquier reserva de estacionamiento, y para la longitud total de la reserva, y 1,20 metros desde la conexión de la reserva con el itinerario peatonal de la acera. En el caso de las destinadas a personas con movilidad reducida, será de 2 metros, para la conexión de la plaza reservada con el itinerario peatonal accesible de la acera.
+10º. 1,50 metros a las estaciones de bicicleta pública, tanto a las zonas de anclaje como a los tótems.
+11º. Sobre arquetas y otros servicios no pueden situarse instalaciones, ni tarimas, ni cualquier elemento que impida su visualización, tan solo elementos que se puedan mover fácilmente y no oculten el servicio.
+12º. 3,00 metros a las zonas de juego infantil.
+e) La colocación de las terrazas no menoscabará las condiciones de seguridad de los establecimientos en cuanto a las vías de evacuación.
+f) La colocación de las terrazas no impedirá u obstaculizará la visión de edificios emblemáticos históricos o singulares o elementos de patrimonio de la ciudad.
+g) Por acuerdo del órgano municipal competente, previos los informes que en cada caso resulten pertinentes, podrá prohibirse terrazas en zonas o vías determinadas, en atención a razones fundadas y motivadas de interés público relativas al libre tránsito, a la protección contra el ruido y demás condiciones medioambientales.
+h) Una vez instalada la terraza, no se podrá tener apilado material principal ni accesorio de la misma, en la vía pública.
+Artículo 9. Condiciones de ubicación en función del emplazamiento.
+Las terrazas no interferirán con los flujos peatonales mayoritarios y preferentes resultantes de la demanda lógica provocada por la realidad urbana del entorno.
+1. En calles:
+a) La disposición de las terrazas mantendrá un itinerario peatonal continuo en línea recta de 1,80 metros de anchura adosada a fachada a lo largo de la vía.
+En el caso de aceras en las que, de colocarse veladores compuestos por una mesa con cuatro sillas, no pueda cumplirse con el itinerario peatonal continuo en línea recta de 1,80 metros de anchura a lo largo de la vía, pero que tengan una anchura igual o superior a dos 2,5 metros, será posible la colocación de veladores compuestos únicamente por dos sillas de los definidos en el artículo 7, con el límite de la superficie hábil, y siempre que se respete el referido itinerario peatonal de 1,80 metros.
+En aquellos casos en que las dimensiones de la acera no permitan disponer de un itinerario peatonal continuo de 1,80 metros como consecuencia de la existencia de equipamientos, mobiliario urbano, arbolado u otros elementos, será posible la instalación de veladores en los espacios disponibles entre estos, siempre y cuando no se derive afección alguna al tránsito peatonal continuo existente y se respeten las restantes condiciones establecidas previamente.
+b) Las terrazas se situarán en el espacio de la acera frente la fachada de los establecimientos respectivos. No obstante, la terraza podrá ocupar la línea de fachada de las actividades comerciales colindantes o fincas contiguas siempre que disponga de autorización previa expresa y por escrito de las personas propietarias, comunidades de propietarios y/o las personas titulares de la actividad de los locales que se encuentren afectadas por la instalación de la misma. En el caso de locales sin actividad, se seguirá el mismo trámite, salvo que no se le localice al propietario, en cuyo caso se presumirá la inexistencia de afección. Si el local inicia actividad durante la vigencia de la autorización deberá obtenerse el correspondiente consentimiento dando lugar, ante la falta de consentimiento, a la revocación parcial de la autorización en la parte correspondiente a la superficie recayente al local colindante.
+c) En el caso de establecimientos situados dentro de centros o pasajes comerciales podrá autorizarse la colocación de veladores en la acera colindante con el centro o edificio donde se sitúa el pasaje si se cumplen las siguientes condiciones siempre que entre el establecimiento y el espacio de la terraza existe una distancia inferior a 50 metros. El servicio de atención en terraza puede efectuarse a través de vías de servicio u otras zonas interiores no abiertas al público y con cumplimiento de las
+disposiciones de la normativa sobre sanidad alimentaria.
+En estos casos deberá aportarse autorización de la persona titular del centro comercial o pasaje, en el que se efectúe la distribución del espacio solicitado si se produce concurrencia de varios establecimientos.
+d) En los edificios de uso hotelero, a efectos de la instalación de terrazas para sus servicios de restauración, se tendrá en consideración la fachada del hotel y no la del local en el que se ubiquen dichos servicios. En el caso de que el operador de estos servicios no sea el propio hotel se requerirá autorización de este.
+e) Quedan prohibidas las barras adosadas a fachada sin que dicha fachada esté retranqueada por incompatibilidad con la Orden TMA/851/2021, de 23 de julio.
+2. En calles peatonales o de plataforma única:
+Se entiende por calles peatonales a efectos de esta regulación aquellas calles o tramos de las mismas en que la totalidad de la anchura de la vía esté reservada de forma preferente al uso peatonal, excepto en el horario permitido para carga/descarga y para el paso de vehículos de servicio público o de residentes.
+En estas zonas, aunque con carácter general se pueden instalar terrazas, atendiendo a la anchura y circunstancias especiales de cada calle, se realizará un estudio especial por parte de los técnicos municipales, atendiendo a los usos habituales de la misma y sus circunstancias, para considerar su ordenación. En cualquier caso, se respetará un itinerario peatonal continuo y en línea recta de mínimo 1,80 metros de anchura a lo largo de la vía, asegurándose también la transitabilidad de la vía para los vehículos de emergencia. Esto implica que, con carácter excepcional, pueda autorizarse su instalación adosada a la fachada del edificio, en la longitud que ocupe el establecimiento, cuando las características y el uso del espacio recomienden otra
+disposición del itinerario peatonal accesible. En este supuesto, en ausencia de pavimento táctil indicador, deberá instalarse protecciones laterales que delimiten el itinerario peatonal accesible y se evitará que cualquier elemento o situación de las terrazas pueda generar un peligro a las personas, en especial, a aquellas con discapacidad visual.
+Todo el mobiliario quedará instalado en el espacio delimitado por las protecciones laterales, el cual será retirado de la vía pública al finalizar el horario de funcionamiento de la instalación.
+3. En plazas:
+Como regla general, deberá respetarse la distancia de 1,80 metros adosada a fachada, salvo que se marque otro itinerario peatonal, y únicamente se autorizará la colocación de terrazas a favor de establecimientos con fachada a la plaza o acceso público desde ella. Se exceptúan de esta disposición los locales que tradicionalmente vinieran colocando su terraza en la plaza, siempre que se encuentren a menos de 10 metros de la misma y que no puedan colocar frente a fachada, al menos, cuatro veladores. El espacio de la plaza susceptible de utilización para las terrazas no excederá del 40% de la superficie peatonal total y se distribuirá entre todos los solicitantes en función del aforo de cada establecimiento y de las líneas de la fachada, en consideración conjunta.
+Los establecimientos pueden transmitir al órgano municipal competente una solución de mutuo acuerdo entre todas aquellas personas titulares de establecimientos de hostelería y restauración afectados, siempre cumpliendo con lo contemplado en esta ordenanza.
+En las plazas se deben respetar las vías de acceso y los elementos que en ellas se ubiquen y la disposición del conjunto de las terrazas debe resultar homogénea.
+En la Plaza Mayor se podrá autorizar la instalación de la terraza en la parte interna del soportal en la medida en que no se complete el porcentaje de ocupación máximo, respetando el 1,80 metros para el paso peatonal y habilitando entradas al mismo por el centro y las esquinas. En el interior del soportal, la terraza no podrá disponer de sombrillas ni toldos. El Ayuntamiento podrá decidir en las zonas dónde no podrán instalarse terrazas dentro de los soportales.
+4. En calzada:
+4.1. Se podrán autorizar terrazas en calzada, previo informe técnico, cuando no exista posibilidad material de disponer cuatro veladores en la acera garantizando el itinerario peatonal, pero no se podrán simultanear.
+Únicamente se podrán instalar terrazas en calzada en las zonas que a continuación se especifican, sin exceder ni invadir en ningún caso los carriles de circulación. En estos casos, se deberán colocar protecciones laterales que separen los veladores del paso de vehículos.
+a) Zonas destinadas a estacionamiento de vehículos, en la longitud correspondiente a la fachada del local o, en su caso, a la de los colindantes. En todo caso, la longitud máxima de la ocupación por cada establecimiento será de 15 metros lineales en el caso de que se ocupe zona de estacionamiento en cordón, y de 6 metros en el caso de estacionamiento en batería, sin que su anchura o profundidad pueda exceder la de las plazas de estacionamiento. El espacio sobrante entre la terraza en calzada y el resto de los aparcamientos debe de ser un espacio suficiente para el aparcamiento de un vehículo, de lo contrario la terraza deberá de adaptarse en tamaño en su forma más restrictiva, para conseguir este fin”.
+ En el caso de que la zona de estacionamiento se encuentre a nivel inferior al de la acera, se colocarán plataformas que igualen este nivel, las cuales deberán reunir las condiciones técnicas que, conforme a lo establecido en al artículo 11, se fijen en la correspondiente resolución de autorización, previo informe de los servicios técnicos municipales.
+ En el caso de que la zona de estacionamiento se encuentre al mismo nivel de la acera, no será preciso instalar plataforma, pero sí lo será colocar los elementos de balizamiento que se establezcan en la resolución de autorización, previo informe de los servicios técnicos.
+b) Reservas de hotel, siempre que la zona esté al nivel de la acera. El establecimiento distribuirá el horario de la zona entre el uso de reserva y el de terraza sin necesidad de señalización adicional. Se colocarán elementos de balizamiento que se requieran en la resolución que corresponda.
+4.2. Únicamente se permitirá la colocación en calzada cuando la acera tenga en el tramo coincidente una anchura no inferior a 1,50 metros. No obstante, podrá exceptuarse esta disposición en aceras sitas fuera de la zona delimitada en el anexo I y que tengan un escaso tránsito peatonal. En el caso de aceras con una anchura superior a 1,50 metros e inferior a 1,80 metros, la colocación de los veladores y demás elementos sobre la plataforma se retranqueará de modo que deje un margen tal que, sumado a la anchura de la acera hasta la línea de fachada, constituya el itinerario peatonal de 1,80 metros.
+4.3. En ningún caso la colocación de terrazas en la calzada podrá suponer la supresión de más de una quinta parte de las plazas de estacionamiento disponibles del anexo I y una cuarta parte en el resto de los barrios de cada sector, entendido como aquel el contemplado en anexo III. Cuando las solicitudes formuladas superen dicho límite se aplicará un orden de prioridad atendiendo a la superficie del local y a la posibilidad de tener terraza en acera, por orden inverso a la superficie de esta. La reorganización se regulara en el siguiente ejercicio si surgen nuevos locales o cierran los que ya están funcionando.
+La necesaria reserva de plazas de aparcamiento para personas con discapacidad será, en todo caso, prioritaria a estos efectos.
+4.4. Las plataformas para la instalación de terrazas en zona de estacionamiento de vehículos se ajustarán a las siguientes condiciones:
+a) El pavimento será de tipo tarima sobre rastreles o similar, quedando al nivel de la acera, y adaptándose a las pendientes que puedan presentar la acera y la calzada. El material tendrá una clase de reacción al fuego EFL, conforme a la norma UNE-EN 13501-1.
+b) Estará dotada de separación física fija, no anclada, entre la zona de veladores y la calzada y el resto de la zona de estacionamiento, que impida el paso de los usuarios por zona distinta de la acera y la invasión involuntaria de la calzada o zona de aparcamiento desde la plataforma instalada.
+c) No se permite la exhibición de publicidad en la plataforma. Únicamente podrá colocarse el logo o identificación del establecimiento limitado a las zonas opacas de las protecciones, con un tamaño máximo de 15 × 15 centímetros o superficie equivalente.
+d) Las características en cuanto a materiales, colores y demás de carácter estético serán las que se contienen en el Anexo II de esta ordenanza.
+Una vez instalada la plataforma autorizada, deberá aportarse al expediente certificado de instalación firmado por técnico competente en el que se acredite que la plataforma se ajusta a las características y dimensiones expresadas en la documentación aportada con la solicitud, a que se refiere el artículo 18. Dicho documento estará también en el establecimiento a disposición de la inspección municipal.
+Artículo 10. Condiciones de orden estético.
+1. Las condiciones de orden estético son aquellas que se imponen con el fin de conservar y mejorar la imagen de la ciudad.
+El Ayuntamiento, en determinadas zonas que posean acreditado valor artístico y monumental o especial interés para la ciudadanía, prohibirá o limitará la colocación de terrazas de veladores. El Ayuntamiento, en toda la ciudad, podrá denegar la solicitud de instalación cuando resulte inapropiada o discordante con el entorno. Podrá, asimismo, autorizar o denegar la instalación de cualquiera o de alguno de los tipos de elementos asimilados a los veladores a los que se refiere el artículo 7, en consideración a su adecuación al entorno, aun cuando posean autorización de otra Administración.
+Cuando los establecimientos pretendan la instalación o renovación de sus elementos autorizables requerirán previamente la homologación del Ayuntamiento, que podrá exigir a los elementos autorizables, los materiales, texturas y colores convenientes para la mejor calidad del espacio en cualquier clase de suelo.
+Si fuese necesario, se podrá requerir la aportación de documentación adicional con simulaciones gráficas o fotografías de los elementos a incluir en la solicitud de autorización.
+Además, el Ayuntamiento podrá exigir que los elementos autorizables se ajusten a determinadas características estéticas y de uniformidad entre los diversos establecimientos de una misma zona.
+La autorización por parte del Ayuntamiento de unas determinadas condiciones estéticas a un establecimiento se mantendrá para sucesivas renovaciones durante la vigencia de la ordenanza.
+2. Con carácter general, los elementos de las terrazas se ajustarán a las condiciones en cuanto a materiales, colores y demás de índole estética que se recogen en el
+Anexo II.
+La totalidad de los elementos integrantes del mobiliario deberán ser iguales entre sí, en su consideración como grupo, sin que sean admisibles elementos diferentes dentro de cada grupo.
+Artículo 11. Disposiciones técnicas de superficie para ubicación de la terraza.
+1. La superficie de ocupación se expresa en metros cuadrados, que se obtienen de multiplicar la longitud de la terraza por el fondo de acera o calzada a ocupar, en aplicación de los criterios contenidos en el apartado 2.
+2. Son criterios de superficie de ocupación:
+a) La compatibilización del uso por distintos usuarios y actividades se realizará valorando las especiales características de la ubicación de la terraza y su entorno, como las referidas a la seguridad colectiva, accesibilidad universal y la movilidad de las personas en la zona, lugares de afluencia masiva, edificios u otros elementos declarados Bienes de Interés Cultural.
+b) Los elementos de mobiliario se ajustarán a lo siguiente:
+En todo caso, se deberá disponer de un acceso a través de un pasillo de al menos 0,50 metros de ancho entre veladores y otros elementos del mobiliario.
+En cada terraza, existirá al menos un velador adaptado a personas con movilidad reducida si supera los 24 metros2 de superficie y, en todo caso uno más por cada 35 metros2, con un máximo exigible de tres, excepto en terrazas en las que por su estrechez, ubicación o características se justifique inviable.
+En este caso, como mínimo, una de las plazas debe coincidir con uno de los lados descritos en la definición de mesa accesible y contar con un espacio libre de 0,80 metros de ancho y 0,50 metros de profundidad.
+Debe haber un recorrido libre de obstáculos que conduzca hasta esta ubicación, con un ancho mínimo que permita inscribir un círculo de al menos 1,50 metros de diámetro. Se podrá aprovechar para este fin los itinerarios peatonales que discurren colindantes a la terraza y los accesos a la misma, en los que no hay protecciones perimetrales, o los frentes de las terrazas sin delimitar.
+La mesa accesible se identifica mediante un adhesivo o grabado en su plano superior de al menos 10 x 10 cm, con el diseño, estilo, forma y proporción del símbolo Internacional de Accesibilidad que se corresponderá con lo indicado por la norma UNE 41501 que define el «símbolo de accesibilidad para la movilidad», y que regula una figura en color blanco sobre fondo azul Pantone Reflex Blue. Esta identificación no es necesaria si más del 50% de las mesas de la terraza son accesibles. Los usuarios en sillas de ruedas tienen preferencia para ocupar estas mesas siempre que haya otras mesas libres en la misma terraza, debiendo el establecimiento colaborar para que esto sea posible.
+c) Al menos una parte de la terraza debe situarse en el espacio definido por las dos perpendiculares trazadas desde los extremos de la fachada del establecimiento.
+Si más de un establecimiento de un mismo edificio solicita autorización para la instalación de terraza, cada uno puede ocupar la longitud del ancho del frente de su fachada, repartiéndose el resto de la longitud de la fachada del edificio común proporcionalmente a la superficie del local.
+En el caso de que se autorice la instalación de sombrillas o toldos frente a establecimientos comerciales, estos deberán permanecer cerrados mientras las mesas estén desocupadas a fin de no perjudicar la visibilidad de los dichos comercios.
+d) En los supuestos en que exista un portal o garaje entre el establecimiento principal y el siguiente local, ni el portal de acceso a las viviendas ni el acceso a garajes se considera establecimiento, por lo tanto, su frente no puede ser ocupado por terrazas. Además, en el caso de accesos a garajes, no puede existir continuidad de terraza a ambos lados del acceso por lo que, en este caso, el límite de longitud para disponer la terraza es la del propio establecimiento.
+e) No se podrán instalar terrazas en zonas ajardinadas, ni cuando estas hayan perdido ocasionalmente su vegetación, ni sobre zonas con rejillas.
+Las alcantarillas, rejillas y registros que se encuentren debajo de las tarimas de las terrazas en calzada deberán disponer de un fácil acceso (tapa móvil) para su limpieza e inspección cuando sea necesario. Los propietarios de estas terrazas deberán informar a los servicios municipales a la mayor brevedad posible si notan alguna obstrucción en ellas.
+f) En el caso de soportales queda prohibida la instalación de terrazas, salvo lo contemplado en el artículo 9 de esta ordenanza en relación con la Plaza Mayor, en la que la terraza podrá disponerse en la línea interior de los soportales, pero no se podrán instalar ninguno de los elementos descritos en el artículo 6, salvo en el caso de que se instalen en la fachada exterior del edificio. Tampoco podrán autorizarse sombrillas del artículo 7 cuando se instalen en la fachada del establecimiento.
+g) Para aquellos casos en los que, por haber solicitado la instalación de la terraza varios establecimientos de un mercado municipal o de un gran establecimiento comercial, simultáneamente o a lo largo del tiempo, no hubiera espacio suficiente para la ocupación por todos en la vía pública, se analizará en su conjunto de manera que se garantice el reparto equitativo del espacio.
+h) En ningún caso el número de veladores a instalar ocupará una superficie superior al 100% del local autorizado para la actividad de hostelería o de restauración, al que quedan vinculados. Los locales de dimensiones inferiores a 30 metros2 podrán ocupar una superficie máxima de 30 metros2 en la vía pública, salvo para el caso de terraza en calzada que se regirán por sus condiciones específicas, siempre que las condiciones del dominio público lo permitan y en la forma que se regula en esta ordenanza.
+Artículo 12. Horario de ejercicio.
+1. La instalación y recogida de las terrazas quedará sujeta al siguiente horario según las siguientes temporadas:
+a) Temporada 1:
+Desde el 16 de octubre hasta el viernes anterior al Domingo de Ramos, desde las 8:00 horas de la mañana hasta las 23:30 horas de domingo a jueves; y desde las 8:00 horas de la mañana hasta las 00:00 horas los viernes, sábados y vísperas de festivos.
+b) Temporada 2:
+Desde el viernes anterior al Domingo de Ramos hasta el 15 de junio, de domingo a jueves hasta la 00:00 horas; y los viernes, sábados y las de las vísperas de días festivos, hasta la 1:30 horas debiendo respetarse, no obstante, los límites establecidos en cada momento por la normativa que regule el horario de apertura y cierre en función de la categoría de los establecimientos en que se instalen terrazas, manteniéndose el horario de apertura a las 8:00 horas, en cualquier caso.
+c) Temporada 3:
+Desde el 15 de junio hasta el 15 de octubre, de domingo a jueves hasta la 1:00 horas; los viernes, sábados y las de las vísperas de días festivos, hasta la 2:00 horas debiendo respetarse, no obstante, los límites establecidos en cada momento por la normativa que regule el horario de apertura y cierre en función de la categoría de los establecimientos en que se instalen terrazas, manteniéndose el horario de apertura a las 8:00 horas, en cualquier caso.
+Dichos horarios podrán modificarse, mediante Decreto de Alcaldía, con motivo de las fiestas patronales, fechas singulares u otras razones de interés público debidamente motivadas.
+Cuando concurran razones de alteración de la pacífica convivencia o de molestias al vecindario debidamente acreditadas, el Ayuntamiento podrá reducir para determinadas zonas o emplazamientos concretos el horario anterior y el número de instalaciones para fomentar la mejor convivencia.
+2. La acción de recogida se iniciará con la antelación razonable suficiente para que la terraza cumpla con la finalización del horario establecido en el apartado anterior, dado que en el horario indicado, se consideran incluidas la instalación, actividad y recogida de terrazas de la vía pública.
+Las operaciones de instalación y recogida de las terrazas se efectuarán con el máximo cuidado al efecto de minimizar la producción de molestias por ruidos que las mismas puedan causar, quedando específicamente prohibido el arrastre de los elementos que la compongan y/o la generación de impactos.
+En las Zonas de la ciudad declaradas como acústicamente saturadas (“ZAS”) se deberán respetar los horarios incluidos en el punto 6º de los efectos determinados en la declaración aprobada para los mismos. Declaración “ZAS”, BOP Núm. 229 del Miércoles, 28 de noviembre de 2007.
+TÍTULO II.- PROHIBICIONES Y OBLIGACIONES
+Artículo 13. Prohibiciones.
+1.- En la instalación y colocación de las terrazas:
+a) Queda prohibida la instalación y el uso de aparatos de reproducción de imagen y/o sonido en las terrazas, la orientación hacia la terraza de dichos aparatos desde el interior así como las actuaciones en directo, salvo autorización excepcional en periodos festivos de las fiestas patronales. En los establecimientos con licencia para disponer de equipos de reproducción sonora de potencia en su interior, no podrá ejercerse actividad musical con puertas y ventanas abiertas, debiendo disponer los mismos de vestíbulo acústico eficaz. A tal efecto y en el caso de disponer de servicio de terraza, este aspecto deberá quedar garantizado, no pudiendo efectuarse el citado servicio con las puertas abiertas de forma permanente mientras exista emisión musical en su interior.
+b) Se prohíbe la colocación en las terrazas de máquinas expendedoras de productos, máquinas de juegos, frigoríficos o similares.
+c) No se permitirá la colocación de barras, mostradores u otros elementos de servicio para la terraza en el exterior, debiendo ser atendida desde el propio local.
+Igualmente, no se permitirá almacenar o apilar productos, materiales ni residuos junto a las terrazas, tanto por razones de estética e imagen urbanas como de higiene.
+Únicamente podrán colocarse, previa autorización municipal sujeta a la tasa que, en su caso, corresponda, los elementos auxiliares móviles definidos en el artículo
+3. El espacio ocupado por tales elementos formará parte de la terraza en su conjunto.
+d) No podrán efectuarse anclajes en el pavimento de ningún tipo.
+2.- En el almacenamiento y recogida del mobiliario de las terrazas:
+a) Fuera del horario autorizado para el ejercicio de la actividad, la persona titular de la autorización, vendrá obligada a retirar del exterior los elementos de las terrazas:
+mesas, sillas, sombrillas o toldos y elementos asimilados y auxiliares, que serán recogidos diariamente en el interior del local al que pertenezca la terraza o en local habilitado para tal finalidad por el interesado, dado que la superficie de la terraza no puede ser superior a la superficie del local. A tal fin, el solicitante deberá manifestar en su instancia la capacidad de almacenamiento del propio establecimiento y/o del local habilitado. Todos los elementos deberán ser retirados si el establecimiento supera los 15 días consecutivos sin actividad al público.
+b) No obstante, en caso de imposibilidad acreditada para cumplir lo previsto en el apartado anterior, podrá autorizarse de manera excepcional y mediante el pago de la tasa correspondiente el almacenamiento en la vía pública, fuera del horario de ejercicio de la actividad, de los elementos de la terraza que no puedan almacenarse en el interior del local, siempre y cuando ello se realice en las adecuadas condiciones de seguridad y no produzca afección significativa al uso común, a la accesibilidad, a la estética urbana ni, en general, a cuantas consideraciones integran el interés público. Para ello, se requerirá informe técnico en el que se indique que cumple con todo lo anterior y que no interfiere con el itinerario peatonal establecido. El Ayuntamiento podrá delimitar zonas en las que no se permita este almacenamiento.
+Para ello, en estas situaciones excepcionales, se podrá permitir apilar y almacenar mesas, sillas, pies de sombrillas, protecciones rígidas verticales o revestimientos de pavimento en la vía pública durante la temporada de funcionamiento. Los elementos auxiliares y los elementos industriales móviles se guardarán siempre en el interior del local.
+Se determinará la zona de la superficie autorizada que se considere más adecuada para ello, con la mínima superficie posible o un máximo del 20% de la superficie original de la terraza, en un solo bloque y en la forma que tenga menos impacto, teniendo en cuenta aspectos como el paso peatonal, la seguridad, la estética, las labores de mantenimiento de los servicios públicos, equipamientos municipales y las compañías de servicios, la interferencia con la existencia de tapas, rejillas o registros y otros similares.
+Las mesas y sillas que se autoricen para su almacenamiento en la calle deben ser fácilmente apilables.
+Todos los lienzos de los toldos deben quedar completamente replegados y las sombrillas cerradas y almacenadas en el interior del local.
+En ningún caso puede autorizarse el almacenamiento de ningún elemento que no esté autorizado como parte de la terraza.
+Por motivos de seguridad es obligatorio encadenar el mobiliario, pero en ningún caso se podrá hacer apoyándose o utilizando ningún elemento del mobiliario urbano o elementos vegetales.
+No se permite cubrir los elementos almacenados con plásticos, lonas u otros materiales.
+A fin de evitar la producción de molestias por ruidos, los elementos con los que se sujeten los muebles deberán estar fabricados o recubiertos de materiales que amortigüen la producción de sonido a causa de su manejo. Las cadenas, sujeciones o amarres han de contar con protecciones acústicas o fundas fonoabsorbentes o materiales elásticos.
+Excepto en el caso de que se autorice el almacenamiento en la vía pública, la autorización limitará el número de veladores a los que puedan ser recogidos en el interior del establecimiento o local habilitado.
+Artículo 14. Obligaciones.
+Será obligación de la persona titular de la autorización la estricta observancia de las condiciones especificadas en la autorización otorgada, de las dimanantes de esta ordenanza y del resto de la normativa aplicable, y especialmente:
+a) El mantenimiento de las terrazas y cada uno de los elementos que las componen en las debidas condiciones de limpieza. La zona ocupada por la terraza deberá mantenerse en permanente estado de limpieza, correspondiendo al titular de la autorización la limpieza de toda la superficie ocupada, incluido el barrido, el fregado y cualquier acción que sea necesaria para que la salubridad, la limpieza y el ornato público estén garantizados, evitando en todo caso el deterioro de la superficie ocupada.
+Se establece además la obligación de limpiar y retirar de las mesas la vajilla con restos de consumiciones lo antes posible, para evitar atraer a animales.
+b) A fin de prevenir que los clientes arrojen colillas u otros residuos al suelo, deberá dotarse a todas las mesas de recipientes con tapa fija o abatible adecuados para el depósito de los residuos que se generen, de tal forma que no puedan ser movidos por el viento y se mantenga un perfecto estado de limpieza de la vía pública.
+Asimismo, en la evacuación de los residuos se deberán observar todas las prescripciones derivadas de la ordenanza de recogida de residuos y limpieza pública, normas del servicio y demás de obligado cumplimiento, en especial las relativas a los horarios y a la obligación de depositarlos dentro de los contenedores correspondientes en función de las respectivas recogidas separadas.
+c) El mantenimiento de los elementos integrantes de las terrazas en las debidas condiciones de conservación para evitar que puedan causar daño de cualquier naturaleza.
+Especialmente en el caso de entoldados y estructuras similares, la persona titular deberá mantenerlas en las adecuadas condiciones de seguridad, de conformidad con lo que establezca la normativa urbanística. De igual modo, si están cercanas a las fachadas, no podrán suponer en ningún caso riesgo para la seguridad de los balcones o ventanas de los pisos de los inmuebles próximos.
+d) Delimitar, conforme prescriba la Inspección o la Policía Local, el perímetro de la zona de terraza marcando los ángulos con unas líneas pintadas en el pavimento, de color más oscuro, de pintura antideslizante y de veinte centímetros de largo en cada sentido y un trazo no mayor a cinco centímetros de grosor.
+Será objeto de continua vigilancia por parte de la persona titular de la actividad la no alteración de las condiciones de ubicación de los elementos autorizados, a fin de evitar que excedan del perímetro delimitado de la zona de ocupación autorizada.
+Puede excluirse la obligación de señalización de la terraza cuando el órgano municipal competente determine que existen impedimentos técnicos o de preservación de suelo protegido.
+La persona titular del establecimiento estará obligado a borrar las marcas cuando por la modificación de la terraza se deba cambiar su posición, o por cualquiera de las causas de extinción y renuncia.
+e) La persona titular deberá tener siempre disponible en el establecimiento la autorización de veladores convenientemente actualizada, así como el plano de distribución de la terraza que deberá encontrarse en un lugar fácilmente visible, de forma que la inspección municipal conozca la superficie cuya ocupación tiene autorizada, así como su horario y copia para los inspectores de toda la documentación. Se habilitará, cuando las condiciones técnicas lo permitan, la posibilidad de que también pueda tenerse toda esta la información recogida a través de un código QR o similar.
+f) La persona titular deberá abstenerse de instalar la terraza o procederá a su retirada cuando así lo ordenen los responsables municipales competentes en el ejercicio de sus funciones, por la celebración de fiestas, actos autorizados, obras, razones de seguridad pública u otras razones de interés público.
+g) Los titulares de establecimientos que dispongan de terraza deberán en base a lo recogido en el artículo 25.2.a) de la Ley 5/2009 del ruido de Castilla y León, adoptar las medidas adecuadas a efectos de prevenir la producción de niveles que incrementen la contaminación acústica, mediante la aplicación de las tecnologías de menor incidencia acústica de entre las mejores técnicas disponibles, tomando en consideración las características propias del emisor acústico considerado.
+h) En caso de colocación de calefactores nuevos, únicamente podrán instalarse aquellos que funcionen con energía eléctrica, mediante combustión de pellets u otro sistema ambientalmente sostenible. Su colocación lleva consigo la obligación por parte de la persona titular de observar estrictamente las instrucciones de seguridad recomendadas por el fabricante respecto de su colocación, distancias a observar respecto de otros elementos y de personas, utilización y manejo, mantenimiento así como llevar a cabo las pertinentes revisiones periódicas.
+Al resto de elementos destinados a proporcionar climatización se les somete a idéntica observancia de las condiciones de seguridad en su utilización y disfrute.
+Los calefactores se colocarán en todo caso a una distancia de más de un metro de cualquier material que no tenga una clasificación de M0 o A1.
+i) Deberá suscribir un seguro de responsabilidad civil por daños a usuarios y a terceros en prevención de siniestros que puedan causarse por los elementos instalados o almacenados en la vía pública que sean de su titularidad. No obstante, la responsabilidad de la persona titular de la terraza no se verá limitada por la cobertura del seguro contratado.
+j) La persona titular deberá adoptar las medidas necesarias para evitar la contaminación acústica procedente de la terraza. A los efectos de esta ordenanza, se entenderán incumplidas dichas medidas cuando el manejo, colocación y retirada de los elementos de la terraza se efectuara sin el debido cuidado, evitando los arrastres e impactos contra el suelo o contra otros objetos, generando molestias por ruido.
+Los elementos estarán dotados de componentes de goma que amortigüen los ruidos y vibraciones como es el caso de tacos en las mesas y sillas, ruedas de goma en los carritos o similares, fundas para las cadenas, entre otros.
+k) Para la prevención de posibles caídas de las personas que ocupan los veladores situados entre los alcorques de los árboles, la persona titular del establecimiento en caso de apreciar dicha circunstancia, deberá solicitar autorización para su cubrimiento que será informada por el servicio competente de parques y jardines sobre su conveniencia, procedimiento técnico, material a utilizar y medidas que se estimen oportunas relativas a la protección del arbolado, sufragando a su costa los gastos que de la operación se deriven. La superficie así cubierta para dicha prevención en ningún caso será computable a los efectos de la instalación de veladores.
+l) La persona titular deberá proceder a la retirada inmediata de los elementos móviles de las terrazas cuando ello sea preciso para facilitar el acceso de ambulancias, vehículos de bomberos y otros de emergencias.
+m) Las personas titulares de la autorización deberán permitir, en cualquier momento, las reparaciones de bocas de riego, tapas y registro de otras instalaciones o servicios que se encuentren en la superficie de ocupación de la terraza, incluyendo las obras de pavimentación que se realicen, sin que se genere derecho a indemnización.
+TÍTULO III.- RÉGIMEN JURÍDICO
+Artículo 15. Naturaleza de la autorización.
+La expedición de las autorizaciones demaniales de ocupación de la vía pública con terrazas y elementos auxiliares, corresponde a la Alcaldía u órgano en quien delegue.
+Se concederán siempre en precario y estarán sujetas a las modificaciones siempre dentro del marco de esta ordenanza, que pueda decidir el Ayuntamiento, que se reserva el derecho a dejarlas sin efecto, limitarlas o reducirlas en cualquier momento si existiesen causas que así lo aconsejasen a juicio del Ayuntamiento, debidamente motivadas, sin que genere derecho a indemnización.
+La Autoridad Municipal o sus Agentes en el ejercicio de sus funciones podrán requerir la retirada temporal de las terrazas y elementos auxiliares regulados en esta ordenanza, con motivo de la celebración de eventos y obras municipales, así como en aquellas otras situaciones en las que su instalación pudiese suponer peligro para las personas, o pudiese impedir el paso de vehículos en zonas peatonales o semipeatonales, no generándose derecho alguno para los afectados a excepción del reintegro de la parte proporcional del importe abonado en concepto de tasa por ocupación de vía pública correspondiente al período no disfrutado, si éste es superior a 15 días naturales.
+Las autorizaciones se concederán dejando a salvo el derecho de propiedad y sin perjuicio del derecho de terceros, no siendo posible ni arrendamiento ni cesión de uso ni onerosa ni gratuita de la autorización demanial.
+Las autorizaciones que se otorguen serán transmisibles conjuntamente con las de los establecimientos.
+La autorización expedida por el Ayuntamiento así como el documento que acredite tener contratado un seguro de responsabilidad civil con cobertura a los posibles riesgos que pudieran derivarse del funcionamiento de la terraza habrán de exhibirse a la Inspección o Policía Municipal, cuantas veces sean requeridos.
+Asimismo, la autorización expedida por el Ayuntamiento o el lugar electrónico donde se encuentra ubicada deberá estar en un lugar visible del establecimiento y ser perfectamente accesible.
+Si es necesario realizar obras para la realización de acometidas subterráneas por parte del titular del establecimiento, la autorización comprenderá la concesión de la licencia urbanística, autorización o título habilitante que resulte necesaria para ambas actuaciones, que deberá ajustarse a las condiciones establecidas en la normativa municipal sobre gestión de obras en la vía pública, corriendo en todo caso con el coste de las obras el titular de la autorización.
+Artículo 16. Vigencia de la autorización.
+La vigencia de la autorización tiene dos modalidades:
+a) Vigencia para todo el año natural.
+b) Vigencia desde la semana anterior a Semana Santa y hasta el 31 de octubre.
+En ambos casos será renovable en los términos establecidos en el artículo 22.
+Las autorizaciones en calzada pueden establecer, a solicitud del interesado, superficies diferentes para cada período de funcionamiento, valorando la posibilidad de que durante el período correspondiente a la época invernal pueda reducir su tamaño.
+Artículo 17. Solicitantes.
+Podrán solicitar autorización para instalación de veladores las personas físicas o jurídicas que cumplan los siguientes requisitos:
+a) Constar como titular del establecimiento cuya licencia o comunicación ambiental, habilite para el ejercicio de la actividad de hostelería y restauración.
+b) Encontrarse al corriente de pago de las obligaciones con la Hacienda Municipal.
+c) Abonar la tasa correspondiente, de conformidad con las ordenanzas fiscales en vigor.
+d) Tener contratado el seguro de responsabilidad civil.
+No tendrán derecho a la concesión o renovación de la autorización de ocupación las personas titulares de establecimientos en los que se haya comprobado la ejecución de obras sin licencia o sin ajustarse a las condiciones de la licencia o autorización administrativa, en tanto no se haya procedido a la legalización de las mismas.
+Artículo 18. Solicitud y documentación.
+1. Con carácter previo a la presentación de la documentación para la solicitud de autorización, se podrá realizar consulta a través de la sede electrónica del Ayuntamiento sobre la posibilidad de instalar terraza, debiendo facilitar el correspondiente plano descriptivo de la instalación, con indicación de las medidas de ocupación, elementos que van a integrar la terraza y su relación con el espacio público concreto afectado, pudiendo incluir infografía o montaje fotográfico descriptivo de la instalación pretendida. Esta consulta podrá versar sobre la homologación de determinado mobiliario conforme las condiciones de estética que se regulan en el
+anexo II.
+Toda consulta siempre llevara asociada una tasa por tramitación.
+2. El procedimiento se inicia a solicitud de persona interesada, conforme el artículo 17 de esta ordenanza mediante la presentación de su solicitud de autorización de terraza y de la documentación correspondiente mediante los modelos normalizados que facilitará el Ayuntamiento.
+3. Las solicitudes deberán contener:
+a) Los datos personales del solicitante y dirección completa. En caso de actuar en representación de otra persona, física o jurídica, deberá acreditarse la misma.
+b) Nombre comercial del establecimiento hostelero o de restauración al que va asociado la terraza, referencia catastral y dirección completa del mismo.
+c) Periodo para el que se solicita la ocupación.
+4. En la documentación a acompañar se deberá hacer constar de forma detallada lo siguiente:
+a) Si el emplazamiento propuesto es espacio de dominio público o privado de uso público.
+En el caso de terrazas que se vayan a instalar en terrenos privados de uso público se requiere, acreditación de la propiedad o título jurídico que habilite para la utilización privativa del espacio, y, excepcionalmente, cuando no sea posible acreditarlo, autorización de las comunidades de propietarios afectadas.
+b) Plano de situación de la terraza en PDF, preferentemente a escala 1:1.000 o 1:500, en el que viéndose el entorno se refleje la superficie a ocupar, ancho de acera o zona estancial, distancias a esquinas, banda prevista de circulación y acceso de vehículo de emergencia, paradas de transporte público, pasos de peatones y de vehículos, salidas de emergencia, entradas peatonales a edificios, rebajes y plazas reservadas para personas con movilidad reducida, centros y establecimientos sanitarios, así como a los elementos de mobiliario urbano existentes.
+c) Plano de detalle en PDF, preferentemente a escala 1:100 o 1:200 que indique todos los elementos y mobiliario de la terraza, su clase, número, dimensiones y superficie a ocupar.
+Asimismo, se señalarán las medidas correspondientes al frente de fachada del establecimiento y anchura de la acera y, en su caso, arbolado, mobiliario urbano existente y demás elementos de señalización reseñables. Asimismo, será necesario justificar el cumplimiento de las distancias de accesibilidad y de seguridad.
+d) Cuando la superficie solicitada sea distinta para los diferentes periodos de uso, estacional o anual, se deberá indicar expresamente la superficie a ocupar en cada caso. Se aportarán los planos en PDF correspondientes a cada uno de los periodos.
+e) Descripción fotográfica de todos los elementos a instalar.
+f) Declaración de la capacidad de almacenamiento en el interior del propio local o de otro habilitado. En su caso, solicitud de permiso para almacenamiento en dominio público, con acreditación expresa de las razones que lo justifican.
+g) Si se solicita la colocación de calefactor o de cualquier otro aparato destinado a proporcionar climatización, deberá aportarse declaración firmada por el solicitante de que todo aparato que se instale contará con la homologación de conformidad a normas CE, y de que en su colocación, utilización, mantenimiento, revisiones y manejo en general se observarán estrictamente las instrucciones de seguridad recomendadas por el fabricante.
+Si para la colocación de cualquier elemento destinado a proporcionar climatización fuera preciso realizar una intervención específica en la vía pública, entre otras, conexión eléctrica, obras para instalación de tuberías, etc., deberá solicitarse previamente licencia específica en atención a la entidad de la intervención que se concederá teniendo en cuenta la normativa aplicable, incluida la de ámbito sanitario.
+h) Declaración de cumplir las condiciones establecidas en el artículo 17 letra b) de esta ordenanza.
+i) Póliza o certificado emitido por la entidad aseguradora en el que se haga constar de forma expresa tener contratado un seguro de responsabilidad civil con cobertura a los posibles riesgos derivados del funcionamiento de la terraza del establecimiento para el que se solicita la autorización, en función de su aforo, de acuerdo con la normativa vigente y justificante de pago de la anualidad vigente.
+j) Autorización expresa de las personas titulares de los establecimientos o viviendas colindantes que se encuentren afectados por la instalación de la misma, cuando la longitud de la terraza exceda de la línea de fachada del establecimiento para el que se solicita la autorización.
+k) Si se pretende instalar la terraza sobre la calzada deberá aportarse igualmente documentación técnica relativa a la plataforma a instalar, en la que se acredite su nivelación a la misma cota de la acera y sus condiciones de estabilidad, seguridad y protección de los usuarios y plano descriptivo firmado por técnico competente.
+Artículo 19. Procedimiento.
+Los servicios municipales examinarán la solicitud y la documentación aportada y, en su caso, requerirán al interesado para que subsane la falta o acompañe la documentación preceptiva, con indicación de que si no lo hiciera se le tendrá por desistido de su petición.
+Una vez completada la documentación, se emitirán los informes técnicos pertinentes que propondrán el otorgamiento o la denegación de la autorización. Las solicitudes podrán ser estimadas total o parcialmente.
+Ello sin perjuicio de la necesidad de recabar informes de los servicios municipales competentes en caso de afecciones específicas al tráfico, en particular, en el caso de autorizaciones en calzada o si para la atención de la terraza es preciso atravesar calzada abierta al tráfico rodado, o a elementos de mobiliario urbano, de servicio público, vegetación, protección civil o bienes protegidos por la legislación sobre patrimonio cultural.
+Cuando una terraza se encuentre dentro de una zona declarada como zona acústicamente saturada, se adoptarán las medidas que el órgano ambiental establezca para esa zona, según el artículo 49 de la Ley 5/2009, de 4 de junio, del Ruido de Castilla y León, o normativa similar vigente.
+En zonas incluidas dentro de las catalogadas como acústicamente saturadas (ZAS, declaración “ZAS”, BOP Núm. 229 del Miércoles, 28 de noviembre de 2007), y una vez aplicados los criterios incluidos en el artículo 9 de la presente ordenanza en cuanto a condiciones de ubicación y emplazamiento de terrazas, no se podrá autorizar un incremento de superficie de ocupación de la terraza respecto al ya concedido en su caso, con el fin de que el nivel de ruido ambiental en la zona se vea incrementado.
+La mera presentación de la solicitud no generará derecho alguno a la utilización del suelo privado afecto al uso público ni del dominio público
+Artículo 20. Contenido de la autorización.
+Las autorizaciones de terrazas que se concedan deben tener, en todo caso, el siguiente contenido:
+a) Datos personales de la persona titular autorizado y dirección completa.
+b) Nombre comercial del establecimiento hostelero o de restauración al que va asociado la terraza y dirección completa del mismo.
+c) Periodo y horario de funcionamiento de la instalación.
+d) Número de veladores autorizados, metros de superficie ocupada y, en su caso, los elementos auxiliares que correspondan, señalándose el número concreto de cada uno de ellos.
+e) Plano de detalle de la terraza. Si fuera diferente, un plano por cada periodo.
+f) Condiciones estéticas a que queda condicionada, si fuesen especiales.
+g) Si fuese pertinente, limitaciones de índole medioambiental a que queda condicionada y determinación de la zona de la superficie autorizada susceptible de almacenar o apilar el mobiliario.
+h) Si la autorización queda sujeta a una organización conjunta.
+i) Si la terraza requiere conformidad de otros propietarios o locales.
+Artículo 21. Ampliación, reducción y renuncia de la instalación.
+Las personas titulares de la autorización de terrazas podrán instar la ampliación del número de veladores mediante solicitud de autorización en los mismos términos del
+artículo 18.
+Dichos titulares podrán solicitar la reducción con indicación del número de veladores o elementos auxiliares que desea reducir, y teniendo en cuenta que la reducción es definitiva, por lo que en el caso de que, en ejercicios posteriores, quisiese instalar más veladores, deberá tramitar una solicitud de ampliación, todo ello sin perjuicio de lo dispuesto en el artículo 16.
+La petición de reducción de la superficie no genera derecho a la devolución de parte de la tasa del ejercicio vigente.
+No procede solicitar la ampliación de la superficie de la terraza en un plazo de 18 meses desde la autorización de instalación de la misma o desde su anterior ampliación o reducción salvo cambio de titularidad, sin perjuicio de lo dispuesto en el artículo 16 respecto a las autorizaciones en calzada.
+Asimismo, las personas titulares de las terrazas, podrán solicitar la renuncia a la misma con las consecuencias que se regulan en el artículo 23.
+Artículo 22. Renovación de la autorización.
+La renovación se producirá de forma automática a fecha de 1 de enero de cada año, mediante el simple abono de la tasa que la ordenanza fiscal establezca para cada año, siguiendo el procedimiento y plazos establecidos en la misma a este fin, sin perjuicio de la obligación de la persona titular de la terraza de mantener el cumplimiento del resto de requisitos a los que se refiere esta ordenanza, debiendo ser acreditados a requerimiento de la autoridad municipal.
+La renovación se producirá únicamente respecto de las condiciones de la terraza autorizada, sin que ello implique la modificación de las condiciones de la misma.
+Artículo 23. Extinción de la autorización.
+1. Las autorizaciones se extinguirán sin que genere derecho a indemnización en los supuestos previstos con carácter general en la normativa reguladora del patrimonio de las administraciones públicas, y específicamente, mediante declaración del órgano que las otorgó, cuando concurra alguno de los siguientes supuestos:
+a) Cuando se acredite incumplimiento de las condiciones de la autorización o de alguno de los preceptos contenidos en esta ordenanza.
+b) Cuando en el periodo autorizado esté prevista la ejecución de actuaciones públicas que modifiquen la realidad física existente en el momento del otorgamiento de la autorización.
+c) Cuando por causas de interés público resulten incompatibles con las condiciones generales aprobadas con posterioridad, produzcan daños en el dominio público, impidan su utilización para actividades de mayor interés público o menoscaben el uso general.
+d) En los casos de falta de pago de la tasa correspondiente, una vez finalizado el periodo de pago voluntario.
+e) Cuando se retiren las conformidades de las personas titulares o propietarios de otros locales o fincas y estas sean necesarias para el mantenimiento de la autorización.
+f) Cuando se retire la conformidad de la persona física o jurídica o comunidad, propietaria de los suelos privados de uso público sobre los que se hubiera ubicado la terraza.
+2. La declaración de extinción de la autorización lleva aparejada la obligación de la persona titular de desmontar la terraza, dejar y reponer el dominio público a su estado original, siendo a su costa los gastos que se deriven.
+Esta resolución ordenará al titular que en el plazo de diez días desmonte la terraza y, en su caso, restituya el dominio público a su estado original.
+Transcurrido dicho plazo sin cumplir lo ordenado, procederá a su ejecución subsidiaria y, en su caso, a la imposición de las sanciones a que hubiere lugar.
+Los servicios técnicos municipales, en el plazo de 30 días hábiles desde la notificación de extinción o la presentación de la renuncia, comprobarán el estado del desmontaje y del dominio público afectado y emitirán acta de conformidad o disconformidad.
+En caso de conformidad, el Ayuntamiento aceptará la renuncia. En caso de disconformidad, procederá a su ejecución subsidiaria con posibilidad de liquidación provisional al interesado y, en su caso, a la imposición de las sanciones a que hubiere lugar.
+Artículo 24. Modificación o suspensión temporal de la autorización.
+Las autorizaciones de terrazas podrán modificarse durante su plazo de vigencia o suspenderse temporalmente, en los siguientes casos:
+a) A solicitud de la persona titular de la autorización, que deberá acompañar la documentación descriptiva de los cambios que solicita.
+b) De oficio por el Ayuntamiento, cuando concurran circunstancias que justifiquen un cambio en las condiciones de la autorización vigente o una suspensión temporal, sin que se genere derecho a indemnización, por situaciones tales como, entre otras: obras en vía pública, colocación de elementos auxiliares vinculados a la obra de un edificio, campañas de asfaltado, la celebración de cualquier acto organizado o autorizado por el Ayuntamiento.
+Cuando estas circunstancias puedan preverse con más de un mes de antelación, la administración comunicará el hecho al titular con 15 días de antelación como mínimo, y dicho titular deberá retirar o modificar la terraza en los términos de la notificación antes de la hora indicada en la comunicación y no retornará a su configuración inicial hasta que finalice la motivación del requerimiento.
+Cuando dicho plazo de previsión no sea posible, la comunicación se hará con una antelación mínima de 48 horas y, en cualquier caso, lo antes posible. Solo en casos de urgencia, el requerimiento podrá ser adoptado por los agentes de la Policía Local en el acto.
+Para los casos de suspensión con duración superior 15 días naturales, y por causas imputables en exclusiva al Ayuntamiento, se reducirá la parte proporcional de la tasa a que pudiera tener derecho la persona titular de la terraza de oficio o a instancia del interesado.
+De no atenderse el requerimiento por parte de la persona titular del establecimiento, se iniciará el procedimiento de recuperación de oficio.
+Artículo 25. Cambio de titularidad de la autorización.
+1. En aquellos supuestos en los que se modifique la titularidad de la licencia o comunicación ambiental que habilite para el ejercicio de la actividad de hostelería y restauración será posible acordar el cambio de titularidad de la autorización de la terraza, debiendo solicitarse dicho cambio por el nuevo titular, de forma expresa y sin que el mismo suponga modificación alguna de la autorización preexistente.
+El solicitante del cambio de titularidad deberá encontrarse al corriente de pago de las obligaciones con la Hacienda Municipal, abonar la tasa correspondiente, de conformidad con las ordenanzas fiscales en vigor y aportar el certificado de seguro de responsabilidad civil a que se refiere el artículo 18 de la presente Ordenanza.
+No se concederá la autorización del cambio de titularidad si la persona física o jurídica transmitente no se encuentra al corriente de los requisitos establecidos en el párrafo anterior.
+2. En los supuestos en que, previa renuncia de la persona titular, se haya acordado la revocación de la autorización de la instalación de la terraza, y se solicite posteriormente autorización para la instalación de terraza como consecuencia de un cambio de titularidad de la licencia o comunicación ambiental de acuerdo con lo establecido en este artículo, se podrá autorizar la instalación de la terraza en las mismas condiciones que la anterior, previa comprobación de los requisitos establecidos en este artículo siempre que no hayan transcurrido más de 6 meses desde que se acordó la baja de la autorización anterior.
+Trascurrido este plazo o si la solicitud lleva aparejada una modificación de la terraza, se seguirán los trámites previstos para ello en esta ordenanza.
+3. La autorización para instalar la terraza no puede ser objeto de cualquier forma de cesión a terceros independiente del establecimiento principal.
+Artículo 26. Registro Público.
+Conforme las disponibilidades presupuestarias y técnicas determinen se garantiza la posibilidad de acceso por cualquier ciudadano y ciudadana a la información relativa a las autorizaciones de instalación de terrazas de manera electrónica existiendo a tal efecto un registro actualizado, con las siguientes condiciones:
+a) El acceso podrá realizarse desde la página web municipal o desde otra ubicación proporcionada por el Ayuntamiento.
+b) En este registro podrán consultarse, siempre conforme a la legislación en materia de protección de datos, la información contenida en el artículo 20 en los apartados b)
+d) y e).
+TÍTULO IV.- RÉGIMEN SANCIONADOR
+Artículo 27. Régimen general sobre el régimen sancionador.
+Este régimen sancionador se implementa en todo aquello en lo que no contradiga al resto de normas sectoriales, locales, autonómicas y nacionales cuyo presupuesto de hecho pueda ser análogo al aquí planteado.
+Artículo 28. Sujeto responsable.
+Es responsable de las infracciones administrativas la persona física o jurídica titular de la licencia del establecimiento de hostelería y restauración.
+Artículo 29. Infracciones.
+Constituirá infracción administrativa el incumplimiento de las obligaciones, prohibiciones o requisitos establecidos en esta ordenanza, así como de las condiciones impuestas en las autorizaciones otorgadas a su amparo.
+Artículo 30. Clasificación de las infracciones.
+Las infracciones de las normas contenidas en esta ordenanza se clasifican en leves, graves y muy graves.
+1.- Infracciones leves:
+a) La ocupación de superficie mayor a la autorizada hasta un cinco por ciento, o la colocación de hasta un velador más respecto a lo autorizado.
+b) La instalación de elementos autorizados en forma distinta a lo autorizado cuando no suponga un riesgo de seguridad.
+c) No dotar a las mesas de recipientes para residuos.
+d) La falta de exposición en lugar visible de la autorización y/o plano de distribución de la terraza proporcionados por el Ayuntamiento.
+e) No disponer de copia íntegra de autorización, o documentación complementaria, cuando así sea requerido por la labor inspectora.
+f) No delimitar las esquinas de la terraza con pintura o no borrar las marcas cuando así sea preceptivo.
+g) El incumplimiento, en 15 minutos o menos, del horario de funcionamiento o de la obligación de retirar el mobiliario al finalizar el horario de funcionamiento.
+h) La recogida y apilado de mobiliario en vía pública sin ceñirse a lo autorizado cuando no se ocupe mayor superficie de la autorizada.
+i) La producción de molestias debidamente acreditadas al vecindario o a transeúntes derivadas del funcionamiento, montaje o desmontaje de la instalación.
+j) La instalación en el exterior del local de equipos de reproducción de imagen sin sonido, así como los instalados en el interior junto a las ventanas y enfocados hacia la terraza.
+k) Una vez instalada la terraza, no se podrá tener apilado material principal ni accesorio de la misma en la vía pública.
+l) El incumplimiento del artículo 3.3 de esta ordenanza, referido a las medidas en los elementos auxiliares.
+m) El mal estado de los tacos de goma de mesas y sillas o de cualquier otro material absorbente que deba ser colocado en aras de no producir niveles de ruido en la instalación, utilización y retirada de terrazas.
+n) El incumplimiento de la obligación de mantenimiento en condiciones de tránsito del itinerario peatonal continúo.
+o) Cualquier acción u omisión que infrinja lo dispuesto en esta ordenanza no susceptible de calificarse como infracción grave o muy grave.
+2.- Infracciones graves:
+a) La colocación de la terraza sin haber obtenido previamente la preceptiva autorización municipal de ocupación aun habiéndola solicitado o sin haber pagado la tasa correspondiente.
+b) La cesión de la explotación de la terraza a persona distinta de la persona titular de la autorización.
+c) La instalación de elementos sin autorización, cuando no suponga un riesgo grave de seguridad.
+d) La ocupación de superficie mayor a la autorizada entre el seis y el diez por ciento, o en cualquier porcentaje cuando no se respeten de manera notoria las distancias mínimas de accesibilidad; o la colocación de entre 2 y 3 veladores más respecto a lo autorizado; o la reiteración de una ocupación no autorizada de un velador en dos ocasiones.
+e) La ocupación ocasional de mayor superficie respecto a la autorizada, cuando por ello se entorpezca o dificulte el paso de vehículos, bicicletas o de peatones.
+f) Colocar los veladores fuera del período autorizado en la licencia.
+g) No disponer de velador accesible.
+h) La recogida y apilado de mobiliario en vía pública sin ceñirse a lo autorizado cuando se ocupe mayor superficie de la autorizada o cuando por cierre del establecimiento el almacenamiento en vía pública se haga por tiempo mayor al máximo permitido.
+i) La recogida y apilado de mobiliario en vía pública sin autorización.
+j) Incumplir la obligación al instalar y mantener los elementos de la terraza y la zona ocupada por esta en permanente estado de limpieza según lo regulado en el
+artículo 14.b).
+k) Que los elementos de la terraza modifiquen sustancialmente la iluminación del paso peatonal.
+l) El incumplimiento, en más de 15 minutos pero menos de una hora, del horario de funcionamiento o de la obligación de retirar el mobiliario al finalizar el horario de funcionamiento.
+m) El incumplimiento del apartado 2 del artículo 3.
+n) El deterioro del pavimento, de elementos del mobiliario urbano y/o de elementos ornamentales, producidos como consecuencia de la terraza, cuando sean reparables.
+o) La celebración en el exterior de cualquier actuación musical, o la colocación de equipos de reproducción o amplificación sonora, sin ajustarse a la ordenanza.
+p) La perturbación por ruido excesivo a personas residentes, tanto en el edificio donde se albergue el establecimiento como en edificios cercanos, debido tanto a la retirada como a la colocación del mobiliario de terraza, circunstancia que deberá quedar acreditada debidamente mediante el preceptivo informe de inspección correspondiente.
+q) La obstrucción a la labor inspectora del Ayuntamiento.
+3. Infracciones muy graves:
+a) La instalación de veladores, sombrillas, elementos de apoyo y/o elementos asimilados careciendo de la preceptiva autorización municipal, cuando no se reúnan las condiciones exigibles para su concesión.
+b) La aportación al expediente administrativo de planos u otra documentación que no se corresponda con la realidad del espacio descrito.
+c) La instalación de la terraza incumpliendo las condiciones de la autorización en cuanto a espacio autorizado cuando se constate la ocupación de mayor superficie de la autorizada en tres o más ocasiones.
+d) La instalación de plataforma en calzada sin la autorización municipal o sin cumplir sus condiciones u ocupando mayor superficie de la autorizada.
+e) La vulneración del régimen horario dispuesto por el artículo 12, así como la obligación de retirar el mobiliario al finalizar el horario de funcionamiento, cuando el exceso sea de más de una hora.
+f) La ocupación de superficie mayor a la autorizada en más del veinticinco por ciento o en cualquier porcentaje cuando suponga un riesgo grave de seguridad; o la colocación de 4 veladores más respecto a lo autorizado.
+g) La instalación de elementos sin autorización, o en distinta forma a lo autorizado, cuando supongan un riesgo grave de seguridad.
+h) La modificación de elementos industriales autorizables para funcionamiento distinto al establecido por el fabricante.
+i) El incumplimiento de la orden de retirada de la terraza, por parte de la autoridad competente.
+j) La ocultación, manipulación o falsedad de la documentación o datos aportados, en orden a la obtención de la correspondiente autorización o concesión.
+k) Los daños del pavimento, o cualquier otro elemento de la vía pública debido a anclajes u otras acciones no autorizadas.
+l) La falta de reposición del dominio público y los elementos comunes de urbanización a su estado original.
+m) La colocación de elementos no autorizados que disminuyan o impidan la accesibilidad de los servicios de emergencias.
+n) Impedir las labores de mantenimiento de instalaciones o servicios que se encuentren en la superficie de ocupación de la terraza.
+o) Incumplir las condiciones estéticas en terrazas ubicadas fuera de la zona marcada como de interés patrimonial.
+p) Incumplir los condicionantes expresos marcados en la autorización.
+Artículo 31. Sanciones.
+1. El incumplimiento de las prescripciones establecidas en esta Ordenanza, será constitutivo de infracción y determinará, de acuerdo con lo establecido en el artículo 141 de la Ley 7/1985, de 2 de abril, reguladora de las Bases del Régimen Local la imposición de las siguientes sanciones que en ningún caso habrán de ser inferiores al beneficio económico que la infracción haya supuesto para el infractor.
+a) Infracciones leves: Multa de hasta 750 euros.
+b) Infracciones graves: Multa de 751 euros hasta 1.500.
+c) Infracciones muy graves: Multa de 1.501 hasta 3.000 euros y cierre de la terraza de un mínimo de tres meses y un día a la extinción de la autorización.
+2. El caso reiterado de infracciones llevará aparejado el cierre de la terraza de la siguiente manera:
+a) 3 infracciones leves, por el tiempo de un día a un mes.
+b) 2 infracciones graves, por tiempo de un mes y un día a tres meses.
+c) 2 infracciones muy graves, extinción de la autorización.
+Durante el plazo de dos años desde la declaración de la extinción por resolución administrativa firme, la persona titular de la autorización responsable de la infracción no podrá solicitar la renovación ni la expedición de una nueva autorización de terraza vinculada al mismo u otro establecimiento.
+La imposición de sanciones conforme a lo previsto en este artículo lo será sin perjuicio de las que pudieran corresponder por aplicación de lo previsto en la legislación estatal básica de patrimonio de las administraciones públicas o, en su caso, en la normativa en materia de espectáculos públicos y actividades recreativas, y en materia de contaminación acústica y ruido.
+3. La instalación de terrazas en la vía pública, cuando se haya llevado a cabo su instalación sin autorización o bien contraviniendo las condiciones de colocación fijadas en esta, con independencia de la sanción económica, conllevará bien la total retirada de lo instalado y la reposición a su estado anterior de todo aquel elemento que perteneciente al dominio público se haya visto afectado, bien la obligación de su adecuación al título autorizatorio en aquello que haya resultado vulnerado.
+Artículo 32. Multiplicidad de infracciones.
+No se reputará como infracción continuada la comisión de una pluralidad de infracciones tipificadas por el mismo o semejante precepto, sancionándose cada una de ella con carácter independiente.
+La comisión de tres faltas leves en un plazo de dos años supondrá la comisión de una grave y la comisión de tres faltas graves en un plazo de dos años supondrá la comisión de una muy grave.
+Artículo 33. Criterios de graduación.
+En la imposición de sanciones, se deberá guardar la debida adecuación entre la gravedad de la infracción cometida y la sanción aplicada, debiéndose seguir para la graduación de la sanción a aplicar, los criterios contenidos en la legislación sobre procedimiento administrativo común y los generalmente admitidos por la jurisprudencia.
+Artículo 34. Prescripción de las infracciones y sanciones.
+1. El plazo de prescripción de las infracciones será de:
+a) 2 años en caso de ser muy graves.
+b) 1 año en caso de graves.
+c) 6 meses en caso de leves.
+2. Para el caso de la prescripción de sanciones, de forma general, se atenderá al siguiente régimen:
+a) 2 años para el caso de ser faltas muy graves.
+b) 1 año para faltas graves.
+c) 6 meses para el caso de faltas leves.
+Artículo 35. Competencia.
+Será órgano competente para iniciar el procedimiento sancionador el concejal en quien se delegue para resolver las infracciones leves y graves. Corresponderá a la Junta de Gobierno Local si así se delega la sanción de las infracciones muy graves.
+La función instructora se ejercerá por la autoridad o funcionario que designe el órgano competente para la incoación del procedimiento.
+Artículo 36. Procedimiento y medidas provisionales.
+1. La imposición de las sanciones requiere la previa incoación e instrucción del procedimiento correspondiente, el cual se sustancia con arreglo a lo dispuesto en la legislación general sobre procedimiento administrativo común.
+2. El acuerdo de iniciación puede ordenar la adopción de medidas provisionales que resulten necesarias para garantizar la eficacia de la resolución que pudiera recaer o la restauración de la legalidad. Estas medidas pueden consistir en la retirada de las instalaciones o la suspensión de su funcionamiento.
+Artículo 37. Intervención de los elementos de la terraza.
+Conforme lo dispuesto en el apartado 2 del artículo 36 de esta ordenanza, en caso de colocación de veladores u otros elementos sin la previa y preceptiva autorización, y cuando de ello se derive perturbación relevante para el tránsito peatonal, para la utilización del mobiliario urbano o, en general, para el uso común de las vías y espacios públicos, o para la seguridad, salubridad, tranquilidad u ornato públicos, así como si se da cualquiera de las circunstancias que hubieran de determinar la denegación de la autorización, la resolución de inicio del expediente sancionador podrá adoptar como medida cautelar la intervención de los elementos colocados, mediante su retirada, traslado y depósito en la forma pertinente.
+En el supuesto de que concurran circunstancias de grave riesgo, dicha intervención podrá ser llevada a cabo por los inspectores municipales y/o Policía Local, dando posterior e inmediato conocimiento a la alcaldía, cuando la persona titular de la actividad, requerido previamente al efecto, se niegue a su retirada.
+Artículo 38. Recuperación de oficio.
+1. En las terrazas que se coloquen en terrenos de titularidad pública sin la preceptiva autorización, o cuando se vulneren los términos de esta, así como cuando se vulnere un requerimiento de modificación o suspensión de la autorización, el órgano municipal competente para la autorización para la instalación de terrazas en la vía pública, por propia iniciativa o a petición razonada de otro órgano administrativo, podrá adoptar motivadamente las medidas que sean necesarias en todo momento para garantizar el interés público.
+2. Las órdenes para el restablecimiento de la legalidad, es decir, para que en las zonas de uso público se eliminen las ocupaciones no autorizadas, así como las órdenes de modificación o suspensión de la autorización, serán inmediatamente ejecutivas y deberán cumplirse en los plazos establecidos en ellas.
+3. Una vez notificado el requerimiento para la desocupación, modificación o suspensión, el incumplimiento por su destinatario de las medidas exigidas, conllevará la posibilidad de utilización administrativa de los medios de ejecución forzosa previstos por el ordenamiento jurídico, sin perjuicio del ejercicio de las acciones de recuperación de oficio, y demás prerrogativas municipales que respecto del dominio público ostenta la administración.
+4. Los elementos retirados de la vía pública en ejecución subsidiaria por la administración municipal, podrán ser gestionados como residuos urbanos o, en el caso de modificaciones o suspensiones, trasladados de lugar si esto fuese más proporcional con respecto al tiempo concedido en el requerimiento.
+5. Los gastos que se originen por estas actuaciones junto con el importe de los daños y perjuicios causados serán a costa de la persona titular de la autorización, quien estará obligado a su pago. En el supuesto de no realizar el pago en el plazo correspondiente podrá exigirse por el procedimiento de apremio.
+6. Con objeto de una rápida restauración de la legalidad ante una ocupación de la vía pública sin permiso, cuando se vea gravemente comprometida la seguridad ciudadana, se habilita a los inspectores competentes y a los agentes de la Policía Local para que requieran verbalmente al titular del establecimiento al que se vincula el mobiliario citado para que elimine voluntariamente del espacio público, de forma inmediata, el mobiliario que ha colocado en ella sin autorización o, en su caso, vulnerando la que hubiera sido otorgada.
+En supuestos de objetos que por volumen o peso no fueran fácilmente trasladables, se admitirá que se reubiquen fuera del paso peatonal, en lugares donde menos molesten, para que en 24 horas sean retirados definitivamente de la vía pública informándole que el coste que tal operativo suponga se le repercutirá como responsable del establecimiento.
+Artículo 39. Inspección.
+1. La fiscalización y control del cumplimiento por las personas titulares de las autorizaciones será llevado a cabo por personal municipal inspector de vía pública debidamente acreditado y por los agentes de la Policía Local, que gozarán en el ejercicio de las funciones propias de la consideración de agente de la autoridad.
+2. Serán funciones de la inspección municipal y de los agentes las siguientes:
+a) Inspeccionar las ocupaciones con el fin de comprobar su adecuación a la autorización otorgada y al resto de prescripciones de la ordenanza.
+b) Requerir al titular de la actividad la acomodación de la ocupación a la establecida en la autorización.
+c) Proponer al órgano competente el ejercicio de la potestad sancionadora cuando se observen incumplimientos a la ordenanza.
+d) Proponer la adopción de las medidas cautelares que se estimen necesarias.
+3. Para ello disponen de las facultades siguientes:
+a) Recabar la exhibición de la documentación que autorice y fundamente la legalidad de la ocupación.
+b) Los hechos constatados y reflejados en las actas e informes que elaboren en el ejercicio de sus funciones tendrán valor probatorio, sin perjuicio de las pruebas que en su contradicción puedan proponer los interesados.
+c) Ser auxiliados en el ejercicio de sus funciones por cualquier autoridad en su correspondiente ámbito competencial, singularmente por los agentes de la Policía Local, cuando la inspección no sea realizada por estos.
+d) Adoptar en supuestos de urgencia las medidas provisionales que se consideren oportunas en protección de la seguridad y del interés público, de conformidad con lo previsto en la legislación sobre procedimiento administrativo común.
+e) La inspección Municipal podrá exigir en cualquier momento del ejercicio de actividad en espacios destinados a terraza, el que la misma disponga de las mejores técnicas disponibles en cuanto a elementos de amortiguación y absorción de sonido se refiere.
+4. Los inspectores en el ejercicio de sus funciones deberán:
+a) Observar la máxima corrección con las personas titulares de los establecimientos objeto de inspección, procurando perturbar en la menor medida posible el desarrollo de su actividad.
+b) Guardar el debido sigilo profesional y confidencialidad de los asuntos que conozcan por razón de su cargo.
+c) Abstenerse de intervenir en actuaciones inspectoras cuando concurran cualquiera de los motivos que la legislación sobre procedimiento administrativo común al respecto contempla.
+Artículo 40. Defensa del usuario.
+En lo que se refiere al servicio que prestan dichos establecimientos a la ciudadanía será de aplicación, en cuanto a las infracciones y régimen sancionador, la normativa reguladora de las infracciones y sanciones en materia de defensa de los derechos del consumidor.
+DISPOSICIONES ADICIONALES
+Disposición adicional primera.- Mapa de terrazas.
+Por parte de los servicios municipales competentes se elaborará y mantendrá permanentemente actualizado un mapa de terrazas con toda la información relativa a las autorizaciones y demás datos jurídicos y materiales de las mismas. Dicha información, en función de los medios técnicos disponibles, será accesible en los términos vigentes para la información pública del Ayuntamiento.
+Disposición adicional segunda.- Comisión de seguimiento.
+En el plazo de seis meses desde la entrada en vigor de esta ordenanza, se constituirá una comisión de seguimiento de la misma, al objeto de lograr un espacio de entendimiento y solución de conflictos que permita facilitar la convivencia de derechos e intereses de las partes afectadas por la norma, empresariado de hostelería y restauración, usuarios y ciudadanía en general. La comisión se reunirá al menos una vez al año.
+Dicha comisión quedará constituida de la siguiente manera: Presidente/a: persona titular de la Concejalía competente; Vocales: 1 técnico del área correspondiente del Ayuntamiento; 1 técnico de inspección viaria del Ayuntamiento; y 1 Policía Local del Ayuntamiento; 2 representantes de los vecinos, elegidos por la Federación de vecinos más representativa a nivel local; 2 representantes del sector de la hostelería y restauración, elegidos por la asociación más representativa del sector a nivel local.
+DISPOSICIONES TRANSITORIAS
+Disposición transitoria primera.- Adaptaciones a la ordenanza.
+1.- Las personas titulares de autorizaciones vigentes a la entrada en vigor de esta ordenanza dispondrán de un plazo límite hasta el 31 de diciembre de 2024 para adaptar los elementos de las mismas a las condiciones establecidas en esta ordenanza, no obstante, este plazo en las terrazas ubicadas en calzada solo estará disponible para aquellas que en un plazo máximo de 30 días hábiles desde la entrada en vigor de la ordenanza, que quieran continuar con su actividad y no estén adaptadas a la misma, presenten solicitud de autorización y presupuesto con las actuaciones que precisen realizar, y en cualquier caso deberán adecuarse ya en lo posible a lo contemplado en esta ordenanza en el plazo máximo de ejecución de la adaptación correspondiente.
+De manera excepcional aquellos locales que a 31 de diciembre de 2024 justifiquen la imposibilidad de la ejecución de la obra se les otorgara un plazo nunca superior a 31 de marzo de 2025 para su completa puesta en funcionamiento.
+El incumplimiento de este apartado será considerado como infracción muy grave y como consecuencia la sanción será la extinción de la autorización.
+2.- Los aparatos calefactores que funcionen por combustión de gas, que estuvieran autorizados a la fecha de entrada en vigor de esta ordenanza, podrán seguir utilizándose en las terrazas hasta la entrada en vigor de la norma europea o estatal que los prohíba, siempre con estricto cumplimiento de las normas de uso, manejo, mantenimiento, conservación y almacenamiento establecidas en las instrucciones del fabricante, no se concederán autorizaciones para nuevos calefactores que no cumplan con lo exigido en el artículo 14.g).
+3.- Para hacer efectivo todo lo anterior, las personas titulares de aquellas terrazas ya autorizadas que cumplan con lo establecido en esta ordenanza presentarán antes del plazo de finalización de las adaptaciones establecidas en los apartados anteriores una declaración responsable en la que se haga constar que cumplen las condiciones reflejadas en esta ordenanza y acompañar la documentación que se regula en el
+artículo 18. 2.
+Una vez trascurrido el plazo de adaptación sin cumplir las condiciones de esta ordenanza caducarán las autorizaciones concedidas en base a la normativa anterior sin derecho ni indemnización alguna y sin que el pago de la tasa anual correspondiente sea título habilitante alguno. De mantener la actividad y la instalación se aplicará el tipo sancionador que corresponda conforme lo dispuesto en el título IV.
+Disposición transitoria segunda.- Validez de las autorizaciones concedidas.
+Las autorizaciones otorgadas con anterioridad a la entrada en vigor de esta ordenanza mantendrán su vigencia hasta la expiración de su plazo de validez y se regirán por la normativa vigente en el momento de su concesión sin perjuicio de lo dispuesto en la
+disposición transitoria primera.
+Disposición transitoria tercera.- Tramitación electrónica.
+En tanto los medios electrónicos a que hace referencia esta ordenanza no estuviesen implantados la consulta de las informaciones públicas reguladas en esta ordenanza podrá ser realizada presencialmente.
+DISPOSICIÓN DEROGATORIA Queda derogada la Ordenanza municipal reguladora de la instalación de terrazas y elementos auxiliares en terrenos de uso público en el municipio de León publicada en BOP León de fecha 1 de octubre de 2009.
+DISPOSICIONES FINALES
+Disposición final primera.- Canal electrónico.
+Conforme las disponibilidades técnicas y presupuestarias, el Ayuntamiento habilitará un canal electrónico donde se publicarán las actuaciones comunes que se realicen para desarrollar la aplicación de la ordenanza, así como los criterios interpretativos que se fijen desde el órgano municipal competente para su debido cumplimiento.
+Disposición final segunda.- Habilitación al Ayuntamiento.
+La ordenanza regula las condiciones generales de instalación y uso de las terrazas, por lo que el Ayuntamiento, se reserva el derecho a desarrollar en cada momento, mediante Decreto de Alcaldía o acuerdo del órgano competente, las condiciones específicas en que se vayan a conceder las autorizaciones, en situaciones excepcionales acreditadas.
+Podrá concretar, entre otros, los siguientes aspectos:
+a) Aquellas aceras, calzadas, plazas, y demás espacios públicos, etc. en las que no se autorizará la instalación de terrazas.
+b) Las condiciones de ocupación, y criterios de distribución del espacio, entre los establecimientos afectados, para aquellas calles, plazas, plazas de aparcamiento o zonas, en las que sus circunstancias lo aconsejen, atendiendo a criterios objetivos.
+c) Modificación en ocasiones puntuales del horario de las terrazas.
+d) Establecimiento de zonas donde el mobiliario y elementos de la terraza, deberán cumplir condiciones especiales, así como la determinación de éstas, además de las señaladas en esta ordenanza.
+e) La interpretación de esta ordenanza a la hora de su aplicación, si fuese necesario.
+Disposición final tercera.- Entrada en vigor.
+Esta ordenanza entrará en vigor el día siguiente al de la publicación de la aprobación artículo 49 de la Ley 7/1985, de 2 de abril, reguladora de las Bases del Régimen Local.
+ANEXO II Condiciones estéticas y prescripciones técnicas
+1. El mobiliario que integre la terraza se adecuará al entorno urbanístico de la zona, deberá garantizar la seguridad de los usuarios, y respetará las siguientes condiciones:
+- Las mesas serán de tamaño estándar, considerándose a estos efectos tamaño estándar para las mesas, aquellas que sean cuadradas o rectangulares, y sus dimensiones no excedan de 0,9 metros de lado, o redondas con un diámetro máximo de 0,9 metros, o superficie equivalente, ni una altura superior a 1,35 metros, debiendo estar en todo caso, garantizada la estabilidad de las mismas en condiciones normales de utilización.
+- Los modelos de mesas y sillas a instalar deberán reunir las características adecuadas para su función de forma que todas ellas sean apilables, de material resistente, de fácil limpieza y de buena calidad.
+- Con carácter general, en las terrazas instaladas en la vía pública, se autorizará la colocación de sombrillas fácilmente desmontables que tengan como máximo, un diámetro de 5 metros o superficie equivalente, y sujetas a una base de suficiente peso, de manera que no suponga peligro para los usuarios y viandantes, y con una altura mínima de 2,20 metros, y máxima de 3,50 metros. En ningún caso la instalación de sombrillas implicará la realización de obra en el pavimento, siendo el titular de la terraza el responsable del deterioro que por la instalación de la misma se produjere en la vía pública.
+- Los elementos industriales instalados, cuando se deban situar en fachada, o elemento estructural de la fachada, acometidas, cajas de registro, cajas generales de protección o cualquier otra similar deberán situarse en el punto en el que el impacto visual sobre la composición sea menor.
+- Podrá autorizarse la instalación de toldos abatibles colocados en la fachada del establecimiento con una altura mínima de 2,20 metros. Excepcionalmente, podrán autorizarse toldos o estructuras no adosados a fachadas, al objeto de cubrir la terraza autorizada, sin cimentaciones fijas, fácilmente desmontables, debiendo cumplir con las medidas de seguridad necesarias que garanticen la estabilidad respecto de la acción del viento y lluvia, y que no impliquen la realización de obra en el pavimento. Los toldos o estructuras, podrán tener cerramientos verticales, transparentes, siempre que su superficie no sea superior a la ocupada por mesas y sillas, y permitan una adecuada evacuación de acuerdo con criterios técnicos.
+- Los colores permitidos serán los crudos y naturales incluyéndose dentro de estos el blanco, hueso, arena, beige, camel, y tonos de tierra de baja saturación, excluyéndose los colores brillantes, muy vivos, reflectantes, así como los vidrios reflectantes, de espejo y tintados, dado que se utilizará la misma gama cromática para todos los establecimientos de hostelería y restauración.
+Excepcionalmente y a petición y por unanimidad de los hosteleros de una misma calle o plaza, se podrá hacer una propuesta conjunta para utilizar el color negro manteniendo la unidad cromática y estética de la zona.
+- Todas las mesas deberán de dotarse recipientes con tapa fija o abatible adecuados para el depósito de los residuos que se generen, de tal forma que no puedan ser movidos por el viento y se mantenga un perfecto estado de limpieza de la vía pública.
+- Las terrazas se deben de mantener en las debidas condiciones de limpieza y conservación, eliminando los elementos sucios, deteriorados o degradados.
+Los toldos, sombrillas, elementos voladizos similares y los paramentos verticales transparentes estarán señalizados según criterios contemplados en la Orden TMA/851/2021, de 23 de julio, garantizando su detección.
+En su adecuación a las condiciones del entorno queda sujeto a previa autorización municipal. Se podrá denegar cualquier solicitud que a criterio de los técnicos municipales se considere inadecuada o inapropiada.
+2- La publicidad en los elementos integrantes de las terrazas se ajustará a las siguientes reglas:
+a) En las sillas y mesas, se acepta con un tamaño máximo de 5 centímetros de altura por 30 centímetros de longitud, o superficie equivalente.
+b) En las mamparas o elementos delimitadores o compartimentadores similares, solo en las partes opacas, con un tamaño de 15 por 15 centímetros, o superficie equivalente.
+c) En las sombrillas, en cuatro puntos opuestos diametralmente, y con una superficie máxima de 20 por 20 centímetros o equivalente.
+d) En los toldos, con unas dimensiones máximas de 15 por 80 centímetros o superficie equivalente.
+La exhibición del nombre o logo del propio establecimiento al que sirve la terraza se regirá por estas mismas normas.
+3- En las terrazas de la Plaza de la Catedral, Plaza de San Isidoro, Plaza de San Marcos y Camino de Santiago (incluida la Plaza de San Marcelo) y el entorno de la Muralla Romana, además del cumplimiento de las condiciones anteriores, el mobiliario a instalar, será de lona, metal, madera o mimbre, prohibiéndose la utilización de plásticos, resinas, PVC y similares.
+En estos entornos, no está permitido insertar publicidad a los elementos de la terraza, salvo el logotipo del establecimiento, que no podrá ocupar una superficie superior a la indicada en el punto 2 de este anexo.
+4- Mobiliario para terrazas en calzada:
+- La plataforma será de tipo tarima sobre rastreles o similar, quedando al nivel de la acera, y adaptándose a las pendientes que puedan presentar la acera y la calzada.
+- La superficie ocupada por la instalación del velador deberá ser delimitada por protecciones laterales en un máximo de tres lados, que acoten el recinto y permitan identificar el obstáculo a las personas invidentes. Estas protecciones laterales, deberán ser móviles y fácilmente desmontables. Las protecciones laterales deberán cumplir las condiciones técnicas establecidas en la normativa de accesibilidad.
+Las protecciones laterales, los elementos separadores y los de jardinería deberán garantizar la permeabilidad de vistas. Su zona opaca no podrá superar los 0,90 metros desde el suelo. Se dispondrán de tal forma que, la distancia máxima entre ellos no supere los 0,20 metros, dejando libre en todo caso el frente de la terraza.
+Se prohíbe expresamente como protección lateral las cuerdas, palés, telas, plásticos y cualquier material o productos propios de otros usos, tales como:
+vallas de obra, de jardín, celosías y/o cierres que no hayan sido manufacturados específicamente para este cometido.
+5- La superficie de ocupación teórica para cada tipo de modulo será la siguiente:

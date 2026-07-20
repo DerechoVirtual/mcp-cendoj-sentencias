@@ -1,0 +1,8 @@
+{
+ "id": "huelva",
+ "nombre": "Huelva",
+ "familia": "huelva",
+ "base": "https://s2.diphuelva.es",
+ "mapa": "bop_huelva_municipios.json",
+ "indice_desde": 2010
+}

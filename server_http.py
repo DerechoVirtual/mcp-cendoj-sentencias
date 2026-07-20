@@ -96,19 +96,34 @@ _INSTRUCTIONS = (
     "tributos —IVA, IRPF, IS…— ('consultas', 'criterio' o 'instrucciones de "
     "Hacienda') → buscar_consultas_hacienda; el texto íntegro de una consulta "
     "(p.ej. V0282-26) → leer_consulta_hacienda.\n"
+    "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
+    "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
+    "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
+    "leer_ordenanza. Cubiertos: las 9 mayores ciudades (MADRID, BARCELONA, "
+    "VALENCIA, SEVILLA, ZARAGOZA, MÁLAGA, MURCIA, PALMA, LAS PALMAS) y TODOS "
+    "los ayuntamientos de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEÓN, "
+    "CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA Y CÁDIZ (vía su BOP: Dos Hermanas, Lora del Río, Bormujos, "
+    "Motril, Baza, Barbastro, Jaca, Ponferrada, Plasencia, Trujillo, Illescas, "
+    "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT + Registro Mercantil. NO cubre (aún): ORDENANZAS y REGLAMENTOS "
-    "MUNICIPALES ni normativa AUTONÓMICA —eso se publica en el Boletín Oficial de "
-    "la PROVINCIA (BOP) o autonómico y en la web del ayuntamiento, NO en el BOE "
-    "estatal—; tampoco resoluciones del TEAC, ni el depósito/contenido de las "
-    "CUENTAS ANUALES de una empresa (de pago), ni CONCURSOS de acreedores. "
-    "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza municipal "
-    "de botellón/convivencia, o una ley autonómica), NO repitas búsquedas ni "
+    "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
+    "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
+    "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
+    "DE SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Cartagena, Elche, Marbella, Jerez, Algeciras, El Puerto de Santa María...) (vía su BOP). NO cubre (aún): "
+    "ordenanzas de municipios de otras "
+    "provincias ni normativa "
+    "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
+    "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
+    "resoluciones del TEAC, ni el depósito/contenido de las CUENTAS ANUALES de "
+    "una empresa (de pago), ni CONCURSOS de acreedores. "
+    "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza de un "
+    "municipio no cubierto, o una ley autonómica), NO repitas búsquedas ni "
     "encadenes decenas de llamadas: con UNA comprobación basta. Díselo rápido, "
     "indica dónde está (BOP de la provincia / boletín autonómico / web del "
-    "ayuntamiento) y ofrece lo más cercano que SÍ tengas (normativa estatal "
-    "aplicable, jurisprudencia relacionada). Nunca te quedes dando vueltas.\n\n"
+    "ayuntamiento) y ofrece lo más cercano que SÍ tengas (ordenanza análoga de "
+    "una ciudad cubierta, normativa estatal aplicable, jurisprudencia "
+    "relacionada). Nunca te quedes dando vueltas.\n\n"
     "ESTILO: responde directo y resolutivo. No expongas tu razonamiento interno "
     "ni menciones los nombres técnicos de las herramientas o de las fuentes; "
     "preséntate solo como Jurisprudenciator. No digas 'no puedo' si puedes "
@@ -158,6 +173,13 @@ def _request_meta() -> dict:
             "session_id": (h.get("mcp-session-id") or "").strip() or None,
             "client": (h.get("user-agent") or "").strip()[:200] or None,
         }
+        # Identidad inyectada por _UserTokenMiddleware (vercel_app.py) tras
+        # validar la URL personal /u/<token>/mcp. Los headers entrantes x-jpd-*
+        # se eliminan SIEMPRE en el middleware, asi que aqui son de fiar.
+        _user = (h.get("x-jpd-user") or "").strip()
+        if _user:
+            meta["user_email"] = _user[:200]
+            meta["auth_via"] = (h.get("x-jpd-auth") or "").strip()[:20] or None
         if ip:
             meta["ip_hash"] = _hashlib.sha256(
                 (_TELE_SALT + ip).encode("utf-8")).hexdigest()[:32]
@@ -174,12 +196,18 @@ def _enviar_log(payload: dict) -> None:
                    "Content-Type": "application/json", "Prefer": "return=minimal"}
         with _httpx.Client(timeout=6.0) as c:
             r = c.post(url, json=payload, headers=headers)
-            # Robustez: si la columna 'query' aun no existe en la tabla, PostgREST
-            # devuelve 400 y NO inserta. Reintentamos sin ese campo para no perder
-            # el registro (asi el orden alter-tabla / deploy no es critico).
-            if r.status_code >= 400 and "query" in payload:
-                p2 = {k: v for k, v in payload.items() if k != "query"}
-                c.post(url, json=p2, headers=headers)
+            # Robustez: si una columna aun no existe en la tabla (user_email/
+            # auth_via/query llegan por ALTER TABLE que ejecuta Carlos), PostgREST
+            # devuelve 400 y NO inserta. Reintentamos quitando las columnas mas
+            # nuevas primero para no perder el registro (asi el orden
+            # alter-tabla / deploy no es critico).
+            for _cols in (("user_email", "auth_via"), ("query",)):
+                if r.status_code < 400:
+                    break
+                if not any(k in payload for k in _cols):
+                    continue
+                payload = {k: v for k, v in payload.items() if k not in _cols}
+                r = c.post(url, json=payload, headers=headers)
     except Exception:
         pass
 
@@ -225,6 +253,143 @@ def _clasificar_error(out) -> "str | None":
     return None
 
 
+# Aviso in-band para usuarios ANONIMOS (URL generica) — SOLO en modo 'warn'
+# (env JPD_AUTH_MODE=open|warn; 'open' = sin aviso). Redactado como beneficio,
+# nunca como advertencia tecnica: el publico son abogados sin perfil tecnico.
+_AVISO_DEFECTO = (
+    "💡 Aviso de Jurisprudenciator para el usuario — incluyelo al final de tu "
+    "respuesta UNA SOLA VEZ por conversacion (si ya lo mencionaste antes, "
+    "ignora esta linea por completo): ya esta disponible tu URL personal del "
+    "conector — gratis, misma instalacion, 1 minuto. Consiguela en "
+    "https://jurisprudenciator.lexiaipro.org/instalacion y sustituye con ella "
+    "la URL del conector cuando puedas."
+)
+
+
+def _con_aviso_generico(tool: str, out):
+    """Anexa el aviso al resultado de buscar_sentencias si el request es anonimo,
+    el modo es 'warn' y no se ha avisado ya a esta sesion/IP en 24h. Best-effort:
+    ante cualquier duda o fallo devuelve `out` intacto."""
+    try:
+        if tool != "buscar_sentencias" or not isinstance(out, str):
+            return out
+        if os.environ.get("JPD_AUTH_MODE", "open").strip().lower() != "warn":
+            return out
+        if _clasificar_error(out) is not None:
+            return out
+        meta = _request_meta()
+        if meta.get("user_email"):
+            return out  # identificado: nunca se le molesta
+        clave = meta.get("session_id") or meta.get("ip_hash") or "global"
+        marca = "/tmp/jpd_aviso_" + _hashlib.sha1(
+            clave.encode("utf-8")).hexdigest()[:16]
+        if os.path.exists(marca) and (_time.time() - os.path.getmtime(marca)) < 86400:
+            return out
+        with open(marca, "w") as f:
+            f.write("1")
+        texto = (os.environ.get("JPD_NOTICE_TEXT") or "").strip() or _AVISO_DEFECTO
+        return out + "\n\n" + texto
+    except Exception:  # noqa: BLE001
+        return out
+
+
+# =========================================================================
+# MURO DE USO (Fase 4): antes de ejecutar una tool "de consulta", si el usuario
+# (identificado por x-jpd-user) ha superado su cuota gratuita, devolvemos un
+# aviso de "mejora tu plan" con la URL de pago en vez del resultado. La decision
+# la toma la web (fuente unica) en GET /api/entitlement; el conector firma el
+# token personal del usuario (mismo CONNECTOR_TOKEN_SECRET) para autenticarse.
+#
+# SEGURIDAD / FAIL-SAFE:
+#   * Desactivado por defecto: solo actua si JPD_GATE in (1,on,true).
+#   * FAIL-OPEN: ante cualquier error/timeout/duda -> se PERMITE (nunca rompe
+#     una busqueda legitima).
+#   * Anonimos (sin x-jpd-user) -> se permiten (el muro es solo para registrados).
+# =========================================================================
+import hmac as _hmac
+
+_GATE_ON = (os.environ.get("JPD_GATE", "").strip().lower() in ("1", "on", "true", "yes"))
+_GATE_SECRET = (os.environ.get("CONNECTOR_TOKEN_SECRET") or "").strip().encode("utf-8")
+_GATE_WEB = (os.environ.get("JPD_WEB_BASE")
+             or os.environ.get("JPD_ISSUER_URL")
+             or "https://jurisprudenciator.lexiaipro.org").rstrip("/")
+# Tools "de consulta" que consumen cuota. Las triviales (estado, opciones,
+# resolver_captcha a mitad de flujo) NO se gatean.
+_GATE_TOOLS = {
+    "buscar_sentencias", "buscar_por_cita", "leer_sentencias",
+    "buscar_articulo", "verificar_escrito",
+    "buscar_boe", "leer_boe", "sumario_boe", "novedades_boe", "sumario_borme",
+    "buscar_consultas_hacienda", "leer_consulta_hacienda",
+    "buscar_empresa_mercantil", "buscar_ordenanzas", "leer_ordenanza",
+}
+_gate_cache: dict = {}          # email -> (expira_ts, permitido, pay_url, lim_dia, lim_sem)
+_GATE_TTL = 60.0                # cache corta para no llamar en cada tool
+
+
+def _gate_firmar_token(email: str) -> "str | None":
+    """Firma el token personal 'v1.<b64u(email)>.<HMAC16>' (identico a
+    connectorToken.ts / _validar_token) para autenticar la consulta a la web."""
+    if not _GATE_SECRET or not email:
+        return None
+    payload = base64.urlsafe_b64encode(email.encode("utf-8")).rstrip(b"=").decode("ascii")
+    sig = base64.urlsafe_b64encode(
+        _hmac.new(_GATE_SECRET, b"v1." + payload.encode("ascii"),
+                  _hashlib.sha256).digest()
+    ).rstrip(b"=")[:16].decode("ascii")
+    return f"v1.{payload}.{sig}"
+
+
+def _gate_consultar(email: str) -> dict:
+    """Devuelve {permitido, pay_url, lim_dia, lim_sem} para el email. FAIL-OPEN:
+    ante cualquier problema devuelve permitido=True. Cachea ~60s por email."""
+    ahora = _time.time()
+    hit = _gate_cache.get(email)
+    if hit and hit[0] > ahora:
+        return {"permitido": hit[1], "pay_url": hit[2], "lim_dia": hit[3], "lim_sem": hit[4]}
+    permitido, pay_url, lim_dia, lim_sem = True, _GATE_WEB + "/suscribirse", None, None
+    try:
+        token = _gate_firmar_token(email)
+        if token:
+            import httpx as _httpx
+            with _httpx.Client(timeout=2.5) as c:
+                r = c.get(_GATE_WEB + "/api/entitlement", params={"token": token})
+                if r.status_code == 200:
+                    d = r.json()
+                    permitido = bool(d.get("permitido", True))
+                    pay_url = d.get("payUrl") or pay_url
+                    lim_dia = d.get("limiteDia")
+                    lim_sem = d.get("limiteSemana")
+    except Exception:  # noqa: BLE001
+        permitido = True  # fail-open: nunca romper una busqueda legitima
+    _gate_cache[email] = (ahora + _GATE_TTL, permitido, pay_url, lim_dia, lim_sem)
+    return {"permitido": permitido, "pay_url": pay_url, "lim_dia": lim_dia, "lim_sem": lim_sem}
+
+
+def _gate_check(tool: str) -> "str | None":
+    """None = deja pasar (tool no gateada, anonimo, o dentro de cuota). str = la
+    tool queda BLOQUEADA y se devuelve ese aviso 'mejora tu plan' al usuario."""
+    try:
+        if tool not in _GATE_TOOLS:
+            return None
+        email = (_request_meta() or {}).get("user_email")
+        if not email:
+            return None  # anonimo -> el muro es solo para registrados
+        ent = _gate_consultar(email)
+        if ent["permitido"]:
+            return None
+        lim = ""
+        if ent["lim_dia"] and ent["lim_sem"]:
+            lim = f" ({ent['lim_dia']} al dia y {ent['lim_sem']} a la semana)"
+        return (
+            "Aviso de Jurisprudenciator para el usuario (muestraselo tal cual): "
+            f"Has alcanzado tu limite gratuito{lim}. Para seguir consultando "
+            "jurisprudencia SIN limites, mejora tu plan aqui: " + ent["pay_url"] +
+            " . No ejecutes mas busquedas hasta que el usuario mejore su plan."
+        )
+    except Exception:  # noqa: BLE001
+        return None  # fail-open
+
+
 def _telemetria(tool: str):
     """Decorador para registrar tool + args + ok/error + duracion + tamano de
     salida. Se coloca DEBAJO de @mcp.tool() para que FastMCP registre la version
@@ -232,13 +397,21 @@ def _telemetria(tool: str):
     def deco(func):
         @_functools.wraps(func)
         def wrapper(*args, **kwargs):
+            # MURO DE USO (Fase 4): si el flag esta activo y el usuario supero su
+            # cuota, no ejecutamos la tool ni la contamos: devolvemos el aviso.
+            if _GATE_ON:
+                _bloqueo = _gate_check(tool)
+                if _bloqueo is not None:
+                    return _bloqueo
             t0 = _time.time()
             ok = True
             err = None
             out = None
             try:
                 out = func(*args, **kwargs)
-                return out
+                # El aviso NO entra en `out`: result_chars y la clasificacion de
+                # errores se calculan sobre el resultado real de la tool.
+                return _con_aviso_generico(tool, out)
             except Exception as e:  # noqa: BLE001
                 ok = False
                 err = str(e)[:500]
@@ -261,7 +434,9 @@ def _telemetria(tool: str):
                                  "opciones_busqueda": "consulta",
                                  "buscar_por_cita": "cita",
                                  "leer_sentencias": "citas",
-                                 "buscar_articulo": "ley"}.get(tool)
+                                 "buscar_articulo": "ley",
+                                 "buscar_ordenanzas": "consulta",
+                                 "leer_ordenanza": "ordenanza"}.get(tool)
                         _query = None
                         try:
                             if _qkey and ba is not None:
@@ -1062,6 +1237,9 @@ def estado() -> str:
         "El control antidescargas se resuelve automaticamente en el servidor.",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
+        "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
+        "Barcelona, Valencia, Sevilla, Zaragoza, Malaga, Murcia, Palma y "
+        "Las Palmas GC).",
     ])
 
 
@@ -1073,6 +1251,7 @@ def estado() -> str:
 import boe_engine as _boe
 import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
 import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
+import ordenanzas_engine as _ord   # ordenanzas municipales (Madrid via AEBOE)
 
 
 @mcp.tool(title="Buscar artículo de ley", annotations=_RO)
@@ -1140,7 +1319,8 @@ def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15
     de publicacion, ORDENADA por mas reciente. USALA cuando el usuario quiera
     localizar/listar normas sobre una materia (tambien tributaria) o ver que se ha
     legislado ultimamente (NO para el texto de un articulo: eso es buscar_articulo;
-    NI para jurisprudencia: eso es buscar_sentencias).
+    NI para jurisprudencia: eso es buscar_sentencias; NI para ordenanzas
+    municipales: eso es buscar_ordenanzas).
 
     consulta: palabras del titulo de la norma ("vivienda", "proteccion animal").
     desde / hasta: opcional, AAAA-MM-DD (filtra por fecha de publicacion).
@@ -1244,6 +1424,67 @@ def buscar_empresa_mercantil(empresa: str) -> str:
     return _merc.buscar_empresa(empresa)
 
 
+# =========================================================================
+# ORDENANZAS MUNICIPALES — motor ordenanzas_engine.py (fuente oficial por
+# ciudad: Codigo AEBOE 329 para Madrid, API JSON de la sede de Zaragoza,
+# Akoma Ntoso del portal Norma para Barcelona, PDF oficial por norma en el
+# resto). SOLO se activa cuando piden normativa de un ayuntamiento.
+# =========================================================================
+@mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO)
+@_telemetria("buscar_ordenanzas")
+def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> str:
+    """Localiza ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa del AYUNTAMIENTO,
+    texto consolidado): terrazas y veladores, ruido, movilidad/ZBE, limpieza y
+    residuos, animales, venta ambulante, tributos municipales (IBI, ICIO,
+    plusvalia, IAE)... USALA SOLO cuando pidan normativa de un ayuntamiento
+    concreto. NO para leyes estatales (eso es buscar_articulo / buscar_boe) NI
+    jurisprudencia (buscar_sentencias) NI normativa autonomica.
+
+    Municipios cubiertos: las 9 mayores ciudades (Madrid, Barcelona, Valencia,
+    Sevilla, Zaragoza, Malaga, Murcia, Palma, Las Palmas) y CUALQUIER
+    ayuntamiento de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEON, CACERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Cartagena, Elche, Marbella, Jerez, Algeciras, El Puerto de Santa María...) via su BOP
+    (Dos Hermanas, Lora del Rio, Bormujos, Motril, Baza, Barbastro, Jaca,
+    Ponferrada, Astorga...). Si piden otro municipio, esta tool lo indica en UNA
+    llamada: no insistas ni reintentes.
+
+    municipio: "Madrid", "Dos Hermanas", "Bormujos", "Motril", "Jaca"... (admite
+        "Municipio, Provincia" para desambiguar).
+    consulta: materia ("terrazas", "residuos/basura", "ruido", "IBI"). En los
+        municipios via BOP, la materia guia la busqueda en el boletin.
+    limite: cuantas devolver (defecto 15).
+
+    Devuelve titulo, referencia oficial (CVE/BOP o BOCM) y el id para
+    leer_ordenanza."""
+    return _ord.buscar(municipio, consulta, limite)
+
+
+@mcp.tool(title="Leer ordenanza municipal", annotations=_RO)
+@_telemetria("leer_ordenanza")
+def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
+                   parrafos: int = 0, terminos: str = "", max_chars: int = 0) -> str:
+    """Lee el TEXTO CONSOLIDADO oficial de una ordenanza o reglamento municipal,
+    entero o solo un articulo. USALA tras localizarla con buscar_ordenanzas (o si
+    el usuario ya nombra la ordenanza y el municipio). NO para articulos de leyes
+    estatales (eso es buscar_articulo).
+
+    municipio: cualquiera de las 9 ciudades o de las provincias de Sevilla,
+        Granada, Huesca y Leon ("Madrid", "Dos Hermanas", "Bormujos", "Motril",
+        "Jaca", "Ponferrada"...).
+    ordenanza: id de buscar_ordenanzas (p.ej. conso-66304), CVE del BOP
+        (BOP-SE-2024-091027), referencia oficial o titulo/materia ("terrazas",
+        "residuos"). En municipios via BOP, la materia localiza la ordenanza
+        en el boletin.
+    articulo: opcional y RECOMENDADO, numero del articulo ("15", "6 bis"): rapido
+        y corto. Si no existe, devuelve el indice de la norma como pista.
+    parrafos: 0 = texto integro. >0 = solo los N pasajes mas relevantes.
+    terminos: palabras clave para elegir pasajes cuando parrafos>0.
+    max_chars: tope del texto integro (0 = 60000).
+
+    Devuelve el texto con su publicacion oficial, ultima modificacion y fecha de
+    consolidacion."""
+    return _ord.leer(municipio, ordenanza, articulo, parrafos, terminos, max_chars)
+
+
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
 app = mcp.streamable_http_app()
 
@@ -1283,6 +1524,40 @@ async def _openai_apps_challenge(request):
 
 app.add_route("/.well-known/openai-apps-challenge", _openai_apps_challenge,
               methods=["GET"])
+
+# --- OAuth 2.1 (RFC 9728): Protected Resource Metadata. Cuando el conector
+# devuelve 401 con WWW-Authenticate (vercel_app.py, modo required o Bearer
+# caducado), el cliente (Claude) lee esta metadata para descubrir DONDE
+# loguearse: la web, que actua de Authorization Server. El `resource` se
+# deriva del Host para que los previews *.vercel.app (staging) funcionen sin
+# configuracion extra. ---
+from starlette.responses import JSONResponse as _JSONResponse
+
+_ISSUER_URL = (os.environ.get("JPD_ISSUER_URL")
+               or "https://jurisprudenciator.lexiaipro.org").rstrip("/")
+
+
+async def _prm_metadata(request):
+    host = (request.headers.get("x-forwarded-host")
+            or request.headers.get("host")
+            or "mcp.jurisprudenciator.lexiaipro.org")
+    return _JSONResponse(
+        {
+            "resource": f"https://{host}/mcp",
+            "authorization_servers": [_ISSUER_URL],
+            "bearer_methods_supported": ["header"],
+            "scopes_supported": ["jurisprudencia"],
+            "resource_name": "Jurisprudenciator",
+        },
+        headers={"Cache-Control": "public, max-age=3600",
+                 "Access-Control-Allow-Origin": "*"},
+    )
+
+
+app.add_route("/.well-known/oauth-protected-resource/mcp", _prm_metadata,
+              methods=["GET", "OPTIONS"])
+app.add_route("/.well-known/oauth-protected-resource", _prm_metadata,
+              methods=["GET", "OPTIONS"])
 
 
 if __name__ == "__main__":

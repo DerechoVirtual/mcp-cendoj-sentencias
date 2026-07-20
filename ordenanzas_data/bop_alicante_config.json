@@ -1,0 +1,9 @@
+{
+ "id": "alicante",
+ "nombre": "Alicante",
+ "familia": "alicante",
+ "base": "https://sede.diputacionalicante.es",
+ "ws": "/wp-content/themes/Desarrollo-Diputacion/webservices/wseConsultaAjax.php",
+ "mapa": "bop_alicante_municipios.json",
+ "indice_desde": 2011
+}

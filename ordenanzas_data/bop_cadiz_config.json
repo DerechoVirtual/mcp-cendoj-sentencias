@@ -1,0 +1,10 @@
+{
+ "id": "cadiz",
+ "nombre": "Cádiz",
+ "familia": "cadiz",
+ "base": "https://www.bopcadiz.es",
+ "tipo": "BOP_F:d67ba416-aec8-11e9-9ac3-286ed488c708",
+ "mapa": "bop_cadiz_municipios.json",
+ "indice_desde": 2010,
+ "fulltext": true
+}

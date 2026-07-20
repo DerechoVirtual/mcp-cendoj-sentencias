@@ -1,0 +1,9 @@
+{
+ "id": "malaga_prov",
+ "nombre": "Málaga",
+ "familia": "malaga",
+ "base": "https://www.bopmalaga.es",
+ "mapa": "bop_malaga_municipios.json",
+ "indice_desde": 2010,
+ "fulltext": true
+}

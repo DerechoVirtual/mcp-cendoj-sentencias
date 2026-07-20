@@ -1,0 +1,840 @@
+{
+ "meta": {
+  "codigo": 329,
+  "titulo": "Normativa del Ayuntamiento de Madrid",
+  "actualizado": "2026-06-24",
+  "epub": "329_Normativa_del_Ayuntamiento_de_Madrid.epub",
+  "epub_url": "https://www.boe.es/biblioteca_juridica/codigos/abrir_epub.php?fich=329_Normativa_del_Ayuntamiento_de_Madrid.epub",
+  "url": "https://www.boe.es/biblioteca_juridica/codigos/codigo.php?id=329"
+ },
+ "normas": [
+  {
+   "id": "conso-38597",
+   "titulo": "Reglamento Orgánico del Pleno",
+   "cat": "I. ORGANIZACIÓN POLÍTICA Y ADMINISTRATIVA",
+   "ref": "BOCM-m-2004-90262",
+   "pub": "«BOAM» núm. 5610, de 29 de julio de 2004",
+   "mod": "13 de marzo de 2017",
+   "alias": [
+    "pleno",
+    "reglamento del pleno"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38597.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38598",
+   "titulo": "Reglamento Orgánico del Gobierno y de la Administración",
+   "cat": "I. ORGANIZACIÓN POLÍTICA Y ADMINISTRATIVA",
+   "ref": "BOCM-m-2004-90261",
+   "pub": "«BOAM» núm. 5610, de 29 de julio de 2004",
+   "mod": "15 de febrero de 2023",
+   "alias": [
+    "gobierno y administracion",
+    "reglamento organico del gobierno"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38598.xhtml"
+   ]
+  },
+  {
+   "id": "conso-48582",
+   "titulo": "Reglamento Orgánico de los Distritos del Ayuntamiento de Madrid",
+   "cat": "I. ORGANIZACIÓN POLÍTICA Y ADMINISTRATIVA",
+   "ref": "BOCM-m-2021-90284",
+   "pub": "",
+   "mod": "16 de junio de 2021",
+   "alias": [
+    "distritos",
+    "juntas de distrito",
+    "junta municipal de distrito"
+   ],
+   "ficheros": [
+    "OEBPS/conso-48582.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38600",
+   "titulo": "Reglamento Orgánico del Tribunal Económico-Administrativo Municipal",
+   "cat": "I. ORGANIZACIÓN POLÍTICA Y ADMINISTRATIVA",
+   "ref": "BOCM-m-2007-90269",
+   "pub": "«BOAM» núm. 5788, de 27 de diciembre de 2007",
+   "mod": "sin modificaciones",
+   "alias": [
+    "tribunal economico administrativo",
+    "teamm",
+    "reclamacion economico administrativa"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38600.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38602",
+   "titulo": "Ordenanza de Transparencia",
+   "cat": "II. TRANSPARENCIA Y ADMINISTRACIÓN ELECTRÓNICA",
+   "ref": "BOCM-m-2016-90554",
+   "pub": "«BOAM» núm. 7724, de 17 de agosto de 2016",
+   "mod": "sin modificaciones",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38602.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38603",
+   "titulo": "Ordenanza de Atención a la Ciudadanía y Administración Electrónica",
+   "cat": "II. TRANSPARENCIA Y ADMINISTRACIÓN ELECTRÓNICA",
+   "ref": "BOCM-m-2019-90368",
+   "pub": "«BOAM» núm. 8354, de 11 de marzo de 2019",
+   "mod": "12 de febrero de 2025",
+   "alias": [
+    "administracion electronica",
+    "atencion a la ciudadania",
+    "sede electronica",
+    "registro electronico",
+    "cita previa"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38603.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38604",
+   "titulo": "Ordenanza de Movilidad Sostenible",
+   "cat": "III. MOVILIDAD URBANA",
+   "ref": "BOCM-m-2018-90544",
+   "pub": "«BOAM» núm. 8263, de 23 de octubre de 2018",
+   "mod": "6 de abril de 2026",
+   "alias": [
+    "movilidad",
+    "zbe",
+    "zona de bajas emisiones",
+    "madrid central",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "ser",
+    "servicio de estacionamiento regulado",
+    "zona azul",
+    "zona verde",
+    "bicicleta",
+    "carril bici",
+    "patinete",
+    "vmp",
+    "vehiculo de movilidad personal",
+    "peatones",
+    "distintivo ambiental",
+    "multa de trafico",
+    "grua",
+    "moto",
+    "motocicleta"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38604_0000.xhtml",
+    "OEBPS/conso-38604_0001.xhtml",
+    "OEBPS/conso-38604_0002.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38605",
+   "titulo": "Ordenanza del Taxi",
+   "cat": "III. MOVILIDAD URBANA",
+   "ref": "BOCM-m-2012-90266",
+   "pub": "«BOAM» núm. 6820, de 13 de diciembre de 2012",
+   "mod": "13 de octubre de 2025",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38605.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38606",
+   "titulo": "Ordenanza de los Pasos de Vehículos",
+   "cat": "III. MOVILIDAD URBANA",
+   "ref": "BOCM-m-2006-90262",
+   "pub": "«BOAM» núm. 5708, de 15 de junio de 2006",
+   "mod": "8 de abril de 2011",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "paso de carruajes",
+    "entrada de vehiculos"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38606.xhtml"
+   ]
+  },
+  {
+   "id": "conso-48128",
+   "titulo": "Ordenanza de Calidad del Aire y Sostenibilidad",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2021-90189",
+   "pub": "«BOAM» núm. 8868, de 16 de abril de 2021",
+   "mod": "sin modificaciones",
+   "alias": [
+    "calidad del aire",
+    "emisiones",
+    "calderas",
+    "contaminacion atmosferica",
+    "sostenibilidad"
+   ],
+   "ficheros": [
+    "OEBPS/conso-48128.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38607",
+   "titulo": "Ordenanza de Protección del Medio Ambiente Urbano",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-1985-90256",
+   "pub": "«BOAM» núm. 4636, de 5 de diciembre de 1985",
+   "mod": "17 de mayo de 2022",
+   "alias": [
+    "medio ambiente urbano",
+    "zonas verdes",
+    "parques",
+    "jardines",
+    "arbolado",
+    "poda"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38607.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38608",
+   "titulo": "Ordenanza sobre Evaluación Ambiental de Actividades",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2005-90263",
+   "pub": "«BOAM» núm. 5640, de 24 de febrero de 2005",
+   "mod": "21 de febrero de 2005",
+   "alias": [
+    "evaluacion ambiental",
+    "licencia ambiental",
+    "actividades clasificadas"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38608.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38609",
+   "titulo": "Ordenanza de Gestión y Uso Eficiente del Agua",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2006-90264",
+   "pub": "«BOAM» núm. 5709, de 22 de junio de 2006",
+   "mod": "8 de abril de 2011",
+   "alias": [
+    "agua",
+    "uso eficiente del agua",
+    "riego",
+    "ahorro de agua"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38609.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38610",
+   "titulo": "Ordenanza de Protección contra la Contaminación Acústica y Térmica",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2011-90268",
+   "pub": "«BOAM» núm. 6385, de 7 de marzo de 2011",
+   "mod": "16 de abril de 2021",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "acustica",
+    "termica",
+    "sonora",
+    "insonorizacion",
+    "decibelios",
+    "molestias por ruido"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38610.xhtml"
+   ]
+  },
+  {
+   "id": "conso-61411",
+   "titulo": "Ordenanza de limpieza de los espacios públicos, gestión de residuos y economía circular",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2022-90455",
+   "pub": "",
+   "mod": "31 de diciembre de 2022",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "economia circular",
+    "pintadas",
+    "grafitis",
+    "escombros",
+    "punto limpio"
+   ],
+   "ficheros": [
+    "OEBPS/conso-61411.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38612",
+   "titulo": "Ordenanza sobre Mobiliario Urbano",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-1985-90255",
+   "pub": "«BOAM» núm. 4607, de 16 de mayo de 1985",
+   "mod": "8 de abril de 2011",
+   "alias": [
+    "mobiliario urbano",
+    "marquesinas",
+    "papeleras"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38612.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38614",
+   "titulo": "Ordenanza de la Distribución Gratuita de Prensa en la Vía Pública",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2008-90261",
+   "pub": "«BOAM» núm. 5857, de 10 de octubre de 2008",
+   "mod": "8 de abril de 2011",
+   "alias": [
+    "prensa gratuita",
+    "distribucion de prensa"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38614.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38615",
+   "titulo": "Ordenanza de los Quioscos de Prensa",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2009-90275",
+   "pub": "«BOAM» núm. 5902, de 17 de marzo de 2009",
+   "mod": "9 de junio de 2014",
+   "alias": [
+    "quiosco de prensa",
+    "quioscos de prensa",
+    "kiosco de prensa"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38615.xhtml"
+   ]
+  },
+  {
+   "id": "conso-66304",
+   "titulo": "Ordenanza de terrazas y quioscos de hostelería y restauración",
+   "cat": "IV. MEDIO AMBIENTE Y PAISAJE URBANO",
+   "ref": "BOCM-m-2025-90288",
+   "pub": "",
+   "mod": "5 de diciembre de 2025",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "quioscos de hosteleria",
+    "mesas y sillas",
+    "hosteleria",
+    "restauracion",
+    "terraza de bar",
+    "horario de terrazas"
+   ],
+   "ficheros": [
+    "OEBPS/conso-66304.xhtml"
+   ]
+  },
+  {
+   "id": "conso-52494",
+   "titulo": "Ordenanza de licencias y declaraciones responsables urbanísticas del Ayuntamiento de Madrid",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2022-90202",
+   "pub": "",
+   "mod": "17 de mayo de 2022",
+   "alias": [
+    "licencia urbanistica",
+    "licencias urbanisticas",
+    "declaracion responsable",
+    "licencia de obras",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "cambio de uso"
+   ],
+   "ficheros": [
+    "OEBPS/conso-52494.xhtml"
+   ]
+  },
+  {
+   "id": "conso-52495",
+   "titulo": "Régimen de las Entidades Colaboradoras Urbanísticas de Verificación, Inspección y Control",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2022-90203",
+   "pub": "",
+   "mod": "17 de mayo de 2022",
+   "alias": [
+    "entidades colaboradoras",
+    "ecu",
+    "verificacion inspeccion y control"
+   ],
+   "ficheros": [
+    "OEBPS/conso-52495.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38622",
+   "titulo": "Ordenanza de Conservación, Rehabilitación y Estado Ruinoso de las Edificaciones",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2011-90267",
+   "pub": "«BOAM» núm. 6580, de 27 de diciembre de 2011",
+   "mod": "26 de diciembre de 2011",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "conservacion de edificios",
+    "rehabilitacion",
+    "ruina",
+    "estado ruinoso",
+    "deber de conservacion"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38622.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38617",
+   "titulo": "Ordenanza de Publicidad Exterior",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2009-90278",
+   "pub": "«BOAM» núm. 5892, de 10 de febrero de 2009",
+   "mod": "8 de junio de 2013",
+   "alias": [
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "lonas publicitarias",
+    "vallas publicitarias"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38617.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38616",
+   "titulo": "Ordenanza de Diseño y Gestión de Obras en la Vía Pública",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2006-90263",
+   "pub": "«BOAM» núm. 5709, de 22 de junio de 2006",
+   "mod": "8 de abril de 2011",
+   "alias": [
+    "obras en la via publica",
+    "calas",
+    "canalizaciones",
+    "zanjas"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38616.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38619",
+   "titulo": "Ordenanza sobre la denominación y rotulación de vías, edificios y monumentos",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2013-90290",
+   "pub": "«BOAM» núm. 6913, de 7 de mayo de 2013",
+   "mod": "13 de abril de 2022",
+   "alias": [
+    "denominacion de vias",
+    "rotulacion de calles",
+    "nombres de calles",
+    "callejero",
+    "placas de calle"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38619.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38618",
+   "titulo": "Ordenanza sobre la asignación de un código identificativo a los locales con puerta de calle",
+   "cat": "V. URBANISMO Y VÍAS PÚBLICAS",
+   "ref": "BOCM-m-2010-90267",
+   "pub": "«BOAM» núm. 6177, de 6 de mayo de 2010",
+   "mod": "6 de julio de 2012",
+   "alias": [
+    "codigo identificativo de locales",
+    "locales con puerta de calle",
+    "censo de locales"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38618.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38623",
+   "titulo": "Ordenanza de las prestaciones económicas de servicios sociales",
+   "cat": "VI. SERVICIOS SOCIALES Y EDUCACIÓN",
+   "ref": "BOCM-m-2004-90264",
+   "pub": "«BOAM» núm. 5630, de 16 de diciembre de 2004",
+   "mod": "19 de abril de 2021",
+   "alias": [
+    "prestaciones economicas",
+    "ayudas sociales",
+    "servicios sociales",
+    "emergencia social"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38623.xhtml"
+   ]
+  },
+  {
+   "id": "conso-61410",
+   "titulo": "Ordenanza reguladora del servicio de ayuda a domicilio",
+   "cat": "VI. SERVICIOS SOCIALES Y EDUCACIÓN",
+   "ref": "BOCM-m-2022-90454",
+   "pub": "",
+   "mod": "14 de julio de 2022",
+   "alias": [
+    "ayuda a domicilio",
+    "sad",
+    "servicio de ayuda a domicilio"
+   ],
+   "ficheros": [
+    "OEBPS/conso-61410.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38625",
+   "titulo": "Ordenanza del servicio de Escuelas Infantiles",
+   "cat": "VI. SERVICIOS SOCIALES Y EDUCACIÓN",
+   "ref": "BOCM-m-2016-90555",
+   "pub": "«BOAM» núm. 7783, de 14 de noviembre de 2016",
+   "mod": "9 de abril de 2019",
+   "alias": [
+    "escuelas infantiles",
+    "guarderia",
+    "guarderias",
+    "educacion infantil"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38625.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38626",
+   "titulo": "Ordenanza de las Escuelas Municipales de Música y Danza",
+   "cat": "VI. SERVICIOS SOCIALES Y EDUCACIÓN",
+   "ref": "BOCM-m-2009-90274",
+   "pub": "«BOAM» núm. 6035, de 5 de octubre de 2009",
+   "mod": "9 de octubre de 2009",
+   "alias": [
+    "escuelas de musica",
+    "musica y danza"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38626.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38628",
+   "titulo": "Reglamento Orgánico de Participación Ciudadana",
+   "cat": "VII. PARTICIPACIÓN CIUDADANA",
+   "ref": "BOCM-m-2004-90266",
+   "pub": "«BOAM» núm. 5610, de 29 de julio de 2004",
+   "mod": "26 de julio de 2022",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas",
+    "iniciativa popular"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38628.xhtml"
+   ]
+  },
+  {
+   "id": "conso-48583",
+   "titulo": "Reglamento Orgánico de los Consejos de Proximidad de los Distritos de Madrid",
+   "cat": "VII. PARTICIPACIÓN CIUDADANA",
+   "ref": "BOCM-m-2021-90285",
+   "pub": "",
+   "mod": "16 de junio de 2021",
+   "alias": [
+    "consejos de proximidad"
+   ],
+   "ficheros": [
+    "OEBPS/conso-48583.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38629",
+   "titulo": "Ordenanza de Mercados Municipales",
+   "cat": "VIII. COMERCIO Y CONSUMO",
+   "ref": "BOCM-m-2010-90268",
+   "pub": "«BOAM» núm. 6340, de 30 de diciembre de 2010",
+   "mod": "8 de noviembre de 2024",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38629.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38630",
+   "titulo": "Ordenanza de Dinamización de Actividades Comerciales en Dominio Público",
+   "cat": "VIII. COMERCIO Y CONSUMO",
+   "ref": "BOCM-m-2014-90530",
+   "pub": "«BOAM» núm. 7183, de 9 de junio de 2014",
+   "mod": "21 de marzo de 2017",
+   "alias": [
+    "dinamizacion comercial",
+    "actividades comerciales en dominio publico"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38630.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38631",
+   "titulo": "Ordenanza de la Venta Ambulante",
+   "cat": "VIII. COMERCIO Y CONSUMO",
+   "ref": "BOCM-m-2003-90255",
+   "pub": "«BOAM» núm. 5549, de 29 de mayo de 2003",
+   "mod": "31 de diciembre de 2022",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38631.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38632",
+   "titulo": "Ordenanza de la Venta en el Rastro",
+   "cat": "VIII. COMERCIO Y CONSUMO",
+   "ref": "BOCM-m-2000-90255",
+   "pub": "«BOAM» núm. 5421, de 14 de diciembre de 2000",
+   "mod": "13 de noviembre de 2000",
+   "alias": [
+    "rastro",
+    "el rastro",
+    "venta en el rastro"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38632.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38633",
+   "titulo": "Ordenanza de Consumo",
+   "cat": "VIII. COMERCIO Y CONSUMO",
+   "ref": "BOCM-m-2011-90266",
+   "pub": "«BOAM» núm. 6414, de 15 de abril de 2011",
+   "mod": "26 de julio de 2022",
+   "alias": [
+    "consumo",
+    "consumidores",
+    "omic",
+    "hojas de reclamaciones"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38633.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38634",
+   "titulo": "Ordenanza de Protección de la Salubridad Pública",
+   "cat": "IX. SALUD PÚBLICA",
+   "ref": "BOCM-m-2014-90259",
+   "pub": "«BOAM» núm. 7190, de 18 de junio de 2014",
+   "mod": "19 de junio de 2014",
+   "alias": [
+    "salubridad",
+    "salud publica",
+    "piscinas",
+    "tatuajes",
+    "plagas",
+    "control sanitario"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38634.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38635",
+   "titulo": "Ordenanza de la Tenencia y Protección de Animales",
+   "cat": "IX. SALUD PÚBLICA",
+   "ref": "BOCM-m-2001-90256",
+   "pub": "«BOAM» núm. 5466, de 25 de octubre de 2001",
+   "mod": "10 de abril de 2019",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "tenencia de animales",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "colonias felinas"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38635.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38637",
+   "titulo": "Ordenanza del Impuesto de Actividades Económicas",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-1991-90252",
+   "pub": "«BOAM» núm. 4973, de 21 de mayo de 1992",
+   "mod": "26 de diciembre de 2025",
+   "alias": [
+    "iae",
+    "impuesto sobre actividades economicas"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38637.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38638",
+   "titulo": "Ordenanza del Impuesto sobre Vehículos de Tracción Mecánica",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-1989-90258",
+   "pub": "«BOAM» núm. 4853, de 1 de febrero de 1990",
+   "mod": "26 de diciembre de 2025",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion",
+    "vehiculos de traccion mecanica"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38638.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38640",
+   "titulo": "Ordenanza del Impuesto sobre Incremento de Valor de Terrenos de Naturaleza Urbana",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-1989-90257",
+   "pub": "«BOAM» núm. 4853, de 1 de febrero de 1990",
+   "mod": "28 de diciembre de 2023",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu",
+    "incremento de valor de los terrenos"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38640.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38641",
+   "titulo": "Ordenanza del Impuesto sobre Bienes Inmuebles",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-1989-90259",
+   "pub": "«BOAM» núm. 4853, de 1 de febrero de 1990",
+   "mod": "26 de diciembre de 2025",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38641.xhtml"
+   ]
+  },
+  {
+   "id": "conso-50167",
+   "titulo": "Ordenanza Fiscal General de Gestión, Recaudación e Inspección",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-2021-90491",
+   "pub": "",
+   "mod": "26 de diciembre de 2025",
+   "alias": [
+    "ordenanza fiscal general",
+    "gestion recaudacion e inspeccion",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales"
+   ],
+   "ficheros": [
+    "OEBPS/conso-50167.xhtml"
+   ]
+  },
+  {
+   "id": "conso-63367",
+   "titulo": "Ordenanza reguladora del Impuesto sobre Construcciones, Instalaciones y Obras",
+   "cat": "X. TRIBUTOS",
+   "ref": "BOCM-m-2023-90377",
+   "pub": "",
+   "mod": "26 de diciembre de 2025",
+   "alias": [
+    "icio",
+    "impuesto sobre construcciones",
+    "construcciones instalaciones y obras"
+   ],
+   "ficheros": [
+    "OEBPS/conso-63367.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38642",
+   "titulo": "Ordenanza de Bases Reguladoras Generales para la concesión de Subvenciones",
+   "cat": "XI. SUBVENCIONES Y PATROCINIO",
+   "ref": "BOCM-m-2013-90289",
+   "pub": "«BOAM» núm. 7053, de 22 de noviembre de 2013",
+   "mod": "12 de junio de 2017",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38642.xhtml"
+   ]
+  },
+  {
+   "id": "conso-38643",
+   "titulo": "Ordenanza de los Patrocinios Privados de Actividades Municipales",
+   "cat": "XI. SUBVENCIONES Y PATROCINIO",
+   "ref": "BOCM-m-2012-90265",
+   "pub": "«BOAM» núm. 8, de 10 de enero de 2013",
+   "mod": "sin modificaciones",
+   "alias": [
+    "patrocinio",
+    "patrocinios",
+    "mecenazgo"
+   ],
+   "ficheros": [
+    "OEBPS/conso-38643.xhtml"
+   ]
+  }
+ ]
+}

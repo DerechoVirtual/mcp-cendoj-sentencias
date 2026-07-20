@@ -267,7 +267,10 @@ _ORGANOS = {
     "TS": "11|12|13|14|15|16", "TRIBUNAL SUPREMO": "11|12|13|14|15|16",
     "AP": "37", "AUDIENCIA PROVINCIAL": "37", "AUDIENCIAS PROVINCIALES": "37",
     "JURADO": "38", "AN": "22|23|24", "AUDIENCIA NACIONAL": "22|23|24",
-    "TSJ": "31|33", "TRIBUNAL SUPERIOR DE JUSTICIA": "31|33",
+    # TSJ = las 3 salas: 31 Civil y Penal · 33 Contencioso-Administrativo · 34 Social.
+    # (Sin la 34, el filtro por jurisdiccion SOCIAL sobre TSJ daba CERO y "TSJ" a
+    #  secas solo traia civil/penal + contencioso, sin lo laboral.)
+    "TSJ": "31|33|34", "TRIBUNAL SUPERIOR DE JUSTICIA": "31|33|34",
     "JPI": "42", "PRIMERA INSTANCIA": "42", "JUZGADO DE PRIMERA INSTANCIA": "42",
     "INSTRUCCION": "41", "JM": "47", "MERCANTIL": "47", "JUZGADO DE LO MERCANTIL": "47",
     "JS": "44", "SOCIAL": "44", "JUZGADO DE LO SOCIAL": "44",

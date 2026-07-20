@@ -1,0 +1,9 @@
+{
+ "id": "huesca",
+ "base": "https://bop.dphuesca.es",
+ "resultados": "/publica/buscador-anuncios/resultados-anuncios/",
+ "anuncio_pdf": "PDFs-Anuncios-Antiguos",
+ "anuncio_href": "/publica/buscador-anuncios/anuncio/",
+ "mapa": "bop_huesca_municipios.json",
+ "nombre": "Huesca"
+}

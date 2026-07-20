@@ -1,0 +1,8 @@
+{
+ "id": "jaen",
+ "nombre": "Jaén",
+ "familia": "jaen",
+ "base": "https://bop.dipujaen.es",
+ "mapa": "bop_jaen_municipios.json",
+ "indice_desde": 2010
+}

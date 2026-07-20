@@ -1,0 +1,1076 @@
+{
+ "meta": {
+  "municipio": "sevilla",
+  "fuente": "Ayuntamiento de Sevilla (Servicio de Apoyo Juridico, PDF oficial por norma)",
+  "url": "https://www.sevilla.org/ayuntamiento/reglamentos-y-ordenanzas"
+ },
+ "normas": [
+  {
+   "id": "sev-ordenanza-de-las-bases-reguladoras-de-las-subven",
+   "titulo": "Ordenanza General por la que se aprueban las Bases Reguladoras de las Subvenciones Otorgadas por el Procedimiento de Concesión en Régimen de Concurrencia Competitiva",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-de-las-bases-reguladoras-de-las-subvenciones-otorgadas-por-el-procedimiento-de-concesion-en-regimen-de-concurrencia-competitiva.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-municipal-de-publicidad",
+   "titulo": "Ordenanza Municipal de Publicidad",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-municipal-de-publicidad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-municipal-de-la-feria-de-sevilla",
+   "titulo": "Ordenanza Municipal de la Feria de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-municipal-de-la-feria-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-reguladora-de-actividades-funerarias",
+   "titulo": "Ordenanza Reguladora de Actividades Funerarias",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-reguladora-de-actividades-funerarias.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-de-ayudas-a-la-rehabilitacion-conserva",
+   "titulo": "Ordenanza Reguladora de Ayudas a la Rehabilitación, Conservación e Inspección Técnica de Edificaciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-de-ayudas-a-la-rehabilitacion-conservacion-e-inspeccion-tecnica-de-edificaciones.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-obras-e-instalaciones-qu",
+   "titulo": "Ordenanza Reguladora de Obras e Instalaciones que Impliquen Afección de las Vías Públicas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-obras-e-instalaciones-que-impliquen-afeccion-de-la-via-publica.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-2018-oroa-1",
+   "titulo": "Ordenanza Reguladora de Obras y Actividades del Ayuntamiento de Sevilla.",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/2018-oroa-1.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-del-transporte-de-viajeros",
+   "titulo": "Ordenanza Reguladora de Transportes de Viajeros en Coche de Caballos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-del-transporte-de-viajeros-en-coche-de-caballos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-distintivo-establecimientos-emblematic",
+   "titulo": "Ordenanza Reguladora de la Concesión y Utilización del Distintivo \"Establecimientos Emblemáticos de la Ciudad de Sevilla\"",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-distintivo-establecimientos-emblematicos-de-sevilla-1.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-municipal-de-medidas-para-el-fomento-y",
+   "titulo": "Ordenanza Reguladora de la Convivencia Ciudadana en los Espacios Públicos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-municipal-de-medidas-para-el-fomento-y-garantia-de-la-convivencia-ciudadana-en-los-espacios-publicos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-la-distribucion-gratuida",
+   "titulo": "Ordenanza Reguladora de la Distribución Gratuita de Prensa en los Espacios Públicos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-la-distribucion-gratuida-de-prensa-en-los-espacios-publicos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-la-ocupacion-de-los-espa",
+   "titulo": "Ordenanza Reguladora de la Ocupación de los Espacios Públicos del Conjunto Histórico Declarado de la Ciudad de Sevilla con Actividades y Eventos Efímeros",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-la-ocupacion-de-los-espacios-publicos-del-conjunto-historico-declarado-de-la-ciudad-de-sevilla-con-actividades-y-eventos-efimeros.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-de-la-prestacion-del-servicio-publico-de-los-e",
+   "titulo": "Ordenanza Reguladora de la Prestación del Servicio Público de los Espacios Museísticos y Colecciones Museográficas del Ayuntamiento de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-de-la-prestacion-del-servicio-publico-de-los-espacios-museisticos-y-colecciones-museograficas-del-ayuntamiento-de-sevilla-1.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-la-tramitacion-de-los-pr",
+   "titulo": "Ordenanza Reguladora de la Tramitación de los Proyectos de Urbanización",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-la-tramitacion-de-los-proyectos-de-urbanizacion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-emasesa",
+   "titulo": "Ordenanza Reguladora de la prestación patrimonial de carácter público no tributario del servicio, prestado por EMASESA, de abastecimiento domiciliario de agua potable, saneamientos (vertido y depuración) y otras actividades conexas a los mismos.",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-emasesa.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-las-condiciones-para-la",
+   "titulo": "Ordenanza Reguladora de las Condiciones para la Instalación de Ascensores en Edificios Existentes de Carácter Residencial",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-las-condiciones-para-la-instalacion-de-ascensores-en-edificios-existentes-de-caracter-residencial.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-las-terrazas-de-veladore",
+   "titulo": "Ordenanza Reguladora de las Terrazas de Veladores",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "hosteleria"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-las-terrazas-de-veladores.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-los-criterios-tecnicos-p",
+   "titulo": "Ordenanza Reguladora de los Criterios para la Rotulación, Numeración, y Denominación de las Vías Públicas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-los-criterios-tecnicos-para-la-rotulacion-numeracion-y-denominacion-de-las-vias-publicas.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-patrocinios-privados-de",
+   "titulo": "Ordenanza Reguladora de los Patrocinios Privados de Actividades Municipales",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-patrocinios-privados-de-actividades-municipales.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-los-quioscos-de-prensa-r",
+   "titulo": "Ordenanza Reguladora de los Quioscos de Prensa, Revistas y Publicaciones; Chucherías; Flores y Otros Instalados en Vías y Espacios Libres de la Ciudad",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-los-quioscos-de-prensa-revistas-y-publicaciones-chucherias-flores-y-otros-instalados-en-vias-y-espacios-libres-de-la-ciudad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-reguladora-del-comercio-ambulante-en-mercadill",
+   "titulo": "Ordenanza Reguladora del Comercio Ambulante en Mercadillos de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-reguladora-del-comercio-ambulante-en-mercadillos-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-del-rodaje-de-productos-aud",
+   "titulo": "Ordenanza Reguladora del Rodaje de Productos Audiovisuales en el Municipio de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-del-rodaje-de-productos-audiovisuales-en-el-munipio-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-m-servicio-de-transporte-publico-de-personas-e",
+   "titulo": "Ordenanza Reguladora del Servicio de Transporte Público de Personas en automóviles de turismo en el Municipio de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-m-servicio-de-transporte-publico-de-personas-en-automoviles-de-turismo-en-el-municipio-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-contra-la-contaminacion-acustica-ruidos-y-vibr",
+   "titulo": "Ordenanza contra la contaminación acústica, ruidos y vibraciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-contra-la-contaminacion-acustica-ruidos-y-vibraciones.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-de-arbolado-parques-y-jardines-publico",
+   "titulo": "Ordenanza de Arbolado, Parques y Jardines Públicos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-de-arbolado-parques-y-jardines-publicos-1.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-circulacion-de-sevilla",
+   "titulo": "Ordenanza de Circulación de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "zbe"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-circulacion-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-modificacion-o-ciruclacion-en-su-particular-refe",
+   "titulo": "Ordenanza de Circulación, referido en particular a la Inomovilización, Retirada y Depósito de Vehículos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "zbe"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/modificacion-o-ciruclacion-en-su-particular-referido-a-la-inmovilizacion-retirada-y-deposito-de-vehiculos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-texto-refundido-de-la-ordenanza-de-inspeccion-te",
+   "titulo": "Ordenanza de Inspección Técnica de Edificaciones",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/texto-refundido-de-la-ordenanza-de-inspeccion-tecnica-de-edificaciones.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-municipal-de-limpieza-publica-y-gestio",
+   "titulo": "Ordenanza de Limpieza Pública y Gestión de Residuos Municipales",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-municipal-de-limpieza-publica-y-gestion-de-residuos-municipales-2014.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-bop-05032020",
+   "titulo": "Ordenanza de Protección, Bienestar y Tenencia Responsable de Animales.",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/bop-05032020.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-de-telecomunicaciones-para-la-regulaci",
+   "titulo": "Ordenanza de Telecomunicaciones para la Regulación de las Condiciones de Instalación y Funcionamiento de los Elementos y Equipos de Telecomunicación",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-de-telecomunicaciones-para-la-regulacion-de-las-condiciones-de-instalacion-y-funcionamiento-de-los-elementos-y-equipos-de-telecomunicacion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-de-transparencia",
+   "titulo": "Ordenanza de Transparencia y acceso a la información del Ayuntamiento de Sevilla",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-de-transparencia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-de-la-vela-de-santiago-y-sa",
+   "titulo": "Ordenanza de la Velá de Santiago y Santa Ana",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-de-la-vela-de-santiago-y-santa-ana.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-del-registro-municipal-de-s",
+   "titulo": "Ordenanza del Registro Municipal de Solares y Edificaciones Ruinosas así como del Concurso para la Sustitución del Propietario Incumplidor de los Deberes de Edificación, Conservación y Rehabilitación",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-del-registro-municipal-de-solares-y-edificaciones-ruinosas-asi-como-el-concurso-para-la-sustitucion-del-propietario-incumplidor-de-los-deberes-de-edificacion-conservacion-y-rehabilitacion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-reguladora-del-registro-publico-munici",
+   "titulo": "Ordenanza del Registro Público Municipal de Demandantes de Vivienda Protegida",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vivienda"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-reguladora-del-registro-publico-municipal-de-demandante-de-vivienda-protegida.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-pt",
+   "titulo": "Ordenanza para Luchar Contra la Prostitución y la Trata con Fines de Explotación Sexual",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "prostitucion"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-pt.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-o-municipal-para-la-accesibilidad-universal",
+   "titulo": "Ordenanza para la Accesibilidad Universal",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/o-municipal-para-la-accesibilidad-universal.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-ordenanza-para-la-gestion-de-la-energia-el-cambi",
+   "titulo": "Ordenanza para la Gestión de la Energía, el Cambio Climático y la Sostenibilidad",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/ordenanzas-del-municipio-de-sevilla/ordenanza-para-la-gestion-de-la-energia-el-cambio-climatico-y-la-sostenibilidad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-instituto-del-taxi",
+   "titulo": "Estatutos del Instituto del Taxi",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "autotaxi",
+    "eurotaxi",
+    "licencia de taxi",
+    "taximetro"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-instituto-del-taxi.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-normas-reguladoras-de-las-actividades-a-desarrol",
+   "titulo": "Normas Reguladoras de las Actividades a Desarrollar en la Casa Consistorial",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/normas-reguladoras-de-las-actividades-a-desarrollar-en-la-casa-consistorial.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-bop-201-publicacion-correcciones",
+   "titulo": "Reglamento Orgánico",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/bop-201-publicacion-correcciones.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-28-publicacion-bop-aprobacion-definitiva",
+   "titulo": "Reglamento Orgánico de la Asesoría Jurídica del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/28-publicacion-bop-aprobacion-definitiva.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-naturaleza-organica-de-la-comision",
+   "titulo": "Reglamento Orgánico de la Cómisión Especial de Sugerencias y Reclamaciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-naturaleza-organica-de-la-comision-especial-de-sugerencias-y-reclamaciones.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-j-mpal-de-distrito-2019",
+   "titulo": "Reglamento Orgánico de las Juntas Municipales de Distrito",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-j-mpal-de-distrito-2019.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-organico-del-ayuntamiento-de-sevilla-2019",
+   "titulo": "Reglamento Orgánico del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-organico-del-ayuntamiento-de-sevilla-2019.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-organico-del-ayuntamiento-de-sevilla",
+   "titulo": "Reglamento Orgánico del Ayuntamiento de Sevilla (en vigor hasta el 30 de junio de 2019)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-organico-del-ayuntamiento-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-consejo-memoria-democratica-1",
+   "titulo": "Reglamento Regulador del Consejo Sectorial de la Memoria Democrática del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-consejo-memoria-democratica-1.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-regimen-juridico-de-coordinadores-gen",
+   "titulo": "Reglamento Régimen Jurídico de las Coordinaciones Generales y Direcciones Generales del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-regimen-juridico-de-coordinadores-genereles-y-directores-generales.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-condecoraciones-y-distinciones-de",
+   "titulo": "Reglamento de Condecoraciones y Distinciones del Cupero de la Policía Local de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-condecoraciones-y-distinciones-de-la-policia-local-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-contratacion",
+   "titulo": "Reglamento de Contratación",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-contratacion.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-los-centros-civicos-de-la-ciudad-d",
+   "titulo": "Reglamento de Funcionamiento de los Centros Cívicos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-los-centros-civicos-de-la-ciudad-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-consejo-cooperacion-municipal",
+   "titulo": "Reglamento de Funcionamiento del Consejo de Cooperación al Desarrollo",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-consejo-_cooperacion-municipal.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-funcionamiento-edificio-crea-del-ayun",
+   "titulo": "Reglamento de Funcionamiento del Edificio CREA (Centro de Recursos Empresariales Avanzados) del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-funcionamiento-edificio-crea-del-ayuntamiento-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-honores-y-distinciones-del-ayuntam",
+   "titulo": "Reglamento de Honores y Distinciones del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-honores-y-distinciones-del-ayuntamiento-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-participacion-ciudadana",
+   "titulo": "Reglamento de Participación Ciudadana",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-participacion-ciudadana.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-prestacion-servicio-tussam",
+   "titulo": "Reglamento de Prestación Servicio TUSSAM",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-prestacion-servicio-tussam.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-prestacion-de-servicios-de-mercado",
+   "titulo": "Reglamento de Prestación de Servicios de Mercados Mayoristas de Mercasevilla, S.A.",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-prestacion-de-servicios-de-mercados-mayoristas-de-mercasevilla-s.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-regimen-interior-para-explotacion-de-estacion",
+   "titulo": "Reglamento de Régimen Interior para la Explotación de la Estación de Autobuses del Prado de San Sebastián",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-regimen-interior-para-explotacion-de-estacion-de-autobuses-prado-san-sebastian.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-de-regimen-interior-y-normas-de-funcionamiento",
+   "titulo": "Reglamento de Régimen Interior y Normas de Funcionamiento de los Mercados Centrales de Mercasevilla, S.A.",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-de-regimen-interior-y-normas-de-funcionamiento-de-los-mercados-centrales-de-mercasevilla-s-a.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-de-tesoreria-y-ordenacion-de-pagos",
+   "titulo": "Reglamento de Tesorería y Ordenación de Pagos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-de-tesoreria-y-ordenacion-de-pagos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-control-interno",
+   "titulo": "Reglamento de control interno del Ayuntamiento de Sevilla y sus entes dependientes",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-control-interno.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-la-agencia-de-la-energia-y-para-la",
+   "titulo": "Reglamento de la Agencia de la Energía",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-la-agencia-de-la-energia-y-para-la-sostenibilidad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-voluntarios-proteccion-civil",
+   "titulo": "Reglamento de la Agrupación de Voluntarios de Protección Civil del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-voluntarios-proteccion-civil.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-la-comision-local-de-patrimonio-hi",
+   "titulo": "Reglamento de la Comisión Local de Patrimonio Histórico de la Ciudad de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-la-comision-local-de-patrimonio-historico-de-la-ciudad-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-procedimientos-aplicables-a-las-su",
+   "titulo": "Reglamento de los Procedimientos Aplicables a las Subvenciones Otorgadas por el Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-procedimientos-aplicables-a-las-subvenciones-otorgadas-por-el-ayuntamiento-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-organos-de-control-interno-y-contabil",
+   "titulo": "Reglamento de los Órganos de Control Interno y Contabilidad del Ayuntamiento de Sevilla y sus Entes Dependientes",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-organos-de-control-interno-y-contabilidad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-boletin-oficial-del-ayuntamiento",
+   "titulo": "Reglamento del Boletín Oficial del Ayuntamiento de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-boletin-oficial-del-ayuntamiento-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-texto-refundido-del-reglamento-del-consejo-econo",
+   "titulo": "Reglamento del Consejo Económico y Social",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/texto-refundido-del-reglamento-del-consejo-economico-y-social-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-escolar-municipal-de-sevi",
+   "titulo": "Reglamento del Consejo Escolar Municipal",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-escolar-municipal-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-municipal-de-atencion-a-p",
+   "titulo": "Reglamento del Consejo Municipal de Atención a Personas con Discapacidad",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-municipal-de-atencion-a-personas-con-discapacidad.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-municipal-de-personas-may",
+   "titulo": "Reglamento del Consejo Municipal de Personas Mayores",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-municipal-de-personas-mayores.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-municipal-de-servicios-so",
+   "titulo": "Reglamento del Consejo Municipal de Servicios Sociales",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-municipal-de-servicios-sociales.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-de-la-infancia-y-adolesce",
+   "titulo": "Reglamento del Consejo Municipal de la Infancia y Adolescencia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-de-la-infancia-y-adolescencia.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-municipal-de-la-mujer",
+   "titulo": "Reglamento del Consejo Municipal de la Mujer",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-municipal-de-la-mujer.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-consejo-de-comercio-de-sevilla",
+   "titulo": "Reglamento del Consejo de Comercio",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-consejo-de-comercio-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-del-consejo-municipal-de-salud",
+   "titulo": "Reglamento del Consejo de Salud",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-del-consejo-municipal-de-salud.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-observatorio-municipal-contra-la-viol",
+   "titulo": "Reglamento del Observatorio Municipal Contra la Violencia de Género",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-observatorio-municipal-contra-la-violencia-de-genero.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-proc-declaracion-de-riesgos-de-menore",
+   "titulo": "Reglamento del Procedimiento de Declaración de Riesgo de Menores",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-proc-declaracion-de-riesgos-de-menores.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-registro-municipal-de-asociaciones-y-clubes-de",
+   "titulo": "Reglamento del Registro Municipal de Asociaciones y Clubes Deportivos del Muncipio de Sevilla",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-registro-municipal-de-asociaciones-y-clubes-deportivos-del-municipio-de-sevilla.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-normas-reguladoras-del-registro-de-animales-pote",
+   "titulo": "Reglamento del Registro de Animales Potencialmente Peligrosos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas"
+   ],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/normas-reguladoras-del-registro-de-animales-potencialmente-peligrosos.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-reglamento-de-regimen-interno-del-centro-de-acog",
+   "titulo": "Reglamento del Régimen Interno del Centro de Acogida Municipal",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/reglamento-de-regimen-interno-del-centro-de-acogida-municipal.pdf",
+   "formato": "pdf"
+  },
+  {
+   "id": "sev-r-tribunal-economico-administrativo",
+   "titulo": "Reglamento del Tribunal Económico Administrativo",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.sevilla.org/ayuntamiento/unidad-organica/servicio-de-apoyo-juridico/reglamentos-del-municipio-de-sevilla/r-tribunal-economico-administrativo.pdf",
+   "formato": "pdf"
+  }
+ ]
+}
