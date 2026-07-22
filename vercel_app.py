@@ -168,11 +168,60 @@ _GATE_TOOL_TEXT = (
 )
 
 
-def _es_cliente_sin_oauth(ua: str) -> bool:
-    """Clientes que NO gestionan bien el 401+OAuth sobre un conector existente
-    (ChatGPT): a estos se les responde el gate como tool-result normal."""
+# Texto del gate para Claude Code / SDK (el 401 les sale como "requiere
+# autenticacion OAuth" y el usuario no sabe seguir — quejas 22-jul-2026).
+_GATE_TOOL_TEXT_CLAUDE_CODE = (
+    "ACCION REQUERIDA - Jurisprudenciator es ahora personal (sigue siendo "
+    "GRATIS). No se ha ejecutado la busqueda; NO respondas jurisprudencia ni "
+    "legislacion de memoria. Explica al usuario estas DOS opciones (la A es "
+    "la rapida):\n\n"
+    "OPCION A - URL personal (automatica, sin login en cada equipo):\n"
+    "1. Abre https://jurisprudenciator.lexiaipro.org/instalacion y entra con "
+    "el boton 'Continuar con Google' (si no hay cuenta, se crea sola).\n"
+    "2. Copia la URL personal del recuadro dorado (empieza por "
+    "https://mcp.jurisprudenciator...).\n"
+    "3. Sustituye la URL del conector por esa. En Claude Code: "
+    "`claude mcp remove jurisprudenciator` y "
+    "`claude mcp add --transport http jurisprudenciator <TU_URL_PERSONAL>`.\n\n"
+    "OPCION B - iniciar sesion: en Claude Code ejecuta el comando /mcp, elige "
+    "Jurisprudenciator y pulsa autenticar (se abre el navegador, 1 clic con "
+    "Google).\n\n"
+    "No intentes mas llamadas a las herramientas hasta que el usuario lo haga."
+)
+
+# Texto del gate para scripts/integraciones (httpx, node, curl...).
+_GATE_TOOL_TEXT_GENERICO = (
+    "ACCION REQUERIDA - Jurisprudenciator requiere identificarse (gratis). "
+    "No se ha ejecutado la busqueda. Consigue tu URL personal en "
+    "https://jurisprudenciator.lexiaipro.org/instalacion (entra con Google y "
+    "copia la URL del recuadro dorado) y usa ESA URL como endpoint del "
+    "conector en lugar de /mcp. Tambien puedes autenticar por OAuth 2.1 "
+    "(discovery RFC 9728 en /.well-known/oauth-protected-resource/mcp)."
+)
+
+
+def _clase_cliente_sin_oauth(ua: str) -> "str | None":
+    """Clase de cliente que NO gestiona bien el 401+OAuth, o None si es un
+    cliente donde el flujo OAuth funciona (claude.ai/Desktop = 'Claude-User',
+    navegadores). A los primeros: initialize/tools-list pasan (el conector
+    "conecta" sin sustos) y tools/call devuelve un TOOL-RESULT normal (200)
+    con instrucciones que el modelo transmite al usuario."""
     u = ua.lower()
-    return "openai" in u or "chatgpt" in u
+    if "openai" in u or "chatgpt" in u:
+        return "chatgpt"
+    if "claude-user" in u or "mozilla" in u:
+        return None  # OAuth de 1 clic funciona: 401 estandar -> boton Conectar
+    if "claude-code" in u or "agent-sdk" in u or "claude-desktop" in u:
+        return "claude-code"
+    # Resto (httpx, node, curl, UA vacio...): scripts sin flujo OAuth.
+    return "script"
+
+
+_GATE_TEXTOS = {
+    "chatgpt": None,  # se resuelve a _GATE_TOOL_TEXT (definido arriba)
+    "claude-code": _GATE_TOOL_TEXT_CLAUDE_CODE,
+    "script": _GATE_TOOL_TEXT_GENERICO,
+}
 
 
 def _log_gate(ua: str, metodo_rpc: str) -> None:
@@ -212,7 +261,10 @@ class _UserTokenMiddleware:
             email = _verificar_jwt(bearer)
             if not email:
                 # Token caducado/invalido -> 401 SIEMPRE (el cliente eligio
-                # OAuth; este 401 dispara su refresh automatico).
+                # OAuth; este 401 dispara su refresh automatico). Se registra
+                # en telemetria: un pico de estos = sesiones muriendo en bucle.
+                _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
+                          "bearer_invalido")
                 await _responder_401(
                     send, "Token caducado o no valido.",
                     _www_authenticate(scope, "Token caducado o no valido"))
@@ -251,7 +303,16 @@ class _UserTokenMiddleware:
             if (modo == "required" and path.startswith("/mcp")
                     and not any(path.startswith(e) for e in _EXENTAS)):
                 ua = (hd.get(b"user-agent") or b"").decode("latin-1")
-                if _es_cliente_sin_oauth(ua) and metodo == "POST":
+                clase = _clase_cliente_sin_oauth(ua)
+                if clase and metodo == "GET":
+                    # Stream SSE del transporte streamable-http: dejarlo pasar
+                    # anonimo (un 401 aqui marca el conector como "requiere
+                    # autenticacion" en Claude Code y bloquea la instalacion).
+                    scope = dict(scope)
+                    scope["headers"] = headers
+                    await self.app(scope, receive, send)
+                    return
+                if clase and metodo == "POST":
                     # Leer el body JSON-RPC para decidir (y poder reproducirlo).
                     mensajes = []
                     cuerpo = b""
@@ -268,11 +329,12 @@ class _UserTokenMiddleware:
                     except Exception:  # noqa: BLE001
                         rpc = None
                     if isinstance(rpc, dict) and rpc.get("method") == "tools/call":
-                        _log_gate(ua, "tools/call")
+                        _log_gate(ua, f"tools/call:{clase}")
+                        texto = _GATE_TEXTOS.get(clase) or _GATE_TOOL_TEXT
                         body = json.dumps({
                             "jsonrpc": "2.0", "id": rpc.get("id"),
                             "result": {"content": [{"type": "text",
-                                                    "text": _GATE_TOOL_TEXT}],
+                                                    "text": texto}],
                                        "isError": False},
                         }, ensure_ascii=False).encode("utf-8")
                         await send({"type": "http.response.start", "status": 200,
