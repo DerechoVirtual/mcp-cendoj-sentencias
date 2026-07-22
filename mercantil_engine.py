@@ -88,6 +88,157 @@ _FUENTE = ("Fuente: índice del BORME (dato público reempaquetado, sin valor de
            "pública). Para prueba, pide nota oficial del Registro Mercantil.")
 
 # --------------------------------------------------------------------------
+# FALLBACK 1: índice mercantil empresia.es (reindexa la Sección A del BORME:
+# constituciones, cargos, actos, con enlace al PDF oficial). Cubre las pymes
+# que faltan en openmercantil (p.ej. sociedades de A Coruña como DERECHO
+# VIRTUAL SL). HTML server-side, GET simple, sin captcha.
+# --------------------------------------------------------------------------
+_EMPRESIA = "https://www.empresia.es"
+_UA_NAV = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+           "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+
+
+def _get_html_ua(url: str, timeout=12) -> str:
+    req = urllib.request.Request(url, headers={
+        "User-Agent": _UA_NAV, "Accept": "text/html",
+        "Accept-Language": "es-ES,es;q=0.9"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            raw = r.read()
+            cs = r.headers.get_content_charset() or "utf-8"
+            try:
+                return raw.decode(cs)
+            except (LookupError, UnicodeDecodeError):
+                return raw.decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def _limpia(s: str) -> str:
+    s = re.sub(r"<[^>]+>", " ", s or "")
+    s = s.replace("&nbsp;", " ").replace("&euro;", "EUR").replace("&amp;", "&")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _empresia_buscar(consulta: str):
+    """Busca en empresia.es. Devuelve [(slug, nombre)] sin duplicados."""
+    h = _get_html_ua(f"{_EMPRESIA}/busqueda/?q={urllib.parse.quote(consulta)}")
+    out, vistos = [], set()
+    for slug, nom in re.findall(r'href="(/empresa/[^"/#?]+/)"[^>]*>([^<]{2,90})', h):
+        nom = _limpia(nom)
+        if slug not in vistos and nom:
+            vistos.add(slug)
+            out.append((slug, nom))
+    return out
+
+
+def _empresia_ficha(slug: str, nombre: str = "") -> str:
+    """Ficha completa desde la página de empresa de empresia.es."""
+    h = _get_html_ua(f"{_EMPRESIA}{slug}")
+    if not h or "Informe de la empresa" not in h:
+        return ""
+    m = re.search(r"<title>(.*?)\s*-\s*Informe", h)
+    nombre = _limpia(m.group(1)) if m else (nombre or "?")
+    txt = _limpia(re.sub(r"<(script|style).*?</\1>", "", h, flags=re.S))
+
+    def campo(pat):
+        mm = re.search(pat, txt, re.I)
+        return _limpia(mm.group(1)) if mm else ""
+
+    estado = campo(r"ESTADO ([A-ZÁÉÍÓÚÜÑ]{4,})")
+    cif = campo(r"\bCIF ([A-Z]\d{7}[A-Z0-9])\b")
+    objeto = campo(r"Objeto social (.+?) (?:CIF|Fecha constituci)")
+    fconst = campo(r"Fecha constituci[oó]n (\d{2}/\d{2}/\d{4})")
+    capital = campo(r"Capital social ([\d.,]+)")
+    registro = campo(r"Registro ((?:[A-ZÁÉÍÓÚÜÑ][\w()/.-]*\s?){1,4}?)(?= [ÚU]ltimas)")
+    organo = campo(r"[ÓO]rgano administraci[oó]n (.+?) (?:Informe|Seguir|Balances)")
+    domicilio = campo(r"Datos de (.+?)\s*Ver mapa")
+    if domicilio:
+        # la cabecera repite la denominación antes de la dirección: quitarla
+        patron_nombre = re.escape(nombre).replace(r"\ ", r"\s+")
+        domicilio = re.sub(patron_nombre, " ", domicilio, flags=re.I)
+        domicilio = re.sub(r"\s+", " ", domicilio).strip(" .,")
+
+    cab = [f"【{nombre}】"
+           + (f" · CIF {cif}" if cif else "")
+           + (f" · {estado.capitalize()}" if estado else "")]
+    linea2 = []
+    if fconst:
+        linea2.append(f"constituida el {fconst}")
+    if capital:
+        linea2.append(f"capital {capital} EUR")
+    if registro:
+        linea2.append(f"Registro Mercantil de {registro}")
+    if organo:
+        linea2.append(organo.lower())
+    if linea2:
+        cab.append(" · ".join(linea2))
+    if domicilio:
+        cab.append(f"Domicilio: {domicilio}")
+    if objeto:
+        cab.append(f"Objeto social: {objeto[:180]}")
+
+    # Cargos y representantes (tabla EntidadRelacion del HTML crudo)
+    filas = re.findall(
+        r'<tr><td\s+class="td-relent-entidad">.*?title="Ver directivo ([^"]+)".*?'
+        r'class="td-relent-relacion">([^<]*)<.*?'
+        r'td-relent-desde">(?:<a[^>]*>)?([^<]*)(?:</a>)?</td>'
+        r'<td class="td-relent-hasta">(?:<a[^>]*>)?([^<]*)',
+        h, re.S)
+    vigentes = [(n, r, d) for n, r, d, hasta in filas if not _limpia(hasta)]
+    cesados = len(filas) - len(vigentes)
+    if vigentes:
+        cab.append("\nCargos vigentes:")
+        for n, r, d in vigentes[:10]:
+            desde = f" (desde {_limpia(d)})" if _limpia(d) else ""
+            cab.append(f"  · {_limpia(n)} — {_limpia(r)}{desde}")
+        if cesados:
+            cab.append(f"  (+{cesados} cargos históricos/cesados)")
+
+    # Cronología de actos (timeline) con referencia al PDF oficial del BORME
+    actos = re.findall(
+        r'<time class="icon" datetime="(\d{4}-\d{2}-\d{2})".*?<h3>(.*?)</h3>\s*<p>(.*?)</p>'
+        r'(.*?)(?=<time class="icon"|</ul>)', h, re.S)
+    if actos:
+        cab.append(f"\nActos publicados ({min(len(actos), 10)} de {len(actos)}):")
+        for fecha, tipo, cuerpo, cola in actos[:10]:
+            det = _limpia(cuerpo)
+            if len(det) > 160:
+                det = det[:160] + "…"
+            ref = re.search(r"(BORME-A-\d{4}-\d+-\d+)", cola)
+            cab.append(f"  · {fecha} · {_limpia(tipo).rstrip('.')} — {det}"
+                       + (f" [{ref.group(1)}]" if ref else ""))
+
+    cab.append("\nFuente: índice mercantil sobre el BORME oficial (dato público "
+               "reempaquetado, sin valor de fe pública). Para prueba, nota oficial "
+               "del Registro Mercantil.")
+    return "\n".join(cab)
+
+
+def _ficha_empresia(consulta: str) -> str:
+    """Localiza la sociedad en empresia.es y devuelve su ficha, o ''."""
+    res = _empresia_buscar(consulta)
+    base = _forma_societaria(consulta)
+    if not res and base:
+        res = _empresia_buscar(base)
+    if not res:
+        return ""
+    nqe = _norm_emp(consulta)
+    best = next(((s, n) for s, n in res if _norm_emp(n) == nqe), None)
+    if not best:
+        # todas las palabras de la consulta en el nombre y sin rivales
+        cw = [(s, n) for s, n in res
+              if all(w in _norm(n) for w in _norm(base or consulta).split())]
+        if len(cw) == 1:
+            best = cw[0]
+    if not best and len(res) == 1:
+        best = res[0]
+    if not best:
+        return ""
+    return _empresia_ficha(*best)
+
+
+# --------------------------------------------------------------------------
 # FALLBACK OFICIAL: buscador de anuncios del BORME en boe.es (anborme.php).
 # El índice openmercantil.es tiene lagunas (p.ej. Banco Santander, Inditex,
 # El Corte Inglés no están). El buscador oficial cubre TODAS las sociedades
@@ -194,14 +345,15 @@ def buscar_empresa(consulta: str, maximo_actos: int = 12) -> str:
         d = _get_json(f"/search?q={urllib.parse.quote(consulta)}")
     items = (d or {}).get("items") or []
     if not items:
-        # No está en el índice enriquecido → buscador OFICIAL del BORME (boe.es)
-        oficial = _ficha_borme_oficial(consulta)
-        if oficial:
-            return oficial
-        return (f"No encuentro ninguna sociedad para «{consulta}» ni en el índice del "
-                "BORME ni en el buscador oficial de boe.es. Puede ser muy reciente/sin "
-                "actos publicados, operar con otra razón social, o no ser una sociedad "
-                "mercantil. " + _FUENTE)
+        # No está en el índice principal → empresia.es (Sección A: pymes) y
+        # después el buscador OFICIAL del BORME en boe.es (Sección C).
+        fb = _ficha_empresia(consulta) or _ficha_borme_oficial(consulta)
+        if fb:
+            return fb
+        return (f"No encuentro ninguna sociedad para «{consulta}» en ninguna de las "
+                "tres fuentes (índice del BORME, índice mercantil y buscador oficial "
+                "de boe.es). Puede ser muy reciente/sin actos publicados, operar con "
+                "otra razón social, o no ser una sociedad mercantil. " + _FUENTE)
 
     nq = _norm(consulta)
     nqe = _norm_emp(consulta)
@@ -223,9 +375,9 @@ def buscar_empresa(consulta: str, maximo_actos: int = 12) -> str:
             # y NINGUNA candidata es esa sociedad exacta, probablemente la matriz
             # no está en el índice → probar el BORME oficial antes de rendirse.
             if _forma_societaria(consulta):
-                oficial = _ficha_borme_oficial(consulta)
-                if oficial:
-                    return oficial
+                fb = _ficha_empresia(consulta) or _ficha_borme_oficial(consulta)
+                if fb:
+                    return fb
             lista = "\n".join(
                 f"  · {it['name']}" + (f" · CIF {it['cif']}" if it.get("cif") else "")
                 + f" · {it.get('acts_count', 0)} actos" for it in conword[:8])
@@ -247,9 +399,10 @@ def buscar_empresa(consulta: str, maximo_actos: int = 12) -> str:
     if not prof or not prof.get("company"):
         prof = _get_json(f"/company/{best['slug']}", timeout=12)  # reintento único
     if not prof or not prof.get("company"):
-        oficial = _ficha_borme_oficial(best.get("name") or consulta)
-        if oficial:
-            return oficial
+        nom = best.get("name") or consulta
+        fb = _ficha_empresia(nom) or _ficha_borme_oficial(nom)
+        if fb:
+            return fb
         return (f"Localicé «{best.get('name')}» pero no pude cargar su ficha ahora mismo. "
                 "Reinténtalo en unos segundos. " + _FUENTE)
 
