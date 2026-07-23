@@ -208,19 +208,18 @@ class _UserTokenMiddleware:
         bearer = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
         email = None
         via = None
+        bearer_fallido = False
         if bearer:
             email = _verificar_jwt(bearer)
-            if not email:
-                # Token caducado/invalido -> 401 SIEMPRE (el cliente eligio
-                # OAuth; este 401 dispara su refresh automatico). Se registra
-                # en telemetria: un pico de estos = sesiones muriendo en bucle.
-                _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
-                          "bearer_invalido")
-                await _responder_401(
-                    send, "Token caducado o no valido.",
-                    _www_authenticate(scope, "Token caducado o no valido"))
-                return
-            via = b"oauth"
+            if email:
+                via = b"oauth"
+            else:
+                # Bearer caducado/invalido: NO cortamos aqui. Si la peticion
+                # trae una URL personal /u/<token>/ valida, esa identidad basta
+                # y evitamos el bucle "pide Google en cada sesion nueva". El
+                # 401 que dispara el refresh OAuth solo se emite mas abajo si
+                # TAMPOCO hay identidad por URL personal (caso /mcp plano).
+                bearer_fallido = True
 
         # 2) URL personal /u/<token>/... (reescritura de path SIEMPRE que
         #    exista el prefijo; la identidad del path solo si no hubo Bearer).
@@ -241,6 +240,16 @@ class _UserTokenMiddleware:
             scope["path"] = path
             if "raw_path" in scope:
                 scope["raw_path"] = path.encode("utf-8")
+
+        # Bearer caducado y sin identidad por URL personal (p.ej. /mcp plano):
+        # ahora si emitimos el 401 que dispara el refresh del cliente OAuth.
+        if email is None and bearer_fallido and metodo != "OPTIONS":
+            _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
+                      "bearer_invalido")
+            await _responder_401(
+                send, "Token caducado o no valido.",
+                _www_authenticate(scope, "Token caducado o no valido"))
+            return
 
         # 3) Anonimo en modo required. Trato distinto por cliente:
         #    * Claude y clientes estandar -> 401 + WWW-Authenticate (RFC 9728):
