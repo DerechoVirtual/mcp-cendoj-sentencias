@@ -271,7 +271,7 @@ _BOCM_ROW = re.compile(
 _BOCM_ID = re.compile(r"(?i)\bBOCM-(\d{4})(\d{2})(\d{2})-(\d+)\b")
 
 
-def _madrid_get(url, timeout=30, intentos=3):
+def _madrid_get(url, timeout=25, intentos=2):
     """El BOCM corta conexiones en ráfaga (WinError 10060) y su latencia oscila
     (0,6 s … 20 s según carga): reintentos cortos con espera creciente."""
     ult = None
@@ -320,7 +320,7 @@ def _madrid_buscar(prov, texto, tid=None, rpp=40):
     if mid:
         ident = mid.group(0).upper()
         try:
-            j = json.loads(_madrid_get(_madrid_json_url(cfg, ident), timeout=40))
+            j = json.loads(_madrid_get(_madrid_json_url(cfg, ident), timeout=25))
         except Exception:  # noqa: BLE001
             return []
         f8 = ident[5:13]
@@ -337,7 +337,7 @@ def _madrid_buscar(prov, texto, tid=None, rpp=40):
 
     def una(q):
         try:
-            fs = _madrid_filas(_madrid_get(_madrid_url(cfg, tid, q), timeout=45))
+            fs = _madrid_filas(_madrid_get(_madrid_url(cfg, tid, q), timeout=25))
         except Exception:  # noqa: BLE001
             return []
         for f in fs:                       # de qué consulta viene (señal de relevancia)
@@ -366,14 +366,10 @@ def _madrid_consultas(texto):
     de 'ordenanza' del municipio para que el ranking por título tenga material."""
     pal = [w for w in re.split(r"\W+", (texto or "").strip()) if w]
     utiles = [w for w in pal if _norm(w) not in {_norm(x) for x in _STOPM} and len(w) >= 4]
-    qs = []
-    if utiles:
-        qs.append(max(utiles, key=len))              # p.ej. "acústica", "ambulante"
-        if len(utiles) > 1:
-            segundo = sorted(utiles, key=len, reverse=True)[1]
-            if segundo.lower() != qs[0].lower():
-                qs.append(segundo)
-    qs.append("ordenanza")
+    # los DOS términos más distintivos del usuario (el más largo no siempre es el
+    # bueno: para "venta ambulante mercadillo" manda «ambulante», no «mercadillo»)
+    qs = sorted(utiles, key=len, reverse=True)[:2]
+    qs.append("ordenanza")                           # volcado del municipio (respaldo)
     fuera, out = set(), []
     for q in qs[:3]:
         if q.lower() not in fuera:
@@ -398,7 +394,7 @@ def _madrid_texto(prov, m):
     if not u:
         return "", "sin-id"
     try:
-        j = json.loads(_madrid_get(u, timeout=45))
+        j = json.loads(_madrid_get(u, timeout=25))
     except Exception:  # noqa: BLE001
         return "", "sin-texto"
     txt = j.get("text") or ""
@@ -1180,6 +1176,11 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     # si la búsqueda por materia dio algo, el volcado genérico no compite
     pool = [r for r in cand if r.get("materia")] or cand
     pool.sort(key=pre, reverse=True)
+    # CAMINO RÁPIDO: si el título ya dice la materia, no hace falta verificar nada
+    # (importa de verdad: desde Vercel el BOCM estrangula las descargas en paralelo,
+    # así que cada lectura que ahorramos es latencia y riesgo de timeout que quitamos).
+    if pool and en_titulo(pool[0]):
+        return pool[0]
     top = pool[:max(1, top_n)]
 
     def carga(r):
@@ -1189,9 +1190,12 @@ def _mejor_verificado(prov, res, materia, top_n=4):
             t = ""
         return r, t
 
+    # SECUENCIAL con salida temprana (no en paralelo): desde Vercel el boletín
+    # estrangula las descargas simultáneas y una ráfaga acaba en timeout. Lo normal
+    # es resolver con 1 lectura; solo si esa no convence se mira la siguiente.
     mejor, mejor_s, mejor_t, mejor_ok = None, float("-inf"), "", False
-    with _cf.ThreadPoolExecutor(max_workers=len(top)) as ex:
-        for r, t in ex.map(carga, top):
+    if True:
+        for r, t in map(carga, top):
             if not t:
                 continue
             tn = _mnorm(t[:80000])
@@ -1207,6 +1211,8 @@ def _mejor_verificado(prov, res, materia, top_n=4):
             ok = bool(en_titulo(r)) or (hclave >= 3 and dclave >= 0.12)
             if (ok, s) > (mejor_ok, mejor_s):
                 mejor, mejor_s, mejor_t, mejor_ok = r, s, t, ok
+            if ok and dclave >= 0.30:      # claramente es esta: no leo más
+                break
     if mejor is None or not mejor_ok:
         return None                   # honesto: no hay ordenanza de esa materia
     mejor = dict(mejor)
