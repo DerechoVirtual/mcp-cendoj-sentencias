@@ -252,6 +252,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _tarragona_buscar(prov, texto, categoria, rpp)
     if fam == "asturias":
         return _asturias_buscar(prov, texto, categoria, rpp)
+    if fam == "valencia":
+        return _valencia_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -292,7 +294,112 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _tarragona_texto(prov, m)
     if fam == "asturias":
         return _asturias_texto(prov, m)
+    if fam == "valencia":
+        return _valencia_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend VALENCIA (BOP de València, JSF/PrimeFaces) ----------------------
+# Lo caro aquí es la sesión: hay que leer del HTML el ViewState y los ids
+# autogenerados (j_idtNNN, cambian entre despliegues) y POSTear al action con la
+# misma cookie sticky. Dos avisos medidos: sin filtro de municipio la búsqueda
+# tarda 17,7 s (con filtro, 0,6 s) y sin rango de fechas devuelve CERO.
+_VL_SES = {}
+
+
+def _vl_sesion(prov, forzar=False):
+    s = _VL_SES.get(prov)
+    if s and not forzar and time.time() - s[0] < 420:
+        return s
+    cfg = PROVINCIAS[prov]
+    cj = http.cookiejar.CookieJar()
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    op.addheaders = [("User-Agent", _UA), ("Accept-Language", "es-ES,es")]
+    h = op.open(cfg["base"] + "/bop/xhtml/portal.xhtml", timeout=30).read().decode("utf-8", "replace")
+    vs = re.search(r'name="javax\.faces\.ViewState"[^>]*value="([^"]+)"', h)
+    form = re.search(r'<form id="(j_idt\d+)"[^>]*action="([^"]+)"[^>]*>(?:(?!</form>).)*?id="buscador"', h, re.S)
+    render = re.search(r'id="buscarBtn".*?u:&quot;([^&]+)&quot;', h, re.S)
+    ent = re.search(r'<label id="(j_idt\d+):label:label"[^>]*title="Entitat"', h)
+    if not (vs and form and ent):
+        raise RuntimeError("BOP València: no encuentro ViewState/form/entidad")
+    dat = (time.time(), op, vs.group(1), form.group(1), form.group(2),
+           (render.group(1) if render else "messages boletines3 edictos"), ent.group(1))
+    _VL_SES[prov] = dat
+    return dat
+
+
+def _valencia_buscar(prov, texto, ident=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not ident:
+        return []
+    hoy = time.gmtime()
+    fin = f"{hoy.tm_mday:02d}/{hoy.tm_mon:02d}/{hoy.tm_year}"
+    consultas = _consultas_materia(texto, cfg.get("idioma"))
+
+    def una(q, reintento=False):
+        _t, op, vs, form, action, render, ent = _vl_sesion(prov, forzar=reintento)
+        d = {"javax.faces.partial.ajax": "true", "javax.faces.source": "buscarBtn",
+             "javax.faces.partial.execute": "@all", "javax.faces.partial.render": render,
+             "buscarBtn": "buscarBtn", form: form, "numeroRegistro:field": "",
+             "filtroCalendarioIni_input": f"01/01/{cfg.get('indice_desde', 2002)}",
+             "filtroCalendarioFin_input": fin, "buscador": q,
+             f"{ent}:field_input": "", f"{ent}:field_hinput": str(ident),
+             "javax.faces.ViewState": vs}
+        try:
+            r = op.open(urllib.request.Request(
+                cfg["base"] + action if action.startswith("/") else action,
+                data=urllib.parse.urlencode(d).encode(),
+                headers={"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                         "Faces-Request": "partial/ajax", "X-Requested-With": "XMLHttpRequest",
+                         "Referer": cfg["base"] + "/bop/xhtml/portal.xhtml"}),
+                timeout=40).read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        if "ViewExpiredException" in r and not reintento:
+            return una(q, reintento=True)
+        nvs = re.search(r'<update id="j_id1:javax\.faces\.ViewState:0"><!\[CDATA\[(.*?)\]\]></update>', r, re.S)
+        if nvs:                       # el ViewState se renueva en cada respuesta
+            d0 = _VL_SES[prov]
+            _VL_SES[prov] = (d0[0], d0[1], nvs.group(1), d0[3], d0[4], d0[5], d0[6])
+        out = []
+        for bloque in r.split('<div class="ui-datagrid-column')[1:]:
+            tit = re.search(r'<div class="sumario"><a [^>]*>(.*?)</a>', bloque, re.S)
+            reg = re.search(r"registre:\s*</span>\s*(\d{4}/\d+)", bloque)
+            fe = re.search(r'title="Butllet[^"]*">(\d{2}/\d{2}/\d{4})<', bloque)
+            if not (tit and reg):
+                continue
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit.group(1)))).strip()
+            fecha = fe.group(1) if fe else ""
+            d2, m2, y2 = (fecha.split("/") + ["", "", ""])[:3]
+            out.append({"url": f"{cfg['base']}/bop/downloads?anuncioNumReg={reg.group(1)}",
+                        "titulo": t, "cve": reg.group(1), "fecha": fecha,
+                        "orden": f"{y2}{m2}{d2}" if y2 else "0",
+                        "materia": q not in ("ordenanza", "ordenança")})
+        return out
+
+    vistos = {}
+    for q in consultas:               # secuencial: la sesión JSF no es concurrente
+        for r in una(q):
+            if r["cve"] in vistos:
+                vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+            else:
+                vistos[r["cve"]] = r
+        if len(vistos) >= 30:
+            break
+    return list(vistos.values())
+
+
+def _valencia_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:                              # el PDF se sirve sin sesión ni cookies
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    return _pdf_bytes_texto(pdf)
 
 
 # ---- backend ASTURIAS (BOPA, buscador de legislación por TÍTULO) -------------

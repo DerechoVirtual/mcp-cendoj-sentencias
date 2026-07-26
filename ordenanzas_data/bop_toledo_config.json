@@ -4,5 +4,8 @@
  "familia": "toledo",
  "base": "https://bop.diputoledo.es/webEbop",
  "mapa": "bop_toledo_municipios.json",
- "indice_desde": 2011
+ "indice_desde": 2011,
+ "excluir": [
+  "Alfafar"
+ ]
 }

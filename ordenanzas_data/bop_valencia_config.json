@@ -6,5 +6,6 @@
  "familia": "valencia",
  "indice_desde": 2002,
  "idioma": "va",
- "activo": false
+ "verifica_texto": true,
+ "fulltext": true
 }
