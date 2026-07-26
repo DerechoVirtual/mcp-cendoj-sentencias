@@ -254,6 +254,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _asturias_buscar(prov, texto, categoria, rpp)
     if fam == "valencia":
         return _valencia_buscar(prov, texto, categoria, rpp)
+    if fam == "barcelona":
+        return _barcelona_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -296,7 +298,105 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _asturias_texto(prov, m)
     if fam == "valencia":
         return _valencia_texto(prov, m)
+    if fam == "barcelona":
+        return _barcelona_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend BARCELONA (BOPB, app Symfony de la Diputació) -------------------
+# Clave de rendimiento: NO se usa texto libre (18-38 s) ni rango de fechas (7 s);
+# se filtra por municipio + tipo de anuncio "Normativa" (40) —que es justo lo que
+# buscamos— y se rankea en local. El listado va en orden ASCENDENTE por fecha, así
+# que lo reciente está en las ÚLTIMAS páginas: se piden esas en paralelo.
+# Sin cookies: con PHPSESSID compartido el servidor serializa (10,8 s vs 2,1 s).
+_BCN_ITEM = re.compile(
+    r'<a href="/anunci/(\d+)/([^"]+)" class="stretched-link[^"]*">(.*?)</a>\s*</h3>\s*'
+    r"<p>(.*?)</p>(.*?)</div>", re.S)
+_BCN_TOT = re.compile(r"S&#039;han trobat (\d+) resultats")
+_BCN_BANDA = re.compile(r"(?m)^\s*(?:B\b|A\b|Butllet[íi] Oficial.*|Data\s*\d.*|CVE\s*\d+.*|"
+                        r"P[àa]g\.\s*\d+.*|https?://bop\.diba\.cat.*)\s*$")
+
+
+def _barcelona_buscar(prov, texto, ident=None, rpp=40, paginas=20):
+    cfg = PROVINCIAS[prov]
+    if not ident:
+        return []
+    base = (cfg["base"] + "/resultats-cerca", urllib.parse.urlencode({
+        "bopb_cerca[tipologiaAnunciantBase]": str(ident),
+        "bopb_cerca[tipusAnunciBase]": str(cfg.get("tipo_normativa", 40))}))
+
+    def pagina(n):
+        u = f"{base[0]}/{n}?{base[1]}" if n > 1 else f"{base[0]}?{base[1]}"
+        try:
+            return _madrid_get(u, timeout=30, intentos=1)
+        except Exception:  # noqa: BLE001
+            return ""
+
+    h1 = pagina(1)
+    if not h1:
+        return []
+    tot = _BCN_TOT.search(h1)
+    ultima = max(1, -(-int(tot.group(1)) // 20)) if tot else 1
+    quiero = [n for n in range(ultima, max(0, ultima - paginas), -1) if n > 1]
+    _raw, _core, _soft = _familias(texto or "")
+    _fam = _expandir_idioma({w for w in (set(_raw) | _core) if w not in _GENERICO},
+                            cfg.get("idioma"))
+
+    def parse(h):
+        out = []
+        for ident2, _slug, _anunciante, tit, cola in _BCN_ITEM.findall(h or ""):
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            fe = re.search(r"Data de publicaci[óo]</span>:\s*([\d/]+)", cola)
+            reg = re.search(r"Registre</span>:\s*(\S+)", cola)
+            fecha = fe.group(1) if fe else ""
+            d, m2, y = (fecha.split("/") + ["", "", ""])[:3]
+            out.append({"url": f"{cfg['base']}/anunci/descarrega-pdf/{ident2}",
+                        "titulo": t, "cve": (reg.group(1) if reg else ident2),
+                        "fecha": fecha, "orden": f"{y}{m2}{d}" if y else "0",
+                        "id": ident2,
+                        # ¿el título habla de la materia? (si se marca todo como
+                        # "materia", el desempate por fecha sube lo más reciente y
+                        # la ordenanza buena nunca llega a verificarse)
+                        "materia": bool(_fam) and any(_hit(w, _mnorm(t)) for w in _fam)})
+        return out
+
+    vistos = {r["cve"]: r for r in parse(h1)}
+    if quiero:
+        with _cf.ThreadPoolExecutor(max_workers=8) as ex:
+            for h in ex.map(pagina, quiero):
+                for r in parse(h):
+                    vistos.setdefault(r["cve"], r)
+    # Las páginas recientes cubren la inmensa mayoría, pero una ordenanza de
+    # residuos puede ser de 2010: si la materia no aparece en ningún título, se
+    # barre el resto del histórico (sigue siendo barato: 1 petición por página).
+    # se amplía si no hay ninguna ORDENANZA de la materia (no basta con que
+    # aparezca la palabra: "Pla local de prevenció de residus" no es normativa)
+    if _fam and not any(r.get("materia") and _es_ordenanza(r["titulo"])
+                        and not _NO_NORMA.search(r["titulo"]) for r in vistos.values()):
+        resto = [n for n in range(2, ultima) if n not in quiero]
+        if resto:
+            with _cf.ThreadPoolExecutor(max_workers=8) as ex:
+                for h in ex.map(pagina, resto[-60:]):
+                    for r in parse(h):
+                        vistos.setdefault(r["cve"], r)
+    return list(vistos.values())
+
+
+def _barcelona_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        pdf = _getb(u, timeout=60)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    t = _BCN_BANDA.sub("", t)          # banda lateral que fitz intercala por página
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    # avisos de una página que remiten a la sede: no son la ordenanza
+    return (t, via) if len(t) > 900 else ("", "sin-texto")
 
 
 # ---- backend VALENCIA (BOP de València, JSF/PrimeFaces) ----------------------
@@ -1087,6 +1187,23 @@ def _pv_sesion(prov):
     return _PV_SES[prov]
 
 
+def _expandir_idioma(terminos, idioma):
+    """Añade a un conjunto de términos su forma en la lengua del boletín (y al
+    revés). Sin esto, el tesauro —que está en castellano— no casa con títulos en
+    catalán o gallego: "residuos" nunca encuentra "residus"."""
+    tabla = {"gl": _GALEGO, "ca": _CATALA, "va": _CATALA}.get(idioma or "")
+    if not tabla:
+        return set(terminos)
+    out = set(terminos)
+    for w in list(out):
+        for cas, loc in tabla.items():
+            if _norm(w) == _norm(cas):
+                out.add(_mnorm(loc))
+            elif _norm(w) == _norm(loc):
+                out.add(_mnorm(cas))
+    return out
+
+
 def _consultas_materia(texto, idioma=None, generico="ordenanza", n=2):
     """Términos a consultar en un buscador LITERAL: los más distintivos de lo que
     pidió el abogado + su forma en la lengua del boletín (los BOP gallegos indexan
@@ -1390,7 +1507,8 @@ def _madrid_buscar(prov, texto, tid=None, rpp=40):
     idx = _madrid_indice(tid)
     if idx:
         raw, core, _s = _familias(texto or "")
-        fam = {w for w in (set(raw) | core) if w not in _GENERICO}
+        fam = _expandir_idioma({w for w in (set(raw) | core) if w not in _GENERICO},
+                               cfg.get("idioma"))
         out = []
         con_titulo = 0
         for r in idx:
@@ -2289,14 +2407,7 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     clave_core = set(clave) | {w for w in core if w not in _GENERICO}
     # boletines en lengua cooficial: el texto dice "auga"/"lixo"/"regulamento"
     # aunque el abogado pregunte "agua"/"residuos"/"reglamento"
-    _tabla = {"gl": _GALEGO, "ca": _CATALA, "va": _CATALA}.get(PROVINCIAS[prov].get("idioma") or "")
-    if _tabla:
-        for w in list(clave_core):
-            for cas, loc in _tabla.items():
-                if _norm(w) == _norm(cas):
-                    clave_core.add(_mnorm(loc))
-                elif _norm(w) == _norm(loc):
-                    clave_core.add(_mnorm(cas))
+    clave_core = _expandir_idioma(clave_core, PROVINCIAS[prov].get("idioma"))
 
     def en_titulo(r):
         tm = _mnorm(r["titulo"])
