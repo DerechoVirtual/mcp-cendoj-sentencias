@@ -1,0 +1,11 @@
+{
+ "id": "madrid",
+ "base": "https://www.bocm.es",
+ "mapa": "bop_madrid_municipios.json",
+ "nombre": "Madrid",
+ "familia": "madrid",
+ "indice_desde": 2010,
+ "seccion": "8387",
+ "fulltext": true,
+ "verifica_texto": true
+}

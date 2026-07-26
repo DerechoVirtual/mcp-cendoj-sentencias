@@ -27,6 +27,7 @@ import json
 import os
 import re
 import ssl
+import threading
 import time
 import unicodedata
 import urllib.parse
@@ -95,6 +96,7 @@ _MAPAS = {}      # provincia -> {nombre_legible: categoria}
 _IDX = {}        # provincia -> {nombre_norm: categoria}
 _NOMBRES = {}    # provincia -> {nombre_norm: nombre limpio legible}
 _MUNI2PROV = {}  # nombre_norm -> provincia (para resolver "municipio" a secas)
+_MAPAS_LOCK = threading.Lock()
 
 # prefijos de entidad en las facets de algunos BOP ("AYUNTAMIENTO DE BAZA", "CONCELLO DE...")
 _PREF_ENT = re.compile(r"^(?:EXCMO\.?\s+)?(?:AYUNTAMIENTO|AYTO\.?|CONCELLO|CONCEJO|"
@@ -109,31 +111,43 @@ def _limpia_nombre(k):
 
 
 def _cargar_mapas():
+    """Carga ATÓMICA: se construye en diccionarios locales y solo al final se
+    publican. Si se rellenara `_MAPAS` sobre la marcha, otro hilo que entre a la
+    vez vería el guard `if _MAPAS` a medio construir y se quedaría con un índice
+    incompleto (provincia_de → None para media España)."""
     if _MAPAS:
         return
-    for prov, cfg in PROVINCIAS.items():
-        try:
-            m = json.load(open(os.path.join(_DATA, cfg["mapa"]), encoding="utf-8"))
-        except Exception:  # noqa: BLE001
-            m = {}
-        # algunos listados de entidades traen basura (p.ej. el BOP de Cáceres lista
-        # "Lepe", que es de Huelva). La config puede declarar `excluir`.
-        excl = {_norm(x) for x in cfg.get("excluir", [])}
-        if excl:
-            m = {k: v for k, v in m.items() if _norm(k) not in excl}
-        _MAPAS[prov] = m
-        _IDX[prov] = {}
-        _NOMBRES[prov] = {}
-        # primero los municipios (ayuntamientos); después juntas vecinales, etc.
-        claves = sorted(m, key=lambda k: bool(_ENT_MENOR.search(k)))
-        for k in claves:
-            limpio = _limpia_nombre(k)
-            kn = _norm(limpio)
-            if not kn:
-                continue
-            _IDX[prov].setdefault(kn, m[k])
-            _NOMBRES[prov].setdefault(kn, limpio if limpio.upper() != limpio else limpio.title())
-            _MUNI2PROV.setdefault(kn, prov)
+    with _MAPAS_LOCK:
+        if _MAPAS:
+            return
+        mapas, idx, nombres, m2p = {}, {}, {}, {}
+        for prov, cfg in PROVINCIAS.items():
+            try:
+                m = json.load(open(os.path.join(_DATA, cfg["mapa"]), encoding="utf-8"))
+            except Exception:  # noqa: BLE001
+                m = {}
+            # algunos listados de entidades traen basura (p.ej. el BOP de Cáceres lista
+            # "Lepe", que es de Huelva). La config puede declarar `excluir`.
+            excl = {_norm(x) for x in cfg.get("excluir", [])}
+            if excl:
+                m = {k: v for k, v in m.items() if _norm(k) not in excl}
+            mapas[prov] = m
+            idx[prov] = {}
+            nombres[prov] = {}
+            # primero los municipios (ayuntamientos); después juntas vecinales, etc.
+            claves = sorted(m, key=lambda k: bool(_ENT_MENOR.search(k)))
+            for k in claves:
+                limpio = _limpia_nombre(k)
+                kn = _norm(limpio)
+                if not kn:
+                    continue
+                idx[prov].setdefault(kn, m[k])
+                nombres[prov].setdefault(kn, limpio if limpio.upper() != limpio else limpio.title())
+                m2p.setdefault(kn, prov)
+        _IDX.update(idx)
+        _NOMBRES.update(nombres)
+        _MUNI2PROV.update(m2p)
+        _MAPAS.update(mapas)          # el guard, SIEMPRE el último
 
 
 def _parse_muni(municipio):
@@ -218,6 +232,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _malaga_buscar(prov, texto, categoria, rpp)
     if fam == "cadiz":
         return _cadiz_buscar(prov, texto, categoria, rpp)
+    if fam == "madrid":
+        return _madrid_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -240,7 +256,153 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _malaga_texto(prov, m)
     if fam == "cadiz":
         return _cadiz_texto(prov, m)
+    if fam == "madrid":
+        return _madrid_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend BOCM Madrid (Drupal 7 Views + JSON schema.org, SIN PDF ni OCR) --
+# El BOCM es el boletín de la Comunidad de Madrid y hace de BOP (uniprovincial).
+# Búsqueda: URL "limpia" server-rendered /advanced-search/p/<vocab>/<tid>[/busqueda/<q>]/seccion/8387
+# Lectura : cada anuncio publica JSON schema.org con el TEXTO ÍNTEGRO -> 0 OCR.
+_BOCM_ROW = re.compile(
+    r'class="views-row.*?about="/(bocm-(\d{8})-(\d+))".*?'
+    r'field-name-field-short-description.*?<p>(.*?)</p>', re.S)
+_BOCM_ID = re.compile(r"(?i)\bBOCM-(\d{4})(\d{2})(\d{2})-(\d+)\b")
+
+
+def _madrid_get(url, timeout=30, intentos=3):
+    """El BOCM corta conexiones en ráfaga (WinError 10060) y su latencia oscila
+    (0,6 s … 20 s según carga): reintentos cortos con espera creciente."""
+    ult = None
+    for i in range(intentos):
+        try:
+            return urllib.request.urlopen(urllib.request.Request(
+                url, headers={"User-Agent": _UA, "Accept-Language": "es-ES,es"}),
+                timeout=timeout).read().decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001
+            ult = e
+            time.sleep(0.5 * (i + 1))
+    raise ult
+
+
+def _madrid_url(cfg, tid, texto, pagina=0):
+    u = cfg["base"] + "/advanced-search/p/field_orden_organo_y_organismo_3/" + str(tid)
+    if (texto or "").strip():
+        u += "/busqueda/" + urllib.parse.quote((texto or "").strip())
+    u += "/seccion/" + str(cfg.get("seccion", "8387"))
+    return u + (f"?page={pagina}" if pagina else "")
+
+
+def _madrid_json_url(cfg, ident):
+    m = _BOCM_ID.search(ident or "")
+    if not m:
+        return None
+    y, mo, d, _ = m.groups()
+    return f"{cfg['base']}/boletin/CM_Orden_BOCM/{y}/{mo}/{d}/{m.group(0).upper()}.json"
+
+
+def _madrid_filas(h):
+    out = []
+    for m in _BOCM_ROW.finditer(h):
+        ident, f8 = m.group(1).upper(), m.group(2)
+        tit = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", m.group(4)))).strip()
+        tit = re.sub(r"^[–—-]\s*", "", tit).strip()
+        out.append({"url": f"https://www.bocm.es/{m.group(1)}", "titulo": tit,
+                    "cve": ident, "fecha": f"{f8[6:8]}/{f8[4:6]}/{f8[:4]}", "orden": f8})
+    return out
+
+
+def _madrid_buscar(prov, texto, tid=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    # ¿piden un anuncio concreto por su identificador? -> directo, sin buscador
+    mid = _BOCM_ID.search(texto or "")
+    if mid:
+        ident = mid.group(0).upper()
+        try:
+            j = json.loads(_madrid_get(_madrid_json_url(cfg, ident), timeout=40))
+        except Exception:  # noqa: BLE001
+            return []
+        f8 = ident[5:13]
+        return [{"url": f"{cfg['base']}/{ident.lower()}",
+                 "titulo": re.sub(r"^[–—-]\s*", "", (j.get("name") or "")).strip(),
+                 "cve": ident, "fecha": f"{f8[6:8]}/{f8[4:6]}/{f8[:4]}", "orden": f8,
+                 "text": j.get("text") or ""}]
+    if not tid:
+        return []
+    # El fulltext del BOCM es AND ESTRICTO: "ruido contaminación acústica" da 0
+    # resultados. Escalera: término más distintivo + volcado genérico del
+    # municipio, EN PARALELO (mismo coste de reloj que una sola consulta).
+    consultas = _madrid_consultas(texto)
+
+    def una(q):
+        try:
+            fs = _madrid_filas(_madrid_get(_madrid_url(cfg, tid, q), timeout=45))
+        except Exception:  # noqa: BLE001
+            return []
+        for f in fs:                       # de qué consulta viene (señal de relevancia)
+            f["q"] = q
+            f["materia"] = q != "ordenanza"
+        return fs
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=max(1, len(consultas))) as ex:
+        for rs in ex.map(una, consultas):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    if not vistos and (texto or "").strip():        # último recurso: sin filtro de texto
+        for r in una(""):
+            vistos.setdefault(r["cve"], r)
+    return list(vistos.values())
+
+
+def _madrid_consultas(texto):
+    """Consultas a lanzar para una materia. El buscador exige que TODAS las
+    palabras estén en el anuncio, así que la frase del usuario casi nunca casa:
+    se usa el término más distintivo (el más largo) y, en paralelo, el volcado
+    de 'ordenanza' del municipio para que el ranking por título tenga material."""
+    pal = [w for w in re.split(r"\W+", (texto or "").strip()) if w]
+    utiles = [w for w in pal if _norm(w) not in {_norm(x) for x in _STOPM} and len(w) >= 4]
+    qs = []
+    if utiles:
+        qs.append(max(utiles, key=len))              # p.ej. "acústica", "ambulante"
+        if len(utiles) > 1:
+            segundo = sorted(utiles, key=len, reverse=True)[1]
+            if segundo.lower() != qs[0].lower():
+                qs.append(segundo)
+    qs.append("ordenanza")
+    fuera, out = set(), []
+    for q in qs[:3]:
+        if q.lower() not in fuera:
+            fuera.add(q.lower())
+            out.append(q)
+    return out
+
+
+def _madrid_normaliza(t):
+    """El JSON del BOCM trae el texto en un solo bloque sin saltos: se reinsertan
+    marcas estructurales para que el troceo por artículos y los pasajes funcionen."""
+    t = re.sub(r"[ \t\xa0]+", " ", (t or "")).strip()
+    return re.sub(r"(?i)\s+(?=(?:art[íi]culo\s+\d+|cap[íi]tulo\s+[\wIVXLC]|t[íi]tulo\s+[IVXLC]|"
+                  r"disposici[oó]n\s+(?:adicional|transitoria|derogatoria|final)|anexo\s))", "\n\n", t)
+
+
+def _madrid_texto(prov, m):
+    if isinstance(m, dict) and m.get("text"):
+        return _madrid_normaliza(m["text"]), "json"
+    cfg = PROVINCIAS[prov]
+    u = _madrid_json_url(cfg, (m.get("cve") if isinstance(m, dict) else m) or "")
+    if not u:
+        return "", "sin-id"
+    try:
+        j = json.loads(_madrid_get(u, timeout=45))
+    except Exception:  # noqa: BLE001
+        return "", "sin-texto"
+    txt = j.get("text") or ""
+    return _madrid_normaliza(txt), ("json" if txt else "sin-texto")
 
 
 # ---- backend OpenCms Cádiz (búsqueda -> boletines -> PDF del día con #page) --
@@ -960,6 +1122,98 @@ def _mejor_fulltext(res, materia):
     return (definitivas or con_materia or cand)[0]
 
 
+# Palabras de relleno administrativo: aparecen en CUALQUIER ordenanza, así que no
+# sirven para decidir si el documento va de la materia preguntada.
+_GENERICO = {"entrada", "entradas", "salida", "vehiculo", "vehiculos", "publica", "publico",
+             "publicas", "publicos", "servicio", "servicios", "municipal", "municipales",
+             "urbana", "urbano", "general", "generales", "local", "locales", "uso", "usos",
+             "actividad", "actividades", "espacio", "espacios", "zona", "zonas", "obras",
+             "gestion", "normas", "vigente", "titulo", "ciudad", "termino", "aplicacion"}
+
+# Anuncios que NO son normativa (el buscador del BOCM los mezcla con las ordenanzas)
+_NO_NORMA = re.compile(r"extracto|convocatoria|delegaci[óo]n de funciones|"
+                       r"oferta[s]? de empleo|bases (del )?proceso|proceso selectivo|"
+                       r"plan especial|plan parcial|plan general|calificaci[óo]n (de )?suelo|"
+                       r"expropiaci|nombramiento|cese\b|list[ao] (provisional|definitiv)|"
+                       r"informaci[óo]n p[úu]blica de|estudio de detalle|convenio urban[íi]stico", re.I)
+
+
+def _mejor_verificado(prov, res, materia, top_n=4):
+    """Elige la ordenanza VERIFICANDO EL CONTENIDO, no solo el título.
+
+    Necesario cuando el boletín titula de forma genérica ('Alcobendas.
+    Organización y funcionamiento. Ordenanza'): el título no dice la materia, así
+    que se leen los N mejores candidatos (en PARALELO; en el BOCM el texto viene
+    en JSON y cuesta ~1 s) y gana el que realmente habla de la materia pedida.
+    El texto ganador viaja en m['text'] para no volver a descargarlo."""
+    raw, core, soft = _familias(materia)
+    cand = [r for r in res if _es_ordenanza(r["titulo"]) and not _NO_NORMA.search(r["titulo"])]
+    if not cand:
+        cand = [r for r in res if not _NO_NORMA.search(r["titulo"])]
+    if not cand:
+        return None
+
+    # El gate se juega en los términos DISTINTIVOS: "vados entrada de vehículos"
+    # se decide por «vados», no por «entrada»/«vehículos» (que salen en cualquier
+    # ordenanza de convivencia y colarían un resultado equivocado).
+    clave = [w for w in raw if w not in _GENERICO] or list(raw)
+    clave_core = set(clave) | {w for w in core if w not in _GENERICO}
+
+    def en_titulo(r):
+        tm = _mnorm(r["titulo"])
+        return sum(1 for w in clave_core if _hit(w, tm))
+
+    def pre(r):
+        tm = _mnorm(r["titulo"])
+        s = (5.0 * sum(1 for w in raw if _hit(w, tm)) + 2 * sum(1 for w in core if _hit(w, tm))
+             + sum(1 for w in soft if _hit(w, tm)))
+        if r.get("materia"):
+            s += 4                    # lo encontró la consulta de MATERIA, no el volcado
+        if re.search(r"definitiv", r["titulo"], re.I):
+            s += 2
+        if re.search(r"modificaci[óo]n", r["titulo"], re.I):
+            s -= 1
+        if _es_ordenanza(r["titulo"]):
+            s += 1
+        return s + int((r.get("orden") or "0")[:8] or 0) / 1e10
+
+    # si la búsqueda por materia dio algo, el volcado genérico no compite
+    pool = [r for r in cand if r.get("materia")] or cand
+    pool.sort(key=pre, reverse=True)
+    top = pool[:max(1, top_n)]
+
+    def carga(r):
+        try:
+            t, _ = _texto(prov, r)
+        except Exception:  # noqa: BLE001
+            t = ""
+        return r, t
+
+    mejor, mejor_s, mejor_t, mejor_ok = None, float("-inf"), "", False
+    with _cf.ThreadPoolExecutor(max_workers=len(top)) as ex:
+        for r, t in ex.map(carga, top):
+            if not t:
+                continue
+            tn = _mnorm(t[:80000])
+            hits = sum(tn.count(w) for w in raw) + sum(tn.count(w) for w in core)
+            hclave = sum(tn.count(w) for w in clave_core)
+            # DENSIDAD, no volumen: si no, una ordenanza fiscal de 170.000 caracteres
+            # gana a la ordenanza de la materia por mención incidental.
+            dens = hits * 1000.0 / max(len(tn), 1)
+            dclave = hclave * 1000.0 / max(len(tn), 1)
+            s = pre(r) + 2.0 * min(hits, 12) + 10.0 * min(dens, 2.0) + 4.0 * min(hclave, 10)
+            s += min(len(re.findall(r"(?i)art[íi]culo\s+\d+", t[:80000])), 40) / 8.0
+            # ¿de verdad va de lo que preguntan? (término distintivo en título o densidad real)
+            ok = bool(en_titulo(r)) or (hclave >= 3 and dclave >= 0.12)
+            if (ok, s) > (mejor_ok, mejor_s):
+                mejor, mejor_s, mejor_t, mejor_ok = r, s, t, ok
+    if mejor is None or not mejor_ok:
+        return None                   # honesto: no hay ordenanza de esa materia
+    mejor = dict(mejor)
+    mejor["text"] = mejor_t
+    return mejor
+
+
 def _ranquear_fulltext(res, materia):
     raw, core, soft = _familias(materia)
     fam = set(raw) | core | soft
@@ -1247,10 +1501,14 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
     t0 = time.time()
     # localizar el anuncio: por CVE si lo dan, si no por materia (escalera de recall)
     try:
-        mcve = re.search(r"BOP-[A-Z]{1,4}-\d{4}-\d+", ordenanza)
+        mcve = re.search(r"BOP-[A-Z]{1,4}-\d{4}-\d+|BOCM-\d{8}-\d+", ordenanza, re.I)
         if mcve:
             res = _buscar_raw(prov, mcve.group(0), cat, rpp=10) or _buscar_raw(prov, mcve.group(0), None, rpp=10)
             m = next((r for r in res if r["cve"] == mcve.group(0)), None) or (res[0] if res else None)
+        elif PROVINCIAS[prov].get("verifica_texto"):
+            # títulos genéricos (BOCM): se decide leyendo el contenido de los mejores
+            res = _buscar_raw(prov, ordenanza, cat, rpp=40)
+            m = _mejor_verificado(prov, res, ordenanza)
         elif PROVINCIAS[prov].get("fulltext"):
             # backend full-text (Sphinx): confiar en la relevancia del buscador
             res = _buscar_raw(prov, ordenanza, cat, rpp=40)
@@ -1283,6 +1541,11 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
         cuerpo = cuerpo[:max_chars] if max_chars > 0 else cuerpo
         return f"{cab}\n\n{cuerpo}\n\n(vía {via} · {(time.time()-t0)*1000:.0f} ms)"
     if parrafos and int(parrafos) > 0:
+        # anuncio corto (aprobación, derogación, modificación puntual): devolverlo
+        # ENTERO es más útil y más fiel que recortar un fragmento suelto
+        corto = _limpia(texto)
+        if len(corto) <= 6000:
+            return f"{cab}\n\n{corto}\n\n(vía {via} · {(time.time()-t0)*1000:.0f} ms)"
         pas = _pasajes(texto, terminos or ordenanza, int(parrafos))
         if not pas:
             return f"{cab}\n\nSin pasajes que maquen «{terminos}». Enlace: {m['url']}"

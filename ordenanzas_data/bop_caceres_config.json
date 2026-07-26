@@ -6,5 +6,8 @@
  "grupo": 1,
  "mapa": "bop_caceres_municipios.json",
  "indice_desde": 2010,
- "excluir": ["Lepe"]
+ "excluir": [
+  "Lepe",
+  "Majadahonda"
+ ]
 }
