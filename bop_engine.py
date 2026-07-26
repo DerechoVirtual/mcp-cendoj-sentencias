@@ -250,6 +250,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _laspalmas_buscar(prov, texto, categoria, rpp)
     if fam == "tarragona":
         return _tarragona_buscar(prov, texto, categoria, rpp)
+    if fam == "asturias":
+        return _asturias_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -288,7 +290,100 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _laspalmas_texto(prov, m)
     if fam == "tarragona":
         return _tarragona_texto(prov, m)
+    if fam == "asturias":
+        return _asturias_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend ASTURIAS (BOPA, buscador de legislación por TÍTULO) -------------
+# Una sola GET, sin cookies ni token. Los títulos vienen prefijados con el emisor
+# ("AYUNTAMIENTO DE LLANES. ORDENANZA...") → el filtro por concejo es gratis.
+# Cuidado con su WAF: baneó la IP ~15 min a ~9 req/s; techo práctico ≈3 req/s.
+_AS_P = "pa_sede_bopadisposicionmateria_web_BopaDisposicionMateriaLegislacionWeb"
+_AS_FILA = re.compile(r'<p class="tit-azulcl titulo_dispo">(.*?)</p>\s*'
+                      r'<p class="resultado_legis">(.*?)</p>\s*<p>(.*?)</p>', re.S)
+_AS_PDF = re.compile(r'href="([^"]+\.pdf)"')
+_MESES = {"enero": "01", "febrero": "02", "marzo": "03", "abril": "04", "mayo": "05",
+          "junio": "06", "julio": "07", "agosto": "08", "septiembre": "09",
+          "octubre": "10", "noviembre": "11", "diciembre": "12"}
+
+
+def _asturias_buscar(prov, texto, formas=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not formas:
+        return []
+    variantes = [f.strip() for f in str(formas).split(",") if f.strip()]
+    consultas = _consultas_materia(texto, None)
+    # el OR del buscador está ROTO (devuelve solo el segundo término): consultas
+    # separadas y unión en local. Y las frases multipalabra van entre comillas.
+    pares = [(v, q) for v in variantes[:2] for q in consultas[:3]]
+
+    def una(par):
+        forma, q = par
+        consulta = f'"{forma}" AND {q}' if " " in forma else f"{forma} AND {q}"
+        p = {"p_p_id": _AS_P, "p_p_lifecycle": "0", "p_p_state": "normal", "p_p_mode": "view",
+             "p_r_p_bopaLegislacionTitle": consulta, "p_r_p_bopaLegislacionFromMini": "false",
+             f"_{_AS_P}_bopaLegislacionIsSearch": "true",
+             f"_{_AS_P}_bopaLegislacionScope": "LOCAL",
+             f"_{_AS_P}_bopaLegislacionOnlyCurrent": "false",
+             f"_{_AS_P}_delta": "100", f"_{_AS_P}_cur": "1", f"_{_AS_P}_resetCur": "false"}
+        try:
+            h = _madrid_get(cfg["base"] + "/bopa/legislacion?" + urllib.parse.urlencode(p),
+                            timeout=30, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for tit, ref, bloque in _AS_FILA.findall(h):
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            # el concejo va en el propio título: filtro duro (si no, se cuelan
+            # mancomunidades y otros concejos citados en el cuerpo del título)
+            if not re.match(r"(?i)^AYUNTAMIENTOS? DE\s+" + re.escape(_quita_tildes(forma)) + r"\s*[\.,]",
+                            _quita_tildes(t)):
+                continue
+            pdf = _AS_PDF.search(bloque)
+            fe = re.search(r"-\s*(\d+) de (\w+) de (\d{4})", _html.unescape(ref))
+            if fe:
+                d, mes, y = fe.group(1), _MESES.get(fe.group(2).lower(), "01"), fe.group(3)
+                fecha, orden = f"{int(d):02d}/{mes}/{y}", f"{y}{mes}{int(d):02d}"
+            else:
+                fecha, orden = "", "0"
+            url = pdf.group(1) if pdf else ""
+            out.append({"url": url if url.startswith("http") else cfg["base"] + url,
+                        "titulo": re.sub(r"(?i)^AYUNTAMIENTO DE\s+[^.]+\.\s*", "", t),
+                        "cve": (url.rsplit("/", 1)[-1].replace(".pdf", "") if url else t[:40]),
+                        "fecha": fecha, "orden": orden, "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:      # su WAF castiga las ráfagas
+        for rs in ex.map(una, pares):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _quita_tildes(s):
+    return "".join(c for c in unicodedata.normalize("NFKD", s or "")
+                   if not unicodedata.combining(c))
+
+
+def _asturias_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u.endswith(".pdf"):
+        return "", "sin-url"
+    try:
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    # hay anuncios cuyo PDF apenas tiene capa de texto: mejor descartarlo y que el
+    # motor pruebe el siguiente candidato que devolver dos líneas sueltas
+    return (t, via) if len(t) > 400 else ("", "sin-texto")
 
 
 # ---- backend TARRAGONA (BOPT, app Symfony de la Diputació) -------------------
