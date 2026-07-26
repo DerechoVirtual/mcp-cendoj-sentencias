@@ -271,6 +271,8 @@ _BOCM_ROW = re.compile(
     r'class="views-row.*?about="/(bocm-(\d{8})-(\d+))".*?'
     r'field-name-field-short-description.*?<p>(.*?)</p>', re.S)
 _BOCM_ID = re.compile(r"(?i)\bBOCM-(\d{4})(\d{2})(\d{2})-(\d+)\b")
+# cuerpo del anuncio en su página HTML (respaldo cuando el JSON no se sirve)
+_BOCM_BODY = re.compile(r'(?s)field-name-body.*?<div class="field-items">(.*?)</div>\s*</div>\s*</div>')
 
 
 def _madrid_get(url, timeout=25, intentos=2):
@@ -321,15 +323,16 @@ def _madrid_buscar(prov, texto, tid=None, rpp=40):
     mid = _BOCM_ID.search(texto or "")
     if mid:
         ident = mid.group(0).upper()
-        try:
-            j = json.loads(_madrid_get(_madrid_json_url(cfg, ident), timeout=25))
-        except Exception:  # noqa: BLE001
-            return []
         f8 = ident[5:13]
-        return [{"url": f"{cfg['base']}/{ident.lower()}",
-                 "titulo": re.sub(r"^[–—-]\s*", "", (j.get("name") or "")).strip(),
-                 "cve": ident, "fecha": f"{f8[6:8]}/{f8[4:6]}/{f8[:4]}", "orden": f8,
-                 "text": j.get("text") or ""}]
+        fila = {"url": f"{cfg['base']}/{ident.lower()}", "titulo": "", "cve": ident,
+                "fecha": f"{f8[6:8]}/{f8[4:6]}/{f8[:4]}", "orden": f8}
+        try:
+            j = json.loads(_madrid_get(_madrid_json_url(cfg, ident), timeout=10, intentos=1))
+            fila["titulo"] = re.sub(r"^[–—-]\s*", "", (j.get("name") or "")).strip()
+            fila["text"] = j.get("text") or ""
+        except Exception:  # noqa: BLE001
+            pass                     # lo resolverá _madrid_texto por la vía HTML
+        return [fila]
     if not tid:
         return []
     # El fulltext del BOCM es AND ESTRICTO: "ruido contaminación acústica" da 0
@@ -389,18 +392,37 @@ def _madrid_normaliza(t):
 
 
 def _madrid_texto(prov, m):
+    """Texto del anuncio con CADENA DE RESPALDO y timeouts cortos.
+
+    Hay anuncios que el propio BOCM NO sirve en JSON (se quedan colgados hasta
+    60 s devolviendo 0 bytes; reproducido también desde fuera de Vercel, así que
+    es del boletín, no de la red). Por eso: intento corto en JSON y, si no da,
+    la página HTML del anuncio —que trae el mismo texto por otra ruta—. Nunca se
+    insiste: si este candidato no se puede leer, el motor prueba el siguiente."""
     if isinstance(m, dict) and m.get("text"):
         return _madrid_normaliza(m["text"]), "json"
     cfg = PROVINCIAS[prov]
-    u = _madrid_json_url(cfg, (m.get("cve") if isinstance(m, dict) else m) or "")
+    ident = ((m.get("cve") if isinstance(m, dict) else m) or "").upper()
+    u = _madrid_json_url(cfg, ident)
     if not u:
         return "", "sin-id"
     try:
-        j = json.loads(_madrid_get(u, timeout=25))
+        j = json.loads(_madrid_get(u, timeout=10, intentos=1))
+        txt = j.get("text") or ""
+        if txt:
+            return _madrid_normaliza(txt), "json"
     except Exception:  # noqa: BLE001
-        return "", "sin-texto"
-    txt = j.get("text") or ""
-    return _madrid_normaliza(txt), ("json" if txt else "sin-texto")
+        pass
+    try:
+        h = _madrid_get(cfg["base"] + "/" + ident.lower(), timeout=12, intentos=1)
+        mm = _BOCM_BODY.search(h)
+        if mm:
+            t = _html_a_texto(mm.group(1))
+            if t:
+                return _madrid_normaliza(t), "html"
+    except Exception:  # noqa: BLE001
+        pass
+    return "", "sin-texto"
 
 
 # ---- backend OpenCms Cádiz (búsqueda -> boletines -> PDF del día con #page) --

@@ -8,6 +8,6 @@
  "seccion": "8387",
  "fulltext": true,
  "verifica_texto": true,
- "activo": false,
+ "activo": true,
  "nota": "DESACTIVADA en produccion (26-jul-2026): el banco local da 17/17 en ~5s, pero desde Vercel el BOCM estrangula las descargas: verificacion en prod 4/10, media 31,5s, maximo 79s. Reactivar solo con indice empaquetado (patron Leon capital) o proxy/cache que evite depender de bocm.es en vivo."
 }
