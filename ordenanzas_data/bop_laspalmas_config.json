@@ -1,0 +1,11 @@
+{
+ "id": "laspalmas",
+ "base": "https://www.boplaspalmas.net",
+ "mapa": "bop_laspalmas_municipios.json",
+ "nombre": "Las Palmas",
+ "familia": "laspalmas",
+ "indice_desde": 2001,
+ "verifica_texto": true,
+ "fulltext": true,
+ "anyos": 10
+}

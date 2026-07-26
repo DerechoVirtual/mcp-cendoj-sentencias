@@ -1,0 +1,9 @@
+{
+ "id": "asturias",
+ "base": "https://miprincipado.asturias.es",
+ "mapa": "bop_asturias_municipios.json",
+ "nombre": "Asturias",
+ "familia": "asturias",
+ "indice_desde": 1982,
+ "activo": false
+}

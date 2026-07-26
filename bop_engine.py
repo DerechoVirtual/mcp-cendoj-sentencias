@@ -246,6 +246,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _bizkaia_buscar(prov, texto, categoria, rpp)
     if fam == "gipuzkoa":
         return _gipuzkoa_buscar(prov, texto, categoria, rpp)
+    if fam == "laspalmas":
+        return _laspalmas_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -280,7 +282,116 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _bizkaia_texto(prov, m)
     if fam == "gipuzkoa":
         return _gipuzkoa_texto(prov, m)
+    if fam == "laspalmas":
+        return _laspalmas_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend LAS PALMAS (nbop2: misma app PHP legada que Tenerife) -----------
+# Diferencias con Tenerife: (1) la URL del PDF NO se puede construir (el slug del
+# día lleva ceros de forma inconsistente) -> se usa el href del resultado;
+# (2) el sumario no trae nº de página, el anuncio CIERRA con su nº de registro
+# escrito con punto de millar; (3) el endpoint de sección es searchad.php.
+_LP_ROW = re.compile(
+    r"<b>(?P<sec>[IVX]+\.[^<]*)</b>\s*<br\s*/?>\s*<b>(?P<org>[^<]*)</b>\s*<br\s*/?>\s*"
+    r"(?P<tit>.*?)\s*<br\s*/?>\s*Publicado en el Bolet[ií]n n[uú]mero:\s*(?P<num>\d+)\s*"
+    r"de fecha:\s*(?P<fecha>\d{1,2}-\d{1,2}-\d{2})\.\s*"
+    r'<a href="(?P<pdf>[^"]+\.pdf)"', re.S)
+# el listado de organismos viene MUY sucio (erratas, prefijos, falta el "DE")
+_LP_PREF = re.compile(r"^\s*(?:EXCMO\.?|EXCMA\.?|ILUSTR[IÍ]SIMO|ILUSTRE\.?|IILUSTRE|LUSTRE|"
+                      r"M\.?\s*I\.?|M\.?\s*ILUSTRE)?\s*A?YUNTAMIENTOS?\s*(?:DE\s+|DEL\s+)?", re.I)
+_LP_ALIAS = {"sannicolasdetolentino": "laaldeadesannicolas", "sanmateo": "vegadesanmateo",
+             "lavegadesanmateo": "vegadesanmateo", "santalucia": "santaluciadetirajana",
+             "santamariadeguiadegrancanaria": "santamariadeguia",
+             "valsequillodegrancanaria": "valsequillo", "artenera": "artenara",
+             "tede": "telde", "arrrecife": "arrecife", "satalucia": "santaluciadetirajana",
+             "puertoderosario": "puertodelrosario"}
+
+
+def _lp_clave(s):
+    s = "".join(c for c in unicodedata.normalize("NFKD", s or "") if not unicodedata.combining(c)).upper()
+    s = re.sub(r"\s+", " ", s)
+    s = _LP_PREF.sub("", s)
+    k = re.sub(r"[^A-Z0-9]+", "", s).lower()
+    return _LP_ALIAS.get(k, k)
+
+
+def _laspalmas_buscar(prov, texto, organismo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organismo:
+        return []
+    ck = _lp_clave(organismo)
+    anyos = [time.gmtime().tm_year - i for i in range(int(cfg.get("anyos", 10)))]
+    consultas = _consultas_materia(texto, None)[:2] or ["ordenanza"]
+    tareas = [(a, q) for a in anyos for q in dict.fromkeys(consultas + ["ordenanza"])]
+
+    def uno(t):
+        a, q = t
+        # el buscador ignora acentos y con iso-8859-1 devuelve 0: ASCII sin tildes
+        qa = "".join(c for c in unicodedata.normalize("NFKD", q) if not unicodedata.combining(c))
+        try:
+            body = urllib.parse.urlencode({"clave": qa, "ayo": str(a), "pub": "1",
+                                           "admi": "3", "BUSCAADM": "IR"}).encode("utf-8")
+            raw = urllib.request.urlopen(urllib.request.Request(
+                cfg["base"] + "/nbop2/searchad.php", data=body,
+                headers={"User-Agent": _UA,
+                         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"}),
+                timeout=25).read()
+            try:
+                h = raw.decode("utf-8")
+            except UnicodeDecodeError:
+                h = raw.decode("iso-8859-1", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for m in _LP_ROW.finditer(h):
+            if _lp_clave(_html.unescape(m.group("org"))) != ck:
+                continue
+            tit = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", m.group("tit")))).strip()
+            d, mo, y = m.group("fecha").split("-")
+            iso = f"20{y}-{int(mo):02d}-{int(d):02d}"
+            pdf = m.group("pdf").replace("../", "/")
+            out.append({"url": (cfg["base"] + pdf) if pdf.startswith("/") else pdf,
+                        "titulo": tit, "cve": f"BOP-GC-{iso.replace('-', '')}-{m.group('num')}",
+                        "fecha": f"{int(d):02d}/{int(mo):02d}/20{y}", "orden": iso.replace("-", ""),
+                        "iso": iso, "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=6) as ex:
+        for rs in ex.map(uno, tareas):
+            for r in rs:
+                k = r["titulo"][:80] + r["iso"]
+                if k in vistos:
+                    vistos[k]["materia"] = vistos[k].get("materia") or r["materia"]
+                else:
+                    vistos[k] = r
+    return list(vistos.values())
+
+
+def _laspalmas_texto(prov, m):
+    if not _HAS_FITZ or not isinstance(m, dict) or not m.get("url"):
+        return "", "sin-fitz"
+    try:
+        doc = fitz.open(stream=_getb(m["url"], timeout=90), filetype="pdf")
+    except Exception:  # noqa: BLE001
+        return "", "sin-boletin"
+    obj = {w for w in re.sub(r"[^a-z0-9 ]+", " ", _mnorm(m["titulo"])).split() if len(w) > 3}
+    mejor_i, mejor_sc = None, 0.0
+    for i in range(min(doc.page_count, 250)):
+        pg = set(re.sub(r"[^a-z0-9 ]+", " ", _mnorm(doc[i].get_text())).split())
+        sc = len(obj & pg) / max(1, len(obj))
+        if sc > mejor_sc:
+            mejor_sc, mejor_i = sc, i
+    if mejor_i is None or mejor_sc < 0.55:
+        return "", "no-localizado"
+    txt = "".join(doc[i].get_text() for i in range(mejor_i, min(mejor_i + 25, doc.page_count)))
+    # el anuncio CIERRA con su nº de registro escrito con punto de millar (216.586)
+    fin = re.search(r"(?m)^\s*\d{1,3}\.\d{3}\s*$", txt[400:])
+    if fin:
+        txt = txt[:400 + fin.start()]
+    txt = re.sub(r"\n{3,}", "\n\n", txt).strip()
+    return (txt, "pdf") if len(txt) > 200 else ("", "sin-texto")
 
 
 # ---- backend GIPUZKOA (BOG, Liferay + portlet LEEboletinOficial) -------------
