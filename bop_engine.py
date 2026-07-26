@@ -248,6 +248,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _gipuzkoa_buscar(prov, texto, categoria, rpp)
     if fam == "laspalmas":
         return _laspalmas_buscar(prov, texto, categoria, rpp)
+    if fam == "tarragona":
+        return _tarragona_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -284,7 +286,92 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _gipuzkoa_texto(prov, m)
     if fam == "laspalmas":
         return _laspalmas_texto(prov, m)
+    if fam == "tarragona":
+        return _tarragona_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend TARRAGONA (BOPT, app Symfony de la Diputació) -------------------
+# GET simple, sin sesión ni CSRF. Dos avisos medidos: (1) sin fechas la consulta
+# tarda 18 s y con rango amplio 11 s -> se busca primero en ventana reciente
+# (3,5-5 s) y solo se amplía si no hay nada; (2) el boletín está en CATALÁN.
+_TG_ROW = re.compile(
+    r'<h3 class="card-title[^"]*"><a href="(/bopt/web/anunci/(\d+)/[^"]+)"[^>]*>([^<]*)</a></h3>\s*'
+    r"<p>(.*?)</p>.*?Registre</span>:\s*([\w-]+).*?Data de publicaci[óo]</span>:\s*(\d{2}/\d{2}/\d{4})", re.S)
+_CATALA = {"residuos": "residus", "residuo": "residus", "basura": "escombraries",
+           "basuras": "escombraries", "limpieza": "neteja", "ruido": "soroll",
+           "ruidos": "sorolls", "animales": "animals", "animal": "animals",
+           "terrazas": "terrasses", "terraza": "terrassa", "vados": "guals", "vado": "gual",
+           "movilidad": "mobilitat", "circulación": "circulació", "tasa": "taxa",
+           "tasas": "taxes", "venta": "venda", "ambulante": "ambulant", "agua": "aigua",
+           "aguas": "aigües", "obras": "obres", "mercado": "mercat", "mercados": "mercats",
+           "cementerio": "cementiri", "vivienda": "habitatge", "viviendas": "habitatges",
+           "civismo": "civisme", "convivencia": "convivència", "ordenanza": "ordenança",
+           "reglamento": "reglament", "licencia": "llicència", "licencias": "llicències",
+           "saneamiento": "sanejament", "urbanismo": "urbanisme", "playas": "platges",
+           "estacionamiento": "estacionament", "subvenciones": "subvencions"}
+
+
+def _tarragona_buscar(prov, texto, muni=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not muni:
+        return []
+    hoy = time.gmtime()
+    fin = f"{hoy.tm_mday:02d}-{hoy.tm_mon:02d}-{hoy.tm_year}"
+    consultas = _consultas_materia(texto, "ca")
+
+    def una(args):
+        q, ini = args
+        p = {"bopb_cerca[paraulaClau]": q, "bopb_cerca[dataInici]": ini,
+             "bopb_cerca[dataFinal]": fin, "bopb_cerca[tipologiaAnunciant]": str(muni)}
+        try:
+            h = _madrid_get(cfg["base"] + "/bopt/web/resultats-cerca?" + urllib.parse.urlencode(p),
+                            timeout=40, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for href, ident, _org, tit, reg, fecha in _TG_ROW.findall(h):
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            d, mo, y = fecha.split("/")
+            out.append({"url": cfg["base"] + href, "titulo": t, "cve": reg,
+                        "fecha": fecha, "orden": f"{y}{mo}{d}", "id": ident,
+                        "materia": q not in ("ordenanza", "ordenança")})
+        return out
+
+    reciente = f"01-01-{hoy.tm_year - 8}"
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=min(4, len(consultas))) as ex:
+        for rs in ex.map(una, [(q, reciente) for q in consultas]):
+            for r in rs:
+                vistos.setdefault(r["cve"], r)
+    if not vistos:                      # nada reciente: se amplía a todo el índice
+        for r in una((consultas[0], f"01-01-{cfg.get('indice_desde', 2010)}")):
+            vistos.setdefault(r["cve"], r)
+    return list(vistos.values())
+
+
+def _tarragona_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        h = _madrid_get(u, timeout=30, intentos=1)
+        cuerpo = re.search(r'(?s)<div class="card-body">(.*?)</div>\s*</div>', h)
+        t = _html_a_texto(cuerpo.group(1) if cuerpo else h)
+        if len(t) > 600:
+            return t, "html"
+    except Exception:  # noqa: BLE001
+        pass
+    ident = m.get("id") if isinstance(m, dict) else None
+    if ident:
+        try:
+            pdf = _getb(f"{cfg['base']}/bopt/web/anunci/descarrega-pdf/{ident}", timeout=45)
+            if pdf[:5] == b"%PDF-":
+                return _pdf_bytes_texto(pdf)
+        except Exception:  # noqa: BLE001
+            pass
+    return "", "sin-texto"
 
 
 # ---- backend LAS PALMAS (nbop2: misma app PHP legada que Tenerife) -----------
@@ -805,12 +892,15 @@ def _consultas_materia(texto, idioma=None, generico="ordenanza", n=2):
     pal = [w for w in re.split(r"\W+", (texto or "").strip()) if w]
     utiles = [w for w in pal if _norm(w) not in {_norm(x) for x in _STOPM} and len(w) >= 4]
     qs = sorted(utiles, key=len, reverse=True)[:n]
-    if idioma == "gl":
+    tabla = {"gl": _GALEGO, "ca": _CATALA, "va": _CATALA}.get(idioma or "")
+    if tabla:
         for w in list(qs):
-            g = _GALEGO.get(w.lower())
+            g = tabla.get(w.lower())
             if g and g.lower() != w.lower():
                 qs.append(g)
     qs.append(generico)
+    if tabla and tabla.get(generico.lower()):      # "ordenanza" -> "ordenança"/"ordenanza"
+        qs.append(tabla[generico.lower()])
     fuera, out = set(), []
     for q in qs:
         if q.lower() not in fuera:
@@ -1762,7 +1852,10 @@ def _saga_buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
 
 
 def _es_ordenanza(t):
-    return bool(re.search(r"ordenanza|reglamento|\btasa\b|precio p[uú]blico", t, re.I))
+    # los boletines de Galicia, Cataluña y C. Valenciana titulan en su lengua:
+    # "Ordenança", "Regulamento", "taxa", "preu públic"… (sin esto no filtraba nada)
+    return bool(re.search(r"ordenan[zç]a|reglament|regulamento|\btaxa\b|\btasa\b|"
+                          r"pre[uc]?io? p[uú]blic|pre[uz]o p[uú]blic", t, re.I))
 
 
 _STOPM = {"de", "la", "el", "los", "las", "del", "y", "o", "en", "por", "para", "un",
@@ -1965,7 +2058,7 @@ _GENERICO = {"entrada", "entradas", "salida", "vehiculo", "vehiculos", "publica"
              "gestion", "normas", "vigente", "titulo", "ciudad", "termino", "aplicacion"}
 
 # Anuncios que NO son normativa (el buscador del BOCM los mezcla con las ordenanzas)
-_NO_NORMA = re.compile(r"extracto|convocatoria|delegaci[óo]n de funciones|"
+_NO_NORMA = re.compile(r"extracto|convocat[oò]ria|convocatoria|atorgament|ajuts econ[oò]mics|borsa de treball|nomenament|delegaci[óo]n de funciones|"
                        r"oferta[s]? de empleo|bases (del )?proceso|proceso selectivo|"
                        r"plan especial|plan parcial|plan general|calificaci[óo]n (de )?suelo|"
                        r"expropiaci|nombramiento|cese\b|list[ao] (provisional|definitiv)|"
@@ -1994,12 +2087,13 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     clave_core = set(clave) | {w for w in core if w not in _GENERICO}
     # boletines en lengua cooficial: el texto dice "auga"/"lixo"/"regulamento"
     # aunque el abogado pregunte "agua"/"residuos"/"reglamento"
-    if PROVINCIAS[prov].get("idioma") == "gl":
+    _tabla = {"gl": _GALEGO, "ca": _CATALA, "va": _CATALA}.get(PROVINCIAS[prov].get("idioma") or "")
+    if _tabla:
         for w in list(clave_core):
-            for cas, gal in _GALEGO.items():
+            for cas, loc in _tabla.items():
                 if _norm(w) == _norm(cas):
-                    clave_core.add(_mnorm(gal))
-                elif _norm(w) == _norm(gal):
+                    clave_core.add(_mnorm(loc))
+                elif _norm(w) == _norm(loc):
                     clave_core.add(_mnorm(cas))
 
     def en_titulo(r):

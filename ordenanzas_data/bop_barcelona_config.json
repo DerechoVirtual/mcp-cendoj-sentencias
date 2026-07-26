@@ -1,0 +1,11 @@
+{
+ "id": "barcelona",
+ "base": "https://bop.diba.cat",
+ "mapa": "bop_barcelona_municipios.json",
+ "nombre": "Barcelona",
+ "familia": "barcelona",
+ "indice_desde": 1998,
+ "idioma": "ca",
+ "activo": false,
+ "nota": "BOPB (app Symfony de la Diputació). Búsqueda RÁPIDA = filtro por ayuntamiento + tipo de anuncio, SIN texto libre ni fechas: GET /resultats-cerca?bopb_cerca[tipologiaAnunciantBase]=<id>&bopb_cerca[tipusAnunciBase]=40 (40=Normativa; 41=ordenances fiscals, 42=ordenances reguladores i reglaments); 20 resultados/página, orden ASCENDENTE por fecha, paginación /resultats-cerca/<n>. SIN cookies (una sesión compartida serializa las peticiones). Texto libre (paraulaClau) 19-38 s y rango de fechas ~7 s: NO usarlos. Títulos en CATALÁN. PDF del anuncio en /anunci/descarrega-pdf/<id>: desde 2011 es el anuncio suelto (94 % con capa de texto, sin OCR); ANTES de 2011 devuelve el BUTLLETÍ ENTERO (96-144 págs) y hay que recortar por título. org-275 cubre 1998-2021 (134 anuncios de Normativa) y org-3127788, creado tras el cambio de nombre a 'Bigues i Riells del Fai', cubre 2024-2026 (31). El mapa usa org-275; para cobertura total el backend debería consultar los dos."
+}

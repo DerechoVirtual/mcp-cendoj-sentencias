@@ -1,0 +1,10 @@
+{
+ "id": "valencia",
+ "base": "https://bop.dival.es",
+ "mapa": "bop_valencia_municipios.json",
+ "nombre": "Valencia",
+ "familia": "valencia",
+ "indice_desde": 2002,
+ "idioma": "va",
+ "activo": false
+}

@@ -1,0 +1,11 @@
+{
+ "id": "tarragona",
+ "base": "https://www.dipta.cat",
+ "mapa": "bop_tarragona_municipios.json",
+ "nombre": "Tarragona",
+ "familia": "tarragona",
+ "indice_desde": 2010,
+ "idioma": "ca",
+ "verifica_texto": true,
+ "fulltext": true
+}
