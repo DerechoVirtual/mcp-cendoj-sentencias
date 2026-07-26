@@ -1,0 +1,11 @@
+{
+ "id": "acoruna",
+ "base": "https://bop.dacoruna.gal",
+ "mapa": "bop_acoruna_municipios.json",
+ "nombre": "A Coruña",
+ "familia": "acoruna",
+ "indice_desde": 2009,
+ "verifica_texto": true,
+ "fulltext": true,
+ "idioma": "gl"
+}

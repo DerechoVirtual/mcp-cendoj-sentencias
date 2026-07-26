@@ -1,0 +1,10 @@
+{
+ "id": "tenerife",
+ "base": "https://www.bopsantacruzdetenerife.es",
+ "mapa": "bop_tenerife_municipios.json",
+ "nombre": "Santa Cruz de Tenerife",
+ "familia": "tenerife",
+ "indice_desde": 2002,
+ "activo": false,
+ "nota": "pendiente de backend en bop_engine (26-jul-2026)"
+}

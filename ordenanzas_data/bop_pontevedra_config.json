@@ -1,0 +1,11 @@
+{
+ "id": "pontevedra",
+ "base": "https://boppo.depo.gal",
+ "mapa": "bop_pontevedra_municipios.json",
+ "nombre": "Pontevedra",
+ "familia": "pontevedra",
+ "indice_desde": 2015,
+ "verifica_texto": true,
+ "fulltext": true,
+ "idioma": "gl"
+}

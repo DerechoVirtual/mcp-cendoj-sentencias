@@ -236,6 +236,10 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _cadiz_buscar(prov, texto, categoria, rpp)
     if fam == "madrid":
         return _madrid_buscar(prov, texto, categoria, rpp)
+    if fam == "acoruna":
+        return _acoruna_buscar(prov, texto, categoria, rpp)
+    if fam == "pontevedra":
+        return _pontevedra_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -260,7 +264,243 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _cadiz_texto(prov, m)
     if fam == "madrid":
         return _madrid_texto(prov, m)
+    if fam == "acoruna":
+        return _acoruna_texto(prov, m)
+    if fam == "pontevedra":
+        return _pontevedra_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend PONTEVEDRA (BOPPO, Liferay + portlet bopv2) ---------------------
+# Filtro por concello con el id HOJA del árbol de emisores (el id de la categoría
+# del concello da "Selecciona un emisor válido"). Texto y PDF sin OCR. El boletín
+# está en GALLEGO: "lixo" 18 resultados vs "residuos" 10 vs "basuras" 0.
+_PV_SES = {}      # prov -> (opener, p_auth, portlet, ts)
+_PV_ROW = re.compile(
+    r'<a class="botDesc"\s+href="([^"]+)"[^>]*title="[^"]*?(\d{2}/\d{2}/\d{4})[^"]*"'
+    r'.*?<a href="([^"]+/detalle/[^"]+)"[^>]*>(.*?)</a>', re.S)
+_PV_CONT = re.compile(r'(?s)<div[^>]+id="contAnuncio"[^>]*>(.*?)<div[^>]+class="ancla"')
+
+
+def _pv_sesion(prov):
+    s = _PV_SES.get(prov)
+    if s and time.time() - s[3] < 600:
+        return s
+    cfg = PROVINCIAS[prov]
+    cj = http.cookiejar.CookieJar()
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+    op.addheaders = [("User-Agent", _UA), ("Accept-Language", "gl-ES,gl;q=0.9,es;q=0.8")]
+    h = op.open(cfg["base"] + "/buscas-no-boppo", timeout=25).read().decode("utf-8", "replace")
+    tok = re.search(r"p_auth=([\w-]+)", h)
+    port = re.search(r"(buscadorbopv2portlet_WAR_bopv2portlet_INSTANCE_\w+)", h)
+    if not tok or not port:
+        raise RuntimeError("BOPPO: no encuentro p_auth/portlet")
+    _PV_SES[prov] = (op, tok.group(1), port.group(1), time.time())
+    return _PV_SES[prov]
+
+
+def _consultas_materia(texto, idioma=None, generico="ordenanza", n=2):
+    """Términos a consultar en un buscador LITERAL: los más distintivos de lo que
+    pidió el abogado + su forma en la lengua del boletín (los BOP gallegos indexan
+    «venda ambulante», no «venta ambulante») + un volcado genérico de respaldo."""
+    pal = [w for w in re.split(r"\W+", (texto or "").strip()) if w]
+    utiles = [w for w in pal if _norm(w) not in {_norm(x) for x in _STOPM} and len(w) >= 4]
+    qs = sorted(utiles, key=len, reverse=True)[:n]
+    if idioma == "gl":
+        for w in list(qs):
+            g = _GALEGO.get(w.lower())
+            if g and g.lower() != w.lower():
+                qs.append(g)
+    qs.append(generico)
+    fuera, out = set(), []
+    for q in qs:
+        if q.lower() not in fuera:
+            fuera.add(q.lower())
+            out.append(q)
+    return out
+
+
+def _pontevedra_buscar(prov, texto, emisor=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not emisor:
+        return []
+    # el buscador es LITERAL y el boletín está en gallego: se prueban las formas
+    # más distintivas (es/gl) EN PARALELO y se unen los resultados
+    consultas = _consultas_materia(texto, cfg.get("idioma"))
+    _pv_sesion(prov)                      # abrir sesión una vez, no una por hilo
+
+    def una(q):
+        try:
+            return _pv_una(prov, q, emisor)
+        except Exception:  # noqa: BLE001
+            return []
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=min(4, len(consultas))) as ex:
+        for rs in ex.map(una, consultas):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _pv_una(prov, q, emisor):
+    cfg = PROVINCIAS[prov]
+    op, tok, port, _ = _pv_sesion(prov)
+    qs = urllib.parse.urlencode({
+        "p_auth": tok, "p_p_id": port, "p_p_lifecycle": "1", "p_p_state": "normal",
+        "p_p_mode": "view", "p_p_col_id": "column-3", "p_p_col_pos": "1",
+        "p_p_col_count": "2", f"_{port}_action": "search"})
+    body = urllib.parse.urlencode({
+        "order": "SCORE", "orderReverse": "true", "content": q, "emisor": str(emisor),
+        "idTipoAnuncio": cfg.get("tipo_anuncio", "9674594"), "bopNumberFrom": "",
+        "bopNumberTo": "", "dateFrom": "", "dateTo": ""}).encode()
+    req = urllib.request.Request(cfg["base"] + "/buscas-no-boppo?" + qs, data=body, headers={
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Referer": cfg["base"] + "/buscas-no-boppo", "Origin": cfg["base"]})
+    try:
+        h = op.open(req, timeout=30).read().decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        _PV_SES.pop(prov, None)          # token caducado -> una reintentada limpia
+        op, tok, port, _ = _pv_sesion(prov)
+        return []
+    out = []
+    for pdf, fecha, det, tit in _PV_ROW.findall(h):
+        # el título llega con resaltado (<em>) y precedido de la ruta del emisor
+        t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", "", tit))).strip()
+        t = re.sub(r"^ADMINISTRACI[ÓO]N LOCAL\s+Municipal\s+", "", t, flags=re.I).strip()
+        t = re.sub(r"^.*?Ordenanzas e Regulamentos\s+", "", t, flags=re.I).strip()
+        d, mth, y = fecha.split("/")
+        idm = re.search(r"/(\d{6,})/?$", det.rstrip("/"))
+        out.append({"url": det if det.startswith("http") else cfg["base"] + det,
+                    "titulo": t, "cve": idm.group(1) if idm else det[-24:],
+                    "fecha": fecha, "orden": f"{y}{mth}{d}", "materia": q != "ordenanza"})
+    return out
+
+
+def _pontevedra_texto(prov, m):
+    u = m.get("url") if isinstance(m, dict) else m
+    if not u:
+        return "", "sin-url"
+    try:
+        op, _t, _p, _ = _pv_sesion(prov)
+        h = op.open(urllib.request.Request(u, headers={"User-Agent": _UA}),
+                    timeout=25).read().decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return "", "sin-texto"
+    mm = _PV_CONT.search(h)
+    bruto = mm.group(1) if mm else h
+    bruto = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", bruto)   # se cuela CSS si no
+    t = _html_a_texto(bruto)
+    return (t, "html") if len(t) > 200 else ("", "sin-texto")
+
+
+# ---- backend A CORUÑA (bopportal: 1 POST de búsqueda + HTML publicado) -------
+# Sin captcha, sin sesión y sin OCR: el más barato de todos (búsqueda 0,25 s,
+# lectura 0,2 s). Dos particularidades del BOP da Coruña:
+#   * `soloSumario=true` busca en el TÍTULO (con false, el full-text del PDF da
+#     34.000 resultados para "ordenanza" y es inservible);
+#   * el índice es BILINGÜE: "regulamento"≡"reglamento", "lixo"≡"residuos"… hay
+#     que consultar las dos formas y unir, porque devuelven cosas distintas.
+_ACO_ROW = re.compile(r'href="/bopportal/descargarPdf\?page=\d+&(?:amp;)?fecha=(\d{8})'
+                      r'&(?:amp;)?numRegistro=([\d/]+)\.pdf"[^>]*>\s*(.*?)\s*</a>', re.S)
+_GALEGO = {"residuos": "lixo", "residuo": "lixo", "basura": "lixo", "basuras": "lixo",
+           "limpieza": "limpeza", "reglamento": "regulamento", "animales": "animais",
+           "animal": "animais", "movilidad": "mobilidade", "ruido": "ruído",
+           "ruidos": "ruído", "vehículos": "vehículos", "aguas": "augas", "agua": "auga",
+           "obras": "obras", "vado": "vao", "vados": "vaos", "mercado": "mercado",
+           "cementerio": "cemiterio", "circulación": "circulación", "tenencia": "tenza",
+           "tasa": "taxa", "tasas": "taxas", "saneamiento": "saneamento",
+           "abastecimiento": "abastecemento", "licencia": "licenza", "licencias": "licenzas",
+           "urbanismo": "urbanismo", "convivencia": "convivencia", "ruidos": "ruídos",
+           "protección": "protección", "ambulante": "ambulante", "mercados": "mercados",
+           "subvenciones": "subvencións", "transparencia": "transparencia",
+           "participación": "participación", "patrimonio": "patrimonio",
+           "terrazas": "terrazas", "veladores": "veladores", "aparcamiento": "aparcamento",
+           "venta": "venda", "procedimiento": "procedemento", "construcciones": "construcións",
+           "huertos": "hortas", "huerto": "horta", "electrónica": "electrónica",
+           "administración": "administración", "vivienda": "vivenda", "viviendas": "vivendas",
+           "playas": "praias", "playa": "praia", "consumo": "consumo", "comercio": "comercio",
+           "alcantarillado": "sumidoiros", "escuela": "escola", "deportes": "deportes"}
+
+
+def _acoruna_buscar(prov, texto, ids=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not ids:
+        return []
+    # varios anunciantes por municipio: A Coruña capital tiene la historia partida
+    # en 11 ids (el raíz solo cubre 2020→hoy); con uno solo se pierde el 60 %.
+    lista = [i.strip() for i in str(ids).split(",") if i.strip()]
+    pal = [w for w in re.split(r"\W+", (texto or "").strip()) if w]
+    utiles = [w for w in pal if _norm(w) not in {_norm(x) for x in _STOPM} and len(w) >= 4]
+    consultas = sorted(utiles, key=len, reverse=True)[:2] or ["ordenanza"]
+    for w in list(consultas):                       # variante en gallego
+        g = _GALEGO.get(w.lower())
+        if g and g not in consultas:
+            consultas.append(g)
+    consultas.append("ordenanza")
+    tareas = [(i, q) for i in lista for q in dict.fromkeys(consultas)]
+
+    def una(t):
+        idp, q = t
+        d = {"numPag": "1", "tipoBusqueda": "avanzada", "esPortalSN": "S", "texto": q,
+             "soloSumario": "true", "idProcedente": idp, "procedente": "", "hProcedente": "",
+             "idPortador": "", "hPortador": "", "idPagadora": "", "hPagadora": "",
+             "primeraVez": "", "ficheroDoc": "", "numeroBoletinIni": "", "numeroBoletinFin": "",
+             "fechapublicacionIni": "", "fechapublicacionFin": "", "especie": "", "idEspecie": ""}
+        try:
+            req = urllib.request.Request(
+                cfg["base"] + "/bopportal/realizarBusqueda",
+                data=urllib.parse.urlencode(d).encode(),
+                headers={"User-Agent": _UA, "Content-Type": "application/x-www-form-urlencoded"})
+            h = urllib.request.urlopen(req, timeout=25).read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for fecha, reg, tit in _ACO_ROW.findall(h):
+            t2 = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            out.append({"url": f"{cfg['base']}/bopportal/publicado/{fecha[:4]}/{fecha[4:6]}/"
+                               f"{fecha[6:8]}/{reg.replace('/', '_')}.html",
+                        "titulo": t2, "cve": reg,
+                        "fecha": f"{fecha[6:8]}/{fecha[4:6]}/{fecha[:4]}", "orden": fecha,
+                        "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=min(6, max(1, len(tareas)))) as ex:
+        for rs in ex.map(una, tareas):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _acoruna_texto(prov, m):
+    """El anuncio se sirve como HTML y como PDF en una URL estática predecible.
+    El HTML es más rápido y ya trae capa de texto; el PDF queda de respaldo."""
+    u = m.get("url") if isinstance(m, dict) else m
+    if not u:
+        return "", "sin-url"
+    try:
+        h = _madrid_get(u, timeout=15, intentos=1)
+        t = _html_a_texto(h)
+        if len(t) > 200:
+            return t, "html"
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        pdf = _getb(u[:-5] + ".pdf", timeout=25)
+        if pdf[:5] == b"%PDF-":
+            t, _ = _pdf_bytes_texto(pdf)
+            if t:
+                return t, "pdf"
+    except Exception:  # noqa: BLE001
+        pass
+    return "", "sin-texto"
 
 
 # ---- backend BOCM Madrid (Drupal 7 Views + JSON schema.org, SIN PDF ni OCR) --
@@ -288,6 +528,23 @@ def _madrid_get(url, timeout=25, intentos=2):
             ult = e
             time.sleep(0.5 * (i + 1))
     raise ult
+
+
+_MAD_IDX = {}          # tid -> [{cve,titulo,fecha,orden}] o None si no hay índice
+
+
+def _madrid_indice(tid):
+    """Índice de anuncios normativos del municipio empaquetado en el repo
+    (lo genera _gen_indice_madrid.py). None = municipio no indexado → búsqueda viva."""
+    if tid in _MAD_IDX:
+        return _MAD_IDX[tid]
+    try:
+        with open(os.path.join(_DATA, "madrid_indice", f"{tid}.json"), encoding="utf-8") as f:
+            datos = json.load(f) or None
+    except Exception:  # noqa: BLE001
+        datos = None
+    _MAD_IDX[tid] = datos
+    return datos
 
 
 def _madrid_url(cfg, tid, texto, pagina=0):
@@ -335,6 +592,49 @@ def _madrid_buscar(prov, texto, tid=None, rpp=40):
         return [fila]
     if not tid:
         return []
+    # ÍNDICE EMPAQUETADO: si el municipio está indexado, la búsqueda NO toca la red.
+    # (Desde Vercel las páginas de búsqueda del BOCM se cuelgan de forma
+    # intermitente — 4/10 y hasta 94 s en producción—; las lecturas de un anuncio
+    # concreto sí funcionan, así que solo se lee en vivo el elegido.)
+    idx = _madrid_indice(tid)
+    if idx:
+        raw, core, _s = _familias(texto or "")
+        fam = {w for w in (set(raw) | core) if w not in _GENERICO}
+        out = []
+        con_titulo = 0
+        for r in idx:
+            d = dict(r, url=f"{cfg['base']}/{r['cve'].lower()}")
+            tm = _mnorm(r["titulo"])
+            d["materia"] = bool(fam) and any(_hit(w, tm) for w in fam)
+            con_titulo += bool(d["materia"])
+            out.append(d)
+        # El índice solo guarda TÍTULOS, y el BOCM titula genérico ("Ordenanza"):
+        # si ningún título casa con la materia, se lanza UNA consulta viva (el
+        # buscador sí mira el cuerpo) para no perder los casos tipo "ruido" de
+        # Alcobendas, que vive dentro de la ordenanza de salubridad.
+        if fam and not con_titulo:
+            qs = [q for q in _madrid_consultas(texto) if q != "ordenanza"][:2]
+
+            def viva(q):
+                try:
+                    return _madrid_filas(_madrid_get(_madrid_url(cfg, tid, q),
+                                                     timeout=20, intentos=1))
+                except Exception:  # noqa: BLE001
+                    return []
+
+            vivos = {}
+            with _cf.ThreadPoolExecutor(max_workers=max(1, len(qs))) as ex:
+                for rs in ex.map(viva, qs):
+                    for r in rs:
+                        vivos.setdefault(r["cve"], r)
+            ya = {o["cve"] for o in out}
+            for r in out:
+                if r["cve"] in vivos:
+                    r["materia"] = True
+            for cve, r in vivos.items():
+                if cve not in ya:
+                    out.append(dict(r, materia=True))
+        return out
     # El fulltext del BOCM es AND ESTRICTO: "ruido contaminación acústica" da 0
     # resultados. Escalera: término más distintivo + volcado genérico del
     # municipio, EN PARALELO (mismo coste de reloj que una sola consulta).
@@ -1178,6 +1478,15 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     # ordenanza de convivencia y colarían un resultado equivocado).
     clave = [w for w in raw if w not in _GENERICO] or list(raw)
     clave_core = set(clave) | {w for w in core if w not in _GENERICO}
+    # boletines en lengua cooficial: el texto dice "auga"/"lixo"/"regulamento"
+    # aunque el abogado pregunte "agua"/"residuos"/"reglamento"
+    if PROVINCIAS[prov].get("idioma") == "gl":
+        for w in list(clave_core):
+            for cas, gal in _GALEGO.items():
+                if _norm(w) == _norm(cas):
+                    clave_core.add(_mnorm(gal))
+                elif _norm(w) == _norm(gal):
+                    clave_core.add(_mnorm(cas))
 
     def en_titulo(r):
         tm = _mnorm(r["titulo"])
@@ -1200,6 +1509,10 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     # si la búsqueda por materia dio algo, el volcado genérico no compite
     pool = [r for r in cand if r.get("materia")] or cand
     pool.sort(key=pre, reverse=True)
+    # consulta SIN términos distintivos ("ordenanza", "tasa"): no hay materia que
+    # verificar, así que se devuelve la mejor por título en vez de no devolver nada
+    if not clave_core:
+        return pool[0] if pool else None
     # CAMINO RÁPIDO: si el título ya dice la materia, no hace falta verificar nada
     # (importa de verdad: desde Vercel el BOCM estrangula las descargas en paralelo,
     # así que cada lectura que ahorramos es latencia y riesgo de timeout que quitamos).
@@ -1218,9 +1531,12 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     # estrangula las descargas simultáneas y una ráfaga acaba en timeout. Lo normal
     # es resolver con 1 lectura; solo si esa no convence se mira la siguiente.
     mejor, mejor_s, mejor_t, mejor_ok = None, float("-inf"), "", False
+    limite = time.time() + 16          # tope duro: nunca disparar la latencia
     if True:
         for r, t in map(carga, top):
             if not t:
+                if time.time() > limite:
+                    break
                 continue
             tn = _mnorm(t[:80000])
             hits = sum(tn.count(w) for w in raw) + sum(tn.count(w) for w in core)
@@ -1236,6 +1552,8 @@ def _mejor_verificado(prov, res, materia, top_n=4):
             if (ok, s) > (mejor_ok, mejor_s):
                 mejor, mejor_s, mejor_t, mejor_ok = r, s, t, ok
             if ok and dclave >= 0.30:      # claramente es esta: no leo más
+                break
+            if time.time() > limite:       # se agotó el presupuesto de tiempo
                 break
     if mejor is None or not mejor_ok:
         return None                   # honesto: no hay ordenanza de esa materia
