@@ -74,6 +74,8 @@ def _cargar_provincias():
             pid = cfg.get("id") or os.path.basename(fp)[4:-12]
             if not pid or pid in PROVINCIAS or not cfg.get("base") or not cfg.get("mapa"):
                 continue
+            if cfg.get("activo") is False:
+                continue          # provincia implementada pero NO servida (ver nota en su config)
             cfg.setdefault("resultados", "/publica/buscador-anuncios/resultados-anuncios/")
             cfg.setdefault("anuncio_pdf", "Documentos-Anuncios-en-PDF")
             cfg.setdefault("anuncio_href", "/publica/buscador-anuncios/anuncio/")

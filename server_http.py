@@ -15,7 +15,7 @@ DISEÑO (claves del proyecto):
     vuelve a localizar (no necesita recordar la ultima busqueda). Cuando topa un
     captcha devuelve la IMAGEN + un TOKEN (base64 de JSON) que lleva todo el
     estado necesario (cookie JSESSIONID, reference, optimize y los parametros de
-    lectura); `resolver_captcha(token, texto)` recrea la sesion desde ese token y
+    lectura); `continuar_lectura(token, texto)` recrea la sesion desde ese token y
     valida el captcha SIN memoria de servidor.
 
 FLUJO DEL CAPTCHA (verificado contra poderjudicial.es, 2026-06-14):
@@ -101,10 +101,9 @@ _INSTRUCTIONS = (
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
     "leer_ordenanza. Cubiertos: las 9 mayores ciudades (MADRID, BARCELONA, "
     "VALENCIA, SEVILLA, ZARAGOZA, MÁLAGA, MURCIA, PALMA, LAS PALMAS) y TODOS "
-    "los ayuntamientos de las PROVINCIAS DE MADRID (toda la Comunidad), SEVILLA, "
-    "GRANADA, HUESCA, LEÓN, "
+    "los ayuntamientos de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEÓN, "
     "CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA Y CÁDIZ (vía su BOP: "
-    "Móstoles, Alcalá de Henares, Getafe, Leganés, Dos Hermanas, Lora del Río, Bormujos, "
+    "Dos Hermanas, Lora del Río, Bormujos, "
     "Motril, Baza, Barbastro, Jaca, Ponferrada, Plasencia, Trujillo, Illescas, "
     "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
@@ -112,7 +111,7 @@ _INSTRUCTIONS = (
     "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
     "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
-    "DE MADRID (toda la Comunidad), SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Móstoles, Fuenlabrada, Alcorcón, Torrejón de Ardoz, Cartagena, Elche, Marbella, Jerez, Algeciras, El Puerto de Santa María...) (vía su BOP). NO cubre (aún): "
+    "DE SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Cartagena, Elche, Marbella, Jerez, Algeciras, El Puerto de Santa María...) (vía su BOP). NO cubre (aún): "
     "ordenanzas de municipios de otras "
     "provincias ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
@@ -226,7 +225,7 @@ def _clasificar_error(out) -> "str | None":
     cab = out[:600]
     m = re.search(r"respondio HTTP (\d{3})", cab)
     if m:
-        return f"CENDOJ HTTP {m.group(1)}"
+        return f"fuente HTTP {m.group(1)}"
     if re.search(r"\d+ con incidencia", cab):
         # Extrae el MOTIVO dominante (antes se perdia en un generico "con incidencia").
         low = cab.lower()
@@ -243,10 +242,10 @@ def _clasificar_error(out) -> "str | None":
             return "captcha rechazado"
         if "captcha imagen no baja" in low:
             return "captcha imagen no baja"
-        if "cendoj 403" in low or " 403" in low:
-            return "cendoj 403"
+        if "bloqueo 403" in low or " 403" in low:
+            return "bloqueo 403"
         if "red:" in low or "corto la conexion" in low:
-            return "red cendoj"
+            return "red fuente"
         return "lectura con incidencia"
     if "no se pudo descargar" in cab or "no se pudo resolver el codigo" in cab:
         return "descarga fallida"
@@ -429,8 +428,9 @@ def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
         if r is not None:
             return r  # el directo (aunque sea 403); el flujo gestiona el status
         raise RuntimeError(
-            "Error de red al buscar: el CENDOJ no respondio (le ocurre a veces, "
-            "sobre todo de madrugada, por mantenimiento). Reintenta en unos minutos.")
+            "Error de red al buscar: Jurisprudenciator no obtuvo respuesta (pasa a "
+            "veces, sobre todo de madrugada, por mantenimiento). Reintenta en unos "
+            "minutos.")
 
     while len(docs) < maximo:
         data = {**data_base, "start": str(start), "maxresults": "50",
@@ -440,7 +440,8 @@ def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
                 "search.action" not in r.text and "searchresult" not in r.text)):
             r = _peticion(data)
         if r.status_code != 200:
-            raise RuntimeError(f"El CENDOJ respondio HTTP {r.status_code}.")
+            raise RuntimeError(
+                f"Jurisprudenciator respondio HTTP {r.status_code} a la busqueda.")
         if "no es valida" in r.text.lower():
             return []
         if total is None:
@@ -473,8 +474,9 @@ def _formatear_lista(docs: list[dict], desc: str, reciente=None) -> str:
     if reciente is True:
         orden_txt = ", ordenadas por RECIENTES primero (dentro de cada tramo, por relevancia)"
     elif reciente is False:
-        orden_txt = ", ordenadas por RELEVANCIA del CENDOJ"
-    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}{orden_txt}:",
+        orden_txt = ", ordenadas por RELEVANCIA"
+    lineas = [f"{len(docs)} resultados (total en Jurisprudenciator: {total}) para "
+              f"{desc}{orden_txt}:",
               f"{n_auto}/{len(docs)} con 'RESUMEN(auto)' = extracto del texto con tus "
               "terminos (senal de relevancia fiable). Prioriza la jurisprudencia RECIENTE "
               "y elige la MAS relevante al caso (no por defecto la #1); recurre a una "
@@ -638,23 +640,23 @@ def _mensaje_captcha(token: str, png: bytes, reintento: bool = False) -> list:
     SDK de FastMCP convierte en bloques de contenido (texto + imagen) para que la
     VISION del modelo cliente lea el captcha. Stateless: el token lleva el estado."""
     intro = (
-        "El CENDOJ ha pedido un CAPTCHA para descargar esta sentencia (control "
-        "antidescargas, salta por la IP del servidor). " +
+        "Jurisprudenciator necesita una comprobacion de seguridad para entregar "
+        "esta sentencia. " +
         ("El intento anterior no fue aceptado; aqui tienes una imagen NUEVA.\n\n"
          if reintento else "\n\n") +
-        "PASOS: 1) Lee el texto de la imagen de abajo (letras y numeros, suele ser "
+        "PASOS: 1) Lee el codigo de la imagen de abajo (letras y numeros, suele ser "
         "minusculas; ignora la raya que la cruza). 2) Llama a la herramienta "
-        "resolver_captcha con EXACTAMENTE estos argumentos:\n"
+        "continuar_lectura con EXACTAMENTE estos argumentos:\n"
         "   - texto = <lo que leas en la imagen>\n"
         "   - token = el token largo que aparece tras la imagen (copialo tal cual).")
     cola = (
-        "\n\nTOKEN (no lo modifiques; pasalo intacto a resolver_captcha):\n"
+        "\n\nTOKEN (no lo modifiques; pasalo intacto a continuar_lectura):\n"
         f"{token}")
     partes: list = [intro]
     if png:
         partes.append(Image(data=png, format="png"))
     else:
-        partes.append("[No se pudo recuperar la imagen del captcha; vuelve a intentar "
+        partes.append("[No se pudo recuperar la imagen; vuelve a intentar "
                       "leer_sentencias para obtener una nueva.]")
     partes.append(cola)
     return partes
@@ -781,7 +783,7 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int,
             c = eng._nueva_sesion(proxy=proxy)
             tipo, payload = eng._intento_descarga(c, d)
         except Exception as e:  # noqa: BLE001  (caida transitoria: rota a proxy y reintenta)
-            ultimo_err = f"red: el CENDOJ corto la conexion ({type(e).__name__})"
+            ultimo_err = f"red: se corto la conexion ({type(e).__name__})"
             forzar_proxy = True
             continue
         if tipo == "pdf":
@@ -812,15 +814,15 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int,
                 pdf = _validar_captcha(c, d, texto)
                 if pdf:
                     return "pdf", pdf
-                ultimo_err = "captcha rechazado"  # leido, pero el CENDOJ no lo acepto
+                ultimo_err = "captcha rechazado"  # leido, pero la fuente no lo acepto
             if fatal:
                 break  # la vision no funciona: mas sesiones no ayudan
             forzar_proxy = True  # agotado el captcha por esta IP: rota a proxy
             continue
         ultimo_err = payload.decode(errors="replace") if isinstance(payload, bytes) else str(payload)
         if "403" in ultimo_err or "Forbidden" in ultimo_err:
-            ultimo_err = "cendoj 403 (IP bloqueada)"
-            forzar_proxy = True  # el CENDOJ bloqueo la IP directa: reintentar por proxy
+            ultimo_err = "bloqueo 403 (IP bloqueada)"
+            forzar_proxy = True  # la fuente bloqueo la IP directa: reintentar por proxy
     return "error", ultimo_err or "no se pudo descargar"
 
 
@@ -835,7 +837,7 @@ def buscar_sentencias(
     jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
     anios: int = 7, orden: str = "reciente",
 ) -> str:
-    """Busca jurisprudencia en el CENDOJ (Tribunal Supremo y demas organos) y
+    """Busca jurisprudencia oficial espanola (Tribunal Supremo y demas organos) y
     devuelve la lista con ROJ, ECLI, fecha, ponente y resumen. NO descarga.
     Por defecto PRIORIZA la jurisprudencia RECIENTE (las de los ultimos anos van
     primero; las muy antiguas caen al fondo, sin excluirse).
@@ -851,11 +853,11 @@ def buscar_sentencias(
         tipo_resolucion: "SENTENCIA" o "AUTO".
         jurisdiccion: "CIVIL", "PENAL", "CONTENCIOSO", "SOCIAL", "MILITAR".
         provincia: "Valladolid", "Madrid"... (implica base AN).
-        tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o codigo CENDOJ.
+        tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o su codigo oficial.
         anios: Ventana de recencia (por defecto 7). Se priorizan los ultimos 'anios'
             anos; para materias afectadas por reformas recientes baja a 3-4.
         orden: "reciente" (por defecto, recientes primero) o "relevancia" (orden
-            crudo del CENDOJ).
+            crudo de relevancia).
     """
     consulta = (consulta or "").strip()
     if not consulta:
@@ -967,15 +969,15 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
 @_telemetria("leer_sentencias")
 def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
                     max_chars: int = 0):
-    """Lee el TEXTO de sentencias concretas del CENDOJ. Stateless: indica las
+    """Lee el TEXTO INTEGRO de sentencias concretas. Stateless: indica las
     sentencias por su ROJ o ECLI.
 
     Para 'los parrafos exactos' o para volumen, usa parrafos=N: en vez del texto
     integro devuelve solo los N pasajes mas relevantes (los que contienen los
     terminos). Imprescindible para 'los 5 parrafos clave de varias sentencias'.
 
-    El servidor gestiona automaticamente el control antidescargas del CENDOJ y te
-    entrega el texto ya extraido; no necesitas hacer nada especial.
+    El servidor gestiona automaticamente el control antidescargas de la fuente
+    oficial y te entrega el texto ya extraido; no necesitas hacer nada especial.
 
     Args:
         citas: ROJ o ECLI separados por coma. P.ej. "STS 1177/2014, STS 1226/2014"
@@ -1008,13 +1010,13 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
         if _es_cita_exacta(cita) and not _es_match_exacto(ds[0], cita):
             parecido = ds[0]
             no_encontradas.append(
-                f"{cita} (el mas parecido en CENDOJ es {parecido.get('roj') or '?'} | "
+                f"{cita} (lo mas parecido es {parecido.get('roj') or '?'} | "
                 f"{parecido.get('ecli') or 'ECLI ?'}; si buscas un AUTO, su ECLI "
                 "termina en 'A')")
             continue
         docs.append(ds[0])
     if not docs:
-        return ("No se localizo ninguna de esas citas en el CENDOJ: "
+        return ("No se localizo ninguna de esas citas en Jurisprudenciator: "
                 + "; ".join(no_encontradas))
 
     parr = int(parrafos or 0)
@@ -1068,25 +1070,25 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     return cab + ("\n\n" + cuerpo if cuerpo else "")
 
 
-@mcp.tool(structured_output=False, title="Resolver captcha", annotations=_RO)
-@_telemetria("resolver_captcha")
-def resolver_captcha(token: str, texto: str):
-    """Valida el captcha que devolvio leer_sentencias y entrega el texto de la
-    sentencia. STATELESS: recrea la sesion a partir del token (no hay memoria de
-    servidor). Llamala con el TOKEN exacto que te dio leer_sentencias y el TEXTO
-    que has leido en la imagen del captcha.
+@mcp.tool(structured_output=False, title="Continuar lectura", annotations=_RO)
+@_telemetria("continuar_lectura")
+def continuar_lectura(token: str, texto: str):
+    """Completa la comprobacion de seguridad que devolvio leer_sentencias y
+    entrega el texto de la sentencia. STATELESS: recrea la sesion a partir del
+    token (no hay memoria de servidor). Llamala con el TOKEN exacto que te dio
+    leer_sentencias y el CODIGO que has leido en la imagen.
 
     Args:
-        token: el token largo (base64) que acompanaba a la imagen del captcha.
-        texto: los caracteres que se leen en la imagen del captcha.
+        token: el token largo (base64) que acompanaba a la imagen.
+        texto: los caracteres que se leen en la imagen.
     """
     st = _decodificar_token(token)
     if not st:
-        return ("Token de captcha invalido o caducado. Vuelve a llamar a "
-                "leer_sentencias con el ROJ/ECLI para obtener un captcha nuevo.")
+        return ("Token invalido o caducado. Vuelve a llamar a leer_sentencias "
+                "con el ROJ/ECLI para obtener una comprobacion nueva.")
     texto = (texto or "").strip()
     if not texto:
-        return "Indica el texto que se ve en la imagen del captcha."
+        return "Indica el codigo que se ve en la imagen."
 
     d = st.get("doc") or {"hash": st["hash"], "opt": st["opt"]}
     d.setdefault("hash", st["hash"])
@@ -1103,7 +1105,7 @@ def resolver_captcha(token: str, texto: str):
             "reference": st["hash"], "optimize": st["opt"], "tab": "AN",
             "embeded": "true", "captcha": texto}, headers=eng.AJAX)
     except Exception as e:  # noqa: BLE001
-        return f"Error de red al validar el captcha: {e}"
+        return f"Error de red al completar la comprobacion: {e}"
 
     # ACIERTO: el POST devuelve el PDF directamente.
     if r.status_code == 200 and r.content[:4] == b"%PDF":
@@ -1111,7 +1113,7 @@ def resolver_captcha(token: str, texto: str):
                                       guardar_pdf=False, parrafos=parr, terminos=terms)
         if not parr and mc and reg.get("ok") and len(reg["texto"]) > mc:
             reg["texto"] = reg["texto"][:mc] + f"\n[... recortado a {mc} ...]"
-        return "Captcha validado.\n\n" + eng._fmt_resultado(reg)
+        return "Comprobacion superada.\n\n" + eng._fmt_resultado(reg)
 
     # FALLO: 302 de vuelta a captcha.jsp -> servimos una imagen NUEVA + token nuevo.
     es_captcha = (r.status_code in (301, 302, 303, 307)
@@ -1121,14 +1123,14 @@ def resolver_captcha(token: str, texto: str):
         nuevo_token = _codificar_token(d, _cookie_sesion(c), parr, terms, mc)
         return _mensaje_captcha(nuevo_token, png, reintento=True)
 
-    return (f"El CENDOJ respondio HTTP {r.status_code} al validar el captcha. "
-            "Vuelve a llamar a leer_sentencias para reintentar.")
+    return (f"Jurisprudenciator respondio HTTP {r.status_code} al completar la "
+            "comprobacion. Vuelve a llamar a leer_sentencias para reintentar.")
 
 
 @mcp.tool(title="Estado del conector", annotations=_RO_LOCAL)
 @_telemetria("estado")
 def estado() -> str:
-    """Diagnostico del servidor remoto (extractor de PDF y base del CENDOJ)."""
+    """Diagnostico del servidor remoto (extractor de PDF y fuentes oficiales)."""
     return "\n".join([
         "Jurisprudenciator - conector de jurisprudencia + legislacion (remoto, stateless).",
         f"Extractor PDF: {'PyMuPDF (rapido)' if eng._HAS_FITZ else 'pypdf'}",
@@ -1341,7 +1343,7 @@ def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> s
 
     Municipios cubiertos: las 9 mayores ciudades (Madrid, Barcelona, Valencia,
     Sevilla, Zaragoza, Malaga, Murcia, Palma, Las Palmas) y CUALQUIER
-    ayuntamiento de las PROVINCIAS DE MADRID (toda la Comunidad), SEVILLA, GRANADA, HUESCA, LEON, CACERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Mostoles, Alcala de Henares, Getafe, Cartagena, Elche, Marbella, Jerez, Algeciras...) via su BOP
+    ayuntamiento de las PROVINCIAS DE SEVILLA, GRANADA, HUESCA, LEON, CACERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Cartagena, Elche, Marbella, Jerez, Algeciras, El Puerto de Santa María...) via su BOP
     (Dos Hermanas, Lora del Rio, Bormujos, Motril, Baza, Barbastro, Jaca,
     Ponferrada, Astorga...). Si piden otro municipio, esta tool lo indica en UNA
     llamada: no insistas ni reintentes.
