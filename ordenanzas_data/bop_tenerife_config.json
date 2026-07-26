@@ -5,6 +5,7 @@
  "nombre": "Santa Cruz de Tenerife",
  "familia": "tenerife",
  "indice_desde": 2002,
- "activo": false,
- "nota": "pendiente de backend en bop_engine (26-jul-2026)"
+ "verifica_texto": true,
+ "fulltext": true,
+ "anyos": 8
 }

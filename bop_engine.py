@@ -240,6 +240,10 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _acoruna_buscar(prov, texto, categoria, rpp)
     if fam == "pontevedra":
         return _pontevedra_buscar(prov, texto, categoria, rpp)
+    if fam == "tenerife":
+        return _tenerife_buscar(prov, texto, categoria, rpp)
+    if fam == "bizkaia":
+        return _bizkaia_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -268,7 +272,290 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _acoruna_texto(prov, m)
     if fam == "pontevedra":
         return _pontevedra_texto(prov, m)
+    if fam == "tenerife":
+        return _tenerife_texto(prov, m)
+    if fam == "bizkaia":
+        return _bizkaia_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend BIZKAIA (BOB, Liferay + portlet IYBIWBCC) -----------------------
+# Sin captcha ni cookies (IR SIN SESIÓN: con cookiejar compartido las búsquedas
+# concurrentes se contaminan entre sí). Filtro por municipio = nombres de emisor
+# ENTRECOMILLADOS unidos por " o " (los códigos numéricos no filtran).
+# Busca en el TEXTO ÍNTEGRO, no en el título -> mucho recall y ranking pésimo:
+# el orden lo pone el motor genérico. Corte de formato en 2017: antes, boletín
+# completo con #page=; después, PDF por anuncio (_cas = castellano).
+_BZ_ROW = re.compile(r'<li class="row">.*?numberbob">([^<]+)</p>.*?fechabob">([^<]+)</p>.*?'
+                     r'<div class="col-9 col-sm-7">\s*<p>(.*?)</p>.*?href="([^"]*Bao_bob[^"]*)"', re.S)
+
+
+def _bizkaia_buscar(prov, texto, emisores=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not emisores:
+        return []
+    consultas = _consultas_materia(texto, None)
+
+    def una(q):
+        p = {"p_p_id": "IYBIWBCC", "p_p_lifecycle": "0", "p_p_state": "normal",
+             "p_p_mode": "view", "_IYBIWBCC_mvcRenderCommandName": "/search/filtros",
+             "_IYBIWBCC_text": q, "_IYBIWBCC_issuersSelect": emisores,
+             "_IYBIWBCC_resetCur": "false", "_IYBIWBCC_delta": "50", "_IYBIWBCC_cur": "1"}
+        for a in ("dateFromBol", "dateToBol", "dateFromDisp", "dateToDisp"):
+            for b in ("Day", "Month", "Year"):
+                p[f"_IYBIWBCC_{a}{b}"] = "0"
+        try:
+            # bizkaia.eus no encadena bien su certificado: mismo contexto tolerante
+            # que ya se usa con Cádiz (boletín público, solo lectura)
+            h = urllib.request.urlopen(urllib.request.Request(
+                cfg["base"] + "/es/bob/resultados?" + urllib.parse.urlencode(p),
+                headers={"User-Agent": _UA, "Accept-Language": "es-ES,es"}),
+                timeout=25, context=_SSL_NOVERIFY).read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for num, fecha, tit, href in _BZ_ROW.findall(h):
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            d, mth, y = (fecha.strip().split("/") + ["", "", ""])[:3]
+            out.append({"url": href if href.startswith("http") else cfg["base"] + href,
+                        "titulo": t, "cve": re.sub(r"\s+", "", num.strip()) + "-" + href[-24:],
+                        "fecha": fecha.strip(),
+                        "orden": f"{y}{mth}{d}" if y else "0",
+                        "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:      # >3 da respuestas parciales
+        for rs in ex.map(una, consultas):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _bizkaia_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    pag = None
+    if "#page=" in u:
+        u, _, p = u.partition("#page=")
+        pag = int(re.sub(r"\D", "", p) or 0) or None
+    try:
+        pdf = urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": _UA}),
+                                     timeout=60, context=_SSL_NOVERIFY).read()
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-" or not _HAS_FITZ:
+        return "", "sin-pdf"
+    if pag is None:                       # 2017+: el PDF ES el anuncio
+        t, via = _pdf_bytes_texto(pdf)
+        return t, (via or "pdf")
+    # ≤2016: boletín completo; el ancla #page apunta al anuncio (verificado)
+    try:
+        doc = fitz.open(stream=pdf, filetype="pdf")
+        i0 = max(0, min(pag - 1, doc.page_count - 1))
+        txt = "".join(doc[i].get_text() for i in range(i0, min(i0 + 12, doc.page_count)))
+        # cada anuncio cierra con su referencia (II-NNNN): sirve para acotarlo
+        fin = re.search(r"\(\s*I{1,3}-\d+\s*\)", txt[300:])
+        if fin:
+            txt = txt[:300 + fin.end()]
+        return re.sub(r"\n{3,}", "\n\n", txt).strip(), "pdf-pagina"
+    except Exception:  # noqa: BLE001
+        return "", "sin-texto"
+
+
+# ---- backend SANTA CRUZ DE TENERIFE (app PHP legada "bopsc2") ----------------
+# Particularidades: (1) el buscador va AÑO A AÑO y solo mira el SUMARIO (título),
+# nunca el cuerpo; (2) NO hay PDF por anuncio: solo el boletín completo del día,
+# del que hay que RECORTAR el anuncio por su nº de registro. Con capa de texto
+# siempre → cero OCR.
+_TF_ROW = re.compile(
+    r"<b><i>(?P<org>.*?)</i></b></font><br>\s*"
+    r"<font[^>]*>(?P<tit>.*?)</font><br>\s*"
+    r"<font[^>]*>Boletin numero (?P<num>\d+) de fecha (?P<fecha>\d{2}-\d{2}-\d{4})\s*:?\s*</font>\s*"
+    r'<a href="sumario\.php\?codigopub=(?P<pub>\d+)&fecha_mas_reciente=(?P<iso>\d{4}-\d{2}-\d{2})"', re.S)
+_TF_PREF = re.compile(r"^\s*(?:M\.?\s*I\.?\s*)?[AY]*UNTAMIENTO\b\s*(?:DE\s+)?", re.I)
+_TF_VILLA = re.compile(r"^\s*(?:LA\s+)?VILLA\s+DE\s+", re.I)
+_TF_ART = re.compile(r"^\s*(?:EL|LA|LOS|LAS)\s+", re.I)
+_TF_CAB = re.compile(r"Bolet[ií]n Oficial de la Provincia de Santa Cruz de Tenerife\.\s*"
+                     r"N[úu]mero\s*\d+[^\n]*\n\s*(\d{3,6})")
+_TF_IDX = re.compile(r"(?ms)^[ \t]*(\d{4,9})[\t ]\s*(.+?)\s*\.{4,}[ \t]*(?:\n[ \t]*(\d{3,6})[ \t]*$)?")
+_TF_PDF = {}
+
+
+def _tf_clave(s):
+    """Normaliza el organismo del boletín a clave de municipio. El listado viene
+    sucio en origen (AAYUNTAMIENTO, VILAFOR, BUENA VISTA…) y hay que absorberlo."""
+    s = "".join(c for c in unicodedata.normalize("NFKD", s or "") if not unicodedata.combining(c)).upper()
+    s = _TF_PREF.sub("", s)
+    s = _TF_VILLA.sub("", s)
+    s = re.sub(r"^\s*DE\s+", "", s)
+    s = _TF_ART.sub("", s)
+    for a, b in ((r"\bY\s+SAUCE\b", "Y SAUCES"), (r"\bBUENA\s+VISTA\b", "BUENAVISTA"),
+                 (r"\bVILAFOR\b", "VILAFLOR"), (r"\bFUENCALIENTE$", "FUENCALIENTE DE LA PALMA"),
+                 (r"^MAZO$", "VILLA DE MAZO")):
+        s = re.sub(a, b, s)
+    return re.sub(r"[^A-Z0-9]+", "", s)
+
+
+def _tenerife_buscar(prov, texto, organismo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organismo:
+        return []
+    ck = _tf_clave(organismo)
+    anyos = [time.gmtime().tm_year - i for i in range(int(cfg.get("anyos", 8)))]
+    # el buscador solo mira el título: se vuelca "ordenanza" y se rankea en local
+    consultas = _consultas_materia(texto, None)[:2] or ["ordenanza"]
+    tareas = [(a, q) for a in anyos for q in dict.fromkeys(consultas + ["ordenanza"])]
+
+    def uno(t):
+        a, q = t
+        try:
+            body = urllib.parse.urlencode({"clave": q, "ayo": str(a), "pub": "1",
+                                           "admi": "3", "BUSCAADM": "IR"}).encode("utf-8")
+            req = urllib.request.Request(
+                cfg["base"] + "/bopsc2/search1a.php", data=body,
+                headers={"User-Agent": _UA,
+                         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"})
+            raw = urllib.request.urlopen(req, timeout=25).read()
+            try:
+                h = raw.decode("utf-8")
+            except UnicodeDecodeError:
+                h = raw.decode("iso-8859-1", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for m in _TF_ROW.finditer(h):
+            if _tf_clave(_html.unescape(m.group("org"))) != ck:
+                continue          # el filtro por municipio se hace AQUÍ, en local
+            tit = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", "", m.group("tit")))).strip()
+            iso = m.group("iso")
+            out.append({"url": f"{cfg['base']}/bopsc2/sumario.php?codigopub={m.group('pub')}"
+                               f"&fecha_mas_reciente={iso}",
+                        "titulo": tit, "cve": f"BOP-TF-{iso.replace('-', '')}-{m.group('num')}",
+                        "fecha": f"{iso[8:]}/{iso[5:7]}/{iso[:4]}",
+                        "orden": iso.replace("-", ""), "iso": iso, "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=6) as ex:
+        for rs in ex.map(uno, tareas):
+            for r in rs:
+                clave = r["titulo"][:80] + r["iso"]
+                if clave in vistos:
+                    vistos[clave]["materia"] = vistos[clave].get("materia") or r["materia"]
+                else:
+                    vistos[clave] = r
+    return list(vistos.values())
+
+
+def _tf_bytes(cfg, iso, timeout=90):
+    if iso in _TF_PDF:
+        return _TF_PDF[iso]
+    y, mo, d = iso.split("-")
+    s = f"{int(d)}-{int(mo)}-{y[2:]}"
+    b = _getb(f"{cfg['base']}/boletines/{y}/{s}/{s}.pdf", timeout=timeout)
+    if len(_TF_PDF) > 6:
+        _TF_PDF.clear()
+    _TF_PDF[iso] = b
+    return b
+
+
+def _tf_numpag(doc, i):
+    if i < 0 or i >= doc.page_count:
+        return None
+    g = _TF_CAB.search(doc[i].get_text()[:400])
+    return int(g.group(1)) if g else None
+
+
+def _tf_pagina(doc, pag):
+    """Índice de página del PDF cuyo número impreso es `pag` (paginación continua:
+    desplazamiento directo + verificación local, sin escanear todo el boletín)."""
+    base = None
+    for i in (1, 2, 3):
+        base = _tf_numpag(doc, i)
+        if base:
+            base -= i
+            break
+    if base is None:
+        return None
+    i = pag - base
+    for j in (0, -1, 1, -2, 2, -3, 3, -4, 4, -6, 6, -10, 10):
+        k = i + j
+        if 0 <= k < doc.page_count and _tf_numpag(doc, k) == pag:
+            return k
+    return None
+
+
+def _tenerife_texto(prov, m):
+    if not _HAS_FITZ or not isinstance(m, dict) or not m.get("iso"):
+        return "", "sin-fitz"
+    cfg = PROVINCIAS[prov]
+    try:
+        doc = fitz.open(stream=_tf_bytes(cfg, m["iso"]), filetype="pdf")
+    except Exception:  # noqa: BLE001
+        return "", "sin-boletin"          # hay días cuyo PDF no existe aunque se enlace
+    idx = []
+    for i in range(min(20, doc.page_count)):
+        t = doc[i].get_text()
+        ms = [x for x in _TF_IDX.finditer(t) if len(x.group(2)) > 15]
+        if not ms and idx:
+            break
+        for x in ms:
+            idx.append((x.group(1), re.sub(r"\s+", " ", x.group(2)),
+                        int(x.group(3)) if x.group(3) else None))
+    if not idx:
+        # Sumario con formato que no reconocemos: se localiza el anuncio buscando
+        # su TÍTULO por las páginas del boletín (acotado) en vez de rendirse.
+        obj0 = set(re.sub(r"[^a-z0-9 ]+", " ", _mnorm(m["titulo"])).split())
+        obj0 = {w for w in obj0 if len(w) > 3}
+        mejor_i, mejor_sc = None, 0.0
+        for i in range(min(doc.page_count, 200)):
+            pg = set(re.sub(r"[^a-z0-9 ]+", " ", _mnorm(doc[i].get_text()[:3000])).split())
+            sc = len(obj0 & pg) / max(1, len(obj0))
+            if sc > mejor_sc:
+                mejor_sc, mejor_i = sc, i
+        if mejor_i is None or mejor_sc < 0.6:
+            return "", "sin-sumario"
+        txt = "".join(doc[i].get_text()
+                      for i in range(mejor_i, min(mejor_i + 12, doc.page_count)))
+        txt = re.sub(r"\n{3,}", "\n\n", txt).strip()
+        return (txt, "pdf-titulo") if len(txt) > 200 else ("", "sin-texto")
+    obj = set(re.sub(r"[^a-z0-9 ]+", " ", _mnorm(m["titulo"])).split())
+    mejor, best = None, -1.0
+    for k, (_r, tit, _p) in enumerate(idx):
+        cand = set(re.sub(r"[^a-z0-9 ]+", " ", _mnorm(tit)).split())
+        sc = len(obj & cand) / max(1, len(obj))
+        if sc > best:
+            best, mejor = sc, k
+    if mejor is None or best < 0.45:
+        return "", "no-localizado"
+    reg, _t, pag = idx[mejor]
+    regs = {r for r, _, _ in idx}
+    pat = re.compile(r"(?m)^[ \t]*" + re.escape(reg) + r"[ \t]*$")
+    i0 = _tf_pagina(doc, pag) if pag else None
+    if i0 is None:                       # boletines antiguos: escaneo secuencial
+        i0 = next((i for i in range(doc.page_count) if pat.search(doc[i].get_text())), None)
+        if i0 is None:
+            return "", "no-localizado"
+    i1 = min(i0 + 60, doc.page_count - 1)
+    sig = next((p for (_r2, _t2, p) in idx[mejor + 1:] if p), None)
+    if sig:
+        j = _tf_pagina(doc, sig)
+        if j is not None:
+            i1 = j
+    txt = "".join(doc[i].get_text() for i in range(i0, min(i1 + 1, doc.page_count)))
+    mm = pat.search(txt)
+    if mm:
+        txt = txt[mm.end():]
+    m2 = re.search(r"(?m)^[ \t]*(\d{4,9})[ \t]*$", txt)
+    if m2 and m2.group(1) in regs:
+        txt = txt[:m2.start()]
+    txt = re.sub(r"\n{3,}", "\n\n", txt).strip()
+    return (txt, "pdf") if len(txt) > 200 else ("", "sin-texto")
 
 
 # ---- backend PONTEVEDRA (BOPPO, Liferay + portlet bopv2) ---------------------
@@ -706,23 +993,38 @@ def _madrid_texto(prov, m):
     u = _madrid_json_url(cfg, ident)
     if not u:
         return "", "sin-id"
-    try:
-        j = json.loads(_madrid_get(u, timeout=10, intentos=1))
-        txt = j.get("text") or ""
-        if txt:
-            return _madrid_normaliza(txt), "json"
-    except Exception:  # noqa: BLE001
-        pass
-    try:
-        h = _madrid_get(cfg["base"] + "/" + ident.lower(), timeout=12, intentos=1)
+
+    # El BOCM publica el mismo anuncio en JSON, HTML y XML, y unos días falla uno
+    # y otros otro (verificado: el JSON de un anuncio concreto se cuelga 60 s
+    # devolviendo 0 bytes también fuera de Vercel). Se piden LAS TRES A LA VEZ y
+    # gana la primera que traiga texto: la lectura deja de depender de una ruta.
+    def via_json():
+        j = json.loads(_madrid_get(u, timeout=20, intentos=1))
+        return _madrid_normaliza(j.get("text") or ""), "json"
+
+    def via_html():
+        h = _madrid_get(cfg["base"] + "/" + ident.lower(), timeout=20, intentos=1)
         mm = _BOCM_BODY.search(h)
-        if mm:
-            t = _html_a_texto(mm.group(1))
-            if t:
-                return _madrid_normaliza(t), "html"
-    except Exception:  # noqa: BLE001
-        pass
-    return "", "sin-texto"
+        return (_madrid_normaliza(_html_a_texto(mm.group(1))) if mm else ""), "html"
+
+    def via_xml():
+        x = _madrid_get(u[:-5] + ".xml", timeout=20, intentos=1)
+        x = re.sub(r"(?is)<\?xml.*?\?>", " ", x)
+        return _madrid_normaliza(_html_a_texto(x)), "xml"
+
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        futs = {ex.submit(f): n for f, n in ((via_json, "json"), (via_html, "html"), (via_xml, "xml"))}
+        mejor = ("", "sin-texto")
+        for fut in _cf.as_completed(futs, timeout=25):
+            try:
+                t, via = fut.result()
+            except Exception:  # noqa: BLE001
+                continue
+            if len(t) > len(mejor[0]):
+                mejor = (t, via)
+            if len(mejor[0]) > 400:        # ya tenemos texto útil: no esperamos al resto
+                break
+    return mejor
 
 
 # ---- backend OpenCms Cádiz (búsqueda -> boletines -> PDF del día con #page) --
