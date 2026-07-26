@@ -1,0 +1,10 @@
+{
+ "id": "gipuzkoa",
+ "base": "https://egoitza.gipuzkoa.eus",
+ "mapa": "bop_gipuzkoa_municipios.json",
+ "nombre": "Gipuzkoa",
+ "familia": "gipuzkoa",
+ "indice_desde": 2000,
+ "verifica_texto": true,
+ "fulltext": true
+}

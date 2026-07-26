@@ -244,6 +244,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _tenerife_buscar(prov, texto, categoria, rpp)
     if fam == "bizkaia":
         return _bizkaia_buscar(prov, texto, categoria, rpp)
+    if fam == "gipuzkoa":
+        return _gipuzkoa_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -276,7 +278,106 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _tenerife_texto(prov, m)
     if fam == "bizkaia":
         return _bizkaia_texto(prov, m)
+    if fam == "gipuzkoa":
+        return _gipuzkoa_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend GIPUZKOA (BOG, Liferay + portlet LEEboletinOficial) -------------
+# Búsqueda avanzada con token p_auth (cacheado) y filtro por id numérico de
+# ayuntamiento. La lectura es gratis: el enlace de detalle lleva embebida la URL
+# del PDF y, cambiando .pdf por .htm, se obtiene el anuncio en HTML (sin OCR).
+_GK_P = "_BoletinOficial_WAR_LEEboletinOficialportlet_"
+_GK_SES = {}
+_GK_PDF = re.compile(r"_pdf=([^&\"']+?\.pdf)")
+_GK_FILA = re.compile(r"<tr[^>]*>\s*<td>\s*<h2>\s*<a\s+href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
+
+
+def _gk_sesion(prov):
+    s = _GK_SES.get(prov)
+    if s and time.time() - s[2] < 600:
+        return s
+    cfg = PROVINCIAS[prov]
+    op = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()),
+        urllib.request.HTTPSHandler(context=_SSL_NOVERIFY))   # cadena TLS incompleta
+    op.addheaders = [("User-Agent", _UA), ("Accept-Language", "es-ES,es")]
+    h = op.open(f"{cfg['base']}/es/bog?p_p_id=BoletinOficial_WAR_LEEboletinOficialportlet"
+                f"&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&{_GK_P}myaction=boletinBusqueda",
+                timeout=30).read().decode("utf-8", "replace")
+    tok = re.search(r"myaction=submitBusquedaAvanzada[^\"]*p_auth=(\w+)", h)
+    if not tok:
+        raise RuntimeError("BOG: no encuentro p_auth")
+    _GK_SES[prov] = (op, tok.group(1), time.time())
+    return _GK_SES[prov]
+
+
+def _gipuzkoa_buscar(prov, texto, organo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organo:
+        return []
+    op, tok, _ = _gk_sesion(prov)
+    url = (f"{cfg['base']}/es/bog?p_p_id=BoletinOficial_WAR_LEEboletinOficialportlet"
+           f"&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view"
+           f"&{_GK_P}myaction=submitBusquedaAvanzada&p_auth={tok}")
+
+    def una(q):
+        d = {_GK_P + "inputTexto": q, _GK_P + "inputOrgano": str(organo),
+             _GK_P + "inputSeccion": "10"}
+        try:
+            h = op.open(urllib.request.Request(
+                url, data=urllib.parse.urlencode(d).encode(),
+                headers={"Content-Type": "application/x-www-form-urlencoded"}),
+                timeout=30).read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for href, tit in _GK_FILA.findall(h):
+            mp = _GK_PDF.search(href)
+            if not mp:
+                continue
+            pdf = urllib.parse.unquote(mp.group(1))
+            f = re.search(r"/bog/(\d{4})/(\d{2})/(\d{2})/", pdf)
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            out.append({"url": pdf, "titulo": t,
+                        "cve": pdf.rsplit("/", 1)[-1].replace(".pdf", ""),
+                        "fecha": f"{f.group(3)}/{f.group(2)}/{f.group(1)}" if f else "",
+                        "orden": (f.group(1) + f.group(2) + f.group(3)) if f else "0",
+                        "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(una, _consultas_materia(texto, None)):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _gipuzkoa_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:                       # versión HTML del mismo anuncio: sin PDF ni OCR
+        raw = urllib.request.urlopen(urllib.request.Request(
+            u[:-4] + ".htm", headers={"User-Agent": _UA}),
+            timeout=25, context=_SSL_NOVERIFY).read()
+        t = _html_a_texto(raw.decode("iso-8859-15", "replace"))
+        if len(t) > 200:
+            return t, "html"
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        pdf = urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": _UA}),
+                                     timeout=40, context=_SSL_NOVERIFY).read()
+        if pdf[:5] == b"%PDF-":
+            return _pdf_bytes_texto(pdf)
+    except Exception:  # noqa: BLE001
+        pass
+    return "", "sin-texto"
 
 
 # ---- backend BIZKAIA (BOB, Liferay + portlet IYBIWBCC) -----------------------
