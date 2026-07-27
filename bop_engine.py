@@ -265,6 +265,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _navarra_buscar(prov, texto, categoria, rpp)
     if fam == "cantabria":
         return _cantabria_buscar(prov, texto, categoria, rpp)
+    if fam == "cordoba":
+        return _cordoba_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -313,7 +315,92 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _navarra_texto(prov, m)
     if fam == "cantabria":
         return _cantabria_texto(prov, m)
+    if fam == "cordoba":
+        return _cordoba_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend CÓRDOBA (Next.js SSR; resultados en el payload RSC) -------------
+# Sin cookies ni captcha y muy rápido (0,3 s). Dos claves: `buscar=1` es
+# OBLIGATORIO (sin él responde 200 sin resultados) y el buscador tiene stemming
+# agresivo —"ordenanza" == "orden" == "ordenar"— así que consultar "ordenanza" es
+# inútil: se consulta SOLO con el término distintivo y se rankea por título.
+_CO_PAG = re.compile(r'"pagination":\{"page":(\d+),"pageSize":(\d+),"pageCount":(\d+),"total":(\d+)\}')
+_CO_ITEM = re.compile(
+    r'\["\$","li","(\d+)",\{"className":"announcement[^"]*","children":\['
+    r'\["\$","h3",null,\{"children":"((?:[^"\\]|\\.)*)"\}\],'
+    r'\["\$","p",null,\{"children":\[" ","((?:[^"\\]|\\.)*)"')
+_CO_PDF = re.compile(r'"href":"(/visor-pdf/(\d{2}-\d{2}-\d{4})/(BOP-A-\d{4}-\d+)\.pdf)"')
+
+
+def _co_flight(h):
+    """Concatena y des-escapa el payload RSC donde Next.js mete los resultados."""
+    partes = re.findall(r'self\.__next_f\.push\(\[1,\s*"((?:[^"\\]|\\.)*)"\]\)', h)
+    out = []
+    for p in partes:
+        try:
+            out.append(json.loads('"' + p + '"'))
+        except Exception:  # noqa: BLE001
+            pass
+    return "".join(out)
+
+
+def _cordoba_buscar(prov, texto, emisores=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not emisores:
+        return []
+    # 3 municipios tienen el histórico partido en dos anunciantes (el BOP los
+    # renombró en 2023): el mapa admite ids separados por coma
+    ids = [i.strip() for i in str(emisores).split(",") if i.strip()]
+    consultas = [q for q in _consultas_materia(texto, None) if q != "ordenanza"] or ["ordenanza"]
+    tareas = [(i, q) for i in ids for q in consultas]
+
+    def una(t):
+        idp, q = t
+        p = {"buscar": "1", "texto": q.lower(), "emisor": idp,   # en MAYÚSCULAS da menos
+             "ordenarPor": "1", "porPagina": str(max(rpp, 40))}
+        try:
+            h = _madrid_get(cfg["base"] + "/buscar?" + urllib.parse.urlencode(p),
+                            timeout=25, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        fl = _co_flight(h)
+        out = []
+        for trozo in re.split(r'(?=\["\$","li","\d+",\{"className":"announcement)', fl)[1:]:
+            it = _CO_ITEM.search(trozo)
+            pdf = _CO_PDF.search(trozo)
+            if not (it and pdf):
+                continue
+            tit = re.sub(r"\s+", " ", _html.unescape(it.group(3))).strip()
+            d, mo, y = pdf.group(2).split("-")
+            out.append({"url": cfg["base"] + pdf.group(1), "titulo": tit,
+                        "cve": pdf.group(3), "fecha": f"{d}/{mo}/{y}",
+                        "orden": f"{y}{mo}{d}", "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=4) as ex:
+        for rs in ex.map(una, tareas):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _cordoba_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    return (t, via) if len(t) > 400 else ("", "sin-texto")
 
 
 # ---- backend CANTABRIA (BOC, Struts propio "boces") --------------------------

@@ -1,0 +1,11 @@
+{
+ "id": "cordoba",
+ "base": "https://bop.dipucordoba.es",
+ "resultados": "/buscar",
+ "mapa": "bop_cordoba_municipios.json",
+ "nombre": "Córdoba",
+ "familia": "cordoba",
+ "indice_desde": 2010,
+ "verifica_texto": true,
+ "fulltext": true
+}
