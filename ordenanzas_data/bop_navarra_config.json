@@ -1,0 +1,10 @@
+{
+ "id": "navarra",
+ "base": "https://bon.navarra.es",
+ "mapa": "bop_navarra_municipios.json",
+ "nombre": "Navarra",
+ "familia": "navarra",
+ "indice_desde": 2004,
+ "verifica_texto": true,
+ "fulltext": true
+}

@@ -261,6 +261,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _valencia_buscar(prov, texto, categoria, rpp)
     if fam == "barcelona":
         return _barcelona_buscar(prov, texto, categoria, rpp)
+    if fam == "navarra":
+        return _navarra_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -305,7 +307,83 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _valencia_texto(prov, m)
     if fam == "barcelona":
         return _barcelona_texto(prov, m)
+    if fam == "navarra":
+        return _navarra_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend NAVARRA (BON, Liferay) ------------------------------------------
+# Uniprovincial. Sin token ni captcha: una GET. El filtro NO es "Ayuntamiento de
+# X" (devuelve 0) sino la LOCALIDAD a secas en `organoSolicitante`. El anuncio se
+# sirve como HTML con el texto íntegro: ni PDF ni OCR.
+_NA_P = "_es_navarra_bon_buscador_portlet_BuscadorPortlet_"
+_NA_ROW = re.compile(
+    r'<a href="(https://bon\.navarra\.es/es/anuncio/-/texto/(\d{4})/(\d+)/(\d+))"\s*title="([^"]*)">'
+    r".*?<h6>([^<]*)</h6>.*?<p>(.*?)</p>", re.S)
+_NA_CUERPO = re.compile(r'(?s)<div[^>]*class="[^"]*journal-content-article[^"]*"[^>]*>(.*?)</div>\s*</div>')
+
+
+def _navarra_buscar(prov, texto, localidad=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not localidad:
+        return []
+    ck = _norm(localidad)
+
+    def una(q):
+        p = {"p_p_id": "es_navarra_bon_buscador_portlet_BuscadorPortlet",
+             "p_p_lifecycle": "0", "p_p_state": "normal", "p_p_mode": "view",
+             _NA_P + "mvcRenderCommandName": "buscar", _NA_P + "titulo": q,
+             _NA_P + "organoSolicitante": str(localidad)}
+        try:
+            h = _madrid_get(cfg["base"] + "/es/busquedas?" + urllib.parse.urlencode(p),
+                            timeout=30, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for url, y, bol, orden, titbol, loc, tit in _NA_ROW.findall(h):
+            if _norm(loc) != ck:              # el servidor ya filtra; se confirma
+                continue
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit))).strip()
+            fe = re.search(r"(\d{1,2}) de (\w+) de (\d{4})", _html.unescape(titbol))
+            if fe:
+                d, mes, an = fe.group(1), _MESES.get(fe.group(2).lower(), "01"), fe.group(3)
+                fecha, ordn = f"{int(d):02d}/{mes}/{an}", f"{an}{mes}{int(d):02d}"
+            else:
+                fecha, ordn = "", y
+            out.append({"url": url, "titulo": t, "cve": f"BON-{y}-{bol}-{orden}",
+                        "fecha": fecha, "orden": ordn, "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(una, _consultas_materia(texto, None)):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _navarra_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        h = _madrid_get(u, timeout=30, intentos=1)
+    except Exception:  # noqa: BLE001
+        return "", "sin-texto"
+    # la página repite la clase journal-content-article 7 veces (menús, cabecera,
+    # pie…): el anuncio es el bloque MÁS LARGO, no el primero
+    trozos = h.split('journal-content-article')
+    mejor = ""
+    for tr in trozos[1:]:
+        t = _html_a_texto(tr[:400000])
+        if len(t) > len(mejor):
+            mejor = t
+    if len(mejor) < 400:
+        mejor = _html_a_texto(h)
+    return (mejor, "html") if len(mejor) > 400 else ("", "sin-texto")
 
 
 # ---- backend BARCELONA (BOPB, app Symfony de la Diputació) -------------------
