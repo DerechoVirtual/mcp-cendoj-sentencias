@@ -267,6 +267,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _cantabria_buscar(prov, texto, categoria, rpp)
     if fam == "cordoba":
         return _cordoba_buscar(prov, texto, categoria, rpp)
+    if fam == "baleares":
+        return _baleares_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -317,7 +319,99 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _cantabria_texto(prov, m)
     if fam == "cordoba":
         return _cordoba_texto(prov, m)
+    if fam == "baleares":
+        return _baleares_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend ILLES BALEARS (BOIB, webapp del Govern) -------------------------
+# GET simple sin cookies. Tres reglas que salieron del sondeo: (1) sin rango de
+# fechas solo busca el ÚLTIMO MES; (2) `texto` es FRASE LITERAL y sensible a
+# tildes (no hay AND/OR) → una sola palabra catalana bien acentuada; (3)
+# `organisme` casa por substring, así que "Sant Joan" arrastra "Sant Joan de
+# Labritja" → el municipio se confirma por igualdad exacta en local.
+_BA_BLOQUE = re.compile(r'<li>\s*<div class="caja">(.*?)</div>\s*</li>', re.S)
+_BA_META = re.compile(r"BOIB\s+Núm\s+(\d+)/(\d{4})\s+de\s+(\d{2}/\d{2}/\d{4})\s*-\s*"
+                      r"Número d'edicte:\s*(\d+)")
+_BA_ENL = re.compile(r'href="(/eboibfront/[a-z]{2}/\d{4}/\d+/(\d+)/[^"]*)"')
+_BA_P = re.compile(r"<p[^>]*>(.*?)</p>", re.S)
+_BA_CUERPO = re.compile(r'(?s)<div[^>]+id="contenidoEdicto"[^>]*>(.*?)'
+                        r'(?:<h3>\s*Documents adjunts|<div class="mensajeValidez|'
+                        r'<div class="validez|<!-- /columna central|<script|<footer|\Z)')
+
+
+def _baleares_buscar(prov, texto, organisme=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organisme:
+        return []
+    ck = _norm(organisme)
+    hoy = time.gmtime()
+    fin = f"{hoy.tm_mday:02d}/{hoy.tm_mon:02d}/{hoy.tm_year}"
+    ini = f"01/01/{cfg.get('indice_desde', 2012)}"
+
+    def una(q):
+        p = {"cerca": "Enviar", "lang": "ca", "organisme": str(organisme),
+             "texto": q, "fec_ini": ini, "fec_fin": fin}
+        try:
+            h = _madrid_get(cfg["base"] + "/eboibfront/cercar?" + urllib.parse.urlencode(p),
+                            timeout=30, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for bloque in _BA_BLOQUE.findall(h):
+            enl = _BA_ENL.search(bloque)
+            if not enl:
+                continue
+            ps = [re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
+                  for x in _BA_P.findall(bloque)]
+            org = ps[0] if ps else ""
+            if _norm(org) != ck:            # substring del buscador → igualdad aquí
+                continue
+            tit = ps[1] if len(ps) > 1 else ""
+            me = _BA_META.search(re.sub(r"<[^>]+>", " ", bloque))
+            fecha = me.group(3) if me else ""
+            d, mo, y = (fecha.split("/") + ["", "", ""])[:3]
+            out.append({"url": cfg["base"] + enl.group(1), "titulo": tit,
+                        "cve": f"BOIB-{me.group(2)}-{me.group(4)}" if me else enl.group(2),
+                        "fecha": fecha, "orden": f"{y}{mo}{d}" if y else "0",
+                        "ident": enl.group(2), "materia": q != "ordenança"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(una, _consultas_materia(texto, "ca", generico="ordenança")):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _baleares_texto(prov, m):
+    cfg = PROVINCIAS[prov]
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        h = _madrid_get(u, timeout=30, intentos=1)
+        mm = _BA_CUERPO.search(h)
+        if mm:
+            t = _html_a_texto(mm.group(1))
+            if len(t) > 600:
+                return t, "html"
+    except Exception:  # noqa: BLE001
+        pass
+    ident = m.get("ident") if isinstance(m, dict) else None
+    if ident:                       # ~5 %: el articulado va en un anexo PDF
+        try:
+            pdf = _getb(f"{cfg['base']}/eboibfront/pdf/VisPdf?action=VisEnviament"
+                        f"&idEnviament={ident}&lang=ca", timeout=45)
+            if pdf[:5] == b"%PDF-":
+                return _pdf_bytes_texto(pdf)
+        except Exception:  # noqa: BLE001
+            pass
+    return "", "sin-texto"
 
 
 # ---- backend CÓRDOBA (Next.js SSR; resultados en el payload RSC) -------------
