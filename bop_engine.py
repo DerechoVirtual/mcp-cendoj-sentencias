@@ -383,14 +383,20 @@ def _valladolid_buscar(prov, texto, organismo=None, rpp=40):
                         "materia": q != "ordenanza"})
         return out
 
+    # cada respuesta pesa ~300 KB (el servidor incrusta un <select> de 1.070
+    # organismos en TODAS), así que se lanza UNA consulta y solo se prueba la
+    # siguiente si no dio nada: con 3 en paralelo la latencia se disparaba a 30 s
+    # desde Vercel aunque en local fuese 1,2 s.
     vistos = {}
-    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
-        for rs in ex.map(una, _consultas_materia(texto, None)):
-            for r in rs:
-                if r["cve"] in vistos:
-                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
-                else:
-                    vistos[r["cve"]] = r
+    for q in _consultas_materia(texto, None):
+        for r in una(q):
+            if r["cve"] in vistos:
+                vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+            else:
+                vistos[r["cve"]] = r
+        if any(_es_ordenanza(r["titulo"]) and not _NO_NORMA.search(r["titulo"])
+               for r in vistos.values()):
+            break
     return list(vistos.values())
 
 
