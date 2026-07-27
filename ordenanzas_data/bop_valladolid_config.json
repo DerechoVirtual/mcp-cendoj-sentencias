@@ -1,0 +1,33 @@
+{
+ "base": "https://bop.sede.diputaciondevalladolid.es",
+ "campos": {
+  "organismo": "data-value del <option> del select #fqorg de /buscarenbop",
+  "scopeGranularidad": "1=alguna palabra, 2=frase, 3=todas",
+  "scopeTexto": "1=titulo (0,4 s), 2=titulo Y texto, 3=titulo O texto (3,5 s)",
+  "section": "0=todas, 3=III ADMINISTRACION LOCAL"
+ },
+ "endpoints": {
+  "buscador": "/buscarenbop",
+  "busqueda": "/buscarenbop?jsonDataAsHash={base64(json)}",
+  "json": "{\"textToSearch\":\"<urlencoded>\",\"scopeTexto\":\"1|2|3\",\"section\":\"0|3\",\"organismo\":\"<id>\",\"fechaDesde\":\"\",\"fechaHasta\":\"\",\"anyo\":\"0\",\"numeroboletin\":\"\",\"elementsPerPage\":\"20\",\"scopeGranularidad\":\"1|2|3\"}",
+  "pdf": "sale en el listado: /boletines/<anio>/<mes-es>/<dia>/BOPVA-A-<anio>-<NNNNN>.pdf"
+ },
+ "excluir": [
+  "Camargo",
+  "Carrascal del Rio",
+  "Cervera de Pisuerga",
+  "Cuellar (Segovia)",
+  "Las Navas del Marques",
+  "Madrigal de las Altas Torres",
+  "Montilla (Cordoba).",
+  "Sanxenxo",
+  "Tocina"
+ ],
+ "familia": "valladolid",
+ "id": "valladolid",
+ "indice_desde": 2005,
+ "mapa": "bop_valladolid_municipios.json",
+ "nombre": "Valladolid",
+ "verifica_texto": true,
+ "fulltext": true
+}

@@ -1,0 +1,19 @@
+{
+ "id": "alava",
+ "nombre": "Álava",
+ "base": "https://www.araba.eus/botha",
+ "mapa": "bop_alava_municipios.json",
+ "familia": "alava",
+ "indice_desde": 1998,
+ "activo": false,
+ "buscador": "/Busquedas/SGBO5016.aspx",
+ "encoding": "utf-8",
+ "seccion1": "2",
+ "seccion2": "5",
+ "tipo_ordenanzas": "1",
+ "campo_titulo": "tbResumen",
+ "campo_texto": "tbAnuncio",
+ "lectura": "/Busquedas/Resultado.aspx?File={file}&hl=",
+ "div_castellano": "detalle_cast",
+ "nota": "VERIFICADA EN VIVO 27-jul-2026 y VIABLE (queda activo:false a la espera del backend 'alava' en bop_engine.py). BOTHA = ASP.NET WebForms sin captcha, UTF-8 (NO iso-8859-1, el dosier se equivocaba). Flujo: GET SGBO5016.aspx -> POST ddlSeccion1=2+btnSeccion1 -> POST ddlSeccion2=5+btnSeccion2 (puebla ddlSeccion3 con los 51 ayuntamientos) -> POST ddlSeccion3=<cod>+ddlTipo1=1(ORDENANZAS Y REGLAMENTOS)+tbResumen|tbAnuncio=<termino>+btnBuscar. Sin la cascada, __EVENTVALIDATION rechaza el POST ('Se ha producido un error en la aplicacion'). Reenviar SIEMPRE __VIEWSTATE/__VIEWSTATEGENERATOR/__EVENTVALIDATION del ultimo HTML. Resultados: filas <tr> con enlace Resultado.aspx?File=Boletines/AAAA/NNN/AAAA_NNN_NNNNN_C.xml (_C castellano, _E euskera) + fecha + numero de BOTHA. Lectura: GET de ese Resultado.aspx (NO necesita cookies) devuelve el TEXTO INTEGRO en HTML; el castellano va en <div id='detalle_cast'> y el euskera en 'detalle_eus' (extraer solo el primero). SIN OCR: se lee HTML. (El PDF directo /botha/Boletines/AAAA/NNN/xxx_C.pdf existe para anios recientes -2023-2026 verificados, sin cabeceras- pero NO para los antiguos: el de 2012 da 404; la via canonica y completa es Resultado.aspx.) Sesion cacheable ~10 min; las peticiones de una MISMA sesion las serializa ASP.NET (paralelizar exige cookiejars independientes). 30 resultados por pagina, ordenados por FECHA DESC (no por relevancia) -> NO poner fulltext:true; usar el ranking generico por titulo. El boton de pagina 2 (btnSiguiente1) NO me funciono por POST (da el error de aplicacion); alternativa VERIFICADA para trocear mas de 30 resultados: tbFecDesde/tbFecHasta en dd/mm/aaaa. tbResumen y tbAnuncio hacen AND de palabras y son insensibles a acentos y mayusculas. ddlTipo1=1 es clave: con tipo=0 (todos) el listado se llena de subvenciones y licencias. Indice desde 1998 (1990-1997 = 0 resultados). Cada fila del listado trae ademas el enlace directo al PDF (../Boletines/AAAA/NNN/xxx_C.pdf), que en anios recientes tambien tiene capa de texto (fitz: 17 pags, 55.552 chars, 54 articulos)."
+}

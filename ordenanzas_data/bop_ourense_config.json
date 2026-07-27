@@ -1,0 +1,50 @@
+{
+ "id": "ourense",
+ "nombre": "Ourense",
+ "familia": "ourense",
+ "base": "https://bop.depourense.es/portalapi/api",
+ "portal": "https://bop.depourense.es/portal/",
+ "mapa": "bop_ourense_municipios.json",
+ "indice_desde": 2024,
+ "entidad_prefijo": "CONCELLO DE ",
+ "idioma": "gl",
+ "endpoints": {
+  "buscar": "/edicto/busquedaDocumentos?page={page}&size={size}",
+  "html": "/edicto/descargar/html/{idEdicto}/{idioma}",
+  "pdf": "/edicto/descargar/pdf/{idEdicto}/idioma/{idioma}",
+  "epub": "/edicto/descargar/epub/{idEdicto}/idioma/{idioma}",
+  "entidades": "/entidad/contain?nombre={q}",
+  "boletin_fecha": "/boletin/getFecha/{fecha}",
+  "boletin_pdf": "/boletin/descargar/{idBoletin}/idioma/{idioma}",
+  "ultima_fecha": "/boletin/ultimaFecha",
+  "secciones": "/seccion/getAll",
+  "tematicas": "/tematica/getAll"
+ },
+ "buscar_metodo": "POST",
+ "buscar_content_type": "application/json",
+ "buscar_body": {
+  "texto": "<consulta full-text, AND de todos los terminos>",
+  "tipo": "EDICTO",
+  "idProcedente": "<un unico id de entidad; NO admite lista>",
+  "fechapublicacionIni": "YYYYMMDD",
+  "fechapublicacionFin": "YYYYMMDD",
+  "seccion": "4",
+  "numeroBoletinIni": "",
+  "numeroBoletinFin": ""
+ },
+ "verifica_texto": true,
+ "fulltext": true,
+ "activo": false,
+ "notas": [
+  "activo:false = sondeada y verificada en vivo (27-jul-2026) pero SIN backend familia 'ourense' en bop_engine. NO activar hasta implementarlo.",
+  "El mapa guarda VARIOS ids por concello separados por comas (convencion de A Coruna): la API NO acepta lista en idProcedente (devuelve 0), asi que el backend debe hacer 1 peticion por id y unir. Ourense capital publica por departamentos: 17 ids.",
+  "Deduplicar SIEMPRE por idEdicto: cada resultado sale 2 veces (idioma 'gl' y 'es'). totalElements viene inflado x2.",
+  "tipo:'EDICTO' restringe al indice con idEdicto (2024-03-05 en adelante). Sin 'tipo' salen edictos de 2009+ pero con idEdicto:null: solo legibles bajando el PDF del boletin entero (endpoint boletin_pdf, capa de texto correcta, sin OCR).",
+  "El campo 'edicto' (titulo) SIEMPRE viene en gallego aunque la fila diga idioma 'es'. El endpoint html/pdf con idioma 'es' SI devuelve el texto traducido al castellano.",
+  "El indice es BILINGUE: buscar 'basura' encuentra documentos cuyo titulo gallego dice 'lixo'. Aun asi conviene consultar ambas formas y unir (hay pares con recuentos distintos).",
+  "La relevancia es laxa y el orden NO es por relevancia: hay que ranquear en local por el titulo. Consulta multipalabra = AND estricto.",
+  "Cabecera obligatoria: Content-Type: application/json (sin ella, HTTP 415). Origin/Referer/User-Agent NO son necesarios. Sin captcha, sin cookies, sin sesion.",
+  "size no tiene tope practico (probado 2000): una sola peticion evita paginar.",
+  "Si el HTML del edicto sale casi vacio (solo el encabezado), el articulado esta en el PDF del edicto: bajarlo y extraerlo con fitz (tiene capa de texto, NO hace falta OCR)."
+ ]
+}

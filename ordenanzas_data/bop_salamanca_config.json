@@ -1,0 +1,27 @@
+{
+ "activo": false,
+ "base": "https://sede.diputaciondesalamanca.gob.es",
+ "endpoints": {
+  "busqueda": "POST /opencms/opencms/sede/BOP/index.jsp",
+  "campos": "fechaBoletin, fDesde, fHasta (dd/mm/aaaa), texto, etiquetas, CVE",
+  "dia": "GET /opencms/opencms/sede/BOP/index.jsp?fechaBoletin=AAAA-MM-DD",
+  "pdf": "/documentacion/bop/<anio>/<AAAAMMDD>/BOP-SA-<AAAAMMDD>-<NNN>.pdf",
+  "referer": "https://sede.diputaciondesalamanca.gob.es/opencms/opencms/sede/BOP/"
+ },
+ "etiquetas": {
+  "1124": "Entidades Locales Menores",
+  "419": "Ayuntamiento de Salamanca (capital)",
+  "430": "Ayuntamientos",
+  "431": "Mancomunidades",
+  "432": "Otras Entidades Locales",
+  "6": "IV. ADMINISTRACION LOCAL"
+ },
+ "familia": "salamanca",
+ "fulltext": true,
+ "id": "salamanca",
+ "indice_desde": 2012,
+ "mapa": "bop_salamanca_municipios.json",
+ "nombre": "Salamanca",
+ "nota": "VERIFICADO EN VIVO 27-jul-2026 (sondas _sa_lib.py / _probe_sa4.py / _probe_sa9.py). OpenCms + app BOP propia en JSP. POST form-urlencoded, SIN captcha, SIN cookies y SIN token. Una busqueda a TODO el historico (01/01/2012 a hoy) de 'ordenanza' devuelve 7.313 anuncios (3,9 MB) en ~2,2 s; los terminos normales, 0,5-1,6 s. El PDF es POR ANUNCIO y con capa de texto (fitz directo, sin OCR). Backend NO implementado -> activo=false. NO HAY facet ni id de municipio: el municipio viene como ENCABEZADO del listado y se filtra EN LOCAL (por eso el valor del mapa es el propio nombre tal y como lo escribe el BOP). TRAMPAS: (1) el header Referer DEBE apuntar a .../sede/BOP/ -- con Referer a index.jsp el servidor devuelve el formulario vacio y parece que no hay resultados; (2) NUNCA lanzar la busqueda con fDesde/fHasta vacios: devuelve el historico entero (35 MB medidos); (3) el listado es PLANO y la jerarquia va en el margin-left del div (10=seccion, 20=grupo, 30=municipio, 40=anuncio) -> hay que recorrerlo en orden llevando el estado; (4) dentro del grupo 'Ayuntamiento de Salamanca' (la capital, etiqueta 419) el nivel 30 NO es un municipio sino un AREA municipal (Alcaldia, Contratacion, Deportes...): si se toma por municipio, el mapa se ensucia; (5) combinar texto + etiquetas=430 devuelve CERO: o texto o etiqueta; (6) el multi-termino se comporta como frase exacta. Mapa: 343 municipios cosechados del propio listado (barrido por anos 2012-2026 mas varios terminos) de los 362 de la provincia; los ~19 que faltan no han publicado nada en el indice. AVISO DE ENRUTADO: el mapa YA EMPAQUETADO de CACERES contiene por error 3 municipios de Salamanca (Bejar=510, Carbajosa de la Sagrada=512, Lagunilla=516) y, como caceres se registra antes alfabeticamente, ganaria el enrutado. ANTES DE ACTIVAR SALAMANCA hay que anadir esos 3 nombres al `excluir` de bop_caceres_config.json. 'Aldea del Obispo' si es homonimo real (existe en Caceres y en Salamanca) y necesita desambiguar con 'Municipio, Provincia'.",
+ "verifica_texto": true
+}

@@ -1,0 +1,29 @@
+{
+ "id": "ceuta",
+ "nombre": "Ceuta",
+ "familia": "ceuta",
+ "base": "https://www.ceuta.es",
+ "mapa": "bop_ceuta_municipios.json",
+ "catalogo": "ceuta.json",
+ "indice_desde": 1996,
+ "idioma": "es",
+ "uni_municipal": true,
+ "verifica_texto": true,
+ "activo": false,
+ "nota_activo": "Sondeada y verificada en vivo (27-jul-2026) pero SIN backend en bop_engine.py: familia 'ceuta' no existe todavia. Mantener activo=false hasta implementar _ceuta_buscar/_ceuta_texto o el motor se registraria sin backend y romperia produccion.",
+ "endpoints": {
+  "indice_normativa": "/ceuta/la-institucion/normativa",
+  "pagina_html": "/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/{slug}",
+  "pdf_bocce": "/ceuta/component/jdownloads/finish/{catid}-{mes}/{docid}-bocce-{num}-{dd-mm-yyyy}?Itemid=534",
+  "pdf_suelto": "/ceuta/images/documentos/Institucional/Normativa/{fichero}.pdf"
+ },
+ "notas": [
+  "Ciudad autonoma UNI-MUNICIPAL: no hay BOP con facet de ayuntamiento. El BOCCE (Joomla + jDownloads) NO tiene buscador por anuncio, solo listados por anio/mes de PDFs de boletin completo.",
+  "FUENTE ELEGIDA: indice curado de normativa del propio portal (patron 'capital via su web propia', como leon_capital). 112 normas base + 17 modificaciones, 13 secciones tematicas. 112/112 URLs vivas (HTTP 200) el 27-jul-2026.",
+  "Formatos: 58 'html' (texto integro en el portal), 5 'pdf' (PDF suelto, algunos ya TEXTO CONSOLIDADO), 49 'bocce' (PDF del boletin COMPLETO -> recortar por titulo).",
+  "OCR: solo los BOCCE de 1997-1998 estan escaneados (0 chars/pagina): 13 de 54 PDFs, todos de 4 boletines (1997-07-03, 1997-09-29, 1998-08-06 y el extra 19 de 1998-12-30 que aloja 8 ordenanzas fiscales). Desde 2002 TODOS traen capa de texto.",
+  "El indice publica base + modificaciones por separado (NO consolida), salvo algun PDF marcado 'TEXTO CONSOLIDADO' (p.ej. terrazas de veladores 2021).",
+  "RECORTE en los 'bocce' — RECETA PROBADA (12 casos): (1) tomar las 3-4 palabras de mas de 4 letras del titulo; (2) marcar como candidata toda pagina que contenga al menos len(toks)-1 de ellas; (3) DESCARTAR la candidata si en sus 3 paginas no hay >=2 'Articulo N' -> esto elimina la pagina de SUMARIO, que lista todos los titulos y siempre casa; (4) quedarse con la primera candidata que sobrevive y leer ~15 paginas desde ahi. Resultado: 6/6 correcto en los boletines con capa de texto (arts. 29-135 detectados); los 6 fallos del banco son todos el MISMO boletin escaneado de 1998 (extra 19 de 30-12-1998, 119 pag.), que necesita OCR.",
+  "Peor caso medido: el boletin del IPSI son 271 paginas y 4,75 s de descarga+extraccion. La mediana de los 'bocce' esta en 1-2 s."
+ ]
+}

@@ -1,0 +1,2550 @@
+{
+ "meta": {
+  "municipio": "ceuta",
+  "nombre": "Ceuta",
+  "fuente": "Ciudad Autónoma de Ceuta — índice curado de normativa (reglamentos y ordenanzas, con enlace al BOCCE de cada una)",
+  "url": "https://www.ceuta.es/ceuta/la-institucion/normativa",
+  "actualizado": "2026-07",
+  "nota": "formato 'bocce' = PDF del boletín COMPLETO: hay que recortar el texto por título. 'html' = página del portal con el texto íntegro. 'pdf' = PDF suelto (algunos ya son TEXTO CONSOLIDADO)."
+ },
+ "normas": [
+  {
+   "id": "ceuta-001",
+   "titulo": "Reglamento de la Asamblea de la Ciudad de Ceuta",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 13 febrero 2018",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1564-febrero/9092-bocce-5756-13-02-2018?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "administracion",
+    "asamblea",
+    "gobierno",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-002",
+   "titulo": "Reglamento de Gobierno y servicios de la administración",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 10 noviembre 2017",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1554-noviembre/9023-bocce-5729-10-11-2017?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "administracion",
+    "gobierno",
+    "reglamento",
+    "servicios"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-003",
+   "titulo": "Reglamento del Registro General, de 22 de enero de 2009, de Ceuta",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 3 febrero 2009",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/116-reglamento-del-registro-general-de-22-de-enero-de-2009",
+   "formato": "html",
+   "alias": [
+    "administracion",
+    "enero",
+    "general",
+    "gobierno",
+    "registro",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-004",
+   "titulo": "Reglamento del Inventario General, de 22 de enero de 2009, de Ceuta",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 10 febrero 2009",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/117-reglamento-del-inventario-general-de-22-de-enero-de-2009",
+   "formato": "html",
+   "alias": [
+    "administracion",
+    "enero",
+    "general",
+    "gobierno",
+    "inventario",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-005",
+   "titulo": "Acuerdo de la Asamblea de 25 de octubre de 2021 de aprobación de la Ordenanza Reguladora del procedimiento sancionador para los incumplimientos de los ciudadanos en relación a sus obligaciones con el Padrón",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 23 noviembre 2021",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1863-noviembre/21043-bocce-6150-23-11-2021?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "acuerdo",
+    "aprobacion",
+    "asamblea",
+    "incumplimientos",
+    "octubre",
+    "ordenanza",
+    "procedimiento",
+    "sancionador"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-006",
+   "titulo": "Reglamento de 25 de octubre de 2001 de Participación Ciudadana y Fomento del Asociacionismo",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 30 octubre 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/126-reglamento-de-participacion-ciudadana-y-fomento-del-asociacionismo-de-25-de-octubre-de-2001",
+   "formato": "html",
+   "alias": [
+    "administracion",
+    "asociacionismo",
+    "ciudadana",
+    "fomento",
+    "gobierno",
+    "octubre",
+    "participacion",
+    "participacion ciudadana",
+    "reglamento",
+    "transparencia"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-007",
+   "titulo": "Reglamento Regulador de la Relación, Provisión y Retribuciones de los Puestos de trabajo",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 25 abril 2012",
+   "url": "https://www.ceuta.es/ceuta/images/documentos/Institucional/Normativa/Reglamento_RPT_BOCCE_Extra5_25-02-2014.pdf",
+   "formato": "pdf",
+   "alias": [
+    "administracion",
+    "gobierno",
+    "provision",
+    "puestos",
+    "reglamento",
+    "relacion",
+    "retribuciones",
+    "trabajo"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-008",
+   "titulo": "Reglamento de Organización y Funcionamiento de los Servicios Administrativos de la Ciudad y sobre la Relación de Puestos de Trabajo de la Ciudad de Ceuta (RPT)",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE Ext 12 noviembre 2024",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1945-noviembre/22657-bocce-6460-12-11-2024?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "administrativos",
+    "funcionamiento",
+    "organizacion",
+    "puestos",
+    "reglamento",
+    "relacion",
+    "servicios",
+    "trabajo"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-009",
+   "titulo": "Mesa General de Negociación",
+   "cat": "Gobierno Y Administración",
+   "pub": "BOCCE 20 abril 2012",
+   "url": "https://www.ceuta.es/ceuta/images/documentos/Institucional/Normativa/Reglamento_Mesa_General_Negociacion_BOCCE_5149_%2020-04-2012.pdf",
+   "formato": "pdf",
+   "alias": [
+    "administracion",
+    "general",
+    "gobierno",
+    "negociacion"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-010",
+   "titulo": "Reglamento de Ceremonial y Protocolo, de 22 de enero de 2007",
+   "cat": "Protocolo",
+   "pub": "BOCCE 1 febrero 2007",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/77-reglamento-de-ceremonial-y-protocolo-de-22-de-enero-de-2007",
+   "formato": "html",
+   "alias": [
+    "ceremonial",
+    "enero",
+    "protocolo",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-011",
+   "titulo": "Reglamento Regulador del Servicio de Protocolo, de 22 de enero de 2007",
+   "cat": "Protocolo",
+   "pub": "BOCCE 13 julio 2007",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/346-reglamento-regulador-del-servicio-de-protocolo-de-la-ciudad-de-ceuta",
+   "formato": "html",
+   "alias": [
+    "enero",
+    "protocolo",
+    "reglamento",
+    "servicio"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-012",
+   "titulo": "Reglamento de Distinciones Honoríficas, de 22 de enero de 2007",
+   "cat": "Protocolo",
+   "pub": "BOCCE 1 febrero 2007",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/78-reglamento-de-distinciones-honorificas-de-22-de-enero-de-2007",
+   "formato": "html",
+   "alias": [
+    "distinciones",
+    "enero",
+    "honorificas",
+    "protocolo",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-013",
+   "titulo": "Ordenanza Fiscal General",
+   "cat": "Hacienda",
+   "pub": "BOCCE 25 noviembre 2011",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/334-noviembre/1867-bocce-5107-25-11-2011?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "fiscal",
+    "general",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "ipsi",
+    "ordenanza",
+    "plusvalia",
+    "tasa",
+    "tributaria"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 75.2. BOCCE 13 DE FEBRERO DE 2015. Artículos 26.2. y 75. BOCCE 24 de junio de 2016. Artículo 75.1. BOCCE 5 de agosto de 2025.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1510-febrero/8259-bocce-5443-13-02-2015?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-014",
+   "titulo": "Ordenanza Fiscal reguladora del Impuesto sobre la Producción, los Servicios y la Importación (IPSI)",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 enero 2019",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1583-enero/9410-bocce-extra2-30-01-2019?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "fiscal",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "importacion",
+    "impuesto",
+    "ipsi",
+    "ordenanza",
+    "plusvalia",
+    "produccion",
+    "servicios",
+    "tasa",
+    "tributaria"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 5 - BOCCE 26 de Marzo 2002. Artículo 33 (Tipos impositivos) – BOCCE 28 de Agosto de 2009. Artículo 56 (Carburantes: Tipos impositivos) - BOCCE 28 de Agosto de 2009 Artículo 60 (Devoluciones) – BOCCE 28 de Marzo de 2003. Artículo 69 (Obligaciones sujetos pasivos) – BOCCE 03 de Diciembre de 2004. Artículo 87 (Obligaciones formales BI) – BOCCE 13 de Junio de 2006. Artículo 90 (Operaciones interiores) – BOCCE 13 de Junio de 2006. Artículo 91 (Importaciones) – BOCCE 28 de Agosto de 2009. Anexo 1 – BOCCE 10 de Mayo de 2005 Artículo 33 (Tipos impositivos) – BOCCE 31 de Agosto de 2010. Artículo 33 (Tipos impositivos) – BOCCE 25 de Noviembre de 2011. Disposición Transitoria Quinta – BOCCE 02 de Diciembre de 2011. Artículo 33 (Tipos impositivos) – BOCCE 28 de Septiembre de 2012. Artículo 16 (Importaciones) – BOCCE 24 de Diciembre de 2013. Artículo 33 (Tipos impositivos) – BOCCE 24 de Diciembre de 2013. Artículo 28 (Importaciones) – BOCCE 09 de Marzo de 2018. Artículo 33 (Tipos impositivos) – BOCCE 09 de Marzo de 2018. Artículo 61 (Exportación) – BOCCE 09 de Marzo de 2018. Artículo 89 (Importaciones) – BOCCE 09 de Marzo de 2018. Artículo 91 (Importaciones) – BOCCE 09 de Marzo de 2018. Artículo 33.2 (Tipos impositivos) – BOCCE 28 de Mayo de 2018. Artículo 91 (Importaciones) – BOCCE 28 de Mayo de 2018. Artículo 33 (Tipos impositivos) – BOCCE 30 de Enero de 2019. Artículo 91 (Importaciones) – BOCCE 30 de Enero de 2019. --> Artículo 33 (tipos impositivos) – BOCCE 13 de marzo de 2020. Artículos 21 bis, 33 y 91 – BOCCE 29 de junio de 2020. Artículo 33.uno.11 y 12 – BOCCE 4 de mayo de 2021. Artículo 21 (reexportación de bienes) BOCCE 18 de mayo de 2021. Artículo 33 (Tipos impositivos) – BOCCE 29 de junio de 2021. Artículo 33.1 - BOCCE nº 6387 de 1 de marzo de 2024. Artículos 30 y 33 - BOCCE 15 de marzo de 2024.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1619-marzo/20188-bocce-5973-13-03-2020?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-015",
+   "titulo": "Impuesto sobre Bienes Inmuebles (IBI)",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "bienes",
+    "fiscal",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "inmuebles",
+    "ipsi",
+    "plusvalia",
+    "tasa",
+    "tributaria"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículos del 1º al 9º – BOCCE 31 de Marzo de 2003. Artículos 8º (Tipo de Gravamen y Cuota Tributaria) y 9º (Bonificaciones). BOCCE 19 de diciembre de 2007. Artículo 9º.6. Bonificaciones – BOCCE 20 de Enero de 2009.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/429-marzo/2923-bocce-extra-9-31-03-2003?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-016",
+   "titulo": "Impuesto sobre Vehículos de Tracción Mecánica",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "aparcamiento",
+    "circulacion",
+    "estacionamiento",
+    "fiscal",
+    "grua",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "ipsi",
+    "mecanica",
+    "plusvalia",
+    "retirada de vehiculos",
+    "tasa",
+    "traccion",
+    "trafico",
+    "tributaria",
+    "vehiculos"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 8º. Cuota Tributaria y Bonificaciones – BOCCE 3 de Diciembre de 2004. Disposición Adicional 1ª – BOCCE 28 de Agosto de 2009.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/412-diciembre/2740-bocce-4379-03-12-2004?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-017",
+   "titulo": "Impuesto sobre Actividades Económicas",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "actividades",
+    "apertura",
+    "economicas",
+    "establecimientos",
+    "fiscal",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "instalacion",
+    "ipsi",
+    "licencia de apertura",
+    "plusvalia",
+    "tasa",
+    "tributaria"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículos del 9º a 12 y Disposición Adicional 1ª – BOCCE 31 de Marzo de 2003. Artículo 11 – Cuota Tributaria – BOCCE 28 de Septiembre de 2012. Anexo Callejero Fiscal de la Ciudad Autónoma de Ceuta - BOCCE 15 de Julio de 2014.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/429-marzo/2923-bocce-extra-9-31-03-2003?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-018",
+   "titulo": "Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "fiscal",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "incremento",
+    "ipsi",
+    "naturaleza",
+    "plusvalia",
+    "tasa",
+    "terrenos",
+    "tributaria",
+    "urbana",
+    "valor"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículos 3º, 6º y Disposición Adicional 1ª – BOCCE 31 de Marzo de 2003.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/429-marzo/2923-bocce-extra-9-31-03-2003?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-019",
+   "titulo": "Impuesto sobre Construcciones, Instalaciones y Obras (ICIO)",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "cedula",
+    "construcciones",
+    "disciplina urbanistica",
+    "edificacion",
+    "fiscal",
+    "habitabilidad",
+    "hacienda",
+    "iae",
+    "ibi",
+    "icio",
+    "impuesto",
+    "instalaciones",
+    "ipsi",
+    "licencia de obras",
+    "obras",
+    "plusvalia",
+    "tasa",
+    "tributaria",
+    "urbanismo"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 4º (sujetos pasivos) y Disposición Adicional 1ª.– BOCCE 31 de Marzo de 2003. Disposición Adicional 1ª (apartado b) – BOCCE 30 de Enero de 2009. Artículo 7º. – Cuota Tributaria – BOCCE 7 de Septiembre 2012.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/429-marzo/2923-bocce-extra-9-31-03-2003?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-020",
+   "titulo": "Otorgamiento de licencias de apertura de establecimientos",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "actividades",
+    "apertura",
+    "establecimientos",
+    "hacienda",
+    "instalacion",
+    "licencia de apertura",
+    "licencias",
+    "otorgamiento"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 7º. Cuota Tributaria – BOCCE 31 de Diciembre de 2001.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/451-diciembre/3129-bocce-extra-24-31-12-2001?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-021",
+   "titulo": "Otorgamiento de licencias de autotaxis y demas vehículos alquiler con o sin conductor",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "adjudicacion de viviendas",
+    "alquiler",
+    "aparcamiento",
+    "autotaxis",
+    "circulacion",
+    "conductor",
+    "demas",
+    "estacionamiento",
+    "grua",
+    "hacienda",
+    "licencias",
+    "otorgamiento",
+    "retirada de vehiculos",
+    "trafico",
+    "vehiculos",
+    "vivienda"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 2º. Hecho Imponible – BOCCE 31 de Diciembre de 2001. Artículo 7º. Cuota Tributaria y Tarifas – BOCCE 31 de Diciembre de 2002.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/451-diciembre/3129-bocce-extra-24-31-12-2001?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-022",
+   "titulo": "Prestación del servicio de boletín oficial de la Ciudad Autónoma de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "boletin",
+    "hacienda",
+    "oficial",
+    "prestacion",
+    "servicio"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 7º. Cuota Tributaria y Tarifas – BOCCE 31 de Diciembre de 2002.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/438-diciembre/3010-bocce-extra-18-31-12-2002?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-023",
+   "titulo": "Retirada y depósito de vehículos abandonados o estacionados en la vía pública",
+   "cat": "Hacienda",
+   "pub": "BOCCE 30 diciembre 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/490-diciembre/3476-bocce-extra-19-30-12-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "abandonados",
+    "aparcamiento",
+    "circulacion",
+    "deposito",
+    "estacionados",
+    "estacionamiento",
+    "grua",
+    "hacienda",
+    "publica",
+    "retirada",
+    "retirada de vehiculos",
+    "trafico",
+    "vehiculos"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Artículo 7º. Cuota Tributaria y Tarifas – BOCCE 31 de Diciembre de 2002.",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/438-diciembre/3010-bocce-extra-18-31-12-2002?Itemid=534",
+     "fecha": ""
+    }
+   ]
+  },
+  {
+   "id": "ceuta-024",
+   "titulo": "Reglamento de Casinos de Juegos de la Ciudad de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 6 agosto 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/498-agosto/3524-bocce-3748-06-08-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "casinos",
+    "hacienda",
+    "juegos",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-025",
+   "titulo": "Catálogo de Juegos de la Ciudad de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 6 agosto 1998",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/498-agosto/3524-bocce-3748-06-08-1998?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "catalogo",
+    "hacienda",
+    "juegos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-026",
+   "titulo": "Modificado mediante acuerdo publicado en el BOCCE de 9 de mayo de 2003. Modificado mediante acuerdo publicado en el BOCCE de 12 de diciembre de 2008. Modificado mediante el Reglamento 1/2014, de Organización, Gestión y Explotación del Bingo Electrónico y modificación de diversas normas en materia de juegos y apuestas, publicado en el BOCCE de 25 de febrero de 2014.",
+   "cat": "Hacienda",
+   "pub": "",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/431-mayo/2948-bocce-4215-09-05-2003?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "acuerdo",
+    "apuestas",
+    "bingo",
+    "bocce",
+    "casino",
+    "juego",
+    "maquinas recreativas",
+    "mediante",
+    "modificado",
+    "publicado"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-027",
+   "titulo": "Aprobación modelo de guía de circulación de máquinas recreativas para el ámbito territorial de la Ciudad de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 20 abril 2010",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/337-abril/1904-bocce-4940-20-04-2010?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "ambito",
+    "aparcamiento",
+    "aprobacion",
+    "apuestas",
+    "bingo",
+    "casino",
+    "circulacion",
+    "estacionamiento",
+    "grua",
+    "hacienda",
+    "juego",
+    "maquinas",
+    "maquinas recreativas",
+    "modelo",
+    "recreativas",
+    "retirada de vehiculos",
+    "territorial",
+    "trafico",
+    "vehiculos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-028",
+   "titulo": "Reglamento de Apuestas de la Ciudad de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 18 mayo 2010",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/340-mayo/1933-bocce-4948-18-05-2010?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "apuestas",
+    "bingo",
+    "casino",
+    "hacienda",
+    "juego",
+    "maquinas recreativas",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-029",
+   "titulo": "Decreto de modificación del régimen jurídico de determinadas autorizaciones en el Reglamento de Apuestas, publicado en el BOCCE de 21 de octubre de 2011. Modificación publicada en el BOCCE de 25 de febrero de 2014. Decreto de modificación del régimen jurídico de determinadas autorizaciones previstas en el Reglamento de Apuestas publicado en el BOCCE de 29 de octubre de 2021, donde se regula el sistema de control de admisión de los salones de juego de tipo B, y se crea el Registro General de Interdicciones de Acceso al Juego.",
+   "cat": "Hacienda",
+   "pub": "",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/330-octubre/1827-bocce-5097-21-10-2011?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "apuestas",
+    "autorizaciones",
+    "bingo",
+    "casino",
+    "decreto",
+    "determinadas",
+    "juego",
+    "juridico",
+    "maquinas recreativas",
+    "modificacion",
+    "regimen",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-030",
+   "titulo": "Reglamento por el que se limita el número total de plazas en las salas de bingo y se regula el reparto de premios al juego de bingo en la Ciudad de Ceuta",
+   "cat": "Hacienda",
+   "pub": "BOCCE 20 diciembre 2016",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1536-diciembre/8673-bocce-5636-20-12-2016?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "apuestas",
+    "bingo",
+    "casino",
+    "juego",
+    "limita",
+    "maquinas recreativas",
+    "numero",
+    "plazas",
+    "reglamento",
+    "regula",
+    "salas",
+    "total"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-031",
+   "titulo": "Reglamento 1/2014, de organización, gestión y explotación del bingo electrónico y modificación de diversas normas en materia de juegos y apuestas",
+   "cat": "Hacienda",
+   "pub": "BOCCE 25 febrero 2014",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1495-febrero/8002-bocce-extra-5-25-02-2014?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "apuestas",
+    "bingo",
+    "casino",
+    "diversas",
+    "electronico",
+    "explotacion",
+    "gestion",
+    "juego",
+    "maquinas recreativas",
+    "modificacion",
+    "organizacion",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-032",
+   "titulo": "Creación del Registro de Interdicciones de Acceso al Juego",
+   "cat": "Hacienda",
+   "pub": "BOCCE 29 Octubre 2021",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1861-octubre/20997-bocce-6143-29-10-2021?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "acceso",
+    "apuestas",
+    "bingo",
+    "casino",
+    "creacion",
+    "hacienda",
+    "interdicciones",
+    "juego",
+    "maquinas recreativas",
+    "registro"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-033",
+   "titulo": "Decreto por el que se modifica el modelo de inscripción, modificación de datos, cancelación y certificado de situación referido al Registro de Interdicciones de Acceso al Juego",
+   "cat": "Hacienda",
+   "pub": "BOCCE 31 enero 2023",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1898-enero/21619-bocce-6274-31-01-2023?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "apuestas",
+    "bingo",
+    "cancelacion",
+    "casino",
+    "certificado",
+    "datos",
+    "decreto",
+    "inscripcion",
+    "juego",
+    "maquinas recreativas",
+    "modelo",
+    "modifica",
+    "modificacion"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-034",
+   "titulo": "Reglamento del servicio de museos, de 14 de abril de 1999, de Ceuta",
+   "cat": "Educación Y Cultura",
+   "pub": "BOCCE 27 abril 1999",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/128-reglamento-del-servicio-de-museos-de-14-de-abril-de-1999",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "cultura",
+    "educacion",
+    "museos",
+    "reglamento",
+    "servicio"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-035",
+   "titulo": "Reglamento de funcionamiento de la Comisión del Patrimonio Cultural, de 3 de julio de 2001",
+   "cat": "Educación Y Cultura",
+   "pub": "BOCCE 6 julio 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/96-reglamento-de-funcionamiento-de-la-comision-del-patrimonio-cultural-de-3-de-julio-de-2001",
+   "formato": "html",
+   "alias": [
+    "comision",
+    "cultura",
+    "cultural",
+    "educacion",
+    "funcionamiento",
+    "julio",
+    "patrimonio",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-036",
+   "titulo": "Ordenanza reguladora del uso de las instalaciones del conjunto monumental de las Murallas Reales, de 6 de junio de 2007, de Ceuta",
+   "cat": "Educación Y Cultura",
+   "pub": "BOCCE 26 julio 2007",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/102-ordenanza-reguladora-del-uso-de-las-instalaciones-del-conjunto-monumental-de-las-murallas-reales-de-6-de-junio-de-2007",
+   "formato": "html",
+   "alias": [
+    "conjunto",
+    "educacion",
+    "instalaciones",
+    "junio",
+    "monumental",
+    "murallas",
+    "ordenanza",
+    "reales"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-037",
+   "titulo": "Reglamento de protección del patrimonio documental ceutí y del sistema archivístico, de 15 de diciembre de 2003",
+   "cat": "Educación Y Cultura",
+   "pub": "BOCCE 20 febrero 2004",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/101-reglamento-de-proteccion-del-patrimonio-documental-ceuti-y-del-sistema-archivistico-de-15-de-diciembre-de-2003",
+   "formato": "html",
+   "alias": [
+    "archivistico",
+    "ceuti",
+    "diciembre",
+    "documental",
+    "patrimonio",
+    "proteccion",
+    "reglamento",
+    "sistema"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-038",
+   "titulo": "Reglamento de organización y funcionamiento de guarderías infantiles de 23 de noviembre de 2001",
+   "cat": "Educación Y Cultura",
+   "pub": "BOCCE 14 diciembre 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/97-reglamento-de-organizacion-y-funcionamiento-de-guarderias-infantiles-de-23-de-noviembre-de-2001",
+   "formato": "html",
+   "alias": [
+    "cultura",
+    "educacion",
+    "funcionamiento",
+    "guarderias",
+    "infantiles",
+    "noviembre",
+    "organizacion",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-039",
+   "titulo": "Reglamento de la Policía Local, de 11 de junio de 2002, de Ceuta",
+   "cat": "Gobernación",
+   "pub": "BOCCE 11 junio 2002",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/441-junio/3028-bocce-4120-11-06-2002?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "bomberos",
+    "extincion de incendios",
+    "gobernacion",
+    "junio",
+    "local",
+    "policia",
+    "policia local",
+    "proteccion civil",
+    "reglamento",
+    "seguridad"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Modificación segunda actividad",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/383-septiembre/2454-bocce-4670-18-09-2007?Itemid=534",
+     "fecha": "BOCCE 18 septiembre 2007"
+    },
+    {
+     "titulo": "Modificación Art. 53 Medalla Merito Policial",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/367-mayo/2254-bocce-4737-09-05-2008?Itemid=534",
+     "fecha": "BOCCE 9 mayo 2008"
+    },
+    {
+     "titulo": "Modificación estructura y retribuciones",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/351-febrero/2069-bocce-4815-06-02-2009?Itemid=534",
+     "fecha": "BOCCE 6 febrero 2009"
+    },
+    {
+     "titulo": "Modificación varios artículos del reglamento de la Policía Local de Ceuta",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1534-octubre/8636-bocce-5615-07-10-2016?Itemid=534",
+     "fecha": "BOCCE 7 octubre 2016"
+    }
+   ]
+  },
+  {
+   "id": "ceuta-040",
+   "titulo": "Reglamento del Régimen Disciplinario de la Policía Local",
+   "cat": "Gobernación",
+   "pub": "BOCCE 21 enero 2005",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/398-enero/2597-bocce-4393-21-01-2005?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "bomberos",
+    "disciplinario",
+    "extincion de incendios",
+    "gobernacion",
+    "local",
+    "policia",
+    "policia local",
+    "proteccion civil",
+    "regimen",
+    "reglamento",
+    "seguridad"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-041",
+   "titulo": "Reglamento de la Academia de la Policía Local",
+   "cat": "Gobernación",
+   "pub": "BOCCE 29 septiembre 1997",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/513-septiembre/3613-bocce-extra-19-29-09-1997?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "academia",
+    "bomberos",
+    "extincion de incendios",
+    "gobernacion",
+    "local",
+    "policia",
+    "policia local",
+    "proteccion civil",
+    "reglamento",
+    "seguridad"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-042",
+   "titulo": "Reglamento del Servicio de Extinción de Incendios y Salvamento, de 14 de agosto de 1996, de Ceuta",
+   "cat": "Gobernación",
+   "pub": "BOCCE 13 septiembre 1996",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/105-reglamento-del-servicio-de-extincion-de-incendios-y-salvamento-de-14-de-agosto-de-1996",
+   "formato": "html",
+   "alias": [
+    "agosto",
+    "bomberos",
+    "extincion",
+    "extincion de incendios",
+    "gobernacion",
+    "incendios",
+    "policia",
+    "policia local",
+    "proteccion civil",
+    "reglamento",
+    "salvamento",
+    "seguridad",
+    "servicio"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Modificación varios artículos del reglamento del Servicio de Extinción de Incendios y Salvamento",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1534-octubre/8636-bocce-5615-07-10-2016?Itemid=534",
+     "fecha": "BOCCE 5615, 7 octubre 2016"
+    }
+   ]
+  },
+  {
+   "id": "ceuta-043",
+   "titulo": "Reglamento del Parque Móvil de la Ciudad Autónoma de Ceuta",
+   "cat": "Gobernación",
+   "pub": "BOCCE 14 abril 2006",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1863-noviembre/21043-bocce-6150-23-11-2021?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "gobernacion",
+    "movil",
+    "parque",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-044",
+   "titulo": "Ordenanza municipal de circulación, de 11 de septiembre de 1998",
+   "cat": "Gobernación",
+   "pub": "BOCCE 24 septiembre 1998",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/124-ordenanza-municipal-de-circulacion-de-11-de-septiembre-de-1998",
+   "formato": "html",
+   "alias": [
+    "aparcamiento",
+    "circulacion",
+    "estacionamiento",
+    "gobernacion",
+    "grua",
+    "municipal",
+    "ordenanza",
+    "retirada de vehiculos",
+    "septiembre",
+    "trafico",
+    "vehiculos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-045",
+   "titulo": "Ordenanza reguladora del Servicio de Transporte Urbano de Viajeros en Automóviles Ligeros, Autotaxis",
+   "cat": "Gobernación",
+   "pub": "BOCCE 19 noviembre 2024",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1945-noviembre/22659-bocce-6462-19-11-2024?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "auto-taxi",
+    "automoviles",
+    "autotaxi",
+    "autotaxis",
+    "ligeros",
+    "ordenanza",
+    "servicio",
+    "taxi",
+    "transporte",
+    "transporte urbano",
+    "urbano",
+    "viajeros"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-046",
+   "titulo": "Reglamento regulador de los distintos órganos de protección civil, de 21 de noviembre de 2005",
+   "cat": "Gobernación",
+   "pub": "BOCCE 21 abril 2006",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/107-reglamento-regulador-de-los-distintos-organos-de-proteccion-civil-de-21-de-noviembre-de-2005",
+   "formato": "html",
+   "alias": [
+    "bomberos",
+    "civil",
+    "distintos",
+    "extincion de incendios",
+    "gobernacion",
+    "noviembre",
+    "organos",
+    "policia",
+    "policia local",
+    "proteccion",
+    "proteccion civil",
+    "reglamento",
+    "seguridad"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-047",
+   "titulo": "Ordenanza reguladora del registro autonómico de planes de autoprotección, de 11 de junio de 2010",
+   "cat": "Gobernación",
+   "pub": "BOCCE 9 julio 2010",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/108-ordenanza-reguladora-del-registro-autonomico-de-planes-de-autoproteccion-de-11-de-junio-de-2010",
+   "formato": "html",
+   "alias": [
+    "autonomico",
+    "autoproteccion",
+    "gobernacion",
+    "junio",
+    "ordenanza",
+    "planes",
+    "registro"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-048",
+   "titulo": "Instrucciones Técnicas para los servicios dependientes del sistema de Protección Civil",
+   "cat": "Gobernación",
+   "pub": "BOCCE 26 agosto 2025",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1959-agosto/22904-bocce-6542-26-08-2025?Itemid=0",
+   "formato": "bocce",
+   "alias": [
+    "bomberos",
+    "civil",
+    "dependientes",
+    "extincion de incendios",
+    "gobernacion",
+    "instrucciones",
+    "policia",
+    "policia local",
+    "proteccion",
+    "proteccion civil",
+    "seguridad",
+    "servicios",
+    "sistema",
+    "tecnicas"
+   ],
+   "modificaciones": [
+    {
+     "titulo": "Anexo a la Instrucción Técnica 2025-003 de Protección Civil de comunicaciones, para uso de sistemas de videoconferencia, activación del CECOP-I y puesto de mando virtual",
+     "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1976-mayo/23128-bocce-6615-08-05-2026?Itemid=0",
+     "fecha": "BOCCE 6615, 8 mayo 2026"
+    }
+   ]
+  },
+  {
+   "id": "ceuta-049",
+   "titulo": "Instrucción Técnica de Protección Civil para la gestión de recursos aéreos en incendios forestales",
+   "cat": "Gobernación",
+   "pub": "BOCCE 6636, 21 julio 2026",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1978-julio/23221-bocce-6636-21-07-2026?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "aereos",
+    "bomberos",
+    "civil",
+    "extincion de incendios",
+    "gestion",
+    "incendios",
+    "instruccion",
+    "policia",
+    "policia local",
+    "proteccion",
+    "proteccion civil",
+    "recursos",
+    "seguridad",
+    "tecnica"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-050",
+   "titulo": "Ordenanza General de Juventud, de 7 de febrero de 2011, de Ceuta",
+   "cat": "Juventud",
+   "pub": "BOCCE 15 febrero 2011",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/136-ordenanza-general-de-juventud-de-7-de-febrero-de-2011",
+   "formato": "html",
+   "alias": [
+    "febrero",
+    "general",
+    "juventud",
+    "ordenanza"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-051",
+   "titulo": "Reglamento del carnet joven, de 11 de junio de 1997, de Ceuta",
+   "cat": "Juventud",
+   "pub": "BOCCE 3 julio 1997",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/89-reglamento-del-carnet-joven-de-11-de-junio-de-1997",
+   "formato": "html",
+   "alias": [
+    "carnet",
+    "joven",
+    "junio",
+    "juventud",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-052",
+   "titulo": "Reglamento de la Red de Puntos de Información Juvenil, de 1 de octubre de 1998, de Ceuta",
+   "cat": "Juventud",
+   "pub": "BOCCE 1 octubre 1998",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/127-reglamento-de-la-red-de-puntos-de-informacion-juvenil-de-1-de-octubre-de-1998",
+   "formato": "html",
+   "alias": [
+    "informacion",
+    "juvenil",
+    "juventud",
+    "octubre",
+    "puntos",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-053",
+   "titulo": "Reglamento por el que se establecen las normas relativas a la formación de los manipuladores de alimentos y la autorización, control y supervisión de los centros y programas de formación, de 15 de septiembre de 2003",
+   "cat": "Sanidad",
+   "pub": "BOCCE 26 septiembre 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/109-reglamento-por-el-que-se-establecen-las-normas-relativas-a-la-formacion-de-los-manipuladores-de-alimentos-y-la-autorizacion-control-y-supervision-de-los-centros-y-programas-de-formacion-de-15-de-septiembre-de-2003",
+   "formato": "html",
+   "alias": [
+    "alimentos",
+    "autorizacion",
+    "establecen",
+    "formacion",
+    "manipuladores",
+    "normas",
+    "reglamento",
+    "relativas"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-054",
+   "titulo": "Reglamento del Registro Público de Asociaciones de Consumidores y Usuarios, de 17 de mayo de 2002",
+   "cat": "Sanidad",
+   "pub": "BOCCE 7 junio 2002",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/83-reglamento-del-registro-publico-de-asociaciones-de-consumidores-y-usuarios-de-17-de-mayo-de-2002",
+   "formato": "html",
+   "alias": [
+    "asociaciones",
+    "consumidores",
+    "publico",
+    "registro",
+    "reglamento",
+    "sanidad",
+    "usuarios"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-055",
+   "titulo": "Reglamento del Consejo Ceutí de Consumo, de 14 de octubre de 2004",
+   "cat": "Sanidad",
+   "pub": "BOCCE 5 noviembre 2004",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/86-reglamento-del-consejo-ceuti-de-consumo-de-14-de-octubre-de-2004",
+   "formato": "html",
+   "alias": [
+    "ceuti",
+    "consejo",
+    "consumo",
+    "octubre",
+    "reglamento",
+    "sanidad"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-056",
+   "titulo": "Reglamento regulador de la Red Ceutí de Vigilancia Epidemiológica, de 21 de julio de 2003",
+   "cat": "Sanidad",
+   "pub": "BOCCE 1 agosto 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/85-reglamento-regulador-de-la-red-ceuti-de-vigilancia-epidemiologica-de-21-de-julio-de-2003",
+   "formato": "html",
+   "alias": [
+    "ceuti",
+    "epidemiologica",
+    "julio",
+    "reglamento",
+    "sanidad",
+    "vigilancia"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-057",
+   "titulo": "Reglamento regulador de los centros, servicios y establecimientos sanitarios, de 31 de marzo de 2003",
+   "cat": "Sanidad",
+   "pub": "BOCCE 18 abril 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/84-reglamento-regulador-de-los-centros-servicios-y-establecimientos-sanitarios-de-31-de-marzo-de-2003",
+   "formato": "html",
+   "alias": [
+    "actividades",
+    "apertura",
+    "centros",
+    "establecimientos",
+    "instalacion",
+    "licencia de apertura",
+    "marzo",
+    "reglamento",
+    "sanidad",
+    "sanitarios",
+    "servicios"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-058",
+   "titulo": "Reglamento regulador de la prestación del servicio de cementerio, de 11 de septiembre de 1998",
+   "cat": "Sanidad",
+   "pub": "BOCCE 24 septiembre 1998",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/137-reglamento-regulador-de-la-prestacion-del-servicio-de-cementerio-de-11-de-septiembre-de-1998",
+   "formato": "html",
+   "alias": [
+    "cementerio",
+    "mortuoria",
+    "prestacion",
+    "reglamento",
+    "sanidad",
+    "sanidad mortuoria",
+    "septiembre",
+    "servicio",
+    "tanatorio"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-059",
+   "titulo": "Reglamento regulador de la sanidad mortuoria, de 23 de diciembre de 2002",
+   "cat": "Sanidad",
+   "pub": "BOCCE 21 enero 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/139-reglamento-regulador-de-la-sanidad-mortuoria-de-23-de-diciembre-de-2002",
+   "formato": "html",
+   "alias": [
+    "cementerio",
+    "diciembre",
+    "mortuoria",
+    "reglamento",
+    "sanidad",
+    "sanidad mortuoria",
+    "tanatorio"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-060",
+   "titulo": "Reglamento regulador de las jornadas y horarios de las oficinas de farmacia, de 1 de marzo de 2002",
+   "cat": "Sanidad",
+   "pub": "BOCCE 15 marzo 2002",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/82-reglamento-regulador-de-las-jornadas-y-horarios-de-las-oficinas-de-farmacia-de-1-de-marzo-de-2002",
+   "formato": "html",
+   "alias": [
+    "farmacia",
+    "horarios",
+    "jornadas",
+    "marzo",
+    "oficinas",
+    "reglamento",
+    "sanidad"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-061",
+   "titulo": "Reglamento regulador de los mercados, de 21 de enero de 1998",
+   "cat": "Sanidad",
+   "pub": "BOCCE 5 febrero 1998",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/79-reglamento-regulador-de-los-mercados-de-21-de-enero-de-1998",
+   "formato": "html",
+   "alias": [
+    "enero",
+    "mercado",
+    "mercados",
+    "reglamento",
+    "sanidad",
+    "venta ambulante",
+    "venta fuera de establecimiento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-062",
+   "titulo": "Reglamento regulador de las condiciones higiénico-sanitarias de las piscinas de uso colectivo, de 13 de septiembre de 2002",
+   "cat": "Sanidad",
+   "pub": "BOCCE 1 octubre 2002",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/99-reglamento-regulador-de-las-condiciones-higienico-sanitarias-de-las-piscinas-de-uso-colectivo-de-13-de-septiembre-de-2002",
+   "formato": "html",
+   "alias": [
+    "colectivo",
+    "condiciones",
+    "higienico",
+    "piscinas",
+    "reglamento",
+    "sanidad",
+    "sanitarias",
+    "septiembre"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-063",
+   "titulo": "Reglamento para la tenencia, protección y bienestar de los animales de compañía",
+   "cat": "Sanidad",
+   "pub": "BOCCE 28 abril 2015",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1513-abril/8299-bocce-5464-28-04-2015?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "animal",
+    "animales",
+    "bienestar",
+    "compania",
+    "mascotas",
+    "perros",
+    "proteccion",
+    "reglamento",
+    "sanidad",
+    "tenencia",
+    "tenencia de animales"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-064",
+   "titulo": "Reglamento de Turismo de 30 de noviembre de 2010",
+   "cat": "Turismo Y Comercio",
+   "pub": "BOCCE 28 diciembre 2010",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/104-reglamento-de-turismo-de-30-de-noviembre-de-2010",
+   "formato": "html",
+   "alias": [
+    "alojamiento",
+    "comercio",
+    "noviembre",
+    "reglamento",
+    "turismo",
+    "turistico"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-065",
+   "titulo": "Reglamento para la clasificación de los establecimientos turísticos y para la regulación de sus horarios de apertura y cierre, de 26 de octubre de 2000",
+   "cat": "Turismo Y Comercio",
+   "pub": "BOCCE 31 octubre 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/80-reglamento-para-la-clasificacion-de-los-establecimientos-turisticos-y-para-la-regulacion-de-sus-horarios-de-apertura-y-cierre-de-26-de-octubre-de-2000",
+   "formato": "html",
+   "alias": [
+    "actividades",
+    "alojamiento",
+    "apertura",
+    "cierre",
+    "clasificacion",
+    "establecimientos",
+    "horarios",
+    "instalacion",
+    "licencia de apertura",
+    "reglamento",
+    "regulacion",
+    "turismo",
+    "turistico",
+    "turisticos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-066",
+   "titulo": "Ordenanza reguladora de las licencias de instalación y de apertura o funcionamiento de establecimientos y actividades, de 30 de abril de 2010",
+   "cat": "Turismo Y Comercio",
+   "pub": "BOCCE 28 mayo 2010",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/88-ordenanza-reguladora-de-las-licencias-de-instalacion-y-de-apertura-o-funcionamiento-de-establecimientos-y-actividades-de-30-de-abril-2010",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "actividades",
+    "alojamiento",
+    "apertura",
+    "establecimientos",
+    "funcionamiento",
+    "instalacion",
+    "licencia de apertura",
+    "licencias",
+    "ordenanza",
+    "turismo",
+    "turistico"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-067",
+   "titulo": "Ordenanza municipal reguladora del ejercicio de actividades comerciales y prestación de determinados servicios sujetos a procedimiento de comunicación previa declaración responsable",
+   "cat": "Turismo Y Comercio",
+   "pub": "BOCCE 26 agosto 2014",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1503-agosto/8133-bocce-5394-26-08-2014?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "actividades",
+    "alojamiento",
+    "apertura",
+    "comerciales",
+    "determinados",
+    "ejercicio",
+    "establecimientos",
+    "instalacion",
+    "licencia de apertura",
+    "municipal",
+    "ordenanza",
+    "prestacion",
+    "servicios",
+    "turismo",
+    "turistico"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-068",
+   "titulo": "Ordenanza reguladora de la venta fuera de establecimiento comercial permanente, de 30 de octubre de 2000",
+   "cat": "Turismo Y Comercio",
+   "pub": "BOCCE 7 noviembre 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/81-ordenanza-reguladora-de-la-venta-fuera-de-establecimiento-comercial-permanente-de-30-de-octubre-de-2000",
+   "formato": "html",
+   "alias": [
+    "alojamiento",
+    "comercial",
+    "establecimiento",
+    "fuera",
+    "mercado",
+    "mercados",
+    "octubre",
+    "ordenanza",
+    "permanente",
+    "turismo",
+    "turistico",
+    "venta",
+    "venta ambulante",
+    "venta fuera de establecimiento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-069",
+   "titulo": "Ordenanza de Limpieza Pública y Gestión de Residuos, de 3 de febrero de 2020",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 3 febrero 2020",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1618-febrero/14915-bocce-extra09-03-02-2020?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "ambiente",
+    "basura",
+    "basuras",
+    "febrero",
+    "gestion",
+    "higiene urbana",
+    "limpieza",
+    "lixo",
+    "medio",
+    "ordenanza",
+    "publica",
+    "punto limpio",
+    "recogida",
+    "residuos",
+    "vertidos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-070",
+   "titulo": "Ordenanza de vertidos a la red de alcantarillado, de 20 de diciembre de 2005",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 27 enero 2006",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/140-ordenanza-de-vertidos-a-la-red-de-alcantarillado-de-20-de-diciembre-de-2005",
+   "formato": "html",
+   "alias": [
+    "agua",
+    "aguas residuales",
+    "alcantarillado",
+    "ambiente",
+    "basura",
+    "basuras",
+    "diciembre",
+    "higiene urbana",
+    "limpieza",
+    "lixo",
+    "medio",
+    "ordenanza",
+    "punto limpio",
+    "recogida",
+    "residuos",
+    "saneamiento",
+    "vertidos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-071",
+   "titulo": "Ordenanza reguladora del ruido, vibraciones y contaminación acústica, de 25 de junio de 2002",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 9 abril 2013",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/389-ordenanza-municipal-sobre-emision-de-ruidos-vibraciones-y-otras-formas-de-energia-de-2002",
+   "formato": "html",
+   "alias": [
+    "acustica",
+    "ambiente",
+    "contaminacion",
+    "contaminacion acustica",
+    "junio",
+    "medio",
+    "ordenanza",
+    "ruido",
+    "ruidos",
+    "vibraciones"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-072",
+   "titulo": "Ordenanza municipal de uso y aprovechamiento de playas, de 17 de mayo de 2002",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 7 junio 2002",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/120-ordenanza-municipal-de-uso-y-aprovechamiento-de-playas-de-17-de-mayo-de-2002",
+   "formato": "html",
+   "alias": [
+    "ambiente",
+    "aprovechamiento",
+    "litoral",
+    "medio",
+    "municipal",
+    "ordenanza",
+    "playa",
+    "playas"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-073",
+   "titulo": "Ordenanza municipal reguladora del uso y conservación de las zonas verdes, de 22 de abril de 2003",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 2 mayo 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/143-ordenanza-municipal-reguladora-del-uso-y-conservacion-de-las-zonas-verdes-de-22-de-abril-de-2003",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "ambiente",
+    "arbolado",
+    "conservacion",
+    "jardines",
+    "medio",
+    "municipal",
+    "ordenanza",
+    "parques",
+    "verdes",
+    "zonas",
+    "zonas verdes"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-074",
+   "titulo": "Reglamento de participación voluntaria de organizaciones en el sistema comunitario de gestión y auditorio medioambientales, de 31 de mayo de 2024",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 31 mayo 2024",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1937-mayo/22476-bocce-6413-31-05-2024?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "auditorio",
+    "comunitario",
+    "gestion",
+    "organizaciones",
+    "participacion",
+    "reglamento",
+    "sistema",
+    "voluntaria"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-075",
+   "titulo": "Reglamento del Consejo Sectorial de Medio Ambiente, de 24 de junio de 2010",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 16 julio 2010",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/123-reglamento-del-consejo-sectorial-de-medio-ambiente-de-24-de-junio-de-2010",
+   "formato": "html",
+   "alias": [
+    "ambiente",
+    "consejo",
+    "junio",
+    "medio",
+    "reglamento",
+    "sectorial"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-076",
+   "titulo": "Reglamento del Consejo Asesor de Acuicultura, Pesca y Marisqueo, de 13 de septiembre de 2002",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 27 septiembre 2002",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/121-reglamento-del-consejo-asesor-de-acuicultura-pesca-y-marisqueo-de-13-de-septiembre-de-2002",
+   "formato": "html",
+   "alias": [
+    "acuicultura",
+    "asesor",
+    "consejo",
+    "marisqueo",
+    "medio",
+    "pesca",
+    "reglamento",
+    "septiembre"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-077",
+   "titulo": "Ordenanza sobre energía solar para producir agua caliente sanitaria, de 14 de febrero de 2003",
+   "cat": "Medio Ambiente",
+   "pub": "BOCCE 11 marzo 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/122-ordenanza-sobre-energia-solar-para-producir-agua-caliente-sanitaria-de-14-de-febrero-de-2003",
+   "formato": "html",
+   "alias": [
+    "agua",
+    "aguas residuales",
+    "alcantarillado",
+    "caliente",
+    "energia",
+    "febrero",
+    "medio",
+    "ordenanza",
+    "producir",
+    "saneamiento",
+    "sanitaria",
+    "solar"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-078",
+   "titulo": "Reglamento por el que se regulan las Federaciones Deportivas, de 25 de abril de 2000",
+   "cat": "Deporte",
+   "pub": "BOCCE 30 junio 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/92-reglamento-por-el-que-se-regulan-las-federaciones-deportivas-de-25-de-abril-de-2000",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "deporte",
+    "deportivas",
+    "federaciones",
+    "instalaciones deportivas",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-079",
+   "titulo": "Reglamento por el que se regulan las Asociaciones Deportivas, de 25 de abril de 2000",
+   "cat": "Deporte",
+   "pub": "BOCCE 30 junio 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/93-reglamento-por-el-que-se-regulan-las-asociaciones-deportivas-de-25-de-abril-de-2000",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "asociaciones",
+    "deporte",
+    "deportivas",
+    "federaciones",
+    "instalaciones deportivas",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-080",
+   "titulo": "Reglamento del Registro General de Asociaciones Deportivas, de 25 de abril de 2000",
+   "cat": "Deporte",
+   "pub": "BOCCE 30 junio 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/91-reglamento-del-registro-general-de-asociaciones-deportivas-de-25-de-abril-de-2000",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "asociaciones",
+    "deporte",
+    "deportivas",
+    "federaciones",
+    "general",
+    "instalaciones deportivas",
+    "registro",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-081",
+   "titulo": "Reglamento de concesión de ayudas a deportistas concentrados en centros de alto rendimiento o en centros de tecnificación deportiva, de 27 diciembre de 2000",
+   "cat": "Deporte",
+   "pub": "BOCCE 9 enero 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/95-reglamento-de-concesion-de-ayudas-a-deportistas-concentrados-en-centros-de-alto-rendimiento-o-en-centros-de-tecnificacion-deportiva-de-27-diciembre-de-2000",
+   "formato": "html",
+   "alias": [
+    "ayudas",
+    "centros",
+    "concentrados",
+    "concesion",
+    "deporte",
+    "deportistas",
+    "deportivas",
+    "federaciones",
+    "instalaciones deportivas",
+    "reglamento",
+    "rendimiento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-082",
+   "titulo": "Reglamento de pesca marítima de recreo, de 14 de febrero de 2002",
+   "cat": "Deporte",
+   "pub": "BOCCE 18 abril 2003",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/98-reglamento-de-pesca-maritima-de-recreo-de-14-de-febrero-de-2002",
+   "formato": "html",
+   "alias": [
+    "deporte",
+    "deportivas",
+    "febrero",
+    "federaciones",
+    "instalaciones deportivas",
+    "maritima",
+    "pesca",
+    "recreo",
+    "reglamento"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-083",
+   "titulo": "Reglamento de Servicios Sociales Comunitarios",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 10 julio 2007",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/380-julio/2409-bocce-4650-10-07-2007?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "comunitarios",
+    "discapacidad",
+    "igualdad",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-084",
+   "titulo": "Reglamento de prestaciones económicas de los servicios sociales",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 29 mayo 2026",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1976-mayo/23144-bocce-6621-29-05-2026?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "discapacidad",
+    "economicas",
+    "igualdad",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-085",
+   "titulo": "Reglamento del Ingreso Mínimo de Inserción",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 24 febrero 2015",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/135-reglamento-del-ingreso-minimo-de-insercion-de-30-de-septiembre-de-2010",
+   "formato": "html",
+   "alias": [
+    "discapacidad",
+    "igualdad",
+    "ingreso",
+    "insercion",
+    "mayores",
+    "menores",
+    "minimo",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-086",
+   "titulo": "Reglamento de Ayudas al Alquiler y Alojamiento Alternativo",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 31 marzo 2023",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1903-marzo/21839-bocce-6291-31-03-2023?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "adjudicacion de viviendas",
+    "alojamiento",
+    "alquiler",
+    "alternativo",
+    "ayudas",
+    "discapacidad",
+    "igualdad",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "turismo",
+    "turistico",
+    "violencia de genero",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-087",
+   "titulo": "Reglamento de 15 de noviembre de 2000 Regulador sobre Registro, Autorización, Acreditación e Inspección de Establecimientos y Centros Públicos o Privados en materia de Asistencia Social en la Ciudad Autónoma de Ceuta",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 6 febrero 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/131-reglamento-regulador-del-registro-autorizacion-acreditacion-e-inspeccion-de-establecimientos-y-centros-publicos-o-privados-en-materia-de-asistencia-social-de-15-de-noviembre-de-2000",
+   "formato": "html",
+   "alias": [
+    "acreditacion",
+    "actividades",
+    "apertura",
+    "autorizacion",
+    "centros",
+    "discapacidad",
+    "establecimientos",
+    "inspeccion",
+    "instalacion",
+    "licencia de apertura",
+    "mayores",
+    "menores",
+    "noviembre",
+    "prestaciones",
+    "registro",
+    "reglamento",
+    "servicios sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-088",
+   "titulo": "Reglamento del Consejo Sectorial de Atención a Personas con Discapacidad de la Ciudad Autónoma de Ceuta",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 14 octubre 2016",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1534-octubre/8639-bocce-5617-14-10-2016?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "atencion",
+    "consejo",
+    "discapacidad",
+    "mayores",
+    "menores",
+    "personas",
+    "prestaciones",
+    "reglamento",
+    "sectorial",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-089",
+   "titulo": "Reglamento del Consejo Sectorial de Personas Mayores de la Ciudad Autónoma de Ceuta",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 14 octubre 2016",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1534-octubre/8639-bocce-5617-14-10-2016?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "consejo",
+    "discapacidad",
+    "igualdad",
+    "mayores",
+    "menores",
+    "personas",
+    "prestaciones",
+    "reglamento",
+    "sectorial",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-090",
+   "titulo": "Reglamento de los centros de la tercera edad, de 11 de julio de 2000",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 11 julio 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/130-reglamento-de-los-centros-de-la-tercera-edad-de-11-de-julio-de-2000",
+   "formato": "html",
+   "alias": [
+    "centros",
+    "discapacidad",
+    "igualdad",
+    "julio",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "tercera",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-091",
+   "titulo": "Reglamento por el que se regula la estructura orgánica y funcional del Área de Menores, de 11 de julio de 2001",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 17 julio 2001",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/132-reglamento-por-el-que-se-regula-la-estructura-organica-y-funcional-del-area-de-menores-de-11-de-julio-de-2001",
+   "formato": "html",
+   "alias": [
+    "discapacidad",
+    "estructura",
+    "funcional",
+    "julio",
+    "mayores",
+    "menores",
+    "organica",
+    "prestaciones",
+    "reglamento",
+    "regula",
+    "servicios",
+    "servicios sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-092",
+   "titulo": "Reglamento del Observatorio de la Infancia de Ceuta, de 25 de abril de 2000",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 12 mayo 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/129-reglamento-del-observatorio-de-la-infancia-de-ceuta-de-25-de-abril-de-2000",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "discapacidad",
+    "igualdad",
+    "infancia",
+    "mayores",
+    "menores",
+    "observatorio",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-093",
+   "titulo": "Reglamento Normativo Interno del Centro de Emergencia de Mujeres Maltratadas víctimas de Violencia de Género, de 8 de abril de 2012",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/156-reglamento-normativo-interno-del-centro-de-emergencia-de-mujeres-maltratadas-victimas-de-violencia-de-genero-de-8-de-abril-de-2012",
+   "formato": "html",
+   "alias": [
+    "centro",
+    "discapacidad",
+    "emergencia",
+    "interno",
+    "maltratadas",
+    "mayores",
+    "menores",
+    "mujeres",
+    "normativo",
+    "prestaciones",
+    "reglamento",
+    "servicios sociales",
+    "victimas",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-094",
+   "titulo": "Reglamento de Pisos Tutelados para Mujeres víctimas de Violencia de Género, de 8 abril de 2011",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/158-reglamento-de-pisos-tutelados-para-mujeres-victimas-de-violencia-de-genero",
+   "formato": "html",
+   "alias": [
+    "abril",
+    "discapacidad",
+    "genero",
+    "mayores",
+    "menores",
+    "mujeres",
+    "pisos",
+    "prestaciones",
+    "reglamento",
+    "servicios sociales",
+    "tutelados",
+    "victimas",
+    "violencia",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-095",
+   "titulo": "Reglamento de la Casa de Acogida de Mujeres Maltratadas víctimas de Violencia de Género, de 13 mayo de 2011",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/157-reglamento-de-la-casa-de-acogida-de-mujeres-maltratadas-victimas-de-violencia-de-genero-de-13-mayo-de-2012",
+   "formato": "html",
+   "alias": [
+    "acogida",
+    "discapacidad",
+    "genero",
+    "maltratadas",
+    "mayores",
+    "menores",
+    "mujeres",
+    "prestaciones",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "victimas",
+    "violencia",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-096",
+   "titulo": "Reglamento Punto de encuentro familiar",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 8 noviembre 2013",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1490-noviembre/7940-bocce-5311-08-11-2013?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "discapacidad",
+    "encuentro",
+    "familiar",
+    "igualdad",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "punto",
+    "reglamento",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-097",
+   "titulo": "Reglamento regulador del Registro de Uniones de Hecho, de 11 de septiembre de 1998",
+   "cat": "Servicios Sociales E Igualdad",
+   "pub": "BOCCE 24 septiembre 1998",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/110-reglamento-regulador-del-registro-de-uniones-de-hecho-de-11-de-septiembre-de-1998",
+   "formato": "html",
+   "alias": [
+    "discapacidad",
+    "hecho",
+    "igualdad",
+    "mayores",
+    "menores",
+    "prestaciones",
+    "registro",
+    "reglamento",
+    "septiembre",
+    "servicios",
+    "servicios sociales",
+    "sociales",
+    "uniones",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-098",
+   "titulo": "Ordenanza reguladora del mobiliario urbano, de 13 de julio de 2000",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 28 julio 2000",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/146-ordenanza-reguladora-del-mobiliario-urbano-de-13-de-julio-de-2000",
+   "formato": "html",
+   "alias": [
+    "buen uso",
+    "convivencia",
+    "espacios publicos",
+    "julio",
+    "kiosco",
+    "kioscos",
+    "kioskos",
+    "mobiliario",
+    "mobiliario urbano",
+    "ordenanza",
+    "publicas",
+    "quiosco",
+    "quioscos",
+    "servicios",
+    "urbano"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-099",
+   "titulo": "Ordenanza del buen uso de los espacios públicos, de 18 de julio de 2011, de la Ciudad Autónoma de Ceuta",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 16 agosto 2011",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/151-ordenanza-del-buen-uso-de-los-espacios-publicos-de-18-de-julio-de-2011-de-la-ciudad-autonoma-de-ceuta",
+   "formato": "html",
+   "alias": [
+    "buen uso",
+    "convivencia",
+    "espacios",
+    "espacios publicos",
+    "julio",
+    "kiosco",
+    "kioscos",
+    "kioskos",
+    "mobiliario urbano",
+    "ordenanza",
+    "publicas",
+    "publicos",
+    "quiosco",
+    "quioscos",
+    "servicios"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-100",
+   "titulo": "Ordenanza reguladora de las terrazas de veladores, de 15 de octubre de 2021",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 15 octubre 2021",
+   "url": "https://www.ceuta.es/ceuta/images/documentos/Institucional/Ordenanzas/ORDENANZA_TERRAZAS_VELADORES.pdf",
+   "formato": "pdf",
+   "alias": [
+    "hosteleria",
+    "octubre",
+    "ordenanza",
+    "publicas",
+    "servicios",
+    "terraza",
+    "terrazas",
+    "velador",
+    "veladores"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-101",
+   "titulo": "Ordenanza reguladora del otorgamiento, aprovechamiento y utilización de los kioskos, de 22 de febrero de 2007",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 2 marzo 2007",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/150-ordenanza-reguladora-del-otorgamiento-aprovechamiento-y-utilizacion-de-los-kioskos-de-22-de-febrero-de-2007",
+   "formato": "html",
+   "alias": [
+    "aprovechamiento",
+    "buen uso",
+    "convivencia",
+    "espacios publicos",
+    "febrero",
+    "kiosco",
+    "kioscos",
+    "kioskos",
+    "mobiliario urbano",
+    "ordenanza",
+    "otorgamiento",
+    "publicas",
+    "quiosco",
+    "quioscos",
+    "servicios",
+    "utilizacion"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-102",
+   "titulo": "Ordenanza por la que se faculta la creación de Estacionamientos Reservados a vehículos que transportan Personas Minusválidas",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 3 julio 1997",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/509-julio/3576-bocce-3691-03-07-1997?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "aparcamiento",
+    "circulacion",
+    "creacion",
+    "estacionamiento",
+    "estacionamientos",
+    "faculta",
+    "grua",
+    "ordenanza",
+    "personas",
+    "reservados",
+    "retirada de vehiculos",
+    "trafico",
+    "transportan",
+    "vehiculos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-103",
+   "titulo": "Ordenanza Municipal Reguladora de la tarjeta de estacionamiento de vehículos para personas con discapacidad",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 18 febrero 2025",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1950-febrero/22748-bocce-6488-18-02-2025?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "aparcamiento",
+    "circulacion",
+    "discapacidad",
+    "estacionamiento",
+    "grua",
+    "mayores",
+    "menores",
+    "municipal",
+    "ordenanza",
+    "personas",
+    "prestaciones",
+    "retirada de vehiculos",
+    "servicios",
+    "servicios sociales",
+    "tarjeta",
+    "trafico",
+    "vehiculos",
+    "violencia de genero"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-104",
+   "titulo": "Ordenanza Reguladora de Acceso de Vehículos a Inmuebles a través de aceras u otros bienes de dominio público y de las reservas de estacionamiento, parada y otros usos sobre los mismos bienes (BOCCE nº 5.749, 19.01.2018)",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 19 enero 2018",
+   "url": "https://www.ceuta.es/ceuta/images/documentos/Institucional/Ordenanzas/Ordenanza_Vados.pdf",
+   "formato": "pdf",
+   "alias": [
+    "acceso",
+    "acceso de vehiculos",
+    "aceras",
+    "aparcamiento",
+    "badenes",
+    "bienes",
+    "circulacion",
+    "estacionamiento",
+    "grua",
+    "inmuebles",
+    "ordenanza",
+    "otros",
+    "retirada de vehiculos",
+    "trafico",
+    "traves",
+    "vado",
+    "vados",
+    "vehiculos"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-105",
+   "titulo": "Ordenanza Reguladora de la Nomenclatura y Rotulación de las Vías Urbanas, de 17 de julio de 2012, de la Ciudad Autónoma de Ceuta",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 27 noviembre 2012",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1473-noviembre/7725-bocce-5212-27-11-2012?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "julio",
+    "nomenclatura",
+    "ordenanza",
+    "publicas",
+    "rotulacion",
+    "servicios",
+    "urbanas"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-106",
+   "titulo": "Reglamento de 30 de marzo de 2010 regulador del almacén general",
+   "cat": "Servicios Y Vías Públicas",
+   "pub": "BOCCE 16 abril 2010",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/141-reglamento-regulador-del-almacen-general-de-30-de-marzo-de-2010",
+   "formato": "html",
+   "alias": [
+    "almacen",
+    "general",
+    "marzo",
+    "publicas",
+    "reglamento",
+    "servicios"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-107",
+   "titulo": "Ordenanza de disciplina urbanística, de 14 de agosto de 1996 y modificación en BOCCE 16 julio 2010",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 16 julio 2010",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/344-julio/1984-bocce-4965-16-07-2010?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "adjudicacion de viviendas",
+    "agosto",
+    "alquiler",
+    "bocce",
+    "cedula",
+    "disciplina",
+    "disciplina urbanistica",
+    "edificacion",
+    "habitabilidad",
+    "julio",
+    "licencia de obras",
+    "modificacion",
+    "obras",
+    "ordenanza",
+    "urbanismo",
+    "urbanistica",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-108",
+   "titulo": "Normas y fichas urbanísticas, y enlace al \"Catálogo de elementos protegidos\", incluidos en el texto refundido de la Revisión y Adaptación del Plan General de Ordenación Urbana de la Ciudad Autónoma de Ceuta",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 8 enero 2024",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1924-enero/22121-bocce-extra02-08-01-2024?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "adjudicacion de viviendas",
+    "alquiler",
+    "catalogo",
+    "cedula",
+    "disciplina urbanistica",
+    "edificacion",
+    "elementos",
+    "enlace",
+    "fichas",
+    "habitabilidad",
+    "incluidos",
+    "licencia de obras",
+    "normas",
+    "obras",
+    "protegidos",
+    "urbanismo",
+    "urbanisticas",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-109",
+   "titulo": "Ordenanza municipal de licencias de instalación y apertura o funcionamiento de establecimientos y actividades",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 28 mayo 2010",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/340-mayo/1937-bocce-4951-28-05-2010?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "actividades",
+    "adjudicacion de viviendas",
+    "alquiler",
+    "apertura",
+    "cedula",
+    "disciplina urbanistica",
+    "edificacion",
+    "establecimientos",
+    "funcionamiento",
+    "habitabilidad",
+    "instalacion",
+    "licencia de apertura",
+    "licencia de obras",
+    "licencias",
+    "municipal",
+    "obras",
+    "ordenanza",
+    "urbanismo",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-110",
+   "titulo": "Ordenanza municipal para la accesibilidad y eliminación de barreras arquitectónicas, urbanísticas, del transporte y de la comunicación, de 29 de mayo de 2014",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 5 agosto 2014",
+   "url": "https://www.ceuta.es/ceuta/images/documentos/Institucional/Ordenanzas/ORDENANZA_ACCESIBILIDAD.pdf",
+   "formato": "pdf",
+   "alias": [
+    "accesibilidad",
+    "adjudicacion de viviendas",
+    "alquiler",
+    "arquitectonicas",
+    "barreras",
+    "barreras arquitectonicas",
+    "cedula",
+    "disciplina urbanistica",
+    "edificacion",
+    "eliminacion",
+    "habitabilidad",
+    "licencia de obras",
+    "movilidad reducida",
+    "municipal",
+    "obras",
+    "ordenanza",
+    "transporte",
+    "urbanismo",
+    "urbanisticas",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-111",
+   "titulo": "Reglamento regulador de las adjudicaciones en materia de vivienda, de 21 de septiembre de 2006",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 6 octubre 2006",
+   "url": "https://www.ceuta.es/ceuta/la-institucion/normativa/46-paginas/paginas/normativa/144-reglamento-regulador-de-las-adjudicaciones-en-materia-de-vivienda-de-21-de-septiembre-de-2006",
+   "formato": "html",
+   "alias": [
+    "adjudicacion de viviendas",
+    "adjudicaciones",
+    "alquiler",
+    "cedula",
+    "disciplina urbanistica",
+    "edificacion",
+    "habitabilidad",
+    "licencia de obras",
+    "materia",
+    "obras",
+    "reglamento",
+    "septiembre",
+    "urbanismo",
+    "vivienda"
+   ],
+   "modificaciones": []
+  },
+  {
+   "id": "ceuta-112",
+   "titulo": "Ordenanza Reguladora del procedimiento de concesión y control de cédula de habitabilidad, BOCCE 1 octubre 2013 y modificado en BOCCE 17 febrero de 2015",
+   "cat": "Urbanismo Y Vivienda",
+   "pub": "BOCCE 17 febrero 2015",
+   "url": "https://www.ceuta.es/ceuta/component/jdownloads/finish/1510-febrero/8260-bocce-5444-17-02-2015?Itemid=534",
+   "formato": "bocce",
+   "alias": [
+    "adjudicacion de viviendas",
+    "alquiler",
+    "bocce",
+    "cedula",
+    "concesion",
+    "control",
+    "disciplina urbanistica",
+    "edificacion",
+    "habitabilidad",
+    "licencia de obras",
+    "obras",
+    "octubre",
+    "ordenanza",
+    "procedimiento",
+    "urbanismo",
+    "vivienda"
+   ],
+   "modificaciones": []
+  }
+ ]
+}

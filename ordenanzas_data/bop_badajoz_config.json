@@ -1,0 +1,44 @@
+{
+ "id": "badajoz",
+ "nombre": "Badajoz",
+ "familia": "badajoz",
+ "base": "https://www.dip-badajoz.es/bop",
+ "mapa": "bop_badajoz_municipios.json",
+ "indice_desde": 2006,
+ "activo": false,
+ "endpoints": {
+  "buscador": "/index.php?Busqueda=1",
+  "pagina": "/index.php?Busqueda=1&NPS={pagina}&accion=Buscar",
+  "anuncio": "/ventana_anuncio.php?id_anuncio={id}&FechaSolicitada={fecha}",
+  "antiguos": "/index.php?Busqueda=2"
+ },
+ "csrf": {
+  "cookie": "__RequestVerificationToken",
+  "param": "__RequestVerificationToken",
+  "declarado_en": "input#csrfp_hidden_data_token",
+  "nota": "cookie que ROTA en cada POST: releerla del cookiejar antes de cada peticion"
+ },
+ "campos": {
+  "asunto": "texto del titulo/resumen del edicto (min. 5 caracteres, frase literal)",
+  "anuncio": "texto integro del edicto (fulltext, mas lento y con tope)",
+  "administracion": "1",
+  "tipo_entidad": "12",
+  "delegacion": "<id del ayuntamiento, valor del mapa>",
+  "provincia": "1",
+  "localidad": "(no usar: devuelve 0 resultados)",
+  "cantidad": "99",
+  "unidad": "4",
+  "accion": "Buscar"
+ },
+ "mensajes": {
+  "cero": "NO se ha encontrado edicto alguno que cumpla los criterios introducidos",
+  "tope": "Se han obtenido demasiados resultados. Sea más específico en su consulta",
+  "corto": "El texto a buscar en el \"asunto\" debe ser superior a 4 caracteres",
+  "contador": "Se han? encontrado ([\\d.]+) edictos?"
+ },
+ "resultados_por_pagina": 10,
+ "lectura": "html",
+ "ocr": false,
+ "encoding": "utf-8",
+ "nota_activo": "activo:false porque la familia 'badajoz' AUN NO esta implementada en bop_engine. Verificado en vivo 2026-07-27: busqueda ~1,1 s y lectura ~0,25 s, texto integro en HTML sin PDF ni OCR."
+}

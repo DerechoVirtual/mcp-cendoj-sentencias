@@ -273,6 +273,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _almeria_buscar(prov, texto, categoria, rpp)
     if fam == "girona":
         return _girona_buscar(prov, texto, categoria, rpp)
+    if fam == "valladolid":
+        return _valladolid_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -329,7 +331,81 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _almeria_texto(prov, m)
     if fam == "girona":
         return _girona_texto(prov, m)
+    if fam == "valladolid":
+        return _valladolid_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend VALLADOLID (Liferay + portlet BOPBusqueda) ----------------------
+# GET puro, sin cookies ni token: los parámetros van en un JSON codificado en
+# base64. Es de las más rápidas del motor (0,74 s E2E) y el PDF por anuncio ya
+# viene en el listado.
+_VA_FILA = re.compile(r"<tr[^>]*role=\"row\"[^>]*>(.*?)</tr>", re.S)
+_VA_TD = re.compile(r"<td[^>]*>(.*?)</td>", re.S)
+
+
+def _valladolid_buscar(prov, texto, organismo=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not organismo:
+        return []
+
+    def una(q):
+        # btoa no admite no-ASCII: el texto va urlencoded DENTRO del JSON
+        datos = {"textToSearch": urllib.parse.quote(q), "scopeTexto": "1", "section": "0",
+                 "organismo": str(organismo), "fechaDesde": "", "fechaHasta": "",
+                 "anyo": "0", "numeroboletin": "", "elementsPerPage": "20",
+                 "scopeGranularidad": "3"}
+        h64 = base64.b64encode(json.dumps(datos).encode()).decode()
+        try:
+            h = _madrid_get(f"{cfg['base']}/buscarenbop?jsonDataAsHash={h64}",
+                            timeout=35, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for fila in _VA_FILA.findall(h):
+            tds = _VA_TD.findall(fila)
+            if len(tds) < 8:
+                continue
+            # la 1ª celda es el botón de detalle: las columnas van corridas una
+            pdf = re.search(r'href="(https?://[^"]+\.pdf)"', tds[1])
+            if not pdf:
+                continue
+
+            def lim(x):
+                return re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
+
+            fecha = lim(tds[3])
+            d, mo, y = (fecha.split("/") + ["", "", ""])[:3]
+            out.append({"url": pdf.group(1), "titulo": lim(tds[4]),
+                        "cve": lim(tds[5]) or pdf.group(1)[-22:], "fecha": fecha,
+                        "orden": f"{y}{mo}{d}" if y else "0",
+                        "organismo": lim(tds[7]) if len(tds) > 7 else "",
+                        "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(una, _consultas_materia(texto, None)):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _valladolid_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    return (t, via) if len(t) > 400 else ("", "sin-texto")
 
 
 # ---- backend GIRONA (eBOP, JSF/Jakarta Faces) --------------------------------

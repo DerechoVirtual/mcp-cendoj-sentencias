@@ -1,0 +1,42 @@
+{
+ "id": "melilla",
+ "nombre": "Melilla",
+ "familia": "melilla",
+ "base": "https://bomemelilla.es",
+ "mapa": "bop_melilla_municipios.json",
+ "indice_desde": 2014,
+ "indice_desde_sumario": 2016,
+ "idioma": "es",
+ "uni_municipal": true,
+ "verifica_texto": true,
+ "activo": false,
+ "nota_activo": "Sondeada y verificada en vivo (27-jul-2026) pero SIN backend en bop_engine.py: familia 'melilla' no existe todavia. Mantener activo=false hasta implementar _melilla_buscar/_melilla_texto o el motor se registraria sin backend y romperia produccion.",
+ "endpoints": {
+  "buscar": "/buscar?from={YYYY-MM-DD}&to={YYYY-MM-DD}&tipo={1|2|3|4}&contenido={texto}&cve=&page={n}",
+  "buscar_avanzado": "/buscador-avanzado?from=&to=&departamento={id}&contenido[0][type]={sumario_articulo|pagina}&contenido[0][like]=like&contenido[0][content]={texto}&contenido[0][operator]=and",
+  "boletin": "/bome/BOME-B-{anio}-{num}",
+  "pdf_articulo": "/bome/descargar/BOME-A-{anio}-{num}.pdf",
+  "pdf_boletin": "/bome/descargar/BOME-B-{anio}-{num}.pdf",
+  "sumario": "/bome/descargar/BOME-S-{anio}-{num}.pdf",
+  "por_cve": "/buscar-cve?cve={CVE}"
+ },
+ "departamento_propio": "1",
+ "tipos_busqueda": {
+  "1": "Sumario de articulo (titulos) - rapido (~0,3 s) y preciso",
+  "2": "Contenido del BOME (full-text) - lento (~4 s) y ruidoso",
+  "3": "N. de pagina del BOME",
+  "4": "N. de articulo del BOME"
+ },
+ "notas": [
+  "Ciudad autonoma UNI-MUNICIPAL: el mapa tiene una sola entrada, y su valor es el id de departamento del buscador avanzado (1 = CIUDAD AUTONOMA DE MELILLA).",
+  "SIN CAPTCHA en ningun punto. GETs planos, sin sesion ni cookies.",
+  "TRAMPA CRITICA: sin parametros from/to el buscador limita la ventana al anio corriente (ordenanza: 2 resultados vs 31 con from=2005-01-01&to=2026-12-31). Pasar SIEMPRE el rango completo.",
+  "TECHO DE RECALL (medido por ventanas anuales con el termino 'Melilla'): el indice NO llega a los anios antiguos. fulltext (tipo=2) arranca en 2014; el sumario (tipo=1) en 2016 (9 hits) y solo es denso desde 2017. 2008-2013 = CERO en ambos. Las ordenanzas aprobadas antes de 2014 NO son localizables por el buscador: hay que decirlo honesto y remitir a la sede, no inventar.",
+  "ALTERNATIVA DESCARTADA: sede.melilla.es (seccion Normativa, PAGE_CODE=PTS2_NORMATIVACAM) NO sirve como fuente consolidada: cadena TLS rota (CERTIFICATE_VERIFY_FAILED, self-signed en la cadena), 896 KB y 14,6 s de respuesta, y CERO ordenanzas en el HTML estatico (es una app JS).",
+  "TRAMPA: la busqueda es coincidencia de FRASE literal sobre el sumario: 'animales' da 22 y 'tenencia de animales' da 0. Consultar por termino unico y distintivo.",
+  "TRAMPA: contador con singular/plural -> regex 'total de\\s*([\\d.]+)\\s*elementos?'.",
+  "La busqueda devuelve BOLETINES contenedores (10/pagina, sin solape entre paginas), no articulos: hay que abrir cada /bome/BOME-B-... y parsear su sumario para localizar el articulo (CVE BOME-A-...) y bajar su PDF individual.",
+  "El BOME publica tambien anuncios de organismos ajenos (AYUNTAMIENTO DE CHIPIONA=38, MOTRIL=37, PAJARA=43, AUDIENCIA PROVINCIAL DE MALAGA=6...). Filtrar por departamento=1 apenas cambia el recuento (son residuales) pero evita colar municipios ajenos.",
+  "El BOME esta dominado por actos administrativos (ordenes, decretos, convenios, padrones): el ranking DEBE exigir 'ordenanza'/'reglamento' + 'aprobacion definitiva' en el titulo o devuelve convenios y padrones."
+ ]
+}
