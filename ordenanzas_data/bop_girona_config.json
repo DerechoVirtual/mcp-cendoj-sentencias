@@ -1,0 +1,14 @@
+{
+ "id": "girona",
+ "base": "https://www.ddgi.cat",
+ "mapa": "bop_girona_municipios.json",
+ "nombre": "Girona",
+ "familia": "girona",
+ "indice_desde": 2001,
+ "idioma": "ca",
+ "excluir": [
+  "Torrent"
+ ],
+ "verifica_texto": true,
+ "fulltext": true
+}

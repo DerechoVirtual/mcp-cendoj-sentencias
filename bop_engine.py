@@ -269,6 +269,10 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _cordoba_buscar(prov, texto, categoria, rpp)
     if fam == "baleares":
         return _baleares_buscar(prov, texto, categoria, rpp)
+    if fam == "almeria":
+        return _almeria_buscar(prov, texto, categoria, rpp)
+    if fam == "girona":
+        return _girona_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -321,7 +325,212 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _cordoba_texto(prov, m)
     if fam == "baleares":
         return _baleares_texto(prov, m)
+    if fam == "almeria":
+        return _almeria_texto(prov, m)
+    if fam == "girona":
+        return _girona_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend GIRONA (eBOP, JSF/Jakarta Faces) --------------------------------
+# El coste lo domina el filtro `entitat`: ~2,2 s por año de ventana, lineal. Sin
+# acotar son 52 s; con VENTANAS DE 3 AÑOS EN PARALELO, ~8 s y el mismo conjunto
+# exacto de resultados. Paginar no compensa (una página cuesta una búsqueda).
+_GI_BLOQUE = re.compile(r'<div class="resultat-cerca\s*"(.*?)</dl>', re.S)
+_GI_DT = re.compile(r"<dt>(.*?)</dt>\s*<dd>(.*?)</dd>", re.S)
+_GI_PDF = re.compile(r'<a href="(https?://[^"]+\.pdf)"[^>]*>(.*?)</a>', re.S)
+
+
+def _girona_buscar(prov, texto, entitat=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not entitat:
+        return []
+    ck = _norm(entitat)
+    desde = int(cfg.get("indice_desde", 2001))
+    hasta = time.gmtime().tm_year
+    ventanas = [(a, min(a + 2, hasta)) for a in range(desde, hasta + 1, 3)]
+    # el eBOP está SOLO en catalán (castellano ≈ 0 resultados en todo el corpus):
+    # la forma catalana va PRIMERO o se gastan 9 ventanas en una consulta estéril
+    _locales = {_norm(v) for v in _CATALA.values()}
+    consultas = sorted(_consultas_materia(texto, "ca"),
+                       key=lambda q: 0 if _norm(q) in _locales else 1)[:2]
+
+    def una(args):
+        (y0, y1), q = args
+        try:
+            cj = http.cookiejar.CookieJar()
+            op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+            op.addheaders = [("User-Agent", _UA), ("Accept-Language", "ca,es;q=0.9")]
+            h = op.open(cfg["base"] + "/bop/cerca", timeout=25).read().decode("utf-8", "replace")
+            # el name del submit es AUTOGENERADO (j_idt81 hoy, j_idt78 ayer): nunca fijarlo
+            fm = re.search(r'(?s)<form id="formCercaContingut"[^>]*action="([^"]+)"(.*?)</form>', h)
+            if not fm:
+                return []
+            action, cuerpo = fm.group(1), fm.group(2)
+            vs = re.findall(r'name="jakarta\.faces\.ViewState"[^>]*value="([^"]+)"', h)
+            sub = re.search(r'name="(formCercaContingut:j_idt\d+)"[^>]*value="Cerca', cuerpo) or \
+                re.search(r'type="submit"[^>]*name="(formCercaContingut:j_idt\d+)"', cuerpo)
+            if not (vs and sub):
+                return []
+            d = {"formCercaContingut": "formCercaContingut",
+                 "formCercaContingut:exerciciDesde": str(y0),
+                 "formCercaContingut:exerciciFins": str(y1),
+                 "formCercaContingut:edicteDesde": "", "formCercaContingut:edicteFins": "",
+                 "formCercaContingut:bopDesde": "", "formCercaContingut:bopFins": "",
+                 "formCercaContingut:dataDesde": "", "formCercaContingut:dataFins": "",
+                 "formCercaContingut:seccio": "", "formCercaContingut:titol": q,
+                 "formCercaContingut:entitat": str(entitat), "formCercaContingut:text": "",
+                 sub.group(1): "Cerca", "jakarta.faces.ViewState": vs[-1]}
+            r = op.open(urllib.request.Request(
+                cfg["base"] + action if action.startswith("/") else action,
+                data=urllib.parse.urlencode(d).encode(),
+                headers={"Content-Type": "application/x-www-form-urlencoded",
+                         "Referer": cfg["base"] + "/bop/cerca"}),
+                timeout=22).read().decode("utf-8", "replace")   # una ventana atascada no arrastra al resto
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for bloque in _GI_BLOQUE.findall(r):
+            campos = {}
+            for dt, dd in _GI_DT.findall(bloque):
+                k = _norm(re.sub(r"<[^>]+>", " ", dt))
+                campos[k] = dd
+            ent = re.sub(r"\s+", " ", _html.unescape(
+                re.sub(r"<[^>]+>", " ", campos.get("entitat", "")))).strip()
+            if _norm(ent) != ck:          # `entitat` casa por substring → igualdad aquí
+                continue
+            mp = _GI_PDF.search(campos.get("titol", ""))
+            if not mp:
+                continue
+            tit = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", mp.group(2)))).strip()
+            fecha = re.sub(r"\s+", " ", _html.unescape(
+                re.sub(r"<[^>]+>", " ", campos.get("data", "")))).strip()
+            d2, m2, y2 = (fecha.split("/") + ["", "", ""])[:3]
+            ed = re.sub(r"\D", "", campos.get("numedicte", "")) or mp.group(1)[-12:]
+            out.append({"url": mp.group(1), "titulo": tit, "cve": f"BOP-GI-{y2 or y0}-{ed}",
+                        "fecha": fecha, "orden": f"{y2}{m2}{d2}" if y2 else str(y0),
+                        "materia": q not in ("ordenanza", "ordenança")})
+        return out
+
+    vistos = {}
+
+    def barrido(q, vs):
+        with _cf.ThreadPoolExecutor(max_workers=max(1, len(vs))) as ex:
+            for rs in ex.map(una, [(v, q) for v in vs]):
+                for r in rs:
+                    if r["cve"] in vistos:
+                        vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                    else:
+                        vistos[r["cve"]] = r
+
+    # Dos fases: casi todo lo que se pregunta es reciente, así que primero las 2
+    # últimas ventanas (~6 años, 1 tanda) y solo se barre el archivo entero —caro—
+    # si de ahí no sale ninguna ordenanza de la materia.
+    barrido(consultas[0], ventanas[-2:])
+    util = [r for r in vistos.values() if _es_ordenanza(r["titulo"])
+            and not _NO_NORMA.search(r["titulo"])]
+    if not util:
+        barrido(consultas[0], ventanas[:-2])
+    if not vistos and len(consultas) > 1:
+        barrido(consultas[1], ventanas[-3:])
+    return list(vistos.values())
+
+
+def _girona_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:                        # el PDF se descarga sin sesión ni cookies
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    return (t, via) if len(t) > 400 else ("", "sin-texto")
+
+
+# ---- backend ALMERÍA (archivo Pandora/DIGIBIS del propio BOP) ----------------
+# NO se usa su app ZK (estado de desktop en servidor, inviable en serverless):
+# el mismo host expone el archivo Pandora, que sirve el TEXTO PLANO del boletín
+# entero. Sin PDF, sin OCR, sin sesión. El anuncio se recorta en local.
+_AL_ART = re.compile(
+    r"(?m)^\s*(?:Documento firmado electr[óo]nicamente[^\n]*|"
+    r"[_\w.]*B[_\w.]*O[_\w.]*P[_\w.]*de[_\w.]*Alm[_\w.]*[^\n]*P[_\w.]*g\.[_\w. ]*\d+[^\n]*)$")
+_AL_MARCA = re.compile(r"(?m)^\s*(\d{1,6}/\d{2})\s*\n\s*([A-ZÁÉÍÓÚÜÑ][^\n]{3,80})\s*$")
+
+
+def _almeria_buscar(prov, texto, entidad=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not entidad:
+        return []
+    ck = _norm(entidad)
+    consultas = [q for q in _consultas_materia(texto, None)][:3]
+
+    def busca(q):
+        # la proximidad ~150 es lo que hace utilizable la consulta: sin ella, el AND
+        # casa cualquier aparición suelta en las ~50 páginas del boletín
+        query = f'type:bulletin AND "{entidad} {q}"~150'
+        body = urllib.parse.urlencode([("query", query), ("length", "6"), ("load", "true"),
+                                       ("retain", "id"), ("retain", "filename")]).encode()
+        try:                       # OJO: sin `sort` -> relevancia (con él, boletines de 1834)
+            r = urllib.request.urlopen(urllib.request.Request(
+                cfg["base"] + "/json/select.vm", data=body,
+                headers={"User-Agent": _UA,
+                         "Content-Type": "application/x-www-form-urlencoded"}), timeout=25).read()
+            d = json.loads(r.decode("utf-8", "replace"))
+        except Exception:  # noqa: BLE001
+            return []
+        return [(x["id"][0], (x.get("filename") or [""])[0]) for x in d.get("documents", [])]
+
+    boletines = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(busca, consultas):
+            for ident, fn in rs:
+                boletines.setdefault(ident, fn)
+
+    def anuncios(par):
+        ident, fn = par
+        try:
+            t = _madrid_get(f"{cfg['base']}/text.vm?id={ident}&view=boletines&lang=es"
+                            f"&attachment=x.txt", timeout=30, intentos=1)
+        except Exception:  # noqa: BLE001
+            return []
+        t = _AL_ART.sub("", t)          # pie legal y cabecera con guiones bajos intercalados
+        marcas = list(_AL_MARCA.finditer(t))
+        out = []
+        for i, m in enumerate(marcas):
+            ent = re.sub(r"\s+", " ", m.group(2)).strip()
+            if _norm(ent) != ck:
+                continue
+            fin = marcas[i + 1].start() if i + 1 < len(marcas) else len(t)
+            cuerpo = t[m.end():fin].strip()
+            if len(cuerpo) < 300:
+                continue
+            # el anuncio empieza con el edicto ("Al no haberse presentado alegaciones…"),
+            # así que el nombre de la norma hay que sacarlo del cuerpo o el ranking
+            # y el filtro `_es_ordenanza` se quedan sin señal
+            plano = re.sub(r"\s+", " ", cuerpo[:2500])
+            mo = re.search(r"((?:Ordenanza|Reglamento|Ordenanzas)[^.;]{5,160})", plano, re.I)
+            titulo = (mo.group(1) if mo else
+                      re.sub(r"(?i)^\s*A\s*N\s*U\s*N\s*C\s*I\s*O\s*", "", plano)[:220]).strip()
+            fe = f"{fn[6:8]}/{fn[4:6]}/{fn[:4]}" if len(fn) == 8 else ""
+            out.append({"url": f"{cfg['base']}/text.vm?id={ident}&view=boletines&lang=es",
+                        "titulo": titulo, "cve": f"BOP-AL-{fn}-{m.group(1).replace('/', '-')}",
+                        "fecha": fe, "orden": fn or "0", "texto": cuerpo, "materia": True})
+        return out
+
+    res = []
+    with _cf.ThreadPoolExecutor(max_workers=6) as ex:
+        for rs in ex.map(anuncios, list(boletines.items())[:8]):
+            res.extend(rs)
+    return res
+
+
+def _almeria_texto(prov, m):
+    """El texto ya viene recortado de la búsqueda: cero peticiones extra."""
+    t = m.get("texto") if isinstance(m, dict) else ""
+    return (t, "texto") if t and len(t) > 300 else ("", "sin-texto")
 
 
 # ---- backend ILLES BALEARS (BOIB, webapp del Govern) -------------------------

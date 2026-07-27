@@ -5,7 +5,6 @@
  "base": "https://app.dipalme.org/pandora",
  "mapa": "bop_almeria_municipios.json",
  "indice_desde": 2010,
- "activo": false,
  "entidad_prefijo": "AYUNTAMIENTO DE ",
  "endpoints": {
   "count": "/json/count.vm",
@@ -13,5 +12,6 @@
   "texto": "/text.vm?id={id10}&view=boletines&lang=es&attachment=x.txt",
   "pdf": "/pdf.raw?query=id:\"{id10}\"&page={paginas}&view=boletines&lang=es"
  },
- "nota": "Backend NO implementado todavia en bop_engine.py -> activo=false. Fuente = archivo Pandora (DIGIBIS) del BOP de Almeria en app.dipalme.org/pandora: indice Lucene sobre el TEXTO INTEGRO de cada boletin diario (type:bulletin, campos filename=AAAAMMDD, startYear/Month/Day, id de 10 digitos con ceros a la izquierda). Buscar con json/count.vm + json/select.vm (GET o POST, SIN cookies ni sesion; params query/skip/length/sort/load/retain, `retain` REPETIDO una vez por campo). IMPORTANTE: OMITIR `sort` -> ranking por RELEVANCIA de Lucene (es lo que se quiere); `sort=sortFilename` solo ordena ASCENDENTE por fecha y trae boletines de 1834. Query = Lucene completo: frases, proximidad (\"AYUNTAMIENTO DE VICAR ordenanza movilidad\"~150 acota muchisimo) y booleanos; el indice pliega mayusculas y acentos. Leer con text.vm: devuelve el boletin entero en texto plano, SIN PDF, SIN OCR y SIN captcha (~0,25 s / 300 KB). Despues se trocea localmente en anuncios por el patron 'SECCION \\n NNN/AA \\n ENTIDAD' y se toma el titulo del SUMARIO de la pagina 1. El valor del mapa es la frase de entidad para la phrase-query Lucene (el indice pliega mayusculas y acentos). indice_desde=2010: los boletines de 2009 hacia atras son ESCANEADOS con OCR de calidad variable (edicion electronica desde 2010). La app ZK del BOP (app.dipalme.org/bop/publico.zul) NO se usa."
+ "verifica_texto": true,
+ "fulltext": true
 }
