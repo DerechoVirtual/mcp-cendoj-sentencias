@@ -130,9 +130,14 @@ def _cargar_mapas():
                 m = {}
             # algunos listados de entidades traen basura (p.ej. el BOP de Cáceres lista
             # "Lepe", que es de Huelva). La config puede declarar `excluir`.
+            # `excluir` debe casar tanto con la clave CRUDA del mapa como con el
+            # nombre ya limpio de prefijos: el listado de Huesca trae "AYUNTAMIENTO
+            # DE SANTANDER" y excluir "Santander" no filtraba nada (Santander
+            # acababa resolviéndose con el BOP de Huesca).
             excl = {_norm(x) for x in cfg.get("excluir", [])}
             if excl:
-                m = {k: v for k, v in m.items() if _norm(k) not in excl}
+                m = {k: v for k, v in m.items()
+                     if _norm(k) not in excl and _norm(_limpia_nombre(k)) not in excl}
             mapas[prov] = m
             idx[prov] = {}
             nombres[prov] = {}

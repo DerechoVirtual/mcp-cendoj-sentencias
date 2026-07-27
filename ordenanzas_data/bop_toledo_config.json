@@ -6,6 +6,7 @@
  "mapa": "bop_toledo_municipios.json",
  "indice_desde": 2011,
  "excluir": [
-  "Alfafar"
+  "Alfafar",
+  "Ciudad Real"
  ]
 }

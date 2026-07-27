@@ -5,5 +5,9 @@
  "anuncio_pdf": "PDFs-Anuncios-Antiguos",
  "anuncio_href": "/publica/buscador-anuncios/anuncio/",
  "mapa": "bop_huesca_municipios.json",
- "nombre": "Huesca"
+ "nombre": "Huesca",
+ "excluir": [
+  "Santander",
+  "Vila-real"
+ ]
 }

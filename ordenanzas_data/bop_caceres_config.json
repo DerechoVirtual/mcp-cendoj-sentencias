@@ -7,8 +7,12 @@
  "mapa": "bop_caceres_municipios.json",
  "indice_desde": 2010,
  "excluir": [
+  "Alcázar de San Juan",
+  "Badajoz",
   "Lepe",
   "Majadahonda",
-  "Pájara"
+  "Mérida",
+  "Pájara",
+  "Santander"
  ]
 }
