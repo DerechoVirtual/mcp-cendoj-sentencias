@@ -263,6 +263,8 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _barcelona_buscar(prov, texto, categoria, rpp)
     if fam == "navarra":
         return _navarra_buscar(prov, texto, categoria, rpp)
+    if fam == "cantabria":
+        return _cantabria_buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
 
 
@@ -309,7 +311,90 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _barcelona_texto(prov, m)
     if fam == "navarra":
         return _navarra_texto(prov, m)
+    if fam == "cantabria":
+        return _cantabria_texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
+
+
+# ---- backend CANTABRIA (BOC, Struts propio "boces") --------------------------
+# El BOC es autonómico y hace de BOP de los 102 ayuntamientos. NO tiene filtro por
+# municipio (su lista de entidades vuelve vacía), así que: se busca por TÍTULO
+# (0,8 s; la búsqueda por cuerpo tarda 39 s y además arrastra municipios ajenos)
+# y el municipio se confirma con el <h2>Ayuntamiento de X</h2> de cada resultado.
+_CB_BLOQUE = re.compile(r"(?s)<h2>([^<]*Ayuntamiento[^<]*)</h2>(.*?)(?=<h2>|\Z)")
+_CB_ANU = re.compile(r'verAnuncio(?:Partes)?Action\.do\?idAnuBlob=(\d+)(?:&orden=(\d+))?"'
+                     r'[^>]*>\s*PDF \((BOC-\d{4}-\d+[\w_]*)\)', re.S)
+_CB_TIT = re.compile(r"<p>(.*?)</p>", re.S)
+
+
+def _cantabria_buscar(prov, texto, municipio=None, rpp=40):
+    cfg = PROVINCIAS[prov]
+    if not municipio:
+        return []
+    ck = _norm(municipio)
+    hoy = time.gmtime()
+
+    def una(q):
+        cj = http.cookiejar.CookieJar()
+        op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+        op.addheaders = [("User-Agent", _UA)]
+        try:
+            op.open(cfg["base"] + "/boces/menu.do?dir=/inicioBusquedaAnuncios.do", timeout=25).read()
+            d = {"anuncioBean.entrad": q, "anuncioBean.tipoTexto": "0",   # 0 = título
+                 "anuncioBean.tipoBusqueda": "todasPalabras", "anuncioBean.filtroFecha": "1",
+                 "anuncioBean.fecDesdeString": f"01/01/{cfg.get('indice_desde', 2010)}",
+                 "anuncioBean.fecHastaString": f"{hoy.tm_mday:02d}/{hoy.tm_mon:02d}/{hoy.tm_year}",
+                 "idAdmin": "-1", "idEntidad": "-1", "organizacionText": "", "unidadText": "",
+                 "anuncioBean.idSeccion": "-1", "anuncioBean.idSubseccion": "-1",
+                 "anuncioBean.idTipAnu": "-1", "boton": "Buscar"}
+            h = op.open(urllib.request.Request(
+                cfg["base"] + "/boces/busquedaAnuncios.do",
+                data=urllib.parse.urlencode(d, encoding="iso-8859-15", errors="replace").encode("ascii"),
+                headers={"Content-Type": "application/x-www-form-urlencoded"}),
+                timeout=60).read().decode("iso-8859-15", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        out = []
+        for org, bloque in _CB_BLOQUE.findall(h):
+            nom = re.sub(r"(?i)^\s*Ayuntamiento\s+(?:de\s+)?", "", _html.unescape(org)).strip()
+            if _norm(nom) != ck:
+                continue                       # el municipio se confirma AQUÍ
+            an = _CB_ANU.search(bloque)
+            tit = _CB_TIT.search(bloque)
+            if not an:
+                continue
+            t = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", tit.group(1) if tit else ""))).strip()
+            cve = an.group(3)
+            y = re.search(r"BOC-(\d{4})", cve)
+            out.append({"url": f"{cfg['base']}/boces/verAnuncioAction.do?idAnuBlob={an.group(1)}",
+                        "titulo": t, "cve": cve, "fecha": "",
+                        "orden": (y.group(1) + "0000") if y else "0",
+                        "materia": q != "ordenanza"})
+        return out
+
+    vistos = {}
+    with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+        for rs in ex.map(una, _consultas_materia(texto, None)):
+            for r in rs:
+                if r["cve"] in vistos:
+                    vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
+                else:
+                    vistos[r["cve"]] = r
+    return list(vistos.values())
+
+
+def _cantabria_texto(prov, m):
+    u = (m.get("url") if isinstance(m, dict) else m) or ""
+    if not u:
+        return "", "sin-url"
+    try:
+        pdf = _getb(u, timeout=45)
+    except Exception:  # noqa: BLE001
+        return "", "sin-pdf"
+    if pdf[:5] != b"%PDF-":
+        return "", "sin-pdf"
+    t, via = _pdf_bytes_texto(pdf)
+    return (t, via) if len(t) > 400 else ("", "sin-texto")
 
 
 # ---- backend NAVARRA (BON, Liferay) ------------------------------------------

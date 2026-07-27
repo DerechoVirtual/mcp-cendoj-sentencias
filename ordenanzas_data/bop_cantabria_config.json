@@ -1,0 +1,12 @@
+{
+ "id": "cantabria",
+ "base": "https://boc.cantabria.es",
+ "mapa": "bop_cantabria_municipios.json",
+ "nombre": "Cantabria",
+ "familia": "cantabria",
+ "indice_desde": 2010,
+ "verifica_texto": true,
+ "fulltext": true,
+ "activo": false,
+ "nota": "NO SERVIDA (27-jul-2026): backend implementado (familia cantabria) pero el buscador del BOC no es fiable. Su busqueda por CUERPO tarda 39s; la de TITULO va a 0,8s pero devuelve CERO para terminos comunes (reglamento, residuos, ordenanza fiscal) y solo responde a palabras poco frecuentes (veladores). Ademas no tiene filtro por municipio: hay que filtrar en local por el <h2>Ayuntamiento de X</h2>. Reactivar solo con indice empaquetado por sumarios o si aparece un endpoint mejor."
+}
