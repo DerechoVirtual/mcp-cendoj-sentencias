@@ -94,7 +94,6 @@
  "AYUNTAMIENTO DE JUVILES": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODEJUVILES/",
  "AYUNTAMIENTO DE JÁTAR": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODEJATAR/",
  "AYUNTAMIENTO DE JÉREZ DEL MARQUESADO": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODEJEREZDELMARQUESADO/",
- "AYUNTAMIENTO DE LA CALAHORRA": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODELACALAHORRA/",
  "AYUNTAMIENTO DE LA MALAHÁ": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODELAMALAHA/",
  "AYUNTAMIENTO DE LA PEZA": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODELAPEZA/",
  "AYUNTAMIENTO DE LA TAHA": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODELATAHA/",
@@ -173,5 +172,6 @@
  "AYUNTAMIENTO DE ÍTRABO": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODEITRABO/",
  "AYUNTAMIENTO DE ÓRGIVA": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODEORGIVA/",
  "ENTIDAD LOCAL BACOR - OLIVAR": "entidades/Administracion-Local/Otras-Entidades-Locales/ENTIDADLOCALBACOR-OLIVAR/",
- "ENTIDAD LOCAL DE MAIRENA": "entidades/Administracion-Local/Otras-Entidades-Locales/ENTIDADLOCALDEMAIRENA/"
+ "ENTIDAD LOCAL DE MAIRENA": "entidades/Administracion-Local/Otras-Entidades-Locales/ENTIDADLOCALDEMAIRENA/",
+ "La Calahorra (Granada)": "entidades/Administracion-Local/Ayuntamientos/AYUNTAMIENTODELACALAHORRA/"
 }
