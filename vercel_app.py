@@ -120,12 +120,54 @@ async def _responder_401(send, mensaje: str, www_auth: "str | None" = None,
     await send({"type": "http.response.body", "body": body})
 
 
-def _www_authenticate(scope, descripcion: str) -> str:
-    """Formato identico al del SDK MCP (mcp/server/auth/middleware/bearer_auth.py)."""
-    prm = f"https://{_host(scope)}/.well-known/oauth-protected-resource/mcp"
+def _www_authenticate(scope, descripcion: str, recurso: str = "/mcp") -> str:
+    """Formato identico al del SDK MCP (mcp/server/auth/middleware/bearer_auth.py).
+    `recurso` es el path del recurso protegido tal y como lo configuro el
+    usuario: con URL personal es /u/<token>/mcp, y la PRM debe apuntar ahi
+    (RFC 9728) para que el cliente no descarte la metadata por no coincidir."""
+    prm = f"https://{_host(scope)}/.well-known/oauth-protected-resource{recurso}"
     d = descripcion.replace('"', "'")
     return (f'Bearer error="invalid_token", error_description="{d}", '
             f'resource_metadata="{prm}"')
+
+
+# ---------------------------------------------------------------------------
+# DISCOVERY OAuth de las URLs PERSONALES (/u/<token>/mcp)
+#
+# Incidencia real (28-jul-2026, varios abogados): "No se pudo registrar con el
+# servicio de inicio de sesion de Jurisprudenciator" al anadir el conector con
+# su URL personal, y el error volvia en cada reinicio. Causa: RFC 9728 obliga a
+# publicar la metadata del recurso en /.well-known/oauth-protected-resource +
+# EL PATH DEL RECURSO; el SDK solo la servia para "" y "/mcp", asi que con una
+# URL personal daba 404 -> el cliente no encontraba el authorization server (y
+# el fallback sin path anuncia OTRO recurso, /mcp, que tampoco le encaja) ->
+# no podia registrar el client. Aqui se sirve la PRM para /u/<token>/mcp con el
+# resource EXACTO que el usuario configuro.
+# ---------------------------------------------------------------------------
+_PRM_PREFIJO = "/.well-known/oauth-protected-resource"
+_PRM_RECURSO_RE = re.compile(r"^/u/[^/]+/mcp$")
+_ASM_PREFIJOS = ("/.well-known/oauth-authorization-server",
+                 "/.well-known/openid-configuration")
+_CORS = [(b"access-control-allow-origin", b"*"),
+         (b"access-control-allow-methods", b"GET, OPTIONS"),
+         (b"access-control-allow-headers",
+          b"content-type, authorization, mcp-protocol-version")]
+
+
+async def _responder_json(send, obj, status: int = 200) -> None:
+    body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+    await send({"type": "http.response.start", "status": status,
+                "headers": [(b"content-type", b"application/json; charset=utf-8"),
+                            (b"content-length", str(len(body)).encode()),
+                            (b"cache-control", b"public, max-age=3600")] + _CORS})
+    await send({"type": "http.response.body", "body": body})
+
+
+async def _responder_redirect(send, destino: str) -> None:
+    await send({"type": "http.response.start", "status": 302,
+                "headers": [(b"location", destino.encode("latin-1")),
+                            (b"content-length", b"0")] + _CORS})
+    await send({"type": "http.response.body", "body": b""})
 
 
 # Texto que ve el MODELO de ChatGPT como resultado de la tool cuando el usuario
@@ -246,6 +288,32 @@ class _UserTokenMiddleware:
         path = scope.get("path", "") or ""
         metodo = (scope.get("method") or "GET").upper()
 
+        # 0) DISCOVERY OAuth (RFC 9728 / RFC 8414) — antes que nada, sin gate.
+        if path.startswith(_PRM_PREFIJO):
+            recurso = path[len(_PRM_PREFIJO):]
+            if _PRM_RECURSO_RE.match(recurso):
+                if metodo == "OPTIONS":
+                    await _responder_json(send, {}, 204)
+                    return
+                await _responder_json(send, {
+                    "resource": f"https://{_host(scope)}{recurso}",
+                    "authorization_servers": [_ISSUER],
+                    "bearer_methods_supported": ["header"],
+                    "scopes_supported": ["jurisprudencia"],
+                    "resource_name": "Jurisprudenciator",
+                })
+                return
+        elif path.startswith(_ASM_PREFIJOS):
+            # Algunos clientes buscan la metadata del AUTHORIZATION SERVER en el
+            # host del recurso (no es lo que dice el RFC, pero pasa): se les
+            # manda al emisor real en vez de darles un 404 que aborta el login.
+            if metodo == "OPTIONS":
+                await _responder_json(send, {}, 204)
+                return
+            await _responder_redirect(
+                send, f"{_ISSUER}/.well-known/oauth-authorization-server")
+            return
+
         # 1) Bearer OAuth (si viene, manda sobre todo lo demas).
         auth = (hd.get(b"authorization") or b"").decode("latin-1").strip()
         bearer = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
@@ -259,9 +327,11 @@ class _UserTokenMiddleware:
                 # en telemetria: un pico de estos = sesiones muriendo en bucle.
                 _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
                           "bearer_invalido")
+                recurso = path if _PRM_RECURSO_RE.match(path) else "/mcp"
                 await _responder_401(
                     send, "Token caducado o no valido.",
-                    _www_authenticate(scope, "Token caducado o no valido"))
+                    _www_authenticate(scope, "Token caducado o no valido",
+                                      recurso))
                 return
             via = b"oauth"
 

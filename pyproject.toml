@@ -4,7 +4,12 @@ version = "0.1.0"
 description = "Servidor MCP para buscar y descargar sentencias del CENDOJ (poderjudicial.es). El captcha lo resuelve la vision de Claude."
 requires-python = ">=3.10"
 dependencies = [
-    "mcp>=1.20.0",
+    # PIN EXACTO (28-jul-2026): con "mcp>=1.20.0" cada build de Vercel instalaba
+    # la ULTIMA version del SDK. Un redeploy sin cambios de codigo se fue a
+    # FUNCTION_INVOCATION_FAILED (conector caido) porque entro una version nueva
+    # incompatible. La version que sostiene produccion es esta; subirla es una
+    # decision deliberada, no un efecto colateral de desplegar.
+    "mcp==1.27.2",
     "httpx>=0.27.0",
     "pypdf>=4.0.0",
     "pymupdf>=1.24.0",
