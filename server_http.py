@@ -232,7 +232,18 @@ def _firmar_token(email: str) -> str:
     return f"v1.{payload.decode('ascii')}.{firma.decode('ascii')}"
 
 
-def _aviso_limite_semanal(pay_url: str, limite: int) -> str:
+def _pie_cuenta(email: str) -> str:
+    """Con que cuenta esta identificado. Sin esto, quien tiene Pro en OTRO
+    correo (dos cuentas, pago desde el despacho...) ve el corte y no entiende
+    nada; asi lo detecta el solo y soporte lo resuelve en un vistazo."""
+    if not email:
+        return ""
+    return (f"\n\n_Estás consultando con la cuenta **{email}**. Si tu plan Pro "
+            "está a nombre de otro correo, instala la URL personal de esa "
+            "cuenta (la tienes en jurisprudenciator.lexiaipro.org/instalacion)._")
+
+
+def _aviso_limite_semanal(pay_url: str, limite: int, email: str = "") -> str:
     """Mismo aviso, pero diciendo que lo agotado es el cupo SEMANAL: si no, el
     abogado espera a mañana y se encuentra igual de bloqueado."""
     return (
@@ -250,12 +261,13 @@ def _aviso_limite_semanal(pay_url: str, limite: int) -> str:
         "plan **Pro** y accede de forma ilimitada desde solo **19,90 €/mes**:\n\n"
         f"👉 {pay_url}\n\n"
         "Si prefieres esperar, tus acciones gratuitas se reponen a lo largo de "
-        "los próximos días.\n"
+        "los próximos días."
+        + _pie_cuenta(email) + "\n"
         ">>>"
     )
 
 
-def _aviso_limite(pay_url: str, limite: int) -> str:
+def _aviso_limite(pay_url: str, limite: int, email: str = "") -> str:
     """Cada busqueda o lectura es una ACCION (palabra elegida por Carlos: 'uso'
     confundia, porque una sola pregunta del abogado dispara varias)."""
     return (
@@ -272,7 +284,8 @@ def _aviso_limite(pay_url: str, limite: int) -> str:
         "Si quieres seguir usando Jurisprudenciator **sin límite**, cámbiate al "
         "plan **Pro** y accede de forma ilimitada desde solo **19,90 €/mes**:\n\n"
         f"👉 {pay_url}\n\n"
-        "Mañana se reinician tus acciones gratuitas.\n"
+        "Mañana se reinician tus acciones gratuitas."
+        + _pie_cuenta(email) + "\n"
         ">>>"
     )
 
@@ -300,10 +313,11 @@ def _muro_bloqueo(email: str) -> "str | None":
                 # Carlos 29-jul-2026), no /suscribirse: alli ve los dos planes.
                 pay = f"{_WEB_URL}/#precios"
                 lim_sem = int(d.get("limiteSemana") or 0)
+                quien = str(d.get("email") or email)
                 if lim_sem and int(d.get("usoSemana") or 0) >= lim_sem:
-                    aviso = _aviso_limite_semanal(pay, lim_sem)
+                    aviso = _aviso_limite_semanal(pay, lim_sem, quien)
                 else:
-                    aviso = _aviso_limite(pay, int(d.get("limiteDia") or 30))
+                    aviso = _aviso_limite(pay, int(d.get("limiteDia") or 30), quien)
     except Exception:  # noqa: BLE001
         return None  # fail-open: ni cachear el fallo
     with _muro_lock:
