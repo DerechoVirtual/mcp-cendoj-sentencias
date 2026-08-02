@@ -32,9 +32,12 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 _H = {"User-Agent": UA, "Accept-Language": "es-ES,es;q=0.9"}
 
 TIMEOUT = float(os.environ.get("RESPALDO_TIMEOUT", "8"))
-# Segundos totales del plan B. El usuario aguanta ~25 s en total y la deteccion
-# de la caida ya se ha comido ~8, asi que aqui caben 14.
-PRESUPUESTO = float(os.environ.get("RESPALDO_PRESUPUESTO", "14"))
+# Segundos totales del plan B. El usuario aguanta ~25 s y la deteccion de la
+# caida se come 8, asi que aqui caben 16 (total 24 s).
+# Medido: la busqueda web del LLM necesita entre 10,6 y 14,1 s. Con 14 de
+# presupuesto se cortaban justo las que tardaban mas, y esas volvian VACIAS: el
+# 25 % de las consultas se quedaba sin nada por 1 segundo de margen.
+PRESUPUESTO = float(os.environ.get("RESPALDO_PRESUPUESTO", "16"))
 MODELO_LLM = os.environ.get("RESPALDO_MODELO", "gpt-5.6-luna")
 _LLM_ON = (os.environ.get("RESPALDO_LLM", "1").strip() != "0")
 
@@ -233,42 +236,59 @@ def _luna(consulta: str, maximo: int, restante: float = 14.0) -> str:
         "input": (
             "Busca en Internet resoluciones judiciales espanolas sobre: "
             f"{consulta}\n\n"
-            "Responde EXACTAMENTE con estas dos secciones y nada mas:\n\n"
+            "Responde EXACTAMENTE con estas dos secciones y nada mas.\n\n"
+            "PASAJES  <- lo mas importante, NUNCA la dejes vacia\n"
+            "- Las 2 resoluciones mas relevantes. De cada una: su ECLI o numero "
+            "y, entre comillas, el parrafo LITERAL que responde a la consulta, "
+            "copiado tal cual de la fuente.\n"
+            "- Si de alguna no encuentras el texto literal, escribe "
+            "'(resumen, no literal)' y una frase con su criterio. Lo que no vale "
+            "es dejar al lector sin contenido.\n\n"
             "RESOLUCIONES\n"
-            f"- una linea por resolucion (maximo {maximo}): organo, fecha y ECLI o "
-            "numero de sentencia SOLO si aparece literal en la fuente; si no "
-            "aparece, escribe 'referencia sin verificar'.\n\n"
-            "PASAJES\n"
-            "- para las 2 mas relevantes: su referencia y, entre comillas, el "
-            "parrafo LITERAL de la resolucion que responde a la consulta, tal y "
-            "como aparece en la fuente.\n"
-            "- si de alguna no encuentras texto literal, escribe: (resumen, no "
-            "literal) y una frase con su criterio.\n\n"
+            f"- hasta {maximo} lineas: organo, fecha y ECLI o numero de sentencia, "
+            "solo si aparece literal en la fuente; si no, 'referencia sin "
+            "verificar'.\n\n"
             "Prohibido inventar referencias o parrafos. Sin introduccion ni "
             "conclusiones ni consejo juridico."),
     }
-    try:
-        # Se corta con el reloj del plan B: mas vale devolver el aviso honesto
-        # que tener al abogado esperando.
-        with httpx.Client(timeout=restante) as c:
-            r = c.post("https://api.openai.com/v1/responses", json=cuerpo,
-                       headers={"Authorization": f"Bearer {key}"})
-        if r.status_code != 200:
-            return ""
-        d = r.json()
-    except Exception:  # noqa: BLE001
-        return ""
+    # EN STREAMING. La latencia de esta llamada oscila entre 10 y 17 s: esperar
+    # a que termine hacia que una de cada cuatro consultas venciera el reloj y
+    # volviera VACIA. Leyendo segun llega, al agotarse el tiempo se devuelve lo
+    # que haya, y como PASAJES va primero en el prompt, lo parcial es justo lo
+    # que le sirve al abogado.
+    import json as _json
+    import time as _t
+    cuerpo["stream"] = True
+    tope = _t.monotonic() + restante
     txt, urls = "", []
-    for o in d.get("output", []):
-        if o.get("type") != "message":
-            continue
-        for ct in o.get("content", []):
-            txt += ct.get("text", "")
-            for a in ct.get("annotations", []):
-                u = a.get("url", "").split("?utm_source=")[0]
-                if a.get("type") == "url_citation" and u and u not in urls:
-                    urls.append(u)
+    try:
+        with httpx.Client(timeout=restante) as c:
+            with c.stream("POST", "https://api.openai.com/v1/responses", json=cuerpo,
+                          headers={"Authorization": f"Bearer {key}"}) as r:
+                if r.status_code != 200:
+                    return ""
+                for linea in r.iter_lines():
+                    if _t.monotonic() > tope:
+                        break                      # se acabo: con lo que haya
+                    if not linea or not linea.startswith("data:"):
+                        continue
+                    try:
+                        ev = _json.loads(linea[5:].strip())
+                    except Exception:  # noqa: BLE001
+                        continue
+                    if ev.get("type") == "response.output_text.delta":
+                        txt += ev.get("delta", "")
+                    elif ev.get("type") == "response.output_text.annotation.added":
+                        a = ev.get("annotation") or {}
+                        u = (a.get("url") or "").split("?utm_source=")[0]
+                        if u and u not in urls:
+                            urls.append(u)
+    except Exception:  # noqa: BLE001 - se devuelve lo acumulado hasta el fallo
+        pass
     txt = txt.strip()
+    # Una respuesta cortada a media frase no se entrega tal cual.
+    if txt and not txt.rstrip().endswith((".", ")", '"', "]")):
+        txt = txt.rsplit("\n", 1)[0].strip()
     if txt and urls:
         txt += "\n\nEnlaces consultados:\n" + "\n".join(f"  - {u}" for u in urls[:6])
     return txt
