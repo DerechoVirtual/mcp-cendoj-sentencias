@@ -10,7 +10,7 @@ El control "Control Descargas masivas" del CENDOJ es POR SESION (no por IP): sal
 sobre la 6a-7a descarga de una misma sesion. El motor reparte las descargas entre
 varias SESIONES FRESCAS (multi-sesion), de modo que casi nunca aparece; y si
 aparece, se ESQUIVA abriendo una sesion nueva y reintentando, sin pausas ni
-intervencion del usuario. (`resolver_captcha` queda como fallback historico.)
+intervencion del usuario. (`continuar_lectura` queda como fallback historico.)
 
 El CENDOJ es publico: NO tiene login. La sesion (cookie JSESSIONID) se obtiene
 sola cargando el buscador, asi que el servidor funciona sin configurar nada.
@@ -28,7 +28,7 @@ Herramientas:
   buscar_por_cita(cita)              -> localiza por ECLI o ROJ exacto
   opciones_busqueda(consulta, campo) -> facetas para refinar (anos/ponentes/organos)
   leer_sentencias(seleccion, ...)    -> texto integro o PARRAFOS exactos (sin guardar)
-  resolver_captcha(texto)            -> fallback historico (normalmente innecesario)
+  continuar_lectura(texto)           -> fallback historico (normalmente innecesario)
   estado()                           -> diagnostico
 """
 
@@ -94,7 +94,7 @@ HEADERS = {"User-Agent": UA, "Referer": f"{BASE}/indexAN.jsp",
            "Accept-Language": "es-ES,es;q=0.9"}
 AJAX = {"X-Requested-With": "XMLHttpRequest"}
 
-mcp = FastMCP("cendoj-sentencias")
+mcp = FastMCP("Jurisprudenciator")
 
 # --- Estado en memoria -----------------------------------------------------
 _client: httpx.Client | None = None         # sesion persistente para BUSCAR
@@ -173,14 +173,14 @@ def _asegurar_sesion(forzar: bool = False) -> httpx.Client:
     return c
 
 
-def _nueva_sesion(proxy=None) -> httpx.Client:
+def _nueva_sesion(proxy=None, timeout: float = 40.0) -> httpx.Client:
     """Cliente NUEVO con su propia JSESSIONID (contador de captcha a cero).
     proxy: None = conexion DIRECTA (rapida, sin penalizacion); una URL = sale por
     ese proxy (mas lento, solo cuando el CENDOJ bloquea la IP directa con 403).
     El GET de apertura se REINTENTA si el CENDOJ corta la conexion (transitorio):
     un reintento con socket fresco casi siempre lo resuelve. Si agota intentos no
     lanza: el cliente sirve igual y el POST siguiente reabre la sesion."""
-    c = httpx.Client(headers=HEADERS, timeout=40.0, follow_redirects=False, proxy=proxy)
+    c = httpx.Client(headers=HEADERS, timeout=timeout, follow_redirects=False, proxy=proxy)
     if COOKIE_ENV:
         c.cookies.set("JSESSIONID", COOKIE_ENV, domain=_DOM)
     else:
@@ -267,7 +267,10 @@ _ORGANOS = {
     "TS": "11|12|13|14|15|16", "TRIBUNAL SUPREMO": "11|12|13|14|15|16",
     "AP": "37", "AUDIENCIA PROVINCIAL": "37", "AUDIENCIAS PROVINCIALES": "37",
     "JURADO": "38", "AN": "22|23|24", "AUDIENCIA NACIONAL": "22|23|24",
-    "TSJ": "31|33", "TRIBUNAL SUPERIOR DE JUSTICIA": "31|33",
+    # TSJ = las 3 salas: 31 Civil y Penal · 33 Contencioso-Administrativo · 34 Social.
+    # (Sin la 34, el filtro por jurisdiccion SOCIAL sobre TSJ daba CERO y "TSJ" a
+    #  secas solo traia civil/penal + contencioso, sin lo laboral.)
+    "TSJ": "31|33|34", "TRIBUNAL SUPERIOR DE JUSTICIA": "31|33|34",
     "JPI": "42", "PRIMERA INSTANCIA": "42", "JUZGADO DE PRIMERA INSTANCIA": "42",
     "INSTRUCCION": "41", "JM": "47", "MERCANTIL": "47", "JUZGADO DE LO MERCANTIL": "47",
     "JS": "44", "SOCIAL": "44", "JUZGADO DE LO SOCIAL": "44",
@@ -668,9 +671,9 @@ def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int,
             c = _asegurar_sesion(forzar=True)
             r = c.post(f"{BASE}/search.action", data=data, headers=AJAX)
         if r.status_code != 200:
-            return f"El CENDOJ respondio HTTP {r.status_code} a la busqueda."
+            return f"Jurisprudenciator respondio HTTP {r.status_code} a la busqueda."
         if "no es valida" in r.text.lower():
-            return ("El CENDOJ rechazo la busqueda ('La busqueda no es valida'). "
+            return ("Jurisprudenciator rechazo la busqueda ('La busqueda no es valida'). "
                     "Suele ser por tildes/comillas o un filtro mal puesto: prueba sin "
                     "tildes, sin comillas, o revisa jurisdiccion/provincia.")
         if total is None:
@@ -697,8 +700,9 @@ def _ejecutar_busqueda(data_base: dict, desc: str, maximo: int,
                 "cambia la base a 'AN' o relaja los filtros.")
     n_auto = sum(1 for d in docs if d.get("resumen_auto"))
     orden_txt = ("ordenadas por RECIENTES primero (dentro de cada tramo, por relevancia)"
-                 if reciente else "ordenadas por RELEVANCIA del CENDOJ")
-    lineas = [f"{len(docs)} resultados (total CENDOJ: {total}) para {desc}, {orden_txt}:",
+                 if reciente else "ordenadas por RELEVANCIA")
+    lineas = [f"{len(docs)} resultados (total en Jurisprudenciator: {total}) para "
+              f"{desc}, {orden_txt}:",
               f"{n_auto}/{len(docs)} con 'RESUMEN(auto)' = extracto del texto con tus "
               "terminos (senal de relevancia, fiable para elegir). 'MATERIA' = etiqueta "
               "generica: si es candidata, leela. Prioriza la jurisprudencia RECIENTE y "
@@ -729,8 +733,8 @@ def buscar_sentencias(
     jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
     anios: int = 7, orden: str = "reciente",
 ) -> str:
-    """Busca jurisprudencia en el CENDOJ y devuelve la lista con metadatos y resumen.
-    NO descarga (no tiene captcha). Por defecto PRIORIZA la jurisprudencia RECIENTE:
+    """Busca jurisprudencia oficial espanola y devuelve la lista con metadatos y
+    resumen. NO descarga. Por defecto PRIORIZA la jurisprudencia RECIENTE:
     afina con los filtros y elige por el RESUMEN(auto), no la #1.
 
     Args:
@@ -745,12 +749,12 @@ def buscar_sentencias(
         jurisdiccion: "CIVIL", "PENAL", "CONTENCIOSO", "SOCIAL", "MILITAR",
             "ESPECIAL", "CONSTITUCIONAL".
         provincia: "Valladolid", "Alicante", "Barcelona"... (implica base AN).
-        tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o codigo del CENDOJ.
+        tipo_organo: "AP", "TS", "TSJ", "JPI", "JM", "JP"... o su codigo oficial.
         anios: Ventana de recencia (por defecto 7). Las de los ultimos 'anios' anos
             se muestran primero y las muy antiguas caen al fondo (no se excluyen).
             Para materias afectadas por reformas recientes, baja a 3-4.
         orden: "reciente" (por defecto, recientes primero) o "relevancia" (orden
-            crudo del CENDOJ, sin priorizar fecha).
+            crudo de relevancia, sin priorizar fecha).
 
     Returns:
         Lista numerada con ROJ, ECLI, fecha, sala, ponente y RESUMEN. Luego usa
@@ -904,18 +908,19 @@ def leer_sentencias(seleccion: str = "todas", parrafos: int = 0,
 
 
 @mcp.tool(structured_output=False)
-def resolver_captcha(texto: str):
-    """Fallback historico. Normalmente NO se necesita: el motor esquiva los captchas
-    rotando de sesion, sin pausas. Existe por si en algun caso se devolviera una imagen.
+def continuar_lectura(texto: str):
+    """Fallback historico. Normalmente NO se necesita: el motor esquiva solo las
+    comprobaciones de seguridad rotando de sesion, sin pausas. Existe por si en
+    algun caso se devolviera una imagen con un codigo.
 
     Args:
-        texto: los caracteres del captcha, si se te muestra una imagen.
+        texto: los caracteres del codigo, si se te muestra una imagen.
     """
     global _trabajo
     texto = (texto or "").strip()
     if not _trabajo or not _trabajo.get("captcha_doc"):
-        return ("No hay captcha pendiente (el motor los esquiva solo). Si querias leer "
-                "sentencias, usa leer_sentencias.")
+        return ("No hay ninguna comprobacion pendiente (el motor las esquiva sola). "
+                "Si querias leer sentencias, usa leer_sentencias.")
     c = _asegurar_sesion()
     d = _trabajo["captcha_doc"]
     try:
@@ -925,14 +930,14 @@ def resolver_captcha(texto: str):
             "reference": d["hash"], "optimize": d["opt"], "tab": "AN",
             "embeded": "true", "captcha": texto}, headers=AJAX)
     except Exception as e:  # noqa: BLE001
-        return f"Error de red al validar el captcha: {e}"
+        return f"Error de red al completar la comprobacion: {e}"
     if r.status_code == 200 and r.content[:4] == b"%PDF":
         reg = _construir_registro(d, r.content, _trabajo.get("incluir_texto", True),
                                   _trabajo.get("guardar_pdf", False),
                                   _trabajo.get("parrafos", 0), _trabajo.get("terminos", ""))
         _trabajo = None
-        return "Captcha validado.\n\n" + _fmt_resultado(reg)
-    return f"El captcha '{texto}' no fue aceptado. Reintenta leer_sentencias."
+        return "Comprobacion superada.\n\n" + _fmt_resultado(reg)
+    return f"El codigo '{texto}' no fue aceptado. Reintenta leer_sentencias."
 
 
 @mcp.tool()
@@ -941,7 +946,7 @@ def estado() -> str:
     c = _get_client()
     js = _jsid(c)
     return "\n".join([
-        f"Base CENDOJ: {BASE}",
+        f"Base de jurisprudencia: {BASE}",
         f"Extractor: {'PyMuPDF (rapido)' if _HAS_FITZ else 'pypdf'}",
         f"Multi-sesion: {LOTE_SESION} descargas/sesion, hasta {MAX_SESIONES} sesiones",
         f"Sesion de busqueda: {'activa' if js else 'sin abrir'}",

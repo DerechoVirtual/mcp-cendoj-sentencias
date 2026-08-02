@@ -181,6 +181,13 @@ def _request_meta() -> dict:
         if _user:
             meta["user_email"] = _user[:200]
             meta["auth_via"] = (h.get("x-jpd-auth") or "").strip()[:20] or None
+            # Instalacion (client_id de OAuth) = el "equipo" desde el que llama.
+            # Viaja en la columna session_id, que esta libre: el servidor es
+            # stateless y nunca emite Mcp-Session-Id, asi que llegaba siempre
+            # vacia. Con URL personal no hay cid y se queda a None.
+            _cid = (h.get("x-jpd-cid") or "").strip()
+            if _cid:
+                meta["session_id"] = _cid[:64]
         if ip:
             meta["ip_hash"] = _hashlib.sha256(
                 (_TELE_SALT + ip).encode("utf-8")).hexdigest()[:32]
@@ -290,25 +297,63 @@ def _aviso_limite(pay_url: str, limite: int, email: str = "") -> str:
     )
 
 
-def _muro_bloqueo(email: str) -> "str | None":
-    """Devuelve el texto del aviso si el usuario ha agotado su cuota, o None si
-    puede seguir (incluido cualquier fallo: fail-open)."""
+def _aviso_dispositivo(pay_url: str, maximo: int, email: str) -> str:
+    """Aviso cuando la cuenta se usa desde mas equipos de los permitidos.
+
+    NO es un corte de servicio: este equipo concreto tiene que volver a
+    conectarse (un clic en Claude). El objetivo es el despacho que reparte una
+    sola cuenta entre muchas personas, no el abogado con varios ordenadores."""
+    return (
+        "<<<AVISO_DEL_SISTEMA — MUESTRA ESTE TEXTO TAL CUAL, INTEGRO Y SIN RESUMIR>>>\n"
+        f"Esta cuenta de Jurisprudenciator se está usando desde más de {maximo} equipos "
+        "a la vez, y cada licencia es para una sola persona.\n\n"
+        "Para seguir desde este equipo, vuelve a conectar el conector "
+        "(Conectar / Volver a conectar). Si sois varios en el despacho, cada persona "
+        "necesita su licencia: puedes añadirlas desde tu panel y las adicionales "
+        "tienen un 5 % de descuento.\n"
+        f"👉 {pay_url}"
+        + _pie_cuenta(email) + "\n"
+        ">>>"
+    )
+
+
+def _muro_bloqueo(email: str, dispositivo: str = "") -> "str | None":
+    """Devuelve el texto del aviso si el usuario ha agotado su cuota o si este
+    equipo ya no tiene plaza, o None si puede seguir (incluido cualquier fallo:
+    fail-open)."""
     if not email or not _TOKEN_SECRET:
         return None
+    # Identidades INTERNAS (el chat de la web consulta con
+    # web@jurisprudenciator.internal): nunca se gatean. Acumulan el uso de TODOS
+    # los visitantes, asi que el tope diario saltaba en una manana y dejaba el
+    # chat de la web sin servicio para todo el mundo (visto el 29-jul-2026).
+    if email.lower().endswith("@jurisprudenciator.internal"):
+        return None
     ahora = _time.time()
+    # La plaza de equipo es POR EQUIPO: la cache se indexa por (cuenta, equipo)
+    # para que el veredicto de uno no se le aplique a otro.
+    clave = f"{email}|{dispositivo}" if dispositivo else email
     with _muro_lock:
-        hit = _muro_cache.get(email)
+        hit = _muro_cache.get(clave)
         if hit and hit[0] > ahora:
             return hit[1]
     aviso = None
     try:
         import httpx as _httpx
+        params = {"token": _firmar_token(email)}
+        if dispositivo:
+            params["device"] = dispositivo
         with _httpx.Client(timeout=3.5) as c:
-            r = c.get(f"{_WEB_URL}/api/entitlement",
-                      params={"token": _firmar_token(email)})
+            r = c.get(f"{_WEB_URL}/api/entitlement", params=params)
         if r.status_code == 200:
             d = r.json()
-            if d.get("ok") and d.get("permitido") is False:
+            # Equipo sin plaza: se le pide reconectar, no se le corta la cuota.
+            if d.get("ok") and d.get("dispositivoPermitido") is False:
+                aviso = _aviso_dispositivo(
+                    f"{_WEB_URL}/panel#licencias",
+                    int(d.get("maxDispositivos") or 3),
+                    str(d.get("email") or email))
+            elif d.get("ok") and d.get("permitido") is False:
                 # Destino del upsell: la seccion de PRECIOS de la home (orden de
                 # Carlos 29-jul-2026), no /suscribirse: alli ve los dos planes.
                 pay = f"{_WEB_URL}/#precios"
@@ -321,7 +366,7 @@ def _muro_bloqueo(email: str) -> "str | None":
     except Exception:  # noqa: BLE001
         return None  # fail-open: ni cachear el fallo
     with _muro_lock:
-        _muro_cache[email] = (
+        _muro_cache[clave] = (
             ahora + (_MURO_TTL_STOP if aviso else _MURO_TTL_OK), aviso)
     return aviso
 
@@ -446,7 +491,8 @@ def _telemetria(tool: str):
             # devuelve el aviso (tool-result normal) y no se ejecuta la tool.
             if tool not in _MURO_EXENTAS:
                 _meta = _request_meta()
-                _aviso = _muro_bloqueo(_meta.get("user_email") or "")
+                _aviso = _muro_bloqueo(_meta.get("user_email") or "",
+                                       _meta.get("session_id") or "")
                 if _aviso:
                     if _SUPA_URL and _SUPA_KEY:
                         try:
@@ -540,6 +586,24 @@ def _sanear_texto_cendoj(s: str) -> str:
     return re.sub(r"\s{2,}", " ", s).strip()
 
 
+def _plan_b(consulta: str, motivo: str, desc: str = "") -> str:
+    """PLAN B. Se llama UNICA Y EXCLUSIVAMENTE cuando la fuente oficial ha
+    fallado de verdad (error de red, timeout o HTTP != 200 del CENDOJ).
+
+    NO se llama nunca porque una busqueda devuelva cero resultados: eso no es un
+    fallo de la fuente, es que no hay resoluciones, y ahi manda la fuente oficial.
+
+    Si el respaldo tampoco puede con ello, se devuelve el mensaje original: nunca
+    empeora lo que ya habia.
+    """
+    try:
+        import respaldo_web
+        salida = respaldo_web.buscar(consulta)
+        return salida if salida else motivo
+    except Exception:  # noqa: BLE001 - el plan B jamas puede romper la tool
+        return motivo
+
+
 def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
     """Ejecuta la busqueda en el CENDOJ con una sesion fresca y devuelve la lista
     de documentos (con hash/opt para poder descargarlos). Sin estado global."""
@@ -548,39 +612,50 @@ def _buscar_docs(data_base: dict, maximo: int) -> list[dict]:
         data_base = {**data_base, "TEXT": _sanear_texto_cendoj(data_base["TEXT"])}
     docs: list[dict] = []
     start, total = 1, None
-    # Timeout por intento CORTO: una busqueda normal responde en 1-3 s; con el
-    # timeout de sesion (40 s) x (directo + 3 proxies) habia llamadas colgadas
-    # 160-280 s cuando el CENDOJ no respondia (madrugadas). Fail-fast.
-    _T_BUSQ = 15.0
+    # Timeout por intento. Medido sobre 1.000 busquedas reales: p50 0,7 s,
+    # p90 2,3 s, p95 3,7 s. Con 4 s x 2 intentos la caida se detecta en 8 s (antes
+    # 15 x 3 = 45 s) y queda presupuesto para el plan B dentro de los 25 s totales
+    # que aguanta un usuario. Una busqueda buena que pase de 4 s tiene aun el
+    # segundo intento, asi que el corte real afecta a muy pocas.
+    _T_BUSQ = float(os.environ.get("CENDOJ_TIMEOUT_BUSQ", "4"))
 
     def _peticion(data: dict):
-        # 1) DIRECTO (rapido, sin proxy)
+        # 1) DIRECTO (rapido, sin proxy). Un timeout aqui NO es problema de IP:
+        #    es que la fuente no responde. Se reintenta UNA vez con socket
+        #    fresco (arregla los cortes transitorios) y se abandona.
         r = None
-        try:
-            c = eng._nueva_sesion()
-            r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX,
-                       timeout=_T_BUSQ)
-            r.encoding = "utf-8"
-            if r.status_code != 403:
-                return r
-        except httpx.TransportError:
-            r = None
-        # 2) 403 o caida -> PROXY (hasta 2, rotando)
-        for _ in range(2):
-            prox = eng._pick_proxy()
-            if not prox:
-                break
+        for intento in range(2):
             try:
-                c = eng._nueva_sesion(proxy=prox)
-                rp = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX,
-                            timeout=_T_BUSQ)
-                rp.encoding = "utf-8"
-                if rp.status_code != 403:
-                    return rp
+                c = eng._nueva_sesion(timeout=_T_BUSQ)
+                r = c.post(f"{eng.BASE}/search.action", data=data, headers=eng.AJAX,
+                           timeout=_T_BUSQ)
+                r.encoding = "utf-8"
+                if r.status_code != 403:
+                    return r
+                break          # 403 = bloqueo por IP -> tiene sentido el proxy
             except httpx.TransportError:
+                r = None
                 continue
-        if r is not None:
-            return r  # el directo (aunque sea 403); el flujo gestiona el status
+        # 2) Solo si hubo 403 (bloqueo por volumen desde la IP del servidor)
+        #    merece la pena salir por proxy: cambia la IP, no la fuente.
+        if r is not None and r.status_code == 403:
+            for _ in range(2):
+                prox = eng._pick_proxy()
+                if not prox:
+                    break
+                try:
+                    c = eng._nueva_sesion(proxy=prox, timeout=_T_BUSQ)
+                    rp = c.post(f"{eng.BASE}/search.action", data=data,
+                                headers=eng.AJAX, timeout=_T_BUSQ)
+                    rp.encoding = "utf-8"
+                    # 407 = el proxy rechaza la autenticacion (proveedor rotado o
+                    # credencial caducada). No es respuesta del CENDOJ: se
+                    # descarta y se prueba con otro de la lista.
+                    if rp.status_code not in (403, 407):
+                        return rp
+                except httpx.TransportError:
+                    continue    # proxy muerto: se prueba el siguiente
+            return r
         raise RuntimeError(
             "Error de red al buscar: Jurisprudenciator no obtuvo respuesta (pasa a "
             "veces, sobre todo de madrugada, por mantenimiento). Reintenta en unos "
@@ -1047,7 +1122,34 @@ def buscar_sentencias(
     try:
         docs = _buscar_docs(data, pool)
     except RuntimeError as e:
-        return str(e)
+        # UNICA puerta al plan B: la fuente oficial no ha respondido.
+        return _plan_b(consulta, str(e), desc)
+    # Fuente oficial VIVA y sin resultados del organo pedido: no es caso de plan
+    # B (la fuente manda), pero tampoco se deja al abogado con las manos vacias:
+    # se repite en el CENDOJ contra el Tribunal Supremo, que es quien fija la
+    # doctrina aplicable a ese mismo asunto.
+    if not docs and (provincia or tipo_organo):
+        alt = {"action": "query", "databasematch": "TS", "TEXT": consulta}
+        for k in ("FECHARESOLUCIONDESDE", "FECHARESOLUCIONHASTA",
+                  "TIPORESOLUCION", "JURISDICCION"):
+            if k in data:
+                alt[k] = data[k]
+        try:
+            docs_ts = _buscar_docs(alt, pool)
+        except RuntimeError:
+            docs_ts = []
+        if docs_ts:
+            pedido = provincia or tipo_organo
+            docs_ts = (eng._ordenar_por_fecha(docs_ts, int(anios))[:maximo]
+                       if reciente else docs_ts[:maximo])
+            return (f"Sin resultados en {pedido} para {consulta!r} (la fuente "
+                    "oficial responde con normalidad: es que no hay resoluciones "
+                    "suyas indexadas sobre esto).\n\nEn su lugar, doctrina del "
+                    "TRIBUNAL SUPREMO sobre la misma materia, que es la que "
+                    "vincula a ese organo. Dilo asi al usuario: no son de "
+                    f"{pedido}.\n\n"
+                    + _formatear_lista(docs_ts, f"{consulta!r} en el Tribunal Supremo",
+                                       reciente))
     if reciente and docs:
         total = docs[0].get("_total", "?")   # preservar el total del CENDOJ
         docs = eng._ordenar_por_fecha(docs, int(anios))[:maximo]
@@ -1077,7 +1179,13 @@ def buscar_por_cita(cita: str) -> str:
     try:
         docs = _localizar(cita)
     except RuntimeError as e:
-        return str(e)
+        # La fuente oficial no responde: al menos, localizar la resolucion por
+        # Internet para que el abogado pueda leerla mientras tanto.
+        try:
+            import respaldo_web
+            return respaldo_web.localizar(cita) or str(e)
+        except Exception:  # noqa: BLE001
+            return str(e)
     return _formatear_lista(docs, f"cita {cita!r}")
 
 
@@ -1153,7 +1261,19 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
         try:
             ds = _localizar(cita)
         except RuntimeError as e:
-            return str(e)
+            # Fuente oficial caida: se intenta dar el texto por Internet en vez
+            # de devolver un error seco. Se hace para la PRIMERA cita (que es la
+            # que el abogado esta leyendo) y se avisa del resto.
+            try:
+                import respaldo_web
+                salida = respaldo_web.localizar(cita, terminos)
+                if len(lista) > 1:
+                    salida += ("\n\n(Con la fuente oficial caida solo se puede "
+                               f"recuperar de una en una; pendientes: "
+                               f"{', '.join(lista[lista.index(cita)+1:])}.)")
+                return salida or str(e)
+            except Exception:  # noqa: BLE001
+                return str(e)
         if not ds:
             no_encontradas.append(cita)
             continue
