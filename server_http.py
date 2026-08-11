@@ -57,6 +57,16 @@ from mcp.types import ToolAnnotations
 _RO = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=True)
 _RO_LOCAL = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
 
+# Las URLs personales ya instaladas se autentican en el propio path; la app
+# oficial usa OAuth. Declarar ambas alternativas permite conservar esas
+# instalaciones mientras ChatGPT descubre que puede abrir su UI de conexión.
+_AUTH_META = {
+    "securitySchemes": [
+        {"type": "noauth"},
+        {"type": "oauth2", "scopes": ["jurisprudencia"]},
+    ]
+}
+
 # Detras de Vercel el Host es el dominio del deployment: desactivamos la proteccion
 # anti DNS-rebinding (servicio publico de scraping, sin datos sensibles). json_response
 # encaja mejor con serverless que el streaming SSE.
@@ -928,7 +938,7 @@ def _descargar_o_captcha(d: dict, parrafos: int, terminos: str, max_chars: int,
 # =========================================================================
 # HERRAMIENTAS MCP (stateless)
 # =========================================================================
-@mcp.tool(title="Buscar sentencias", annotations=_RO)
+@mcp.tool(title="Buscar sentencias", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_sentencias")
 def buscar_sentencias(
     consulta: str, base: str = "TS", maximo: int = 20,
@@ -1002,7 +1012,7 @@ def buscar_sentencias(
     return _formatear_lista(docs, desc, reciente)
 
 
-@mcp.tool(title="Buscar por cita (ECLI/ROJ)", annotations=_RO)
+@mcp.tool(title="Buscar por cita (ECLI/ROJ)", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_por_cita")
 def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir
@@ -1026,7 +1036,7 @@ def buscar_por_cita(cita: str) -> str:
     return _formatear_lista(docs, f"cita {cita!r}")
 
 
-@mcp.tool(title="Opciones de búsqueda", annotations=_RO)
+@mcp.tool(title="Opciones de búsqueda", annotations=_RO, meta=_AUTH_META)
 @_telemetria("opciones_busqueda")
 def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "AN") -> str:
     """Valores de una faceta para REFINAR la busqueda (organos, anos o ponentes).
@@ -1064,7 +1074,7 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
             + f" ({len(pares)}):\n- " + "\n- ".join(vals) + nota)
 
 
-@mcp.tool(structured_output=False, title="Leer sentencias", annotations=_RO)
+@mcp.tool(structured_output=False, title="Leer sentencias", annotations=_RO, meta=_AUTH_META)
 @_telemetria("leer_sentencias")
 def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
                     max_chars: int = 0):
@@ -1075,8 +1085,8 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     integro devuelve solo los N pasajes mas relevantes (los que contienen los
     terminos). Imprescindible para 'los 5 parrafos clave de varias sentencias'.
 
-    El servidor gestiona automaticamente el control antidescargas del CENDOJ y te
-    entrega el texto ya extraido; no necesitas hacer nada especial.
+    El servidor entrega el texto ya extraído de la fuente oficial; no necesitas
+    hacer nada especial.
 
     Args:
         citas: ROJ o ECLI separados por coma. P.ej. "STS 1177/2014, STS 1226/2014"
@@ -1169,7 +1179,7 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     return cab + ("\n\n" + cuerpo if cuerpo else "")
 
 
-@mcp.tool(structured_output=False, title="Resolver captcha", annotations=_RO)
+@mcp.tool(structured_output=False, title="Resolver captcha", annotations=_RO, meta=_AUTH_META)
 @_telemetria("resolver_captcha")
 def resolver_captcha(token: str, texto: str):
     """Valida el captcha que devolvio leer_sentencias y entrega el texto de la
@@ -1226,7 +1236,7 @@ def resolver_captcha(token: str, texto: str):
             "Vuelve a llamar a leer_sentencias para reintentar.")
 
 
-@mcp.tool(title="Estado del conector", annotations=_RO_LOCAL)
+@mcp.tool(title="Estado del conector", annotations=_RO_LOCAL, meta=_AUTH_META)
 @_telemetria("estado")
 def estado() -> str:
     """Diagnostico del servidor remoto (extractor de PDF y base del CENDOJ)."""
@@ -1234,7 +1244,7 @@ def estado() -> str:
         "Jurisprudenciator - conector de jurisprudencia + legislacion (remoto, stateless).",
         f"Extractor PDF: {'PyMuPDF (rapido)' if eng._HAS_FITZ else 'pypdf'}",
         "Flujo jurisprudencia: buscar_sentencias -> leer_sentencias (por ROJ/ECLI). "
-        "El control antidescargas se resuelve automaticamente en el servidor.",
+        "El servidor entrega el texto ya extraído de la fuente oficial.",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
         "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
@@ -1254,7 +1264,7 @@ import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
 import ordenanzas_engine as _ord   # ordenanzas municipales (Madrid via AEBOE)
 
 
-@mcp.tool(title="Buscar artículo de ley", annotations=_RO)
+@mcp.tool(title="Buscar artículo de ley", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_articulo")
 def buscar_articulo(ley: str, articulo: str) -> str:
     """Devuelve el TEXTO VIGENTE de un articulo de una ley espanola (legislacion
@@ -1272,7 +1282,7 @@ def buscar_articulo(ley: str, articulo: str) -> str:
     return _boe.articulo(ley, articulo)
 
 
-@mcp.tool(title="Verificar citas legales", annotations=_RO)
+@mcp.tool(title="Verificar citas legales", annotations=_RO, meta=_AUTH_META)
 @_telemetria("verificar_escrito")
 def verificar_escrito(texto: str, incluir_texto: bool = False) -> str:
     """Verifica las CITAS LEGALES de un escrito juridico (demanda, contestacion,
@@ -1292,7 +1302,7 @@ def verificar_escrito(texto: str, incluir_texto: bool = False) -> str:
     return _boe.verificar(texto, incluir_texto)
 
 
-@mcp.tool(title="Sumario del BOE", annotations=_RO)
+@mcp.tool(title="Sumario del BOE", annotations=_RO, meta=_AUTH_META)
 @_telemetria("sumario_boe")
 def sumario_boe(fecha: str, seccion: str = "", contiene: str = "") -> str:
     """Que se publico en el BOE de un dia concreto (TODAS las secciones I-V:
@@ -1311,7 +1321,7 @@ def sumario_boe(fecha: str, seccion: str = "", contiene: str = "") -> str:
     return _boe.sumario(fecha, seccion, contiene)
 
 
-@mcp.tool(title="Buscar legislación (BOE)", annotations=_RO)
+@mcp.tool(title="Buscar legislación (BOE)", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_boe")
 def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15) -> str:
     """Busca LEGISLACION (leyes, reales decretos, ordenes...), incluida la normativa
@@ -1330,7 +1340,7 @@ def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15
     return _boe.buscar(consulta, desde, hasta, limite)
 
 
-@mcp.tool(title="Leer ítem del BOE/BORME", annotations=_RO)
+@mcp.tool(title="Leer ítem del BOE/BORME", annotations=_RO, meta=_AUTH_META)
 @_telemetria("leer_boe")
 def leer_boe(identificador: str) -> str:
     """Lee el TEXTO de un item concreto del BOE o del BORME (un anuncio, edicto,
@@ -1344,7 +1354,7 @@ def leer_boe(identificador: str) -> str:
     return _boe.leer_item(identificador)
 
 
-@mcp.tool(title="Sumario del BORME", annotations=_RO)
+@mcp.tool(title="Sumario del BORME", annotations=_RO, meta=_AUTH_META)
 @_telemetria("sumario_borme")
 def sumario_borme(fecha: str, contiene: str = "") -> str:
     """Sumario del BORME (Boletin Oficial del Registro Mercantil) de un dia: actos
@@ -1359,7 +1369,7 @@ def sumario_borme(fecha: str, contiene: str = "") -> str:
     return _boe.sumario_borme(fecha, contiene)
 
 
-@mcp.tool(title="Novedades del BOE", annotations=_RO)
+@mcp.tool(title="Novedades del BOE", annotations=_RO, meta=_AUTH_META)
 @_telemetria("novedades_boe")
 def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> str:
     """Barre los sumarios del BOE entre dos fechas (maximo 31 dias) y devuelve los
@@ -1377,7 +1387,7 @@ def novedades_boe(contiene: str, desde: str, hasta: str, seccion: str = "") -> s
     return _boe.novedades(contiene, desde, hasta, seccion)
 
 
-@mcp.tool(title="Buscar consultas de Hacienda (DGT)", annotations=_RO)
+@mcp.tool(title="Buscar consultas de Hacienda (DGT)", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_consultas_hacienda")
 def buscar_consultas_hacienda(consulta: str = "", numero: str = "", desde: str = "",
                               hasta: str = "", normativa: str = "",
@@ -1398,7 +1408,7 @@ def buscar_consultas_hacienda(consulta: str = "", numero: str = "", desde: str =
     return _dgt.buscar(consulta, numero, desde, hasta, normativa, tipo, limite)
 
 
-@mcp.tool(title="Leer consulta de Hacienda (DGT)", annotations=_RO)
+@mcp.tool(title="Leer consulta de Hacienda (DGT)", annotations=_RO, meta=_AUTH_META)
 @_telemetria("leer_consulta_hacienda")
 def leer_consulta_hacienda(numero: str) -> str:
     """Texto INTEGRO de una consulta de la DGT (Hacienda) por su numero
@@ -1408,7 +1418,7 @@ def leer_consulta_hacienda(numero: str) -> str:
     return _dgt.leer(numero)
 
 
-@mcp.tool(title="Buscar empresa (Registro Mercantil)", annotations=_RO)
+@mcp.tool(title="Buscar empresa (Registro Mercantil)", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_empresa_mercantil")
 def buscar_empresa_mercantil(empresa: str) -> str:
     """Ficha de una sociedad en el Registro Mercantil (BORME) por NOMBRE o CIF:
@@ -1430,7 +1440,7 @@ def buscar_empresa_mercantil(empresa: str) -> str:
 # Akoma Ntoso del portal Norma para Barcelona, PDF oficial por norma en el
 # resto). SOLO se activa cuando piden normativa de un ayuntamiento.
 # =========================================================================
-@mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO)
+@mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO, meta=_AUTH_META)
 @_telemetria("buscar_ordenanzas")
 def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> str:
     """Localiza ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa del AYUNTAMIENTO,
@@ -1458,7 +1468,7 @@ def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> s
     return _ord.buscar(municipio, consulta, limite)
 
 
-@mcp.tool(title="Leer ordenanza municipal", annotations=_RO)
+@mcp.tool(title="Leer ordenanza municipal", annotations=_RO, meta=_AUTH_META)
 @_telemetria("leer_ordenanza")
 def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
                    parrafos: int = 0, terminos: str = "", max_chars: int = 0) -> str:
@@ -1541,9 +1551,10 @@ async def _prm_metadata(request):
     host = (request.headers.get("x-forwarded-host")
             or request.headers.get("host")
             or "mcp.jurisprudenciator.lexiaipro.org")
+    resource_path = "/mcp-openai" if request.url.path.endswith("/mcp-openai") else "/mcp"
     return _JSONResponse(
         {
-            "resource": f"https://{host}/mcp",
+            "resource": f"https://{host}{resource_path}",
             "authorization_servers": [_ISSUER_URL],
             "bearer_methods_supported": ["header"],
             "scopes_supported": ["jurisprudencia"],
@@ -1555,6 +1566,8 @@ async def _prm_metadata(request):
 
 
 app.add_route("/.well-known/oauth-protected-resource/mcp", _prm_metadata,
+              methods=["GET", "OPTIONS"])
+app.add_route("/.well-known/oauth-protected-resource/mcp-openai", _prm_metadata,
               methods=["GET", "OPTIONS"])
 app.add_route("/.well-known/oauth-protected-resource", _prm_metadata,
               methods=["GET", "OPTIONS"])
