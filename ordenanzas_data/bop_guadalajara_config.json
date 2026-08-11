@@ -1,0 +1,16 @@
+{
+ "id": "guadalajara",
+ "nombre": "Guadalajara",
+ "familia": "guadalajara",
+ "base": "https://boletin.dguadalajara.es",
+ "mapa": "bop_guadalajara_municipios.json",
+ "indice_desde": 2010,
+ "activo": false,
+ "lento": true,
+ "endpoints": {
+  "buscar": "POST /boletin/index.php  body option=com_k2ajaxsearch&module_id=159&searchword={q}&searchphrase=all  (+X-Requested-With: XMLHttpRequest)",
+  "item": "/boletin/index.php/buscar-k2-menu/1-anuncio/{id}-{SLUG}",
+  "pdf": "/boletin/pdf/pdf{AAAA}_{NNNN}.pdf"
+ },
+ "nota": "Joomla + K2 v2.7.0. Funciona y la CALIDAD del dato es la mejor de las 4: la respuesta trae TITULO del anuncio, ENTIDAD ('AYUNTAMIENTO DE X' en <span class='small'>) y snippet; la ficha del anuncio trae el TEXTO INTEGRO en HTML (<div class='itemFullText'>, 26.000-121.000 chars, 1,4 s, CERO OCR) y ademas el PDF directo. Semantica AND verificada ('ordenanza zzzqqqxxxyyy' = 0). Sin captcha. PROBLEMA UNICO Y BLOQUEANTE: LA BUSQUEDA TARDA 6-10 s (suelo de 4,2-4,4 s incluso con 0 resultados; tmpl=component baja el HTML de 98 KB a 22 KB pero NO el tiempo -> el coste es la query en su BD, no el render; format=raw da 500). E2E medido 27-jul-2026: 5/5 municipios resueltos pero MEDIA 10,1 s. Ademas solo devuelve 20 resultados por pagina ordenados por fecha DESC sobre totales de 222-500, y paginar cuesta otros ~8 s. Los TAGS K2 por municipio (/buscar-k2-menu/tag/<Municipio>) son rapidos (1,2 s) pero estan casi vacios e inconsistentes (Molina de Aragon: 3 items, todos de elecciones de 2019) -> NO sirven de indice. => NO activar como backend en vivo; si se quiere la provincia entera, indice empaquetado. ALTERNATIVA para la capital (unico >50.000 de la provincia): guadalajara.es/es/ayuntamiento/normativa/ordenanzas-generales/ publica 31 PDF de ordenanzas CONSOLIDADAS (+ pagina de ordenanzas-fiscales), descarga 0,5 s con capa de texto -> patron Leon capital, claramente mejor que el BOP."
+}

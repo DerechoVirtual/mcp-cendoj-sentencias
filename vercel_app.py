@@ -34,7 +34,7 @@ from server_http import app as _mcp_app
 
 _TOKEN_SECRET = (os.environ.get("CONNECTOR_TOKEN_SECRET") or "").strip().encode("utf-8")
 _TOKEN_RE = re.compile(r"^/u/([^/]+)(/.*)?$")
-_JPD_HEADERS = (b"x-jpd-user", b"x-jpd-auth")
+_JPD_HEADERS = (b"x-jpd-user", b"x-jpd-auth", b"x-jpd-cid")
 _ISSUER = (os.environ.get("JPD_ISSUER_URL")
            or "https://jurisprudenciator.lexiaipro.org").rstrip("/")
 # aud CANONICA (fija): el /token de la web siempre emite esta, tambien cuando
@@ -49,32 +49,57 @@ def _b64url_dec(s: str) -> bytes:
     return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
 
 
-def _validar_token(token: str) -> "str | None":
-    """Valida "v1.<b64u(email)>.<HMAC16>" y devuelve el email, o None.
+def _validar_token(token: str) -> "tuple[str, str] | None":
+    """Valida el token de la URL personal y devuelve (email, equipo).
+
+    Dos formatos, y los dos se aceptan:
+      v1.<b64u(email)>.<HMAC16>            -> equipo desconocido ("")
+      v2.<b64u(email)>.<equipo>.<HMAC16>   -> el enlace sabe de que equipo es
+
+    El v2 existe porque en ChatGPT no hay OAuth y, sin el, no habia forma de
+    saber desde cuantos equipos se usa una cuenta. Los v1 repartidos hasta hoy
+    siguen valiendo PARA SIEMPRE: nadie tiene que reinstalar nada.
+
     Mismo algoritmo que connectorToken.ts en jurisprudenciator-web (vector de
     prueba cruzado: secreto 'CAMBIAR-ejemplo-32-chars-minimo!' + email
     'abogado@despacho.es' -> 'v1.YWJvZ2Fkb0BkZXNwYWNoby5lcw.82F7k0fWkJFX2rFO')."""
     if not _TOKEN_SECRET:
         return None
     try:
-        version, payload, sig = token.split(".")
-        if version != "v1" or not payload or not sig:
+        partes = token.split(".")
+        if len(partes) == 3 and partes[0] == "v1":
+            _, payload, sig = partes
+            equipo = ""
+            base = b"v1." + payload.encode("ascii")
+        elif len(partes) == 4 and partes[0] == "v2":
+            _, payload, equipo, sig = partes
+            if not equipo or len(equipo) > 32 or not re.fullmatch(r"[A-Za-z0-9_-]+", equipo):
+                return None
+            base = f"v2.{payload}.{equipo}".encode("ascii")
+        else:
+            return None
+        if not payload or not sig:
             return None
         firma = base64.urlsafe_b64encode(
-            hmac.new(_TOKEN_SECRET, b"v1." + payload.encode("ascii"),
-                     hashlib.sha256).digest()
+            hmac.new(_TOKEN_SECRET, base, hashlib.sha256).digest()
         ).rstrip(b"=")[:16].decode("ascii")
         if not hmac.compare_digest(firma, sig):
             return None
         email = _b64url_dec(payload).decode("utf-8").strip()
-        return email or None
+        return (email, equipo) if email else None
     except Exception:  # noqa: BLE001
         return None
 
 
-def _verificar_jwt(token: str) -> "str | None":
-    """Verifica un JWT HS256 emitido por la web (mismo secreto) y devuelve el
-    email (claim sub), o None. Chequea firma, exp, iss y aud canonica."""
+def _verificar_jwt(token: str) -> "tuple[str, str] | None":
+    """Verifica un JWT HS256 emitido por la web (mismo secreto) y devuelve
+    (email, cid), o None. Chequea firma, exp, iss y aud canonica.
+
+    El `cid` es el client_id que la web asigna a CADA instalacion del conector
+    (uno por registro dinamico RFC 7591). Es el unico identificador estable de
+    "equipo" que existe en el sistema: se propaga a la telemetria para poder
+    contar dispositivos reales por abogado. Cadena vacia si el token no lo trae
+    (tokens antiguos)."""
     if not _TOKEN_SECRET:
         return None
     try:
@@ -94,7 +119,10 @@ def _verificar_jwt(token: str) -> "str | None":
         if claims.get("iss") != _ISSUER or claims.get("aud") != _JWT_AUD:
             return None
         email = (claims.get("sub") or "").strip().lower()
-        return email or None
+        if not email:
+            return None
+        cid = str(claims.get("cid") or "").strip()[:64]
+        return email, cid
     except Exception:  # noqa: BLE001
         return None
 
@@ -272,6 +300,66 @@ def _log_gate(ua: str, metodo_rpc: str) -> None:
         pass
 
 
+#: Cabeceras cuyo VALOR nunca se registra (secretos o datos personales).
+_SONDA_PROHIBIDAS = {
+    b"authorization", b"cookie", b"set-cookie", b"proxy-authorization",
+    b"x-api-key", b"api-key",
+}
+#: Cabeceras cuyo valor SI interesa ver para saber si identifican un equipo.
+#: Se registran en claro solo estas, y son metadatos del cliente MCP.
+_SONDA_VALORES = {
+    b"user-agent", b"mcp-protocol-version", b"mcp-session-id", b"x-request-id",
+    b"accept",
+    # Cabeceras que SI manda Claude y que podrian identificar la instalacion.
+    b"mcp-name", b"mcp-method", b"x-anthropic-client", b"baggage",
+    # Huella TLS que calcula Vercel: distingue clientes, no personas.
+    b"x-vercel-ja4-digest",
+    # Por si ChatGPT manda algo equivalente.
+    b"openai-conversation-id", b"openai-ephemeral-user-id", b"x-openai-client",
+}
+#: Fraccion de peticiones que se sondean (1 de cada N) para no inundar el log.
+#: El muestreo es ALEATORIO, no un contador: cada peticion serverless corre en
+#: un proceso nuevo, asi que un contador global se reiniciaria a 0 cada vez y no
+#: llegaria a disparar nunca.
+_SONDA_CADA = int(os.environ.get("JPD_SONDA_CABECERAS") or "0")
+
+
+def _sondar_cabeceras(headers, ua: str, via: str) -> None:
+    """SONDA TEMPORAL: registra QUE cabeceras manda cada cliente MCP.
+
+    Objetivo: averiguar si ChatGPT (u otro cliente) manda algo que permita
+    distinguir un equipo de otro dentro de la misma cuenta, ya que por URL
+    personal no hay `cid` de OAuth. Se guardan SOLO los NOMBRES de todas las
+    cabeceras, y el valor unicamente de una lista blanca de metadatos del
+    protocolo; nunca `authorization` ni nada que identifique a una persona.
+
+    Se activa poniendo JPD_SONDA_CABECERAS=N (1 de cada N peticiones). Con la
+    variable sin definir no hace absolutamente nada.
+    """
+    if _SONDA_CADA <= 0:
+        return
+    import random as _random
+    if _SONDA_CADA > 1 and _random.random() > 1.0 / _SONDA_CADA:
+        return
+    try:
+        nombres = sorted({k.decode("latin-1").lower() for k, _ in headers})
+        valores = {}
+        for k, v in headers:
+            kl = k.lower()
+            if kl in _SONDA_PROHIBIDAS or kl not in _SONDA_VALORES:
+                continue
+            valores[kl.decode("latin-1")] = v.decode("latin-1")[:120]
+        payload = {
+            "tool": "_sonda_cabeceras", "ok": True,
+            "args": json.dumps({"via": via, "nombres": nombres, "valores": valores},
+                               ensure_ascii=False)[:1500],
+            "client": (ua or "")[:200],
+        }
+        threading.Thread(target=_sh._enviar_log, args=(payload,), daemon=True).start()
+    except Exception:  # noqa: BLE001
+        pass
+
+
 class _UserTokenMiddleware:
     def __init__(self, app):
         self.app = app
@@ -319,8 +407,11 @@ class _UserTokenMiddleware:
         bearer = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
         email = None
         via = None
+        cid = ""
         if bearer:
-            email = _verificar_jwt(bearer)
+            verificado = _verificar_jwt(bearer)
+            email = verificado[0] if verificado else None
+            cid = verificado[1] if verificado else ""
             if not email:
                 # Token caducado/invalido -> 401 SIEMPRE (el cliente eligio
                 # OAuth; este 401 dispara su refresh automatico). Se registra
@@ -339,7 +430,8 @@ class _UserTokenMiddleware:
         #    exista el prefijo; la identidad del path solo si no hubo Bearer).
         m = _TOKEN_RE.match(path)
         if m:
-            email_path = _validar_token(m.group(1))
+            validado = _validar_token(m.group(1))
+            email_path = validado[0] if validado else None
             if not email_path and not email:
                 await _responder_401(
                     send,
@@ -349,6 +441,10 @@ class _UserTokenMiddleware:
             if not email:
                 email = email_path
                 via = b"path"
+                # Enlace v2: trae dentro el equipo para el que se genero, asi que
+                # ChatGPT pasa por la misma contabilidad de plazas que OAuth.
+                if validado and validado[1]:
+                    cid = validado[1]
             path = m.group(2) or "/mcp"
             scope = dict(scope)
             scope["path"] = path
@@ -431,9 +527,16 @@ class _UserTokenMiddleware:
                 return
 
         if email:
+            _sondar_cabeceras(headers,
+                              (hd.get(b"user-agent") or b"").decode("latin-1"),
+                              (via or b"path").decode("latin-1"))
             headers = list(headers)
             headers.append((b"x-jpd-user", email.encode("utf-8")))
             headers.append((b"x-jpd-auth", via or b"path"))
+            # Identificador de la instalacion (solo lo hay en OAuth; con URL
+            # personal no existe forma de distinguir equipos).
+            if cid:
+                headers.append((b"x-jpd-cid", cid.encode("utf-8")))
         if not isinstance(scope, dict) or scope.get("headers") is not headers:
             scope = dict(scope)
             scope["headers"] = headers

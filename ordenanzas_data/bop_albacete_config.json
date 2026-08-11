@@ -1,0 +1,19 @@
+{
+ "id": "albacete",
+ "nombre": "Albacete",
+ "familia": "albacete",
+ "base": "https://bop.dipualba.es",
+ "mapa": "bop_albacete_municipios.json",
+ "indice_desde": 1856,
+ "fulltext": true,
+ "verifica_texto": true,
+ "activo": false,
+ "cap_resultados": 100,
+ "orden_resultados": "fecha_desc",
+ "endpoints": {
+  "buscar": "/servicesajax/busquedaavanzadabop?a={texto}&b=false&c={dd/mm/aaaa}&d={dd/mm/aaaa}",
+  "anuncio_pdf": "/servicesajax/descararchivopaginabop/{pid}",
+  "boletin_pdf": "/servicesajax/descararchivobopcompleto/?a={idboletin}"
+ },
+ "nota": "SEDIPUALB@. API AJAX publica, sin captcha ni cookies. La busqueda es AND sobre el TEXTO COMPLETO del anuncio y devuelve JSON {codigoError,descripcionError,yedata} con yedata = HTML de resultados. NO hay filtro por municipio ni titulo en el listado: el municipio se mete como un termino mas de la query y se CONFIRMA leyendo la cabecera del PDF ('AYUNTAMIENTO DE <muni>'); el titulo hay que sacarlo tambien del PDF. descararchivopaginabop devuelve el ANUNCIO ENTERO (no solo esa pagina) con capa de texto: fitz lo lee, CERO OCR. Cap duro de 100 resultados ordenados por fecha DESC -> para recall antiguo hay que ventanear con c/d (archivo verificado hasta 1960). Medido 27-jul-2026: busqueda 0,9-6,8 s (el servidor mismo declara 1-4 s), PDF 0,3-1,9 s; banco E2E municipio+materia 11/11 con media 6,2 s (max 11,2 s). El endpoint devuelve 500 esporadicos -> reintentar."
+}

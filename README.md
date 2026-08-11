@@ -94,7 +94,7 @@ Claude llamará a las herramientas por ti:
 | `buscar_por_cita(cita)` | Localiza por **ECLI** o **ROJ** exacto. |
 | `opciones_busqueda(consulta, campo="organos")` | Facetas para refinar: `organos`, `anos`, `ponentes`. |
 | `leer_sentencias(seleccion="todas", parrafos=0, terminos="", max_chars=0, guardar_pdf=False)` | **Lee** el texto (multi-sesión, rapidísimo). `parrafos=N` → solo los **N pasajes exactos** sobre el tema. Por defecto **no guarda** el PDF. |
-| `resolver_captcha(texto)` | Fallback histórico — normalmente innecesario (los captchas se esquivan solos). |
+| `continuar_lectura(texto)` | Fallback histórico — normalmente innecesario (las comprobaciones de seguridad se esquivan solas). |
 | `estado()` | Diagnóstico: extractor, sesión, última búsqueda, carpeta. |
 
 ## Por qué es tan rápido

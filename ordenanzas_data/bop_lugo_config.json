@@ -1,0 +1,27 @@
+{
+ "id": "lugo",
+ "nombre": "Lugo",
+ "familia": "lugo",
+ "base": "https://www.deputacionlugo.gal",
+ "mapa": "bop_lugo_municipios.json",
+ "indice_desde": 2009,
+ "idioma": "gl",
+ "endpoints": {
+  "buscar": "/gl/boletin-oficial-da-provincia-de-lugo/bop-por-contenido?field_ail_bop_contenido_value={q}&page={page}",
+  "nodo": "/gl/node/{id}",
+  "pdf_inline": "/sites/deputacionlugo.org/files/inline-files/{dd-mm-aaaa}.pdf",
+  "pdf_documentos": "/sites/deputacionlugo.org/files/Documentos/bop_{num}_{ddmmaaaa}.pdf"
+ },
+ "resultados_por_pagina": 10,
+ "filtro_operador": "allwords",
+ "filtro_sensible_acentos": true,
+ "filtro_sensible_mayusculas": false,
+ "indice_solo_sumario": true,
+ "municipio_por": "cabecera_sumario",
+ "ancla_anuncio": "num_rexistro",
+ "verifica_texto": true,
+ "fulltext": false,
+ "ocr": false,
+ "activo": false,
+ "nota": "Implementada y verificada en vivo (sondas _probe_lugo*.py) pero NO servida: requiere backend de familia 'lugo' en bop_engine (busqueda Views allwords -> nodo diario -> parseo del sumario -> filtro local por cabecera CONCELLO -> PDF del dia -> corte del anuncio por su numero de rexistro R. NNNN). Sin ese backend NO debe activarse."
+}

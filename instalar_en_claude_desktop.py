@@ -1,5 +1,5 @@
 """
-Instalador del servidor MCP 'cendoj-sentencias' en Claude Desktop (Windows).
+Instalador del servidor MCP 'jurisprudenciator' en Claude Desktop (Windows).
 
 Por que existe: Claude Desktop reescribe su archivo de configuracion cuando
 guarda preferencias, y si la entrada se anade con la app ABIERTA, la app la
@@ -25,7 +25,7 @@ PROYECTO = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(os.environ["APPDATA"], "Claude", "claude_desktop_config.json")
 PYTHON_VENV = os.path.join(PROYECTO, ".venv", "Scripts", "python.exe")
 SERVER = os.path.join(PROYECTO, "server.py")
-NOMBRE = "cendoj-sentencias"
+NOMBRE = "jurisprudenciator"
 
 
 def claude_abierto() -> bool:
@@ -40,7 +40,7 @@ def claude_abierto() -> bool:
 
 
 def main() -> int:
-    print("== Instalador MCP 'cendoj-sentencias' para Claude Desktop ==\n")
+    print("== Instalador MCP 'jurisprudenciator' para Claude Desktop ==\n")
 
     if not os.path.exists(PYTHON_VENV) or not os.path.exists(SERVER):
         print("ERROR: no encuentro el servidor o el entorno virtual en:")
@@ -82,9 +82,9 @@ def main() -> int:
     servidores = ", ".join(cfg["mcpServers"].keys())
     print(f"\nOK. Servidores MCP en la config: {servidores}")
     print("\n>> Ya puedes ABRIR Claude Desktop.")
-    print(">> En 'Conectores' (seccion Escritorio) aparecera 'cendoj-sentencias'")
+    print(">> En 'Conectores' (seccion Escritorio) aparecera 'jurisprudenciator'")
     print("   con las herramientas: buscar_sentencias, buscar_por_cita,")
-    print("   opciones_busqueda, leer_sentencias, resolver_captcha y estado.\n")
+    print("   opciones_busqueda, leer_sentencias, continuar_lectura y estado.\n")
     return 0
 
 

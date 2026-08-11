@@ -5,8 +5,64 @@
  "nombre": "Cantabria",
  "familia": "cantabria",
  "indice_desde": 2010,
+ "indice_viejo_desde": 1999,
  "verifica_texto": true,
- "fulltext": true,
+ "fulltext": false,
  "activo": false,
- "nota": "NO SERVIDA (27-jul-2026): backend implementado (familia cantabria) pero el buscador del BOC no es fiable. Su busqueda por CUERPO tarda 39s; la de TITULO va a 0,8s pero devuelve CERO para terminos comunes (reglamento, residuos, ordenanza fiscal) y solo responde a palabras poco frecuentes (veladores). Ademas no tiene filtro por municipio: hay que filtrar en local por el <h2>Ayuntamiento de X</h2>. Reactivar solo con indice empaquetado por sumarios o si aparece un endpoint mejor."
+ "nota": "VIABLE Y RAPIDA, pendiente de reescribir el backend (27-jul-2026). El error de la implementacion actual era buscar SIN filtro de municipio: el BOC SI filtra por ayuntamiento, no por el desplegable idEntidad (viene vacio) sino por el campo de TEXTO LIBRE organizacionText = 'Ayuntamiento de X'. Con ese filtro la busqueda por TITULO baja a 0,4-1,0 s (antes: 39 s por cuerpo, o 'mas de 300 resultados' por titulo) y es exacta. Los anuncios son PDF con capa de texto: 0/30 necesitan OCR. Banco medido 28/30 materias, E2E 1,5-3,2 s. Se deja activo:false solo porque _cantabria_buscar de bop_engine.py aun no usa organizacionText; al reescribirlo se activa. COLISIONES DE ENRUTADO a resolver ANTES de activar (verificadas 27-jul): (1) 'Cieza' existe en Cantabria (~500 hab., 2 anuncios) y en Murcia (35.000 hab.); Cantabria carga antes que Murcia y le robaria el enrutado -> anadir excluir:['Cieza'] aqui, o aceptar que Murcia pierde 'Cieza'. (2) 'Pielagos' (Cantabria, 26.000 hab.) esta ademas en el mapa de CACERES como dato sucio y HOY provincia_de('Pielagos') devuelve caceres -> anadir 'Pielagos' al excluir de bop_caceres_config.json (mismo caso que 'Lepe'/'Santander').",
+ "endpoints": {
+  "sesion_opcional": "GET /boces/menu.do?dir=/inicioBusquedaAnuncios.do (crea JSESSIONID; MEDIDO: el POST funciona igual SIN cookies, 0,57 s de media, asi que la sesion se puede omitir)",
+  "buscar": "POST /boces/busquedaAnuncios.do (application/x-www-form-urlencoded; cuerpo y RESPUESTA en ISO-8859-15, no UTF-8)",
+  "anuncio_pdf": "GET /boces/verAnuncioAction.do?idAnuBlob=<id>  -> application/pdf directo (0,2-1,5 s)",
+  "ajax_administraciones": "GET /boces/cargarAdministracionAjax.do?param=<filtroFecha>",
+  "ajax_entidades": "GET /boces/cargarEntidadAjax.do?param=<idAdmin>&param1=<filtroFecha> (INUTIL: para el indice 2010+ ni siquiera existe ADMINISTRACION LOCAL; para el viejo devuelve como mucho 'Ayuntamientos de Cantabria' en bloque, nunca municipios sueltos)"
+ },
+ "form": {
+  "anuncioBean.entrad": "<terminos>",
+  "anuncioBean.tipoTexto": "0",
+  "anuncioBean.tipoBusqueda": "todasPalabras",
+  "anuncioBean.filtroFecha": "1",
+  "anuncioBean.fecDesdeString": "01/01/2010",
+  "anuncioBean.fecHastaString": "<hoy dd/mm/aaaa>",
+  "idAdmin": "-1",
+  "idEntidad": "-1",
+  "organizacionText": "<valor del mapa: 'Ayuntamiento de X'>",
+  "unidadText": "",
+  "anuncioBean.idSeccion": "-1",
+  "anuncioBean.idSubseccion": "-1",
+  "anuncioBean.idTipAnu": "-1",
+  "boton": "Buscar"
+ },
+ "form_notas": {
+  "anuncioBean.tipoTexto": "0 = entradilla/TITULO (rapido). 1 = CUERPO: 3-6 s con filtro de municipio y 25-37 s sin el, ademas de muchisimo ruido -> NO usar salvo rescate puntual.",
+  "anuncioBean.tipoBusqueda": "todasPalabras (AND) | algunasPalabras (OR) | textoExacto (frase). Los tres funcionan y cuestan lo mismo.",
+  "anuncioBean.filtroFecha": "1 = indice 2010->hoy. 0 = archivo historico (verificado hasta 1999; 1990-1994 vacio). organizacionText tambien filtra en el indice viejo.",
+  "organizacionText": "EL FILTRO DE MUNICIPIO. Substring case-insensitive y SIN acentos ('pielagos' == 'Pielagos'). Usar SIEMPRE el prefijo completo 'Ayuntamiento de X': con solo 'Santander' se cuelan 'Autoridad Portuaria de Santander' y 'Sociedad de Vivienda y Suelo de Santander'."
+ },
+ "parseo": {
+  "bloque": "<h2>NOMBRE DEL ORGANO</h2> ... hasta el siguiente <h2>. UN h2 por anuncio (se repite).",
+  "titulo": "primer <p>...</p> del bloque",
+  "enlace": "verAnuncio(Partes)?Action.do?idAnuBlob=(\\d+)\">PDF \\((BOC-AAAA-N)\\)",
+  "error": "<div id=\"error\"> con tres estados: 'mas de 300 resultados' | '???es_ES.mensaje.errorBusqueda ???' | 'No existen anuncios'",
+  "encoding": "ISO-8859-15 en peticion y respuesta"
+ },
+ "limites": {
+  "tope_300": "El BOC se niega a listar mas de 300 resultados. Con organizacionText + termino de materia nunca se alcanza; sin filtro de municipio saltan hasta terminos como 'residuos' o 'reglamento'.",
+  "errorBusqueda": "Terminos hiperfrecuentes en el indice GLOBAL revientan la consulta ANTES de aplicar el filtro de municipio, aunque el municipio sea diminuto. Verificados como venenosos: 'ordenanza' (singular), 'tasa', 'tasas', 'padron', 'agua', 'presupuesto'. Se esquiva usando el plural o anadiendo una palabra rara ('ordenanza veladores' OK, 'tasa vados' OK) o acortando la ventana de fechas.",
+  "genericos_seguros": ["ordenanzas", "reglamento", "ordenanzas fiscales", "impuesto"],
+  "sin_stemming": "El buscador es LITERAL: 'terraza' != 'terrazas', 'velador' != 'veladores', 'reglamento' != 'reglamentos'. Obliga a tesauro con singular Y plural. Si es insensible a acentos y mayusculas."
+ },
+ "lectura": {
+  "formato": "PDF con capa de texto en el 100% de la muestra (0/30 necesitaron OCR); fitz basta",
+  "tiempo": "0,2-1,5 s (media 0,57 s) para documentos de 1 a 52 paginas",
+  "trampas_texto": "Tres, todas con arreglo trivial: (1) ligaduras tipograficas fi/fl (U+FB01/FB02) en 19 de 20 documentos -> normalizar NFKC; en los PDF de 2011-2016 la ligadura ademas sale como 'defi nitiva' (espacio dentro de la palabra), asi que no fiarse de buscar 'definitiva' literal en el texto; (2) guion blando U+00AD al partir palabras en los mas modernos -> eliminarlo; (3) 1 de cada 81 PDF usa el caracter de control U+0003 como separador de palabras en lugar del espacio (ej. BOC-2011-17088, BOC-2013-18953): \\s deja de casar y el troceo de articulado devuelve CERO articulos. Sustituir [\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f] por espacio ANTES de trocear (medido: 0 -> 84 articulos)."
+ },
+ "medido_27_jul_2026": {
+  "buscar": "0,4-2,7 s (media ~1,2 s con 3-4 consultas de tesauro en paralelo)",
+  "leer": "0,2-2,3 s",
+  "e2e": "1,45 - 3,21 s de media por caso; maximo observado 3,42 s",
+  "banco": "28/30 materias correctas en Santander, Torrelavega, Castro-Urdiales, Camargo, Laredo, Reinosa, El Astillero, Santona, Pielagos y Santa Cruz de Bezana. Los 2 fallos son negativos VERDADEROS: Castro-Urdiales no tiene ordenanza de convivencia y Laredo no tiene ordenanza de terrazas publicadas en el BOC.",
+  "mapa": "102/102 ayuntamientos verificados en vivo: cada valor devuelve anuncios y SOLO de su ayuntamiento (22,9 s el barrido completo)"
+ },
+ "sonda": "_probe_cantabria.py (modos: params | pre2010 | banco | tiempos | pdfs | smoke | mapa | todo)"
 }

@@ -1,0 +1,20 @@
+{
+ "id": "cuenca",
+ "nombre": "Cuenca",
+ "familia": "cuenca",
+ "base": "https://www.dipucuenca.es",
+ "mapa": "bop_cuenca_municipios.json",
+ "indice_desde": 2009,
+ "activo": false,
+ "requiere_indice": true,
+ "excluir": [
+  "Castejón",
+  "Moya"
+ ],
+ "endpoints": {
+  "detalle": "/boletin-oficial-de-la-provincia?p_p_id=as_asac_bulletins_web_BulletinsWebPortlet_INSTANCE_LuthFM11tPwH&p_p_lifecycle=0&_<ns>_mvcPath=%2Fpublisher%2Fdetail.jsp&_<ns>_articleId={articleId}",
+  "mes": "POST /boletin-oficial-de-la-provincia?p_p_id=as_asac_asset_search_AssetSearchInstancePortlet_INSTANCE_NLl2FzWMNYZM&p_p_lifecycle=1&_<ns>_javax.portlet.action=searchAssets&p_auth={p_auth}  (body: <ns>startDate=01/MM/AAAA, <ns>endDate=ultimo/MM/AAAA)",
+  "pdf": "/documents/34525/{folderId}/{n}.pdf/{uuid}"
+ },
+ "nota": "Liferay + portlets ASAC. NO HAY BUSCADOR TEXTUAL UTIL: el portlet BulletinsWebSearchPortlet devuelve SIEMPRE 'No se han encontrado boletines' (probado por GET, con y sin folderId de ano), y el buscador global /buscador?q= es OR sobre TODO el portal (15.000-19.000 resultados) y NO indexa los PDF de anuncio (el boletin 2115513 no aparece). VIA VALIDA = INDICE EMPAQUETADO: (1) listar los boletines de un mes con el POST searchAssets (~12-13 articleIds, 0,7-1,1 s); (2) por cada boletin, detail.jsp (0,22 s) trae el sumario estructurado: <div class='h5 title-wrapper'>Ayuntamiento de X.</div> + <li class='document-entry'><a href='/documents/...pdf' title='TITULO'> -> municipio + titulo + PDF individual, exacto y sin ambiguedad; (3) el PDF del anuncio tiene capa de texto (0,26 s, fitz, CERO OCR) y cabecera 'AYUNTAMIENTO DE X'. Coste estimado del crawl completo: ~150 boletines/ano x 17 anos ~ 2.500 detail.jsp a 0,22 s. Sin reCAPTCHA en ningun punto probado. Boletines firmados desde jun-2009. COLISIONES resueltas via `excluir`: 'Castejon' (Cuenca, ~150 hab.) cede ante Castejon de NAVARRA (~4.500, activa) y 'Moya' (Cuenca, ~200) ante Moya de LAS PALMAS (~7.800, activa). OJO AL REVES: 'Mota del Cuervo' ES de Cuenca (~6.000 hab.) y esta mal listada en el mapa de TOLEDO -> al activar Cuenca, anadirla al `excluir` de toledo. ALTERNATIVA para la capital (unico >50.000 de la provincia): ayuntamiento.cuenca.es/ordenanzas-municipales publica 23 ordenanzas CONSOLIDADAS (<h3 class='formatearOrdenanza'>TITULO</h3> + PDF en /Portals/Ayuntamiento/documents/*.pdf, 1,0 s, con capa de texto) -> patron Leon capital, mejor fuente que el BOP para Cuenca ciudad."
+}

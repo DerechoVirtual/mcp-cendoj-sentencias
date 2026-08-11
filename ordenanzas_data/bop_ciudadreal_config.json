@@ -1,0 +1,19 @@
+{
+ "id": "ciudadreal",
+ "nombre": "Ciudad Real",
+ "familia": "ciudadreal",
+ "base": "https://bop.dipucr.es",
+ "mapa": "bop_ciudadreal_municipios.json",
+ "indice_desde": 2013,
+ "activo": false,
+ "requiere_indice": true,
+ "indice_solo_titulo": true,
+ "verifica_texto": true,
+ "endpoints": {
+  "buscar": "POST /buscador (form urlencoded ISO-8859-1: submitted=1, texto, tipo_busqueda=0|1|2, clasificacion=14 (AYUNTAMIENTOS), fbopdesde, fbophasta)",
+  "pagina": "/buscador?pagina={n}  (15 por pagina, POR SESION: reusar cookies)",
+  "sumario": "/bop/{aaaa}/{mm}/{dd}",
+  "pdf": "https://se1.dipucr.es:4443/SIGEM_BuscadorDocsWeb/getDocument.do?entidad=005&doc={doc}"
+ },
+ "nota": "SIGEM propio de la Diputacion. El buscador NO pide captcha y es rapido (0,6-1,3 s) PERO SOLO INDEXA EL TITULO del anuncio, y el municipio nunca esta en el titulo -> 'Tomelloso ordenanza' con todas-las-palabras = 0 resultados. El filtro `entidad` del formulario esta ROTO (devuelve siempre 1 resultado; probado con 6 ids distintos). LA CLAVE: el SUMARIO DIARIO /bop/AAAA/MM/DD viene agrupado por entidad (<h3 class=admons>AYUNTAMIENTOS</h3> -> <p class=clasificaciones>MUNICIPIO</p> -> enlaces getDocument.do?doc=N) y resuelve doc_id -> municipio EXACTO (5/5 verificado, 0,4 s por dia, cacheable). Crawl real 2021-2026: 1.452 dias, 26.073 anuncios, 393 s con 10 hilos; 133 entidades bajo AYUNTAMIENTOS y LOS 102 municipios del INE aparecen; 3.878 anuncios de ordenanza/reglamento = 0,7 MB de indice. Con indice empaquetado (patron Madrid): 8/12 del banco y media 2,50 s. En vivo sin indice (3 paginas + resolver sumarios) solo 4/12 y media 6,8 s -> por eso requiere_indice. PDFs con capa de texto (fitz), 0,7-1,9 s, CERO OCR; la cabecera del PDF tambien trae el municipio. Variantes sucias del sumario a normalizar: 'ARGAMASILLA ALBA', 'VILLARUBIA DE LOS OJOS', 'VALDEMANCO DEL ESTERA', 'TORRE JUAN DE ABAD', 'FONTANEREJO', 'ALCOBA'; y entidades NO municipales que hay que descartar o colgar de su municipio: EATIM (Cinco Casas, El Hoyo, El Torno) y patronatos/institutos ('CIUDAD REAL - PATRONATO MUNICIPAL DE DEPORTES', 'CIUDAD REAL - IMPEFE', 'PUERTOLLANO - PATRONATO MUNICIPAL DE DEPORTES', 'ALCAZAR DE SAN JUAN - PATRONATO MUNICIPAL DE CULTURA'). COLISION: 'Villanueva de los Infantes' existe tambien en VALLADOLID (activa); la de Ciudad Real tiene ~5.000 hab. y la de Valladolid ~200 -> al activar esta provincia, anadir 'Villanueva de los Infantes' al `excluir` de valladolid."
+}
