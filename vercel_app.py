@@ -35,12 +35,21 @@ from server_http import app as _mcp_app
 _TOKEN_SECRET = (os.environ.get("CONNECTOR_TOKEN_SECRET") or "").strip().encode("utf-8")
 _TOKEN_RE = re.compile(r"^/u/([^/]+)(/.*)?$")
 _JPD_HEADERS = (b"x-jpd-user", b"x-jpd-auth", b"x-jpd-cid")
+# Ruta de la APP OFICIAL (ChatGPT apps): misma app FastMCP que /mcp, pero con
+# contrato propio (OAuth obligatorio anunciado via securitySchemes). Las URLs
+# personales y /mcp NO cambian de conducta.
+_OFFICIAL_PATH = (os.environ.get("JPD_OFFICIAL_MCP_PATH") or "/mcp-openai").strip()
+if not _OFFICIAL_PATH.startswith("/"):
+    _OFFICIAL_PATH = "/" + _OFFICIAL_PATH
 _ISSUER = (os.environ.get("JPD_ISSUER_URL")
            or "https://jurisprudenciator.lexiaipro.org").rstrip("/")
 # aud CANONICA (fija): el /token de la web siempre emite esta, tambien cuando
 # el conector se prueba en un preview *.vercel.app -> staging sin config extra.
 _JWT_AUD = (os.environ.get("JPD_JWT_AUD")
             or "https://mcp.jurisprudenciator.lexiaipro.org/mcp")
+_OFFICIAL_JWT_AUD = (os.environ.get("JPD_OFFICIAL_JWT_AUD")
+                     or ((_JWT_AUD[:-4] if _JWT_AUD.endswith("/mcp") else _JWT_AUD)
+                         + _OFFICIAL_PATH))
 # Rutas que NUNCA se gatean (descubrimiento, iconos, verificacion OpenAI).
 _EXENTAS = ("/.well-known/", "/favicon.ico", "/icon.png")
 
@@ -91,7 +100,7 @@ def _validar_token(token: str) -> "tuple[str, str] | None":
         return None
 
 
-def _verificar_jwt(token: str) -> "tuple[str, str] | None":
+def _verificar_jwt(token: str, audience: str = _JWT_AUD) -> "tuple[str, str] | None":
     """Verifica un JWT HS256 emitido por la web (mismo secreto) y devuelve
     (email, cid), o None. Chequea firma, exp, iss y aud canonica.
 
@@ -116,7 +125,7 @@ def _verificar_jwt(token: str) -> "tuple[str, str] | None":
         claims = json.loads(_b64url_dec(p_b64))
         if claims.get("exp", 0) < time.time():
             return None
-        if claims.get("iss") != _ISSUER or claims.get("aud") != _JWT_AUD:
+        if claims.get("iss") != _ISSUER or claims.get("aud") != audience:
             return None
         email = (claims.get("sub") or "").strip().lower()
         if not email:
@@ -360,6 +369,112 @@ def _sondar_cabeceras(headers, ua: str, via: str) -> None:
         pass
 
 
+def _es_ruta_oficial(path: str) -> bool:
+    return path == _OFFICIAL_PATH or path == _OFFICIAL_PATH + "/"
+
+
+async def _responder_tool_oauth(send, request_id, www_auth: str) -> None:
+    """Error MCP a nivel de tool: es el disparador de la UI OAuth de ChatGPT."""
+    body = json.dumps({
+        "jsonrpc": "2.0",
+        "id": request_id,
+        "result": {
+            "content": [{
+                "type": "text",
+                "text": "Authentication required: sign in to Jurisprudenciator to continue.",
+            }],
+            "_meta": {"mcp/www_authenticate": [www_auth]},
+            "isError": True,
+        },
+    }, ensure_ascii=False).encode("utf-8")
+    await send({"type": "http.response.start", "status": 200,
+                "headers": [(b"content-type", b"application/json; charset=utf-8"),
+                            (b"content-length", str(len(body)).encode())]})
+    await send({"type": "http.response.body", "body": body})
+
+
+async def _servir_sin_metadata_oficial(app, scope, receive, send) -> None:
+    """Oculta solo el esquema OAuth nuevo a las instalaciones anteriores.
+
+    Todas comparten las mismas funciones Python, pero las conexiones
+    personalizadas existentes (/mcp y /u/<token>/mcp) deben seguir viendo el
+    contrato de tools que tenían antes de introducir la app oficial.
+    """
+    inicio = None
+    cuerpo = bytearray()
+
+    async def enviar(message):
+        nonlocal inicio
+        if message["type"] == "http.response.start":
+            inicio = message
+            return
+        if message["type"] != "http.response.body":
+            await send(message)
+            return
+        cuerpo.extend(message.get("body", b""))
+        if message.get("more_body"):
+            return
+        salida = bytes(cuerpo)
+        try:
+            payload = json.loads(salida.decode("utf-8"))
+            for tool in payload.get("result", {}).get("tools", []):
+                meta = tool.get("_meta") or tool.get("meta")
+                if isinstance(meta, dict):
+                    meta.pop("securitySchemes", None)
+                    if not meta:
+                        tool.pop("_meta", None)
+                        tool.pop("meta", None)
+            salida = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        except Exception:  # noqa: BLE001
+            pass  # si no es JSON MCP, se entrega intacto
+        cabeceras = [(k, v) for k, v in (inicio or {}).get("headers", [])
+                     if k.lower() != b"content-length"]
+        cabeceras.append((b"content-length", str(len(salida)).encode()))
+        await send({"type": "http.response.start", "status": (inicio or {}).get("status", 200),
+                    "headers": cabeceras})
+        await send({"type": "http.response.body", "body": salida})
+
+    await app(scope, receive, enviar)
+
+
+async def _servir_tools_oficiales(app, scope, receive, send) -> None:
+    """Expone el contrato revisable de la app oficial, sin tools de captcha."""
+    inicio = None
+    cuerpo = bytearray()
+
+    async def enviar(message):
+        nonlocal inicio
+        if message["type"] == "http.response.start":
+            inicio = message
+            return
+        if message["type"] != "http.response.body":
+            await send(message)
+            return
+        cuerpo.extend(message.get("body", b""))
+        if message.get("more_body"):
+            return
+        salida = bytes(cuerpo)
+        try:
+            payload = json.loads(salida.decode("utf-8"))
+            tools = payload.get("result", {}).get("tools", [])
+            tools = [tool for tool in tools if tool.get("name") != "resolver_captcha"]
+            for tool in tools:
+                meta = tool.setdefault("_meta", {})
+                meta["securitySchemes"] = [{"type": "oauth2", "scopes": ["jurisprudencia"]}]
+            payload["result"]["tools"] = tools
+            salida = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        except Exception:  # noqa: BLE001
+            pass
+        cabeceras = [(k, v) for k, v in (inicio or {}).get("headers", [])
+                     if k.lower() != b"content-length"]
+        cabeceras.append((b"content-length", str(len(salida)).encode()))
+        await send({"type": "http.response.start", "status": (inicio or {}).get("status", 200),
+                    "headers": cabeceras})
+        await send({"type": "http.response.body", "body": salida})
+
+    await app(scope, receive, enviar)
+
+
 class _UserTokenMiddleware:
     def __init__(self, app):
         self.app = app
@@ -375,6 +490,17 @@ class _UserTokenMiddleware:
         hd = {k.lower(): v for k, v in headers}
         path = scope.get("path", "") or ""
         metodo = (scope.get("method") or "GET").upper()
+        ruta_oficial = _es_ruta_oficial(path)
+        recurso_propio = _OFFICIAL_PATH if ruta_oficial else "/mcp"
+
+        # La app oficial tiene su propia puerta. Internamente usa la misma app
+        # FastMCP de /mcp, pero nunca modifica las URLs personalizadas actuales.
+        if ruta_oficial:
+            path = "/mcp"
+            scope = dict(scope)
+            scope["path"] = path
+            if "raw_path" in scope:
+                scope["raw_path"] = path.encode("utf-8")
 
         # 0) DISCOVERY OAuth (RFC 9728 / RFC 8414) — antes que nada, sin gate.
         if path.startswith(_PRM_PREFIJO):
@@ -409,7 +535,8 @@ class _UserTokenMiddleware:
         via = None
         cid = ""
         if bearer:
-            verificado = _verificar_jwt(bearer)
+            verificado = _verificar_jwt(
+                bearer, _OFFICIAL_JWT_AUD if ruta_oficial else _JWT_AUD)
             email = verificado[0] if verificado else None
             cid = verificado[1] if verificado else ""
             if not email:
@@ -418,7 +545,8 @@ class _UserTokenMiddleware:
                 # en telemetria: un pico de estos = sesiones muriendo en bucle.
                 _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
                           "bearer_invalido")
-                recurso = path if _PRM_RECURSO_RE.match(path) else "/mcp"
+                recurso = (recurso_propio if ruta_oficial
+                           else path if _PRM_RECURSO_RE.match(path) else "/mcp")
                 await _responder_401(
                     send, "Token caducado o no valido.",
                     _www_authenticate(scope, "Token caducado o no valido",
@@ -450,6 +578,48 @@ class _UserTokenMiddleware:
             scope["path"] = path
             if "raw_path" in scope:
                 scope["raw_path"] = path.encode("utf-8")
+
+        # 2b) APP OFICIAL sin autenticar: ChatGPT necesita descubrir las tools
+        #     sin login y recibir el desafio OAuth en el resultado de
+        #     tools/call. Este flujo solo existe en la ruta oficial nueva;
+        #     /mcp y /u/.../mcp conservan su conducta de siempre.
+        if email is None and ruta_oficial and metodo == "POST":
+            mensajes = []
+            cuerpo = b""
+            while True:
+                msg = await receive()
+                mensajes.append(msg)
+                if msg.get("type") != "http.request":
+                    break
+                cuerpo += msg.get("body", b"")
+                if not msg.get("more_body"):
+                    break
+            try:
+                rpc = json.loads(cuerpo.decode("utf-8") or "{}")
+            except Exception:  # noqa: BLE001
+                rpc = None
+            if isinstance(rpc, dict) and rpc.get("method") == "tools/call":
+                _log_gate((hd.get(b"user-agent") or b"").decode("latin-1"),
+                          "oauth_required")
+                await _responder_tool_oauth(
+                    send, rpc.get("id"),
+                    _www_authenticate(scope, "Authentication required",
+                                      recurso_propio),
+                )
+                return
+            scope = dict(scope)
+            scope["headers"] = headers
+
+            async def _replay_oficial(_msgs=mensajes, _rx=receive):
+                if _msgs:
+                    return _msgs.pop(0)
+                return await _rx()
+
+            if isinstance(rpc, dict) and rpc.get("method") == "tools/list":
+                await _servir_tools_oficiales(self.app, scope, _replay_oficial, send)
+                return
+            await self.app(scope, _replay_oficial, send)
+            return
 
         # 3) Anonimo en modo required. Trato distinto por cliente:
         #    * Claude y clientes estandar -> 401 + WWW-Authenticate (RFC 9728):
@@ -514,6 +684,12 @@ class _UserTokenMiddleware:
                             return _msgs.pop(0)
                         return await _rx()
 
+                    if isinstance(rpc, dict) and rpc.get("method") == "tools/list":
+                        # Contrato intacto para instalaciones existentes: sin
+                        # el securitySchemes de la app oficial.
+                        await _servir_sin_metadata_oficial(
+                            self.app, scope, _replay, send)
+                        return
                     await self.app(scope, _replay, send)
                     return
                 _log_gate(ua, metodo)
@@ -523,7 +699,8 @@ class _UserTokenMiddleware:
                     "Pulsa 'Conectar' cuando tu aplicacion te lo pida, o "
                     "consigue tu URL personal en "
                     "https://jurisprudenciator.lexiaipro.org/instalacion",
-                    _www_authenticate(scope, "Autenticacion requerida"))
+                    _www_authenticate(scope, "Autenticacion requerida",
+                                      recurso_propio))
                 return
 
         if email:
@@ -540,6 +717,37 @@ class _UserTokenMiddleware:
         if not isinstance(scope, dict) or scope.get("headers") is not headers:
             scope = dict(scope)
             scope["headers"] = headers
+
+        # Mantener el contrato exacto de tools/list para las instalaciones
+        # existentes (/mcp y URLs personales, autenticadas o en modo open).
+        # Solo la ruta oficial anuncia securitySchemes a ChatGPT.
+        if not ruta_oficial and path.startswith("/mcp") and metodo == "POST":
+            mensajes = []
+            cuerpo = b""
+            while True:
+                msg = await receive()
+                mensajes.append(msg)
+                if msg.get("type") != "http.request":
+                    break
+                cuerpo += msg.get("body", b"")
+                if not msg.get("more_body"):
+                    break
+            try:
+                rpc = json.loads(cuerpo.decode("utf-8") or "{}")
+            except Exception:  # noqa: BLE001
+                rpc = None
+
+            async def _replay_legacy(_msgs=mensajes, _rx=receive):
+                if _msgs:
+                    return _msgs.pop(0)
+                return await _rx()
+
+            if isinstance(rpc, dict) and rpc.get("method") == "tools/list":
+                await _servir_sin_metadata_oficial(
+                    self.app, scope, _replay_legacy, send)
+                return
+            await self.app(scope, _replay_legacy, send)
+            return
         await self.app(scope, receive, send)
 
 
