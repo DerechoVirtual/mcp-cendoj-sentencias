@@ -45,6 +45,18 @@ import base64
 os.environ.setdefault("DOWNLOAD_DIR", "/tmp/sentencias-cendoj")
 
 import server as eng  # motor ya probado (reutilizado, no duplicado)
+
+# Motores de jurisprudencia AJENA al CENDOJ (import defensivo: si uno falla,
+# el resto del conector sigue vivo y sus citas caen al flujo normal).
+try:
+    import tc_engine as _tc      # Tribunal Constitucional (hj.tribunalconstitucional.es)
+except Exception:  # noqa: BLE001
+    _tc = None
+try:
+    import tjue_engine as _tjue  # TJUE / Tribunal General (Cellar + SPARQL)
+except Exception:  # noqa: BLE001
+    _tjue = None
+
 from mcp.server.fastmcp import FastMCP, Image
 from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import ToolAnnotations
@@ -87,7 +99,8 @@ except Exception:  # noqa: BLE001
 # principal para que el "clasificador" de herramientas acierte y no se líe.
 _INSTRUCTIONS = (
     "Jurisprudenciator da acceso OFICIAL al Derecho español: JURISPRUDENCIA "
-    "(sentencias y autos de TS, AN, TSJ, AP, juzgados) y BOE (legislación "
+    "(sentencias y autos de TS, AN, TSJ, AP, juzgados; TRIBUNAL CONSTITUCIONAL "
+    "y TJUE incluidos) y BOE (legislación "
     "vigente, boletín diario completo y BORME). Úsalo SIEMPRE que la consulta "
     "necesite una norma, una sentencia o una publicación oficial; nunca "
     "inventes datos ni los busques en la web abierta.\n\n"
@@ -101,6 +114,14 @@ _INSTRUCTIONS = (
     "sumario_boe / novedades_boe.\n"
     "• Jurisprudencia sobre una cuestión → buscar_sentencias y luego "
     "leer_sentencias; verificar un ECLI/ROJ concreto → buscar_por_cita.\n"
+    "• TRIBUNAL CONSTITUCIONAL (amparo, inconstitucionalidad, conflictos; STC/"
+    "ATC/DTC desde 1980) → buscar_sentencias con base=\"TC\"; una STC/ATC "
+    "concreta o su ECLI (ECLI:ES:TC:…) → buscar_por_cita / leer_sentencias "
+    "directamente.\n"
+    "• TJUE y Tribunal General de la UE (prejudiciales, recursos; sentencias, "
+    "autos y conclusiones del AG, texto en ESPAÑOL) → buscar_sentencias con "
+    "base=\"TJUE\"; un asunto concreto (C-311/19, T-778/16) o su ECLI "
+    "(ECLI:EU:C:…) → buscar_por_cita / leer_sentencias directamente.\n"
     "• Publicaciones mercantiles del BORME por FECHA (de un día) → sumario_borme.\n"
     "• Datos de una EMPRESA en el Registro Mercantil por NOMBRE o CIF "
     "(existencia, administradores, actos inscritos: nombramientos, capital, "
@@ -779,10 +800,18 @@ def _es_match_exacto(d: dict, cita: str) -> bool:
 def _localizar(cita: str) -> list[dict]:
     """Localiza por ECLI o ROJ exacto (para leer_sentencias stateless).
     Devuelve las coincidencias EXACTAS primero (un ROJ/ECLI que cae a texto
-    libre puede traer resoluciones de otro asunto)."""
+    libre puede traer resoluciones de otro asunto).
+
+    Las citas del TRIBUNAL CONSTITUCIONAL (STC/ATC/DTC, ECLI:ES:TC:…) y del
+    TJUE (C-311/19, T-778/16, ECLI:EU:…) se despachan a su motor ANTES de
+    tocar el CENDOJ, que no indexa ninguno de los dos."""
     cita = (cita or "").strip()
     if not cita:
         return []
+    if _tc is not None and _tc.es_cita(cita):
+        return _tc.localizar(cita)
+    if _tjue is not None and _tjue.es_cita(cita):
+        return _tjue.localizar(cita)
     data = {"action": "query", "databasematch": "AN", "TEXT": ""}
     ext = _extraer_cita(cita)
     if ext and ext.startswith("ECLI"):
@@ -1079,7 +1108,8 @@ def buscar_sentencias(
     jurisdiccion: str = "", provincia: str = "", tipo_organo: str = "",
     anios: int = 7, orden: str = "reciente",
 ) -> str:
-    """Busca jurisprudencia oficial espanola (Tribunal Supremo y demas organos) y
+    """Busca jurisprudencia oficial espanola (Tribunal Supremo y demas organos),
+    del TRIBUNAL CONSTITUCIONAL (base="TC") y del TJUE (base="TJUE"), y
     devuelve la lista con ROJ, ECLI, fecha, ponente y resumen. NO descarga.
     Por defecto PRIORIZA la jurisprudencia RECIENTE (las de los ultimos anos van
     primero; las muy antiguas caen al fondo, sin excluirse).
@@ -1088,7 +1118,11 @@ def buscar_sentencias(
 
     Args:
         consulta: Texto libre. Comillas = frase exacta. Si da 0, prueba sin tildes.
-        base: "TS" (Supremo) o "AN" (todo). Con provincia/tipo_organo se fuerza "AN".
+        base: "TS" (Supremo), "AN" (todo el CENDOJ), "TC" (Tribunal
+            Constitucional: amparo, inconstitucionalidad; STC/ATC/DTC desde 1980)
+            o "TJUE" (Tribunal de Justicia de la UE + Tribunal General:
+            prejudiciales, recursos; en espanol; con tildes y sin frases entre
+            comillas rinde mejor). Con provincia/tipo_organo se fuerza "AN".
         maximo: Cuantos resultados (admite >50, pagina solo).
         fecha_desde / fecha_hasta: dd/mm/aaaa. Filtro DURO: usalo para restringir de
             verdad (p.ej. materias reformadas hace poco).
@@ -1104,7 +1138,36 @@ def buscar_sentencias(
     consulta = (consulta or "").strip()
     if not consulta:
         return "Error: la consulta esta vacia."
-    data = {"action": "query", "databasematch": (base or "TS").strip().upper(),
+    b = (base or "TS").strip().upper()
+    # --- TRIBUNAL CONSTITUCIONAL (motor propio: el CENDOJ no lo indexa) ---
+    if _tc is not None and b in ("TC", "CONSTITUCIONAL", "TRIBUNAL CONSTITUCIONAL"):
+        try:
+            docs_tc = _tc.buscar_docs(consulta, fecha_desde, fecha_hasta,
+                                      tipo_resolucion, maximo)
+        except RuntimeError as e:
+            return str(e)
+        if not docs_tc:
+            return (f"Sin resultados en el Tribunal Constitucional para "
+                    f"{consulta!r}. La busqueda es literal sobre el texto integro "
+                    "de sus ~32.000 resoluciones: prueba con menos terminos o con "
+                    "sinonimos; una STC/ATC concreta se abre con buscar_por_cita.")
+        return _formatear_lista(docs_tc,
+                                f"{consulta!r} en el Tribunal Constitucional")
+    # --- TJUE / Tribunal General (motor propio: fuente oficial de la UE) ---
+    if _tjue is not None and b in ("TJUE", "UE", "EU", "TJCE", "CURIA", "EUROPEO"):
+        try:
+            docs_eu = _tjue.buscar_docs(consulta, fecha_desde, fecha_hasta,
+                                        tipo_resolucion, maximo)
+        except RuntimeError as e:
+            return str(e)
+        if not docs_eu:
+            return (f"Sin resultados en el TJUE para {consulta!r}. Esta busqueda "
+                    "rastrea las partes y los descriptores oficiales de materia: "
+                    "usa terminos juridicos CON TILDES ('clausulas abusivas' -> "
+                    "'cláusulas abusivas') o menos palabras; un asunto concreto "
+                    "(C-311/19) o su ECLI se abre con buscar_por_cita.")
+        return _formatear_lista(docs_eu, f"{consulta!r} en el TJUE")
+    data = {"action": "query", "databasematch": b,
             "TEXT": consulta}
     if fecha_desde:
         data["FECHARESOLUCIONDESDE"] = fecha_desde
@@ -1176,15 +1239,18 @@ def buscar_sentencias(
 @_telemetria("buscar_por_cita")
 def buscar_por_cita(cita: str) -> str:
     """Localiza una sentencia por su ECLI o ROJ EXACTO (verificar una cita o abrir
-    una resolucion). Deja la lista lista para leer_sentencias.
+    una resolucion). Deja la lista lista para leer_sentencias. Cubre tambien el
+    TRIBUNAL CONSTITUCIONAL ("STC 31/2010", "ATC 105/2016", "ECLI:ES:TC:2019:76")
+    y el TJUE / Tribunal General ("C-311/19", "T-778/16", "ECLI:EU:C:2020:559").
 
     OJO con los AUTOS: comparten numero con la sentencia homonima y su ECLI
     termina en 'A' (AAP SE 1342/2017 = ECLI:ES:APSE:2017:1342A; la sentencia
     SAP SE 1342/2017 = ECLI:ES:APSE:2017:1342). Cita siempre el ECLI COMPLETO.
 
     Args:
-        cita: ECLI ("ECLI:ES:TS:2014:4786") o ROJ ("STS 4786/2014", "SAP VA 1226/2014",
-            "AAP SE 1342/2017").
+        cita: ECLI ("ECLI:ES:TS:2014:4786", "ECLI:ES:TC:2019:76",
+            "ECLI:EU:C:2020:559") o ROJ/cita ("STS 4786/2014", "SAP VA 1226/2014",
+            "STC 31/2010", "C-311/19").
     """
     cita = (cita or "").strip()
     if not cita:
@@ -1245,7 +1311,8 @@ def opciones_busqueda(consulta: str = "", campo: str = "organos", base: str = "A
 def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
                     max_chars: int = 0):
     """Lee el TEXTO INTEGRO de sentencias concretas. Stateless: indica las
-    sentencias por su ROJ o ECLI.
+    sentencias por su ROJ o ECLI. Cubre TS/AN/TSJ/AP/juzgados, el TRIBUNAL
+    CONSTITUCIONAL (STC/ATC/DTC) y el TJUE / Tribunal General (en espanol).
 
     Para 'los parrafos exactos' o para volumen, usa parrafos=N: en vez del texto
     integro devuelve solo los N pasajes mas relevantes (los que contienen los
@@ -1255,8 +1322,9 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
     hacer nada especial.
 
     Args:
-        citas: ROJ o ECLI separados por coma. P.ej. "STS 1177/2014, STS 1226/2014"
-            o "ECLI:ES:TS:2014:4786". (Los ves en el resultado de buscar_sentencias;
+        citas: ROJ o ECLI separados por coma. P.ej. "STS 1177/2014, STS 1226/2014",
+            "ECLI:ES:TS:2014:4786", "STC 31/2010", "C-311/19" o
+            "ECLI:EU:C:2020:559". (Los ves en el resultado de buscar_sentencias;
             copialos LITERALES: el ECLI de un AUTO termina en 'A' y sin esa 'A'
             se abriria la sentencia homonima.)
         parrafos: 0 = texto integro. >0 = solo los N parrafos mas relevantes.
@@ -1313,6 +1381,13 @@ def leer_sentencias(citas: str, parrafos: int = 0, terminos: str = "",
 
     def _leer_uno(d, forzar_proxy_inicial=False):
         """Descarga+lee UN doc. Devuelve (registro_ok, None) o (None, motivo_error)."""
+        # Resoluciones del TC y del TJUE: su motor lee la fuente propia (HTML del
+        # TC / Cellar UE), sin captcha ni proxy. El reintento de la 2a pasada les
+        # vale igual (es una repeticion limpia de la peticion).
+        if d.get("_motor") == "tc" and _tc is not None:
+            return _tc.leer_doc(d, parr, terms, mc)
+        if d.get("_motor") == "tjue" and _tjue is not None:
+            return _tjue.leer_doc(d, parr, terms, mc)
         tipo, payload = _descargar_o_captcha(d, parr, terms, mc,
                                              forzar_proxy_inicial=forzar_proxy_inicial)
         if tipo != "pdf":
@@ -1423,6 +1498,10 @@ def estado() -> str:
         f"Extractor PDF: {'PyMuPDF (rapido)' if eng._HAS_FITZ else 'pypdf'}",
         "Flujo jurisprudencia: buscar_sentencias -> leer_sentencias (por ROJ/ECLI). "
         "El servidor entrega el texto ya extraído de la fuente oficial.",
+        "Tribunal Constitucional: buscar_sentencias con base='TC' (motor "
+        + ("activo" if _tc is not None else "NO disponible") +
+        "); TJUE/Tribunal General: base='TJUE' (motor "
+        + ("activo" if _tjue is not None else "NO disponible") + ").",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
         "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
