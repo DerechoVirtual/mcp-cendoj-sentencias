@@ -64,15 +64,19 @@ def _cliente() -> httpx.Client:
 
 def _sparql(query: str, timeout: float = _TIMEOUT) -> list[dict]:
     try:
+        # timeout=3000 (anytime de Virtuoso): si la query es cara, corta a los
+        # 3 s y devuelve HTTP 206 con los resultados PARCIALES, que valen (los
+        # fallbacks del caller completan). Con 9000 una query cara bloqueaba
+        # 9-10 s la tool entera.
         r = _cliente().get(SPARQL, params={
-            "default-graph-uri": "", "query": _PRE + query,
+            "default-graph-uri": "", "query": _PRE + query, "timeout": "3000",
             "format": "application/sparql-results+json"}, timeout=timeout)
     except httpx.TransportError as e:
         _lector["c"] = None
         raise RuntimeError(
             "Error de red al consultar la base del TJUE (pasa a veces por "
             f"mantenimiento). Reintenta en unos minutos. ({e})")
-    if r.status_code != 200:
+    if r.status_code not in (200, 206):
         raise RuntimeError(f"La base del TJUE respondio HTTP {r.status_code} "
                            "a la busqueda. Reintenta en unos minutos.")
     try:
@@ -220,16 +224,18 @@ _STOP_TJUE = {"del", "los", "las", "con", "por", "para", "una", "uno", "que",
 def _terminos_bif(consulta: str) -> list[str]:
     """Frases entre comillas se respetan; el resto, palabras con comodin de
     Virtuoso ('hipotec*' casa hipoteca/hipotecario — verificado, 15 vs 1
-    resultados). Stemming ligero: se recortan las 3 ultimas letras de las
-    palabras largas para cubrir plural/genero/derivados."""
+    resultados). OJO: el comodin solo funciona bien en palabras SIN tilde
+    (el indice tokeniza los acentos aparte); las acentuadas van EXACTAS.
+    Se devuelven ordenados de mas a menos especifico (longitud)."""
     consulta = (consulta or "").strip()
     frases = re.findall(r'"([^"]{3,80})"', consulta)
     resto = re.sub(r'"[^"]*"', " ", consulta)
     terminos = [f.strip() for f in frases if f.strip()]
-    for w in re.findall(r"[\wÀ-ſ]{3,}", resto):
-        if w.lower() in _STOP_TJUE:
-            continue
-        if len(w) >= 6:
+    palabras = [w for w in re.findall(r"[\wÀ-ſ]{3,}", resto)
+                if w.lower() not in _STOP_TJUE]
+    palabras.sort(key=len, reverse=True)
+    for w in palabras[:4]:
+        if len(w) >= 6 and not re.search(r"[À-ſ]", w):
             terminos.append(w[:max(5, len(w) - 3)] + "*")
         else:
             terminos.append(w)
@@ -239,29 +245,77 @@ def _terminos_bif(consulta: str) -> list[str]:
 def buscar_docs(consulta: str, fecha_desde: str = "", fecha_hasta: str = "",
                 tipo_resolucion: str = "", maximo: int = 20) -> list[dict]:
     """Busqueda por materia/partes sobre el titulo ES de Cellar (el titulo trae
-    las partes y los descriptores de materia). AND primero; si 0, OR."""
+    las partes y los descriptores de materia).
+
+    RANKING POR CITAS (medido 12-ago-2026): ordenar por fecha ENTIERRA los
+    casos lider (C-70/17 'vencimiento anticipado' caia al puesto 31); contar
+    cuantas resoluciones citan cada work (cdm:work_cites_work) lo sube al #1
+    en 0,5 s. Con filtro de fechas explicito se ordena por fecha (esa es la
+    intencion del usuario). Si el AND completo no da nada, se relaja a los
+    2-3 terminos mas especificos (nunca OR: ruido y lentitud medidos)."""
+    consulta = (consulta or "").strip()
+    if _RE_EU_ASUNTO.search(consulta.upper()) and len(consulta) < 40:
+        docs = localizar(consulta)          # "C-311/19" pegado en la busqueda
+        if docs:
+            return docs[:max(1, int(maximo))]
     terminos = _terminos_bif(consulta)
     if not terminos:
         return []
     maximo = max(1, int(maximo))
+    por_fecha = bool((fecha_desde or "").strip() or (fecha_hasta or "").strip())
+    orden = "DESC(?date)" if por_fecha else "DESC(?nc) DESC(?date)"
 
-    def _q(op: str) -> list[dict]:
-        expr = f" {op} ".join(f"'{t}'" for t in terminos[:6])
-        rows = _sparql(f"""SELECT DISTINCT ?celex ?ecli ?date ?title WHERE {{
+    def _q(terms: "list[str] | None" = None, expr: str = "") -> list[dict]:
+        """UNA sola query con el COUNT de citas INLINE y orden por citas (el
+        caso lider primero: C-70/17 tiene 49 citas y por fecha caia al puesto
+        31). Verificado rapido (0,3-1 s) tanto para el AND con comodines como
+        para el OR-de-ANDs exacto; lo que SI agotaba el anytime de Virtuoso
+        era separar el COUNT a un VALUES sucio (duplicados/sufijos)."""
+        if expr == "":
+            expr = " AND ".join(f"'{t}'" for t in terms)
+        return _sparql(f"""SELECT ?celex (SAMPLE(?d) AS ?date) (SAMPLE(?t) AS ?title)
+       (SAMPLE(?e2) AS ?ecli) (COUNT(DISTINCT ?citing) AS ?nc) WHERE {{
   ?e cdm:expression_uses_language {_LANG_SPA} ;
-     cdm:expression_title ?title ;
+     cdm:expression_title ?t ;
      cdm:expression_belongs_to_work ?w .
-  ?title bif:contains "{expr}" .
+  ?t bif:contains "{expr}" .
   ?w cdm:resource_legal_id_celex ?celex .
-  ?w cdm:work_date_document ?date .
-  OPTIONAL {{ ?w cdm:case-law_ecli ?ecli }}
+  ?w cdm:work_date_document ?d .
+  OPTIONAL {{ ?w cdm:case-law_ecli ?e2 }}
+  OPTIONAL {{ ?citing cdm:work_cites_work ?w }}
   FILTER(STRSTARTS(STR(?celex), "6"))
-}} ORDER BY DESC(?date) LIMIT {min(200, maximo * 5 + 20)}""", timeout=15)
-        return rows
+}} GROUP BY ?celex ORDER BY {orden} LIMIT {min(200, maximo * 6 + 20)}""", timeout=15)
 
-    rows = _q("AND")
+    # LEAVE-ONE-OUT en UNA sola query (OR de ANDs): un termino "veneno" que no
+    # aparece en el titulo mata el AND completo ('registro' no esta en el
+    # titulo de C-55/18 aunque el caso VA de eso), y el AND de 4-5 terminos con
+    # comodines agota el anytime-timeout de Virtuoso (HTTP 206 a los 9 s). El
+    # OR de ANDs de n-1 terminos es SUPERCONJUNTO del AND completo y tarda
+    # 0,5 s -> con >=4 terminos se va directo a el.
+    # Para el leave-one-out hacen falta las PALABRAS ORIGINALES completas (el
+    # stem con comodin agota a Virtuoso, y el stem a secas no machea nada).
+    _crudas = [w for w in re.findall(r"[\wÀ-ſ]{3,}",
+                                     re.sub(r'"[^"]*"', " ", consulta))
+               if w.lower() not in _STOP_TJUE]
+    _crudas.sort(key=len, reverse=True)
+    _crudas = _crudas[:4]
+
+    def _loo() -> list[dict]:
+        # palabras EXACTAS (sin comodin): el OR de ANDs con comodines agotaba
+        # el anytime de Virtuoso y el 206 parcial se comia el caso lider
+        loo = " OR ".join(
+            "(" + " AND ".join(f"'{t}'" for j, t in enumerate(_crudas) if j != i) + ")"
+            for i in range(len(_crudas)))
+        return _q(expr=loo)
+
+    if len(terminos) >= 4:
+        rows = _loo()
+    else:
+        rows = _q(terminos)
+        if not rows and len(terminos) == 3:
+            rows = _loo()
     if not rows and len(terminos) > 1:
-        rows = _q("OR")
+        rows = _q(terminos[:2]) or _q(terminos[:1])
     rows = _filtrar_variantes(rows)
     # filtros cliente: tipo y fechas (el FILTER de fechas en SPARQL multiplica x4
     # la latencia, medido; en cliente es gratis)
@@ -286,8 +340,14 @@ def buscar_docs(consulta: str, fecha_desde: str = "", fecha_hasta: str = "",
     if fh:
         rows = [r for r in rows if _v(r, "date") <= fh]
     total = len(rows)
-    docs = [_doc_de(_v(r, "celex"), _v(r, "ecli"), _v(r, "date"), _v(r, "title"))
-            for r in rows[:maximo]]
+    docs = []
+    for r in rows[:maximo]:
+        d = _doc_de(_v(r, "celex"), _v(r, "ecli"), _v(r, "date"), _v(r, "title"))
+        nc = _v(r, "nc")
+        if nc and nc.isdigit() and int(nc) > 0:
+            d["resumen"] = (f"[citada por {nc} resoluciones UE posteriores] "
+                            + (d.get("resumen") or ""))
+        docs.append(d)
     if docs:
         docs[0]["_total"] = str(total) + ("+" if total >= maximo * 5 else "")
     return docs
@@ -297,15 +357,18 @@ def buscar_docs(consulta: str, fecha_desde: str = "", fecha_hasta: str = "",
 # Lectura del texto integro (Cellar, ES con fallback FR/EN)
 # --------------------------------------------------------------------------
 def _bajar_texto(celex: str) -> tuple[str, str]:
-    """-> (texto, idioma) o RuntimeError. Prueba spa -> fra -> eng."""
+    """-> (texto, idioma) o RuntimeError. Prueba spa -> fra -> eng, y por cada
+    idioma xhtml -> html (los documentos antiguos solo tienen 'html')."""
     for lang, nombre in (("spa", "es"), ("fra", "fr"), ("eng", "en")):
-        try:
-            r = _cliente().get(CELLAR + celex, headers={
-                "Accept": "application/xhtml+xml",
-                "Accept-Language": lang})
-        except httpx.TransportError as e:
-            _lector["c"] = None
-            raise RuntimeError(f"red: {e}")
+        for accept in ("application/xhtml+xml", "text/html"):
+            try:
+                r = _cliente().get(CELLAR + celex, headers={
+                    "Accept": accept, "Accept-Language": lang})
+            except httpx.TransportError as e:
+                _lector["c"] = None
+                raise RuntimeError(f"red: {e}")
+            if r.status_code == 200 and len(r.content) > 2000:
+                break
         if r.status_code == 200 and len(r.content) > 2000:
             html = r.text
             html = re.sub(r"(?i)</(p|div|h\d|li|tr|table)>", "\n", html)

@@ -56,6 +56,10 @@ try:
     import tjue_engine as _tjue  # TJUE / Tribunal General (Cellar + SPARQL)
 except Exception:  # noqa: BLE001
     _tjue = None
+try:
+    import eurlex_engine as _eurlex  # normativa UE: directivas/reglamentos (Cellar)
+except Exception:  # noqa: BLE001
+    _eurlex = None
 
 from mcp.server.fastmcp import FastMCP, Image
 from mcp.server.transport_security import TransportSecuritySettings
@@ -106,9 +110,13 @@ _INSTRUCTIONS = (
     "inventes datos ni los busques en la web abierta.\n\n"
     "CÓMO ELEGIR HERRAMIENTA:\n"
     "• Texto/redacción vigente de un artículo de ley (incluida materia fiscal: "
-    "IVA, IRPF, LGT, IS…) → buscar_articulo.\n"
+    "IVA, IRPF, LGT, IS…) → buscar_articulo. También NORMATIVA DE LA UE: "
+    "buscar_articulo(\"RGPD\", \"17\") o (\"Directiva 93/13/CEE\", \"3\").\n"
     "• Localizar o listar NORMAS por materia o fecha (leyes, reales decretos, "
-    "órdenes ministeriales; incluida la normativa tributaria) → buscar_boe.\n"
+    "órdenes ministeriales; incluida la normativa tributaria) → buscar_boe. "
+    "Si piden DIRECTIVAS/REGLAMENTOS de la UE, la misma tool busca en el "
+    "diario oficial de la UE (dilo en la consulta: 'directiva …', "
+    "'reglamento europeo …').\n"
     "• Qué se publicó en el BOE de un día, o novedades de un sector/periodo "
     "(subvenciones, oposiciones, nombramientos, anuncios, edictos) → "
     "sumario_boe / novedades_boe.\n"
@@ -1502,6 +1510,9 @@ def estado() -> str:
         + ("activo" if _tc is not None else "NO disponible") +
         "); TJUE/Tribunal General: base='TJUE' (motor "
         + ("activo" if _tjue is not None else "NO disponible") + ").",
+        "Normativa UE (directivas/reglamentos, consolidada, en espanol): "
+        "buscar_articulo / buscar_boe / leer_boe (motor "
+        + ("activo" if _eurlex is not None else "NO disponible") + ").",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
         "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
@@ -1529,13 +1540,25 @@ def buscar_articulo(ley: str, articulo: str) -> str:
     pida el contenido de un articulo concreto o necesites confirmar que dice la
     ley vigente (NO para jurisprudencia: para sentencias usa buscar_sentencias).
 
+    Cubre TAMBIEN la NORMATIVA DE LA UNION EUROPEA: directivas, reglamentos y
+    decisiones, en su version consolidada y en espanol ("RGPD", "Directiva
+    93/13/CEE", "Reglamento (UE) 2016/679", "Reglamento de IA", "euroorden").
+
     ley: sigla (LEC, LECrim, CC, CP, CE, LOPJ, ET, LGT, LPAC, LAU, LPH, LSC...),
          nombre ("Codigo Civil", "Ley de Arrendamientos Urbanos"), numero
-         ("Ley 1/2000", "LO 1/2025") o ID BOE ("BOE-A-2000-323").
+         ("Ley 1/2000", "LO 1/2025"), ID BOE ("BOE-A-2000-323") o norma UE
+         ("Directiva (UE) 2019/1024", "RGPD", CELEX "32019L1024").
     articulo: numero del articulo ("18", "250", "439 bis", "art. 1902").
 
     Devuelve el texto integro vigente + fecha de vigencia + que norma dio la
     redaccion actual + enlace oficial. Ej.: buscar_articulo("LEC", "394")."""
+    if _eurlex is not None and _eurlex.es_norma(ley):
+        try:
+            r = _eurlex.articulo(ley, articulo)
+        except RuntimeError as e:
+            return str(e)
+        if r is not None:
+            return r
     return _boe.articulo(ley, articulo)
 
 
@@ -1589,12 +1612,43 @@ def buscar_boe(consulta: str, desde: str = "", hasta: str = "", limite: int = 15
     NI para jurisprudencia: eso es buscar_sentencias; NI para ordenanzas
     municipales: eso es buscar_ordenanzas).
 
-    consulta: palabras del titulo de la norma ("vivienda", "proteccion animal").
+    Cubre TAMBIEN la NORMATIVA DE LA UNION EUROPEA (directivas, reglamentos,
+    decisiones): si la consulta menciona 'directiva', 'reglamento europeo',
+    'normativa UE/comunitaria'..., busca en el diario oficial de la UE.
+
+    consulta: palabras del titulo de la norma ("vivienda", "proteccion animal",
+        "directiva datos abiertos", "reglamento inteligencia artificial UE").
     desde / hasta: opcional, AAAA-MM-DD (filtra por fecha de publicacion).
     limite: cuantas normas devolver (defecto 15).
 
-    Devuelve titulo, rango, numero, fecha, ID BOE y enlace consolidado."""
-    return _boe.buscar(consulta, desde, hasta, limite)
+    Devuelve titulo, rango, numero, fecha, ID BOE/CELEX y enlace consolidado."""
+    # Consulta que pide NORMATIVA EUROPEA -> Cellar (el BOE solo tiene las
+    # transposiciones espanolas). Se detecta por vocabulario inequivoco.
+    if _eurlex is not None and re.search(
+            r"\b(directivas?|reglamentos?\s+(\(?(ue|ce|cee|eu)\)?\b|europe\w+|comunitari\w+)|"
+            r"decisi[oó]n(es)?\s+marco|uni[oó]n\s+europea|derecho\s+de\s+la\s+uni[oó]n|"
+            r"europe[oa]s?\b|comunitari[oa]s?\b|eur-?lex|doue|celex)",
+            consulta or "", re.I):
+        limpio = re.sub(r"\b(de\s+la\s+)?(uni[oó]n\s+europea|europe[oa]s?|"
+                        r"comunitari[oa]s?|ue|eur-?lex|doue)\b", " ", consulta, flags=re.I)
+        try:
+            r = _eurlex.buscar(limpio.strip() or consulta, desde, hasta, limite)
+        except RuntimeError as e:
+            return str(e)
+        if r is not None:
+            return r
+    salida = _boe.buscar(consulta, desde, hasta, limite)
+    # Red de seguridad: 0 resultados en el BOE pero en la UE si los hay.
+    if (_eurlex is not None and isinstance(salida, str)
+            and salida.lower().startswith("sin ")):
+        try:
+            r = _eurlex.buscar(consulta, desde, hasta, limite)
+        except RuntimeError:
+            r = None
+        if r is not None and not r.startswith("Sin "):
+            return (salida.rstrip() + "\n\nEn la NORMATIVA DE LA UE si hay "
+                    "resultados:\n\n" + r)
+    return salida
 
 
 @mcp.tool(title="Leer ítem del BOE/BORME", annotations=_RO, meta=_AUTH_META)
@@ -1604,10 +1658,19 @@ def leer_boe(identificador: str) -> str:
     resolucion, nombramiento, orden o disposicion) por su identificador. USALA tras
     localizar un item con sumario_boe, buscar_boe, sumario_borme o novedades_boe.
 
-    identificador: BOE-A-AAAA-N, BOE-B-AAAA-N o BORME-A-AAAA-...-N.
+    identificador: BOE-A-AAAA-N, BOE-B-AAAA-N, BORME-A-AAAA-...-N, o una norma
+        de la UE por su CELEX ("32019L1024") o cita ("Directiva (UE) 2019/1024",
+        "RGPD") -> devuelve su texto integro consolidado en espanol.
 
     Devuelve titulo, organismo, fecha y el texto oficial + enlace. (Para el texto
     VIGENTE y consolidado de un articulo de ley usa mejor buscar_articulo.)"""
+    if _eurlex is not None and _eurlex.es_norma(identificador):
+        try:
+            r = _eurlex.leer(identificador)
+        except RuntimeError as e:
+            return str(e)
+        if r is not None:
+            return r
     return _boe.leer_item(identificador)
 
 

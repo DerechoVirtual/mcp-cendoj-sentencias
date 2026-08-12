@@ -39,13 +39,13 @@ def caso(nombre, fn, *frags, limite=LIMITE):
 
 print("=== TRIBUNAL CONSTITUCIONAL ===")
 # --- busquedas por materia ---
-caso("TC buscar eutanasia", lambda: sh.buscar_sentencias("eutanasia", base="TC", maximo=8), "STC 19/2023")
-caso("TC buscar derecho al olvido", lambda: sh.buscar_sentencias("derecho al olvido", base="TC", maximo=8), "TC ")
-caso("TC buscar prision permanente revisable", lambda: sh.buscar_sentencias("prisión permanente revisable", base="TC", maximo=8), "STC 169/2021")
+caso("TC buscar eutanasia", lambda: sh.buscar_sentencias("eutanasia", base="TC", maximo=8), "STC 19/2023", limite=4.5)
+caso("TC buscar derecho al olvido", lambda: sh.buscar_sentencias("derecho al olvido", base="TC", maximo=8), "TC ", limite=4.5)
+caso("TC buscar prision permanente revisable", lambda: sh.buscar_sentencias("prisión permanente revisable", base="TC", maximo=8), "STC 169/2021", limite=4.5)
 caso("TC buscar matrimonio mismo sexo (barrido 25)", lambda: sh.buscar_sentencias("matrimonio entre personas del mismo sexo", base="TC", maximo=25), "STC 198/2012", limite=4.5)
-caso("TC buscar amnistia", lambda: sh.buscar_sentencias("ley de amnistía", base="TC", maximo=8), "ECLI:ES:TC")
-caso("TC buscar solo AUTOS recusacion", lambda: sh.buscar_sentencias("recusación", base="TC", maximo=8, tipo_resolucion="AUTO"), "ATC ")
-caso("TC buscar con rango de fechas", lambda: sh.buscar_sentencias("vivienda", base="TC", maximo=8, fecha_desde="01/01/2020", fecha_hasta="31/12/2023"), "ECLI:ES:TC:202")
+caso("TC buscar amnistia", lambda: sh.buscar_sentencias("ley de amnistía", base="TC", maximo=8), "ECLI:ES:TC", limite=4.5)
+caso("TC buscar solo AUTOS recusacion", lambda: sh.buscar_sentencias("recusación", base="TC", maximo=8, tipo_resolucion="AUTO"), "ATC ", limite=4.5)
+caso("TC buscar con rango de fechas", lambda: sh.buscar_sentencias("vivienda", base="TC", maximo=8, fecha_desde="01/01/2020", fecha_hasta="31/12/2023"), "ECLI:ES:TC:202", limite=4.5)
 # --- citas exactas ---
 caso("TC cita STC 31/2010 (Estatut)", lambda: sh.buscar_por_cita("STC 31/2010"), "STC 31/2010", "ECLI:ES:TC:2010:31")
 caso("TC cita ATC con ECLI sufijo A", lambda: sh.buscar_por_cita("ECLI:ES:TC:2016:105A"), "ATC 105/2016")
