@@ -1,3 +1,6 @@
 {
-  "regions": ["cdg1"]
+  "regions": ["cdg1"],
+  "crons": [
+    { "path": "/ping", "schedule": "*/5 * * * *" }
+  ]
 }

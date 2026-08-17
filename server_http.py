@@ -1891,8 +1891,17 @@ async def _icon_png(request):
                      headers={"Cache-Control": "public, max-age=86400"})
 
 
+async def _ping(request):
+    # Keep-warm del cron de Vercel (*/5): un arranque frio en pleno swap de
+    # deploy hace que ChatGPT no consiga descubrir las tools al abrir sesion y
+    # marque el conector como "no disponible" en ese chat (visto 17-ago-2026).
+    # Sin auth y sin telemetria: no debe ensuciar jpd_mcp_logs cada 5 minutos.
+    return _Response("ok", media_type="text/plain")
+
+
 app.add_route("/favicon.ico", _favicon_ico, methods=["GET"])
 app.add_route("/icon.png", _icon_png, methods=["GET"])
+app.add_route("/ping", _ping, methods=["GET", "HEAD"])
 
 # --- Verificacion de dominio de OpenAI Apps: servir el token en el well-known
 # URL raiz del host del MCP. El token es PUBLICO (reto de propiedad, no un
