@@ -43,6 +43,12 @@ _NOMBRE_UNIDAD = {v: k.title() for k, v in _UNIDADES.items() if v}
 _NOMBRE_UNIDAD["00"] = "TEAC"
 
 
+_STOP = {"de", "del", "la", "el", "los", "las", "un", "una", "unos", "unas",
+         "en", "por", "para", "con", "sobre", "al", "a", "y", "o", "u", "que",
+         "se", "su", "sus", "no", "si", "es", "son", "ha", "han", "como",
+         "cuando", "cual", "cuales", "ante", "tras", "entre", "desde", "hasta"}
+
+
 def _cliente(timeout: int = 30):
     return httpx.Client(verify=_VERIFY, timeout=timeout, headers=_UA,
                         follow_redirects=True)
@@ -178,23 +184,21 @@ def buscar(consulta: str = "", frase: str = "", numero_rg: str = "",
             # términos más distintivos (los largos), siempre dentro de criterios
             # (el modo texto íntegro es demasiado lento para reintentos a ciegas).
             if not filas and en_criterios and not en_resoluciones and consulta and not frase:
-                stop = {"de", "del", "la", "el", "los", "las", "un", "una", "en",
-                        "por", "para", "con", "sobre", "al", "a", "y", "o", "u",
-                        "que", "se", "su", "sus", "no", "si"}
+                # DYCTEA busca en AND estricto: basta una palabra que no aparezca
+                # literalmente en el criterio para devolver 0. Se relaja quitando
+                # términos POR EL FINAL (el usuario enuncia primero lo esencial),
+                # nunca "quedándose con los más largos": palabras larguísimas como
+                # "procedimiento" son las más comunes del corpus y al priorizarlas
+                # se perdían las distintivas ("retrotraido", "caducidad").
                 cand = [w for w in re.split(r"\s+", consulta.strip())
-                        if w and _sin_tildes(w.lower()) not in stop]
-                cand.sort(key=len, reverse=True)
-                intentos = []
-                if len(cand) > 3:
-                    intentos.append(" ".join(cand[:3]))
-                if len(cand) > 2:
-                    intentos.append(" ".join(cand[:2]))
-                for sub in intentos:
+                        if w and _sin_tildes(w.lower()) not in _STOP]
+                for corte in range(len(cand) - 1, 1, -1):
+                    sub = " ".join(cand[:corte])
                     r = c.get(_url_busqueda(sub, "", rg, unidad, desde, hasta,
                                             True, False, vinc, 1))
                     total, filas = _parse_filas(r.text)
                     if filas:
-                        nota = (f" Nota: la consulta completa no daba resultados; "
+                        nota = (f" Nota: no había criterios con todas las palabras; "
                                 f"se muestran los de {sub!r}.")
                         break
     except Exception as e:  # noqa: BLE001
@@ -205,6 +209,11 @@ def buscar(consulta: str = "", frase: str = "", numero_rg: str = "",
                 + ". Prueba con menos palabras o, para rastrear el texto íntegro "
                   "de las resoluciones (lento, ~30-45 s), repite con "
                   "ambito='resoluciones'.")
+    # No se reordena por relevancia a propósito: DYCTEA ya filtra en AND estricto
+    # (todos los resultados contienen TODOS los términos), así que puntuar por
+    # coincidencias solo premiaría a los criterios de resumen más largo. El orden
+    # nativo —resolución más reciente primero— es además el que interesa al
+    # abogado, porque el TEAC cambia de criterio con el tiempo.
     filas = filas[:maximo]
     org_txt = _NOMBRE_UNIDAD.get(unidad, "todos los tribunales económico-administrativos")
     out = [f"{len(filas)} criterios ({org_txt}; total: {total or '?'}), más recientes "
