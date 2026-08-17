@@ -138,6 +138,11 @@ _INSTRUCTIONS = (
     "tributos —IVA, IRPF, IS…— ('consultas', 'criterio' o 'instrucciones de "
     "Hacienda') → buscar_consultas_hacienda; el texto íntegro de una consulta "
     "(p.ej. V0282-26) → leer_consulta_hacienda.\n"
+    "• DOCTRINA del TEAC y de los TEAR (resoluciones de los tribunales "
+    "económico-administrativos: reclamaciones contra Hacienda, recursos de "
+    "alzada, unificación de criterio; vía previa al contencioso) → "
+    "buscar_doctrina_teac; la ficha del criterio + el texto ÍNTEGRO de una "
+    "resolución (RG 00/06291/2024) → leer_resolucion_teac.\n"
     "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
     "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
@@ -150,7 +155,7 @@ _INSTRUCTIONS = (
     "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
+    "doctrina DGT y TEAC/TEAR + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
     "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
     "DE MADRID (toda la Comunidad), BARCELONA (toda la provincia), VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Móstoles, Alcalá de Henares, Getafe, Leganés, Vigo, Santiago de Compostela, Ferrol, Cartagena, Elche, Marbella, Jerez...) (vía su BOP). NO cubre (aún): "
@@ -158,7 +163,7 @@ _INSTRUCTIONS = (
     "provincias ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
     "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
-    "resoluciones del TEAC, ni el depósito/contenido de las CUENTAS ANUALES de "
+    "el depósito/contenido de las CUENTAS ANUALES de "
     "una empresa (de pago), ni CONCURSOS de acreedores. "
     "ANTI-ATASCO: si algo no está en estas fuentes (p.ej. una ordenanza de un "
     "municipio no cubierto, o una ley autonómica), NO repitas búsquedas ni "
@@ -1528,6 +1533,7 @@ def estado() -> str:
 # =========================================================================
 import boe_engine as _boe
 import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
+import teac_engine as _teac        # doctrina TEAC/TEAR (DYCTEA, Mº Hacienda)
 import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
 import ordenanzas_engine as _ord   # ordenanzas municipales (Madrid via AEBOE)
 
@@ -1736,6 +1742,54 @@ def leer_consulta_hacienda(numero: str) -> str:
     hechos, cuestion planteada y la CONTESTACION completa y literal. USALA tras
     localizar una consulta con buscar_consultas_hacienda, o si te dan un numero."""
     return _dgt.leer(numero)
+
+
+@mcp.tool(title="Buscar doctrina del TEAC", annotations=_RO, meta=_AUTH_META)
+@_telemetria("buscar_doctrina_teac")
+def buscar_doctrina_teac(consulta: str = "", frase: str = "", numero_rg: str = "",
+                         organo: str = "TEAC", vinculantes: str = "",
+                         desde: str = "", hasta: str = "",
+                         ambito: str = "criterios", maximo: int = 10) -> str:
+    """Busca DOCTRINA Y CRITERIOS de los tribunales economico-administrativos
+    (TEAC y TEAR) en la base oficial del Ministerio de Hacienda: resoluciones de
+    reclamaciones economico-administrativas, recursos de alzada y unificacion de
+    criterio (via administrativa previa al contencioso). USALA cuando pidan
+    'doctrina/criterio/resoluciones del TEAC (o de un TEAR)' o reclamaciones
+    contra actos tributarios (liquidaciones, sanciones, apremios, derivaciones
+    de responsabilidad). NO para consultas de la DGT (buscar_consultas_hacienda)
+    ni sentencias judiciales (buscar_sentencias).
+
+    consulta: texto libre, todas las palabras (p.ej. 'comprobacion de valores
+        tasacion pericial').
+    frase: frase EXACTA (alternativa o complemento de consulta).
+    numero_rg: numero de reclamacion concreto (p.ej. '00/06291/2024' o
+        'RG 2283-2022').
+    organo: 'TEAC' (defecto), un TEAR por su region ('Madrid', 'Andalucia',
+        'Cataluna'...) o 'todos'.
+    vinculantes: '' todos (defecto), 'vinculantes' (doctrina) o 'no vinculantes'.
+    desde / hasta: dd/mm/aaaa (fecha de la resolucion).
+    ambito: 'criterios' (defecto, busca en los resumenes doctrinales, rapido;
+        si no hay resultados reintenta solo con los terminos mas distintivos),
+        'resoluciones' o 'ambos' (rastrean el texto INTEGRO: exhaustivo pero
+        LENTO, ~30-45 s; usalos solo si 'criterios' no encuentra nada).
+    maximo: cuantos criterios devolver (defecto 10, tope 30).
+
+    Devuelve RG, fecha, organo y resumen del criterio, mas recientes primero.
+    Para la ficha completa + texto integro: leer_resolucion_teac con su RG."""
+    return _teac.buscar(consulta, frase, numero_rg, organo, vinculantes,
+                        desde, hasta, ambito, maximo)
+
+
+@mcp.tool(title="Leer resolución del TEAC", annotations=_RO, meta=_AUTH_META)
+@_telemetria("leer_resolucion_teac")
+def leer_resolucion_teac(numero_rg: str, max_chars: int = 60000) -> str:
+    """Ficha doctrinal + TEXTO INTEGRO de una resolucion del TEAC o de un TEAR
+    por su numero de reclamacion RG (p.ej. '00/06291/2024' o 'RG 2283-2022').
+    Devuelve: calificacion (doctrina/criterio), organo, fecha, ASUNTO, el
+    CRITERIO completo, referencias normativas, conceptos y el texto integro y
+    literal de la resolucion. USALA tras localizarla con buscar_doctrina_teac,
+    o directamente si el usuario te da el numero RG."""
+    return _teac.leer(numero_rg, max_chars)
 
 
 @mcp.tool(title="Buscar empresa (Registro Mercantil)", annotations=_RO, meta=_AUTH_META)
