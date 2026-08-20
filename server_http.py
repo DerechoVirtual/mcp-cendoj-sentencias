@@ -157,6 +157,14 @@ _INSTRUCTIONS = (
     "Dos Hermanas, Lora del Río, Bormujos, "
     "Motril, Baza, Barbastro, Jaca, Ponferrada, Plasencia, Trujillo, Illescas, "
     "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
+    "• CONVENIOS COLECTIVOS (el convenio aplicable a un sector y un "
+    "territorio, y sus condiciones laborales: jornada, vacaciones, salario, "
+    "categorías, pluses, antigüedad; convenios estatales, autonómicos, "
+    "provinciales y de empresa) → buscar_convenio; el texto o un "
+    "artículo concreto → leer_convenio; si sigue vigente o está "
+    "denunciado → vigencia_convenio. Fuente: registro oficial REGCON "
+    "del Ministerio de Trabajo, con el enlace al texto publicado en el BOE, "
+    "el boletín autonómico o el BOP.\n"
     "• CATASTRO: datos de un INMUEBLE o FINCA (referencia catastral, "
     "superficie construida, uso, año de construcción, plantas y puertas, "
     "coeficiente de participación, superficie de la parcela, cultivos en "
@@ -170,9 +178,10 @@ _INSTRUCTIONS = (
     "Navarra (catastro foral).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT y TEAC/TEAR + Registro Mercantil + CATASTRO (datos no "
-    "protegidos de toda España salvo País Vasco y Navarra; sin titular ni valor "
-    "catastral) + ordenanzas municipales de los 9 MAYORES "
+    "doctrina DGT y TEAC/TEAR + CONVENIOS COLECTIVOS (registro REGCON: "
+    "estatales, autonómicos, provinciales y de empresa) + Registro Mercantil + "
+    "CATASTRO (datos no protegidos de toda España salvo País Vasco y Navarra; "
+    "sin titular ni valor catastral) + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
     "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
     "DE MADRID (toda la Comunidad), BARCELONA (toda la provincia), VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Móstoles, Alcalá de Henares, Getafe, Leganés, Vigo, Santiago de Compostela, Ferrol, Cartagena, Elche, Marbella, Jerez...) (vía su BOP). NO cubre (aún): "
@@ -1950,6 +1959,92 @@ def callejero_catastro(municipio: str = "", provincia: str = "",
 
 
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
+
+
+# =========================================================================
+# CONVENIOS COLECTIVOS — registro oficial REGCON (Ministerio de Trabajo).
+# Identificar el convenio aplicable se resuelve contra un indice EMPAQUETADO
+# (convenios_data/): ~10 ms, sin red, asi que cumple siempre el objetivo de
+# responder en menos de 2 s. REGCON en vivo solo para buscar DENTRO del texto,
+# para convenios de empresa fuera del indice y para el estado de vigencia.
+# =========================================================================
+import convenios_engine as _conv
+
+
+@mcp.tool(title="Buscar convenio colectivo", annotations=_RO, meta=_AUTH_META)
+@_telemetria("buscar_convenio")
+def buscar_convenio(consulta: str, territorio: str = "", ambito: str = "sector",
+                    en_texto: str = "", maximo: int = 8) -> str:
+    """Localiza el CONVENIO COLECTIVO aplicable a un sector y un territorio, en
+    el registro oficial de convenios del Ministerio de Trabajo (REGCON), que
+    cubre TODA Espana: convenios estatales, autonomicos, provinciales, de sector
+    y de empresa. Devuelve el codigo de convenio, el ambito y el ENLACE AL TEXTO
+    OFICIAL publicado (BOE, boletin autonomico o BOP). Responde en milisegundos.
+
+    USALA SIEMPRE que pregunten por un convenio colectivo, por las condiciones
+    laborales de un sector (jornada, vacaciones, salario, categorias, pluses,
+    antiguedad), por que convenio se le aplica a un trabajador o a una empresa,
+    o por las tablas salariales de un sector. NO uses buscar_boe ni
+    buscar_sentencias para esto.
+
+    consulta: el sector en lenguaje natural, tal y como lo diria el cliente
+        ('hosteleria', 'el metal', 'oficinas y despachos', 'construccion',
+        'ayuda a domicilio'). Puede ir la pregunta entera: el territorio se
+        detecta solo ('convenio de limpieza de la Comunidad de Madrid').
+    territorio: opcional y solo si quieres forzarlo. Vale cualquier provincia
+        ('Bizkaia', 'Alicante'), comunidad ('Comunidad Valenciana', 'Andalucia',
+        'Galicia'), ciudad ('Bilbao', 'Vigo') o 'estatal'. Al pedir una
+        comunidad se buscan tambien sus provincias, y al pedir una provincia se
+        anaden el convenio autonomico y el estatal, que son los que se aplican
+        si esa provincia no tiene convenio propio del sector.
+    ambito: 'sector' (defecto, el convenio sectorial: lo que se pregunta casi
+        siempre), 'empresa' (convenios de una empresa o de sus centros) o
+        'todos'.
+    en_texto: pon 'si' para buscar DENTRO del texto integro de los convenios en
+        vez de por su nombre; sirve para '¿que convenios de Madrid regulan el
+        plus de nocturnidad?'. Es una consulta en vivo y tarda ~1 s.
+    maximo: cuantos convenios devolver (defecto 8, tope 25).
+
+    Despues: leer_convenio(codigo) para el texto, o vigencia_convenio(codigo)
+    para saber si sigue vigente y sus ultimos tramites."""
+    return _conv.buscar(consulta, territorio, ambito, en_texto, maximo)
+
+
+@mcp.tool(title="Leer convenio colectivo", annotations=_RO, meta=_AUTH_META)
+@_telemetria("leer_convenio")
+def leer_convenio(codigo: str = "", consulta: str = "", territorio: str = "",
+                  articulo: str = "", buscar_en: str = "",
+                  max_chars: int = 45000) -> str:
+    """TEXTO OFICIAL de un convenio colectivo, descargado de su publicacion en el
+    BOE, en el boletin autonomico o en el BOP. USALA tras localizarlo con
+    buscar_convenio, o directamente si te dan el codigo de convenio.
+
+    codigo: el codigo de convenio de 14 digitos (p.ej. '28002085011981').
+    consulta / territorio: alternativa al codigo, si solo tienes el nombre
+        ('hosteleria' + 'Madrid'); se resuelve igual que buscar_convenio.
+    articulo: numero de articulo para devolver SOLO ese articulo, literal
+        (p.ej. '20'). Si no existe, devuelve el indice de articulos.
+    buscar_en: materia a localizar dentro del convenio ('nocturnidad',
+        'vacaciones', 'antiguedad'); devuelve los pasajes literales.
+    max_chars: tope de texto devuelto (defecto 45000).
+
+    Cita siempre el articulo y el convenio del que sale el texto. Si el convenio
+    es largo, pide un articulo concreto en vez del texto entero."""
+    return _conv.leer(codigo, consulta, territorio, articulo, buscar_en, max_chars)
+
+
+@mcp.tool(title="Vigencia de un convenio", annotations=_RO, meta=_AUTH_META)
+@_telemetria("vigencia_convenio")
+def vigencia_convenio(codigo: str) -> str:
+    """Estado de VIGENCIA y trámites registrados de un convenio colectivo por su
+    codigo de 14 digitos: fechas de vigencia inscritas y el historial de
+    tramites (texto nuevo, revision salarial, prorroga, denuncia, acuerdos de
+    comision paritaria, modificaciones). USALA cuando pregunten si un convenio
+    sigue vigente, si esta denunciado, o cuando se publico su ultima revision
+    salarial. Consulta en vivo el registro REGCON (~1 s)."""
+    return _conv.vigencia(codigo)
+
+
 app = mcp.streamable_http_app()
 
 # --- Icono de marca: servir /favicon.ico y /icon.png (robot-abogado) para que
