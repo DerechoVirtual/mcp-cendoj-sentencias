@@ -34,6 +34,7 @@ y lo cite: los numeros van con sus unidades y la fuente siempre es el Catastro.
 import os
 import re
 import json
+import socket
 import unicodedata
 import urllib.parse
 import urllib.request
@@ -47,7 +48,9 @@ _SEDE = "https://www1.sedecatastro.gob.es"
 _NS = "{http://www.catastro.meh.es/}"
 _UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
        "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
-_TIMEOUT = float(os.environ.get("CATASTRO_TIMEOUT", "20"))
+# 25 s: el peor portal medido (302 inmuebles) tarda 13 s, y la funcion
+# serverless tiene 60 s. Sin reintento tras timeout (ver _get).
+_TIMEOUT = float(os.environ.get("CATASTRO_TIMEOUT", "25"))
 
 # Provincias con catastro FORAL (fuera del Catastro estatal) y su enlace.
 _FORALES = {
@@ -147,17 +150,31 @@ def _mayus_sin_acentos(s):
     return re.sub(r"\s+", " ", s).strip().upper()
 
 
+def _es_timeout(e):
+    if isinstance(e, socket.timeout):
+        return True
+    razon = getattr(e, "reason", None)
+    return isinstance(razon, socket.timeout) or "timed out" in repr(e).lower()
+
+
 def _get(base, op, **kw):
-    """GET al servicio OVC. Devuelve el Element raiz o lanza RuntimeError."""
+    """GET al servicio OVC. Devuelve el Element raiz o lanza RuntimeError.
+
+    Reintenta UNA vez los fallos rapidos (el OVC da 500 esporadicos), pero NUNCA
+    tras un timeout: un portal cargado puede tardar 13 s de por si (Pº de la
+    Independencia de Zaragoza tiene 302 inmuebles) y repetirlo doblaria la
+    espera hasta pasarse del limite de la funcion serverless."""
     url = base + op + "?" + urllib.parse.urlencode(kw, encoding="utf-8")
     req = urllib.request.Request(url, headers={"User-Agent": _UA, "Accept": "*/*"})
     ultimo = None
-    for _ in range(2):  # un reintento: el OVC da 500 esporadicos
+    for intento in range(2):
         try:
             with urllib.request.urlopen(req, timeout=_TIMEOUT) as r:
                 return ET.fromstring(r.read())
         except Exception as e:  # noqa: BLE001
             ultimo = e
+            if intento == 0 and _es_timeout(e):
+                break
     raise RuntimeError("El servicio del Catastro no responde (%s)" % (
         repr(ultimo)[:120],))
 
