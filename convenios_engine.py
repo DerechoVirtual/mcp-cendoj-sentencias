@@ -353,8 +353,18 @@ def _puntuar(reg, toks_orig, frase, aids_pref):
 
 # ------------------------------------------------------------ REGCON en vivo
 
+# Los boletines oficiales espanoles (bizkaia.eus, bopcadiz.es, deputacionlugo.gal,
+# el propio REGCON...) usan CA del sector publico que no estan en el bundle de
+# certifi: verificar el certificado tumbaba la descarga con
+# CERTIFICATE_VERIFY_FAILED. Son sitios publicos de SOLO LECTURA y no se les
+# manda ningun dato, asi que se desactiva la verificacion, igual que en
+# teac_engine y dgt_engine. Se puede reactivar con CONVENIOS_TLS_VERIFY=1.
+_VERIFY = os.environ.get("CONVENIOS_TLS_VERIFY", "0") != "0"
+
+
 def _cliente(timeout=25):
-    return httpx.Client(headers=_UA, timeout=timeout, follow_redirects=True)
+    return httpx.Client(headers=_UA, timeout=timeout, follow_redirects=True,
+                        verify=_VERIFY)
 
 
 def _filas_textos(h: str):
@@ -609,31 +619,77 @@ def _sin_resultados(consulta, aid, maximo, toks, frase, ambitos_ok):
 
 # -------------------------------------------------------------- API: LEER
 
-def _extraer_pdf(datos: bytes) -> str:
+def _extraer_pdf(datos: bytes, desde_pagina: int = 0) -> str:
+    """Texto del PDF. `desde_pagina` (0-based) atiende al ancla #page=N: en los
+    boletines provinciales la URL apunta a la pagina donde empieza el convenio
+    dentro del boletin del dia, que trae decenas de anuncios mas."""
     try:
         import fitz  # PyMuPDF: ~10x mas rapido que pypdf
         with fitz.open(stream=datos, filetype="pdf") as doc:
-            return "\n".join(p.get_text() for p in doc)
+            ini = desde_pagina if 0 <= desde_pagina < doc.page_count else 0
+            return SALTO.join(doc[i].get_text() for i in range(ini, doc.page_count))
     except Exception:  # noqa: BLE001
         pass
     try:
         import io as _io
         from pypdf import PdfReader
-        return "\n".join((p.extract_text() or "") for p in PdfReader(_io.BytesIO(datos)).pages)
+        paginas = PdfReader(_io.BytesIO(datos)).pages
+        ini = desde_pagina if 0 <= desde_pagina < len(paginas) else 0
+        return SALTO.join((p.extract_text() or "") for p in paginas[ini:])
     except Exception:  # noqa: BLE001
         return ""
 
 
 def _descargar_texto(url: str, timeout: int = 25) -> str:
+    # 517 de las 10.551 URLs traen ancla "#page=N": la pagina del boletin donde
+    # empieza el convenio. El fragmento no viaja en la peticion, pero si dice
+    # por donde hay que empezar a leer.
+    pagina = 0
+    m = re.search(r"#page=(\d+)", url)
+    if m:
+        pagina = max(0, int(m.group(1)) - 1)
+        url = url.split("#", 1)[0]
     with _cliente(timeout) as c:
         r = c.get(url)
         r.raise_for_status()
         tipo = (r.headers.get("content-type") or "").lower()
         if "pdf" in tipo or r.content[:4] == b"%PDF":
-            return _extraer_pdf(r.content)
+            return _extraer_pdf(r.content, pagina)
         h = re.sub(r"<(script|style|nav|header|footer).*?</\1>", " ", r.text,
                    flags=re.S | re.I)
-        return _limpiar_html(h)
+        texto = _limpiar_html(h)
+        # Varios BOP (Barcelona, Tarragona, Lugo...) no sirven el PDF en la URL
+        # registrada sino una pagina de anuncio que lo enlaza: si lo que hemos
+        # sacado es poco mas que el menu de la web, se sigue ese enlace UNA vez.
+        if len(texto) < 4000:
+            pdf = _enlace_pdf(r.text, str(r.url))
+            if pdf:
+                try:
+                    return _descargar_texto(pdf, timeout)
+                except Exception:  # noqa: BLE001
+                    pass
+        return texto
+
+
+
+# Enlaces que un boletin usa para el PDF de un anuncio, del mas fiable al menos.
+_PATRONES_PDF = (
+    r"descarrega-pdf[^\"']*", r"descarga[^\"']*pdf[^\"']*", r"download[^\"']*pdf[^\"']*",
+    r"[^\"']+\.pdf(?:#page=\d+)?",
+)
+
+
+def _enlace_pdf(html: str, base_url: str):
+    """Primer enlace de la pagina que parezca el PDF del anuncio, absoluto."""
+    enlaces = re.findall(r"(?:href|src|data)=[\"']([^\"']{4,300})[\"']", html, re.I)
+    for patron in _PATRONES_PDF:
+        for e in enlaces:
+            if re.fullmatch(patron, e, re.I) or re.search(patron, e, re.I):
+                # "veure-pdf" es el visor JS, no el fichero: no sirve.
+                if "veure-pdf" in e.lower() or "ver-pdf" in e.lower():
+                    continue
+                return _up.urljoin(base_url, _html.unescape(e))
+    return None
 
 
 _RE_ART = re.compile(
@@ -699,9 +755,16 @@ def leer(codigo: str = "", consulta: str = "", territorio: str = "",
                 f"Texto oficial: {reg['url']}\n"
                 f"(No se ha podido descargar el texto: {type(e).__name__}.)")
     texto = re.sub(r"\n{3,}", "\n\n", texto or "").strip()
-    if not texto:
-        return (f"{reg['denominacion']} - codigo {reg['codigo']}\n"
-                f"Texto oficial: {reg['url']}\n(El PDF no lleva capa de texto.)")
+    # Algunos BOP (Almeria, Ourense, Las Palmas, Tenerife) sirven un visor en
+    # JavaScript: se descarga la pagina, pero no el convenio. Antes que colar el
+    # menu de la web como si fuera el texto, se dice y se da el enlace oficial.
+    if len(texto) < 1200:
+        return (f"{reg['denominacion']} - codigo {reg['codigo']}" + SALTO
+                + f"Texto oficial: {reg['url']}" + SALTO + SALTO
+                + "El boletin que publica este convenio no sirve su texto de forma "
+                  "legible automaticamente (visor en JavaScript o PDF sin capa de "
+                  "texto). El enlace de arriba ES el texto oficial: abrelo para "
+                  "leerlo. NO inventes su contenido ni lo des por conocido.")
 
     cab = [reg["denominacion"],
            f"Codigo de convenio: {reg['codigo']}"
