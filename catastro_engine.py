@@ -35,6 +35,7 @@ import os
 import re
 import json
 import socket
+import time as _time
 import unicodedata
 import urllib.parse
 import urllib.request
@@ -167,14 +168,17 @@ def _get(base, op, **kw):
     url = base + op + "?" + urllib.parse.urlencode(kw, encoding="utf-8")
     req = urllib.request.Request(url, headers={"User-Agent": _UA, "Accept": "*/*"})
     ultimo = None
-    for intento in range(2):
+    for intento in range(3):
         try:
             with urllib.request.urlopen(req, timeout=_TIMEOUT) as r:
                 return ET.fromstring(r.read())
         except Exception as e:  # noqa: BLE001
             ultimo = e
-            if intento == 0 and _es_timeout(e):
+            if _es_timeout(e):
                 break
+            # El OVC corta la conexion de vez en cuando (RemoteDisconnected) y
+            # a los pocos ms responde: una pausa corta lo absorbe.
+            _time.sleep(0.3 * (intento + 1))
     raise RuntimeError("El servicio del Catastro no responde (%s)" % (
         repr(ultimo)[:120],))
 
