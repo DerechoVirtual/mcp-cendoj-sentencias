@@ -60,6 +60,10 @@ try:
     import eurlex_engine as _eurlex  # normativa UE: directivas/reglamentos (Cellar)
 except Exception:  # noqa: BLE001
     _eurlex = None
+try:
+    import catastro_engine as _catastro  # Catastro (servicios OVC, gratis)
+except Exception:  # noqa: BLE001
+    _catastro = None
 
 from mcp.server.fastmcp import FastMCP, Image
 from mcp.server.transport_security import TransportSecuritySettings
@@ -153,9 +157,22 @@ _INSTRUCTIONS = (
     "Dos Hermanas, Lora del Río, Bormujos, "
     "Motril, Baza, Barbastro, Jaca, Ponferrada, Plasencia, Trujillo, Illescas, "
     "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
+    "• CATASTRO: datos de un INMUEBLE o FINCA (referencia catastral, "
+    "superficie construida, uso, año de construcción, plantas y puertas, "
+    "coeficiente de participación, superficie de la parcela, cultivos en "
+    "rústica, coordenadas) → consultar_catastro, por referencia catastral, por "
+    "dirección, por polígono/parcela o por coordenadas. Úsala también para "
+    "OBTENER la referencia catastral de una dirección (demandas, escrituras, "
+    "herencias, divisiones de cosa común, deslindes, IBI, plusvalía). Para "
+    "comprobar cómo se llama una vía o qué números existen → "
+    "callejero_catastro. OJO: el TITULAR y el VALOR CATASTRAL no son públicos "
+    "(arts. 51-53 TRLCI) y el conector NO los da; tampoco cubre País Vasco ni "
+    "Navarra (catastro foral).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT y TEAC/TEAR + Registro Mercantil + ordenanzas municipales de los 9 MAYORES "
+    "doctrina DGT y TEAC/TEAR + Registro Mercantil + CATASTRO (datos no "
+    "protegidos de toda España salvo País Vasco y Navarra; sin titular ni valor "
+    "catastral) + ordenanzas municipales de los 9 MAYORES "
     "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
     "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
     "DE MADRID (toda la Comunidad), BARCELONA (toda la provincia), VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Móstoles, Alcalá de Henares, Getafe, Leganés, Vigo, Santiago de Compostela, Ferrol, Cartagena, Elche, Marbella, Jerez...) (vía su BOP). NO cubre (aún): "
@@ -1523,6 +1540,10 @@ def estado() -> str:
         "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
         "Barcelona, Valencia, Sevilla, Zaragoza, Malaga, Murcia, Palma y "
         "Las Palmas GC).",
+        "Catastro: consultar_catastro / callejero_catastro (motor "
+        + ("activo" if _catastro is not None else "NO disponible") +
+        "); datos NO protegidos de toda Espana salvo Pais Vasco y Navarra "
+        "(catastro foral). Sin titular ni valor catastral (datos protegidos).",
     ])
 
 
@@ -1867,6 +1888,65 @@ def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
     Devuelve el texto con su publicacion oficial, ultima modificacion y fecha de
     consolidacion."""
     return _ord.leer(municipio, ordenanza, articulo, parrafos, terminos, max_chars)
+
+
+# ---------------------------------------------------------------- CATASTRO --
+@mcp.tool(title="Consultar el Catastro", annotations=_RO, meta=_AUTH_META)
+@_telemetria("consultar_catastro")
+def consultar_catastro(referencia_catastral: str = "", direccion: str = "",
+                       municipio: str = "", provincia: str = "",
+                       planta: str = "", puerta: str = "", escalera: str = "",
+                       poligono: str = "", parcela: str = "",
+                       coordenadas: str = "", radio: int = 0,
+                       maximo: int = 25) -> str:
+    """Datos CATASTRALES oficiales de un inmueble o de una finca (Direccion
+    General del Catastro). USALA siempre que aparezca una referencia catastral,
+    o cuando pidan la superficie, el uso, la antiguedad, las plantas, el
+    coeficiente de participacion, la parcela o la referencia catastral DE UNA
+    DIRECCION (escrituras, herencias, division de cosa comun, arrendamientos,
+    deslindes, IBI, plusvalia, expropiaciones, ruina, urbanismo).
+
+    Identifica el inmueble de UNA de estas cuatro formas:
+    referencia_catastral: 20 caracteres (inmueble) o 14 (parcela), con o sin
+        espacios. Si son 14 devuelve TODOS los inmuebles de esa parcela.
+    direccion + municipio: 'Calle Alcala 45', 'Avda. de la Constitucion 12,
+        3o B'. La planta/puerta pueden ir en el texto o en sus parametros
+        (planta, puerta, escalera). Si el portal tiene varios inmuebles,
+        devuelve la lista con su referencia para elegir.
+    municipio + poligono + parcela: fincas RUSTICAS (devuelve ademas los
+        cultivos por subparcela y su superficie).
+    coordenadas: 'lat,lon' en grados decimales (WGS84); con radio (metros) da
+        tambien las parcelas colindantes.
+    provincia: solo si el nombre del municipio se repite en varias provincias.
+
+    NO devuelve el TITULAR ni el VALOR CATASTRAL: la ley los reserva al titular
+    o a quien acredite interes legitimo (Sede del Catastro con certificado o
+    Cl@ve). No cubre Pais Vasco ni Navarra (catastro foral propio)."""
+    if _catastro is None:
+        return "El módulo de Catastro no está disponible en este despliegue."
+    return _catastro.consultar(referencia_catastral, direccion, municipio,
+                               provincia, planta, puerta, escalera, "",
+                               poligono, parcela, coordenadas, radio, maximo)
+
+
+@mcp.tool(title="Callejero del Catastro", annotations=_RO, meta=_AUTH_META)
+@_telemetria("callejero_catastro")
+def callejero_catastro(municipio: str = "", provincia: str = "",
+                       via: str = "", numero: str = "") -> str:
+    """Comprueba en el Catastro como se llama EXACTAMENTE una via, que vias hay
+    con ese nombre en un municipio, que numeros existen en ella o que municipios
+    tiene una provincia. USALA cuando consultar_catastro no encuentre una
+    direccion, cuando el nombre de la calle sea dudoso o cuando haya varios
+    municipios con el mismo nombre.
+
+    municipio: nombre del municipio ('Getafe', 'Santa Cruz de Mudela').
+    provincia: sola, lista sus municipios; junto al municipio, desambigua.
+    via: nombre o parte del nombre de la calle ('Mayor', 'Constitucion').
+    numero: si lo indicas, devuelve los numeros de policia proximos que existen
+        de verdad en esa via."""
+    if _catastro is None:
+        return "El módulo de Catastro no está disponible en este despliegue."
+    return _catastro.callejero(municipio, provincia, via, numero)
 
 
 # App ASGI para Vercel (Streamable HTTP). El endpoint MCP queda en /mcp.
