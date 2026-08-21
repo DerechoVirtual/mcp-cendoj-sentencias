@@ -226,6 +226,7 @@ mcp = FastMCP("Jurisprudenciator", stateless_http=True, json_response=True,
 # =========================================================================
 import time as _time
 import threading as _threading
+import anyio as _anyio
 import functools as _functools
 import inspect as _inspect
 import hashlib as _hashlib
@@ -237,6 +238,26 @@ _SUPA_TABLE = os.environ.get("MCP_LOG_TABLE", "jpd_mcp_logs").strip()
 # Sal para anonimizar la IP (hash irreversible). No es un secreto de seguridad:
 # solo evita guardar IPs en claro (RGPD) permitiendo CONTAR clientes distintos.
 _TELE_SALT = (os.environ.get("TELEMETRY_SALT") or _SUPA_KEY or "jpd-cendoj")[:24]
+
+
+# Cuantas tools pueden estar EN VUELO a la vez dentro de una instancia. Cada
+# una espera a la red (barato) pero puede tener un PDF en memoria (caro): con el
+# limite de anyio por defecto (40) una racha de lecturas grandes se comeria la
+# RAM de la instancia. 12 sobra para el trafico real (~0,3 req/s) y deja la
+# memoria contenida, que es justo lo que se factura en Fluid.
+_LIM_HILOS = None
+
+
+def _limitador():
+    """CapacityLimiter perezoso: crearlo al importar falla (aun no hay loop)."""
+    global _LIM_HILOS
+    if _LIM_HILOS is None:
+        try:
+            _n = int(os.environ.get("JPD_MAX_CONCURRENCIA") or 12)
+        except ValueError:
+            _n = 12
+        _LIM_HILOS = _anyio.CapacityLimiter(max(1, _n))
+    return _LIM_HILOS
 
 
 def _request_meta() -> dict:
@@ -626,8 +647,11 @@ def _telemetria(tool: str):
     salida. Se coloca DEBAJO de @mcp.tool() para que FastMCP registre la version
     instrumentada; preserva firma/anotaciones/doc -> el schema queda intacto."""
     def deco(func):
-        @_functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def _ejecutar(_meta, args, kwargs):
+            """Cuerpo BLOQUEANTE de la tool (red: CENDOJ / BOE / DGT / Catastro).
+            Se ejecuta SIEMPRE en un hilo, nunca en el event loop: ver `wrapper`.
+            Recibe `_meta` ya resuelto porque el contextvar del request solo es
+            fiable en el loop."""
             t0 = _time.time()
             ok = True
             err = None
@@ -635,7 +659,6 @@ def _telemetria(tool: str):
             # MURO DE USO: si el abogado agoto su cuota gratuita del dia, se le
             # devuelve el aviso (tool-result normal) y no se ejecuta la tool.
             if tool not in _MURO_EXENTAS:
-                _meta = _request_meta()
                 _aviso = _muro_bloqueo(_meta.get("user_email") or "",
                                        _meta.get("session_id") or "")
                 if _aviso:
@@ -705,15 +728,32 @@ def _telemetria(tool: str):
                             "duration_ms": ms,
                             "result_chars": len(out) if isinstance(out, str) else None,
                         }
-                        # Enriquecer con IP(hash)/sesion/cliente del request HTTP
-                        # (estimacion de 'cuanta gente' y 'cuanto tiempo'). Se lee
-                        # AQUI, aun en el hilo de la tool, porque el contextvar del
-                        # request no existe ya en el hilo daemon de envio.
-                        payload.update(_request_meta())
+                        # IP(hash)/sesion/cliente del request HTTP: vienen del
+                        # loop (`wrapper`), porque ni este hilo ni el hilo daemon
+                        # de envio ven el contextvar del request.
+                        payload.update(_meta)
                         _threading.Thread(target=_enviar_log, args=(payload,),
                                           daemon=True).start()
                     except Exception:
                         pass
+
+        @_functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            # POR QUE UN HILO (esto es dinero, no estetica): las tools son
+            # sincronas y se pasan ~99 % del tiempo ESPERANDO a fuentes externas.
+            # El SDK de MCP llama a una tool sincrona DIRECTAMENTE en el event
+            # loop (func_metadata.call_fn_with_arg_validation: `return fn(...)`),
+            # asi que mientras una lectura del CENDOJ espera, la instancia entera
+            # queda muda y Vercel levanta OTRA para la siguiente peticion. Con
+            # Fluid se paga memoria provisionada POR INSTANCIA Y POR RELOJ: cada
+            # bloqueo se convierte en factura. Delegando el cuerpo a un hilo, una
+            # sola instancia atiende muchas peticiones a la vez mientras todas
+            # esperan a la red, que es justo para lo que sirve Fluid.
+            # `_request_meta()` se lee AQUI, en el loop, donde el contextvar del
+            # request es fiable; al hilo viaja ya como dato.
+            return await _anyio.to_thread.run_sync(
+                _functools.partial(_ejecutar, _request_meta(), args, kwargs),
+                limiter=_limitador())
         wrapper.__signature__ = _inspect.signature(func)  # FastMCP ve la firma real
         return wrapper
     return deco

@@ -1,6 +1,13 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["cdg1"],
+  "functions": {
+    "vercel_app.py": {
+      "memory": 2048,
+      "maxDuration": 120
+    }
+  },
   "crons": [
-    { "path": "/ping", "schedule": "*/5 * * * *" }
+    { "path": "/ping", "schedule": "*/15 * * * *" }
   ]
 }
