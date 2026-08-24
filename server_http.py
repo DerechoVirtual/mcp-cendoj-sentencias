@@ -314,7 +314,11 @@ def _cache_clave(tool: str, func, args, kwargs):
 # todo el mundo. Se guarda solo lo que tiene sustancia. Dejar fuera alguna
 # respuesta corta y legitima solo cuesta una consulta repetida; cachear un
 # "no existe" cuesta credibilidad delante de un abogado.
-_CACHE_MIN_RESULTADO = 400
+# 150 y no mas: medido en produccion, el art. 1902 CC entero son 387 caracteres
+# (cabecera + texto + fuente) y con un minimo de 400 se quedaba FUERA de la
+# cache justo la tool mas usada. Un "no encuentro" ronda los 120 y ademas cae
+# por patron; el minimo es solo una red por si aparece una negativa nueva.
+_CACHE_MIN_RESULTADO = 150
 # OJO con los limites de palabra: sin \b, "0 resultados" matchea DENTRO de
 # "20 resultados" y la cache se desactivaba sola justo en las respuestas buenas.
 # Y se mira solo el ARRANQUE del texto: una respuesta negativa empieza
