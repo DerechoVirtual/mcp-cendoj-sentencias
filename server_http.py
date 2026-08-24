@@ -227,6 +227,7 @@ mcp = FastMCP("Jurisprudenciator", stateless_http=True, json_response=True,
 import time as _time
 import threading as _threading
 import anyio as _anyio
+from collections import OrderedDict as _OrderedDict
 import functools as _functools
 import inspect as _inspect
 import hashlib as _hashlib
@@ -238,6 +239,135 @@ _SUPA_TABLE = os.environ.get("MCP_LOG_TABLE", "jpd_mcp_logs").strip()
 # Sal para anonimizar la IP (hash irreversible). No es un secreto de seguridad:
 # solo evita guardar IPs en claro (RGPD) permitiendo CONTAR clientes distintos.
 _TELE_SALT = (os.environ.get("TELEMETRY_SALT") or _SUPA_KEY or "jpd-cendoj")[:24]
+
+
+# =========================================================================
+# CACHE EN PROCESO. El texto de un articulo de ley o de una sentencia ya
+# publicada no cambia entre dos consultas seguidas, y el 42 % de las llamadas
+# del conector son buscar_articulo (mediana 243 ms cada una, casi toda espera al
+# BOE). Repetir esa ida y vuelta es tiempo del abogado y presion gratuita sobre
+# fuentes publicas que no nos deben nada.
+#
+# Se cachea SOLO el resultado de la tool. El muro de uso y la telemetria quedan
+# FUERA: un acierto de cache sigue contando cupo y sigue registrandose, asi que
+# ni la facturacion al abogado ni el panel cambian de conducta.
+#
+# Solo entra en cache lo que es seguro repetir: resultados de tipo texto, sin
+# error blando (un 403 del CENDOJ cacheado serian horas de averia), y por debajo
+# de _CACHE_MAX_RESULTADO caracteres. `estado` y `continuar_lectura` no se
+# cachean nunca: uno es un diagnostico en vivo y el otro lleva estado de captcha.
+# Las tools no leen la identidad de quien pregunta (comprobado), asi que la
+# cache puede ser compartida sin filtrar resultados entre despachos.
+# =========================================================================
+_CACHE_TTL = {
+    # Texto ya publicado: no cambia. TTL largo.
+    "buscar_articulo": 21600,          # 6 h
+    "buscar_por_cita": 43200,          # 12 h
+    "leer_sentencias": 43200,
+    "leer_boe": 43200,
+    "leer_ordenanza": 43200,
+    "leer_consulta_hacienda": 43200,
+    "leer_resolucion_teac": 43200,
+    "leer_convenio": 43200,
+    "consultar_catastro": 43200,
+    "callejero_catastro": 43200,
+    # Busquedas: aparece material nuevo, TTL corto para no servir una lista vieja.
+    "buscar_sentencias": 1800,         # 30 min
+    "buscar_boe": 1800,
+    "novedades_boe": 1800,
+    "sumario_boe": 7200,               # 2 h (el sumario de HOY aun se completa)
+    "sumario_borme": 7200,
+    "buscar_consultas_hacienda": 7200,
+    "buscar_doctrina_teac": 7200,
+    "buscar_ordenanzas": 21600,
+    "buscar_convenio": 21600,
+    "vigencia_convenio": 21600,
+    "buscar_empresa_mercantil": 21600,
+    "opciones_busqueda": 21600,
+}
+_CACHE_MAX_ENTRADAS = 500
+_CACHE_MAX_CHARS = 40_000_000     # ~40 MB de techo, sobre una instancia de 2 GB
+_CACHE_MAX_RESULTADO = 100_000    # una lectura enorme no desaloja media cache
+_cache = _OrderedDict()
+_cache_lock = _threading.Lock()
+_cache_chars = 0
+
+
+def _cache_clave(tool: str, func, args, kwargs):
+    """Clave = tool + argumentos ya normalizados (con los valores por defecto
+    aplicados, para que buscar_boe('X') y buscar_boe('X', limite=15) compartan
+    entrada). None si la tool no se cachea o los argumentos no son serializables."""
+    if tool not in _CACHE_TTL:
+        return None
+    try:
+        ba = _inspect.signature(func).bind(*args, **kwargs)
+        ba.apply_defaults()
+        return (tool, json.dumps(ba.arguments, sort_keys=True, default=str,
+                                 ensure_ascii=False))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+# Un "no encuentro el articulo" o un "sin resultados" NO es un error para
+# _clasificar_error (y hace bien: es una respuesta legitima), pero cachearlo
+# seria peor que no cachear nada: un hipo del BOE se serviria durante horas a
+# todo el mundo. Se guarda solo lo que tiene sustancia. Dejar fuera alguna
+# respuesta corta y legitima solo cuesta una consulta repetida; cachear un
+# "no existe" cuesta credibilidad delante de un abogado.
+_CACHE_MIN_RESULTADO = 400
+# OJO con los limites de palabra: sin \b, "0 resultados" matchea DENTRO de
+# "20 resultados" y la cache se desactivaba sola justo en las respuestas buenas.
+# Y se mira solo el ARRANQUE del texto: una respuesta negativa empieza
+# diciendolo, mientras que el articulado de una ley puede contener "no existe"
+# a mitad de un parrafo con toda normalidad.
+_NEGATIVOS = re.compile(
+    r"\bno\s+(?:lo\s+)?(?:encuentro|localizo|hay|existe|consta|aparece)\b"
+    r"|\bsin\s+resultados\b"
+    r"|\bno\s+se\s+(?:ha\s+encontrado|encontraron|pudo)\b"
+    r"|\b0\s+resultados\b"
+    r"|\bning[uú]n\s+resultado\b",
+    re.IGNORECASE)
+
+
+def _cache_vale_la_pena(valor) -> bool:
+    if not isinstance(valor, str) or len(valor) < _CACHE_MIN_RESULTADO:
+        return False
+    return _NEGATIVOS.search(valor[:250]) is None
+
+
+def _cache_leer(clave):
+    if clave is None:
+        return None
+    global _cache_chars
+    with _cache_lock:
+        hit = _cache.get(clave)
+        if hit is None:
+            return None
+        caduca, valor = hit
+        if caduca <= _time.time():
+            del _cache[clave]
+            _cache_chars -= len(valor)
+            return None
+        _cache.move_to_end(clave)   # LRU: lo recien usado se va al final
+        return valor
+
+
+def _cache_guardar(clave, valor, tool: str):
+    if clave is None or not _cache_vale_la_pena(valor):
+        return
+    if len(valor) > _CACHE_MAX_RESULTADO:
+        return
+    global _cache_chars
+    with _cache_lock:
+        viejo = _cache.pop(clave, None)
+        if viejo is not None:
+            _cache_chars -= len(viejo[1])
+        _cache[clave] = (_time.time() + _CACHE_TTL[tool], valor)
+        _cache_chars += len(valor)
+        while _cache and (len(_cache) > _CACHE_MAX_ENTRADAS
+                          or _cache_chars > _CACHE_MAX_CHARS):
+            _, (_, v) = _cache.popitem(last=False)   # desaloja lo mas antiguo
+            _cache_chars -= len(v)
 
 
 # Cuantas tools pueden estar EN VUELO a la vez dentro de una instancia. Cada
@@ -615,7 +745,7 @@ _AVISO_DEFECTO = (
 )
 
 
-def _con_aviso_generico(tool: str, out):
+def _con_aviso_generico(tool: str, out, meta: dict):
     """Anexa el aviso al resultado de buscar_sentencias si el request es anonimo,
     el modo es 'warn' y no se ha avisado ya a esta sesion/IP en 24h. Best-effort:
     ante cualquier duda o fallo devuelve `out` intacto."""
@@ -626,7 +756,6 @@ def _con_aviso_generico(tool: str, out):
             return out
         if _clasificar_error(out) is not None:
             return out
-        meta = _request_meta()
         if meta.get("user_email"):
             return out  # identificado: nunca se le molesta
         clave = meta.get("session_id") or meta.get("ip_hash") or "global"
@@ -673,11 +802,18 @@ def _telemetria(tool: str):
                         except Exception:  # noqa: BLE001
                             pass
                     return _aviso
+            _clave = _cache_clave(tool, func, args, kwargs)
             try:
-                out = func(*args, **kwargs)
+                out = _cache_leer(_clave)
+                if out is None:
+                    out = func(*args, **kwargs)
+                    # Nunca se cachea un fallo blando (403 del CENDOJ, descarga
+                    # rota...): cacheado, una averia de un minuto duraria horas.
+                    if _clasificar_error(out) is None:
+                        _cache_guardar(_clave, out, tool)
                 # El aviso NO entra en `out`: result_chars y la clasificacion de
                 # errores se calculan sobre el resultado real de la tool.
-                return _con_aviso_generico(tool, out)
+                return _con_aviso_generico(tool, out, _meta)
             except Exception as e:  # noqa: BLE001
                 ok = False
                 err = str(e)[:500]
