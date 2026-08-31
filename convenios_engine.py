@@ -34,6 +34,7 @@ TRAMPAS CONOCIDAS (verificadas 2026-08-20)
 """
 import os
 import re
+import time
 import json
 import html as _html
 import unicodedata
@@ -367,6 +368,23 @@ def _cliente(timeout=25):
                         verify=_VERIFY)
 
 
+# REGCON es una aplicacion del sector publico que parpadea: timeouts, cortes de
+# sesion (JSESSIONID) y 5xx esporadicos. Un fallo puntual NO debe llegar al
+# usuario como "no hay conexion con REGCON": se reintenta con sesion nueva y una
+# espera corta creciente antes de rendirse. Solo reintenta fallos de red/httpx;
+# los errores de logica (parseo, etc.) caen a la primera sin gastar reintentos.
+def _con_reintento(fn, *args, intentos: int = 3, espera: float = 0.7, **kw):
+    ultimo = None
+    for i in range(intentos):
+        try:
+            return fn(*args, **kw)
+        except httpx.HTTPError as e:  # noqa: BLE001
+            ultimo = e
+            if i + 1 < intentos:
+                time.sleep(espera * (i + 1))
+    raise ultimo
+
+
 def _filas_textos(h: str):
     """Filas de la tabla del buscador de textos (una por PUBLICACION)."""
     m = re.search(r'<table[^>]*summary="Acuerdos".*?</table>', h, re.S | re.I)
@@ -395,48 +413,52 @@ def buscar_en_texto(texto: str, aid: str = "", ambito: str = "6",
                     naturaleza: str = "1", maximo: int = 10, paginas: int = 1,
                     timeout: int = 25):
     """Busca DENTRO del texto integro de los convenios (REGCON en vivo)."""
-    with _cliente(timeout) as c:
-        c.get(URL_TEXTOS)
-        datos = {"texto": texto, "coincidencia": "1", "idNaturaleza": naturaleza,
-                 "_esNuevaBusqueda": "1", "_buscar": ""}
-        if aid:
-            datos["idAutoridadLaboral"] = aid
-        if ambito:
-            datos["idAmbitoFuncional"] = ambito
-        r = c.post(URL_TEXTOS, data=datos)
-        filas = _filas_textos(r.text)
-        total = _total_textos(r.text)
-        p = 2
-        while len(filas) < maximo and p <= paginas and len(filas) < total:
-            rp = c.get(URL_TEXTOS, params={"pagina": str(p)})
-            nuevas = _filas_textos(rp.text)
-            if not nuevas:
-                break
-            filas.extend(nuevas)
-            p += 1
-        return filas[:maximo], total
+    def _una_vez():
+        with _cliente(timeout) as c:
+            c.get(URL_TEXTOS)
+            datos = {"texto": texto, "coincidencia": "1", "idNaturaleza": naturaleza,
+                     "_esNuevaBusqueda": "1", "_buscar": ""}
+            if aid:
+                datos["idAutoridadLaboral"] = aid
+            if ambito:
+                datos["idAmbitoFuncional"] = ambito
+            r = c.post(URL_TEXTOS, data=datos)
+            filas = _filas_textos(r.text)
+            total = _total_textos(r.text)
+            p = 2
+            while len(filas) < maximo and p <= paginas and len(filas) < total:
+                rp = c.get(URL_TEXTOS, params={"pagina": str(p)})
+                nuevas = _filas_textos(rp.text)
+                if not nuevas:
+                    break
+                filas.extend(nuevas)
+                p += 1
+            return filas[:maximo], total
+    return _con_reintento(_una_vez)
 
 
 def _tramites(codigo: str, maximo: int = 12):
     """Historial de tramites de un convenio (consultaPublica): da la VIGENCIA."""
-    with _cliente() as c:
-        c.get(URL_CONSULTA)
-        r = c.post(URL_CONSULTA, data={
-            "codigoConvenio": codigo, "denominacion": "",
-            "tipoBusquedaDenominacion": "AND", "_esNuevaBusqueda": "1", "_buscar": ""})
-        m = re.search(r'<table[^>]*summary="Tramites".*?</table>', r.text, re.S | re.I)
-        if not m:
-            return []
-        fuera = []
-        for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", m.group(0), re.S | re.I)[1:]:
-            celdas = [_limpiar_html(x) for x in
-                      re.findall(r"<t[hd][^>]*>(.*?)</t[hd]>", tr, re.S | re.I)]
-            if len(celdas) < 7:
-                continue
-            fuera.append({"codigo": celdas[0], "denominacion": celdas[1],
-                          "tramite": celdas[2], "autoridad": celdas[3],
-                          "fecha": celdas[4], "desde": celdas[5], "hasta": celdas[6]})
-        return fuera[:maximo]
+    def _una_vez():
+        with _cliente() as c:
+            c.get(URL_CONSULTA)
+            r = c.post(URL_CONSULTA, data={
+                "codigoConvenio": codigo, "denominacion": "",
+                "tipoBusquedaDenominacion": "AND", "_esNuevaBusqueda": "1", "_buscar": ""})
+            m = re.search(r'<table[^>]*summary="Tramites".*?</table>', r.text, re.S | re.I)
+            if not m:
+                return []
+            fuera = []
+            for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", m.group(0), re.S | re.I)[1:]:
+                celdas = [_limpiar_html(x) for x in
+                          re.findall(r"<t[hd][^>]*>(.*?)</t[hd]>", tr, re.S | re.I)]
+                if len(celdas) < 7:
+                    continue
+                fuera.append({"codigo": celdas[0], "denominacion": celdas[1],
+                              "tramite": celdas[2], "autoridad": celdas[3],
+                              "fecha": celdas[4], "desde": celdas[5], "hasta": celdas[6]})
+            return fuera[:maximo]
+    return _con_reintento(_una_vez)
 
 
 # ------------------------------------------------------------ API: BUSCAR
@@ -550,9 +572,10 @@ def _buscar_en_texto_fmt(consulta, aid, ambito, maximo, aviso=""):
     amb = "6" if ambito in ("sector", "", None) else ("3" if ambito.startswith("empres") else "")
     try:
         filas, total = buscar_en_texto(consulta, aid or "", amb, "1", maximo, paginas=3)
-    except Exception as e:  # noqa: BLE001
-        return ("No se ha podido consultar el registro REGCON en este momento "
-                f"({type(e).__name__}). Vuelve a intentarlo en unos segundos.")
+    except Exception:  # noqa: BLE001
+        return ("El registro REGCON del Ministerio de Trabajo no responde en este "
+                "momento: es un corte temporal de su servidor, no del conector. "
+                "Vuelve a intentarlo en unos segundos.")
     if not filas:
         donde = f" en {AUTORIDADES.get(aid, ('?',))[0]}" if aid else ""
         return (f"Ningun convenio{donde} contiene {consulta!r} en su texto. "
@@ -820,8 +843,10 @@ def vigencia(codigo: str) -> str:
         return "Indica el codigo de convenio (14 digitos) que te dio buscar_convenio."
     try:
         tr = _tramites(codigo, 15)
-    except Exception as e:  # noqa: BLE001
-        return f"No se ha podido consultar el registro ({type(e).__name__})."
+    except Exception:  # noqa: BLE001
+        return ("El registro REGCON del Ministerio de Trabajo no responde en este "
+                "momento: es un corte temporal de su servidor, no del conector. "
+                "Vuelve a intentarlo en unos segundos.")
     if not tr:
         return f"El registro REGCON no devuelve tramites para el codigo {codigo}."
     cab = [tr[0]["denominacion"], f"Codigo de convenio: {codigo}",
