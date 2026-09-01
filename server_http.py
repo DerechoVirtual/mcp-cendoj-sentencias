@@ -1219,8 +1219,9 @@ def buscar_sentencias(
 
     Args:
         consulta: Texto libre. Comillas = frase exacta. Si da 0, prueba sin tildes.
-        base: "TS" (Supremo), "AN" (todo el CENDOJ), "TC" (Tribunal
-            Constitucional: amparo, inconstitucionalidad; STC/ATC/DTC desde 1980)
+        base: "TS" (Supremo), "AN" (todos los organos: AN, TSJ, AP y
+            juzgados), "TC" (Tribunal Constitucional: amparo,
+            inconstitucionalidad; STC/ATC/DTC desde 1980)
             o "TJUE" (Tribunal de Justicia de la UE + Tribunal General:
             prejudiciales, recursos; en espanol; con tildes y sin frases entre
             comillas rinde mejor). Con provincia/tipo_organo se fuerza "AN".
