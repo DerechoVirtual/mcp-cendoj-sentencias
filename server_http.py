@@ -147,6 +147,13 @@ _INSTRUCTIONS = (
     "alzada, unificación de criterio; vía previa al contencioso) → "
     "buscar_doctrina_teac; la ficha del criterio + el texto ÍNTEGRO de una "
     "resolución (RG 00/06291/2024) → leer_resolucion_teac.\n"
+    "• Doctrina de la FISCALÍA GENERAL DEL ESTADO —sus circulares, consultas e "
+    "instrucciones desde 1978; 'doctrina de la fiscalía', 'qué dice la fiscalía/"
+    "el Ministerio Fiscal sobre…', el criterio de la FGE en lo penal, procesal, "
+    "menores, extranjería, violencia de género, seguridad vial, odio…— → "
+    "buscar_doctrina_fiscalia (por tema o por cita: 'Circular 1/2023') y "
+    "leer_doctrina_fiscalia (texto íntegro). Colección oficial COMPLETA en base "
+    "local: respuesta INSTANTÁNEA. NO confundir con Hacienda (DGT).\n"
     "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
     "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
@@ -178,7 +185,7 @@ _INSTRUCTIONS = (
     "Navarra (catastro foral).\n"
     "• Revisar/verificar las citas legales de un escrito → verificar_escrito.\n\n"
     "LÍMITES (para no bloquearte): cubre Derecho ESTATAL (BOE) + jurisprudencia + "
-    "doctrina DGT y TEAC/TEAR + CONVENIOS COLECTIVOS (registro REGCON: "
+    "doctrina DGT y TEAC/TEAR + doctrina COMPLETA de la Fiscalía General del Estado (1978-2026) + CONVENIOS COLECTIVOS (registro REGCON: "
     "estatales, autonómicos, provinciales y de empresa) + Registro Mercantil + "
     "CATASTRO (datos no protegidos de toda España salvo País Vasco y Navarra; "
     "sin titular ni valor catastral) + ordenanzas municipales de los 9 MAYORES "
@@ -1609,6 +1616,8 @@ def estado() -> str:
         + ("activo" if _eurlex is not None else "NO disponible") + ").",
         "Legislacion: buscar_articulo (texto vigente de un articulo, <1 s) y "
         "verificar_escrito (detector de citas legales erroneas).",
+        "Doctrina de la Fiscalia General del Estado: buscar_doctrina_fiscalia -> "
+        "leer_doctrina_fiscalia (" + _fge.resumen() + ", base local instantanea).",
         "Ordenanzas municipales: buscar_ordenanzas -> leer_ordenanza (Madrid, "
         "Barcelona, Valencia, Sevilla, Zaragoza, Malaga, Murcia, Palma y "
         "Las Palmas GC).",
@@ -1629,6 +1638,7 @@ import dgt_engine as _dgt          # doctrina/consultas de Hacienda (DGT)
 import teac_engine as _teac        # doctrina TEAC/TEAR (DYCTEA, Mº Hacienda)
 import mercantil_engine as _merc   # Registro Mercantil por empresa (BORME)
 import ordenanzas_engine as _ord   # ordenanzas municipales (Madrid via AEBOE)
+import fge_engine as _fge          # doctrina de la Fiscalia General del Estado
 
 
 @mcp.tool(title="Buscar artículo de ley", annotations=_RO, meta=_AUTH_META)
@@ -1883,6 +1893,60 @@ def leer_resolucion_teac(numero_rg: str, max_chars: int = 60000) -> str:
     literal de la resolucion. USALA tras localizarla con buscar_doctrina_teac,
     o directamente si el usuario te da el numero RG."""
     return _teac.leer(numero_rg, max_chars)
+# =========================================================================
+# DOCTRINA DE LA FISCALÍA GENERAL DEL ESTADO — motor fge_engine.py. Colección
+# oficial COMPLETA (1979-2026) empaquetada en fge_data/: búsqueda BM25 en
+# memoria y lectura sin tocar la red -> respuestas en milisegundos.
+# =========================================================================
+@mcp.tool(title="Buscar doctrina de la Fiscalía (FGE)", annotations=_RO_LOCAL, meta=_AUTH_META)
+@_telemetria("buscar_doctrina_fiscalia")
+def buscar_doctrina_fiscalia(consulta: str = "", tipo: str = "", desde: int = 0,
+                             hasta: int = 0, materia: str = "",
+                             limite: int = 10) -> str:
+    """Busca en la DOCTRINA DE LA FISCALIA GENERAL DEL ESTADO (FGE): TODAS sus
+    circulares, consultas e instrucciones desde 1978 (coleccion oficial completa
+    a texto integro). USALA cuando pidan 'doctrina de la fiscalia', 'que dice la
+    fiscalia / el Ministerio Fiscal sobre...', una circular/consulta/instruccion
+    de la FGE, o el criterio del Ministerio Fiscal en materia penal, procesal
+    penal, menores, extranjeria, violencia de genero, seguridad vial, odio...
+    NO es Hacienda: para consultas tributarias de la DGT usa
+    buscar_consultas_hacienda.
+
+    consulta: tema en lenguaje natural ('okupacion de viviendas', 'dispensa del
+        art. 416 LECrim') o una CITA exacta ('Circular 1/2023', 'Consulta
+        2/2026', 'Instruccion 1/2020', 'FIS-C-2023-00001').
+    tipo: opcional: 'circular', 'consulta' o 'instruccion'.
+    desde / hasta: opcional, acotar por ANOS (p.ej. desde=2015).
+    materia: opcional ('Derecho Penal', 'Violencia de Genero', 'Extranjeria',
+        'Proteccion juridica del menor', 'Seguridad vial'...).
+    limite: cuantas devolver (defecto 10, max 40).
+
+    INSTANTANEA (base local, sin red). Devuelve cita, titulo, fecha, materias y
+    el pasaje mas relevante de cada una; el texto integro se lee con
+    leer_doctrina_fiscalia."""
+    return _fge.buscar(consulta, tipo, desde, hasta, materia, limite)
+
+
+@mcp.tool(title="Leer doctrina de la Fiscalía (FGE)", annotations=_RO_LOCAL, meta=_AUTH_META)
+@_telemetria("leer_doctrina_fiscalia")
+def leer_doctrina_fiscalia(referencia: str, parrafos: int = 0, terminos: str = "",
+                           max_chars: int = 0, desde_char: int = 0) -> str:
+    """Texto INTEGRO y literal de una pieza de doctrina de la Fiscalia General
+    del Estado: 'Circular 1/2023', 'Consulta 2/2026', 'Instruccion 1/2020' o su
+    Ref. (FIS-C-2023-00001). USALA tras localizarla con buscar_doctrina_fiscalia
+    o si el usuario ya la cita.
+
+    parrafos: 0 = texto completo; N>0 = solo los N pasajes MAS RELEVANTES
+        (recomendado en documentos largos: las circulares modernas superan las
+        100 paginas).
+    terminos: palabras clave para elegir los pasajes cuando parrafos>0.
+    max_chars: tope de caracteres por respuesta en modo texto completo
+        (defecto 60000).
+    desde_char: continuar la lectura desde ese caracter (la respuesta anterior
+        indica el valor exacto si queda texto pendiente).
+
+    Incluye fecha, materias, doctrina relacionada y el enlace al PDF oficial."""
+    return _fge.leer(referencia, parrafos, terminos, max_chars, desde_char)
 
 
 @mcp.tool(title="Buscar empresa (Registro Mercantil)", annotations=_RO, meta=_AUTH_META)
