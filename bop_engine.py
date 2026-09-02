@@ -3895,7 +3895,10 @@ def _supra(prov, consulta):
         return []
 
 
-def buscar(municipio, consulta="", limite=12):
+def buscar(municipio, consulta="", limite=12, profundo=True):
+    """profundo=False: sin los volcados genéricos («ordenanza», «reglamento», «tasa», 100
+    anuncios cada uno). Lo usa el respaldo de las capitales con catálogo: Sevilla publica
+    cientos de anuncios y en frío costaba 41 s."""
     prov = provincia_de(municipio)
     if not prov:
         return None  # no cubierto por ningún BOP -> el caller decide
@@ -3905,7 +3908,7 @@ def buscar(municipio, consulta="", limite=12):
     t0 = time.time()
     try:
         res = _buscar_raw(prov, consulta or "ordenanza", cat, rpp=40) if fulltext \
-            else _candidatos(prov, cat, consulta)
+            else _candidatos(prov, cat, consulta, profundo=profundo)
     except Exception as e:  # noqa: BLE001
         return f"Error consultando el BOP de {PROVINCIAS[prov]['nombre']}: {e}"
     if consulta.strip() and fulltext:

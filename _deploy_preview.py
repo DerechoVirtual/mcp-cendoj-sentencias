@@ -40,8 +40,9 @@ def main():
     if prod and os.environ.get("JPD_DEPLOY_OK") != "1":
         raise SystemExit("producción exige JPD_DEPLOY_OK=1 (sí expreso de Carlos)")
     body = {"name": "jurisprudenciator-mcp", "project": PROJECT,
-            "gitSource": {"type": "github", "repoId": REPO_ID, "ref": rama},
-            "target": "production" if prod else "preview"}
+            "gitSource": {"type": "github", "repoId": REPO_ID, "ref": rama}}
+    if prod:
+        body["target"] = "production"      # sin `target` = preview (la API rechaza "preview")
     d = api("POST", f"/v13/deployments?teamId={TEAM}&forceNew=1", body)
     dpl, url = d["id"], d.get("url")
     print("deployment", dpl, url, flush=True)

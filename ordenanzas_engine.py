@@ -1015,7 +1015,7 @@ def buscar(municipio: str, consulta: str = "", limite: int = 15) -> str:
             capital = _bop_para_capital(ad)
             if capital and consulta.strip():
                 try:
-                    r = _bop.buscar(capital, consulta, limite)
+                    r = _bop.buscar(capital, consulta, limite, profundo=False)
                 except Exception:  # noqa: BLE001
                     r = None
                 if r and r.startswith("【"):
