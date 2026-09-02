@@ -6,5 +6,7 @@
  "tipo": "BOP_F:d67ba416-aec8-11e9-9ac3-286ed488c708",
  "mapa": "bop_cadiz_municipios.json",
  "indice_desde": 2010,
- "fulltext": true
+ "fulltext": false,
+ "nota": "2-sep-2026: el buscador nuevo (/buscador/index.html?q=) NO ordena por relevancia a nivel de anuncio (devuelve boletines), asi que fulltext=false: el ranking por titulo del motor decide y, si ningun titulo del ayuntamiento lleva la materia, responde honesto en vez de colar el primer anuncio del boletin. genericos=false: verificar por contenido exige bajar el PDF del boletin entero (1-5 MB) y dispara la latencia.",
+ "genericos": false
 }

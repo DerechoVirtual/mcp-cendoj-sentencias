@@ -3,13 +3,13 @@
  "base": "https://boc.cantabria.es",
  "mapa": "bop_cantabria_municipios.json",
  "nombre": "Cantabria",
- "familia": "cantabria",
+ "familia": "cantabria2",
  "indice_desde": 2010,
  "indice_viejo_desde": 1999,
  "verifica_texto": true,
  "fulltext": false,
- "activo": false,
- "nota": "VIABLE Y RAPIDA, pendiente de reescribir el backend (27-jul-2026). El error de la implementacion actual era buscar SIN filtro de municipio: el BOC SI filtra por ayuntamiento, no por el desplegable idEntidad (viene vacio) sino por el campo de TEXTO LIBRE organizacionText = 'Ayuntamiento de X'. Con ese filtro la busqueda por TITULO baja a 0,4-1,0 s (antes: 39 s por cuerpo, o 'mas de 300 resultados' por titulo) y es exacta. Los anuncios son PDF con capa de texto: 0/30 necesitan OCR. Banco medido 28/30 materias, E2E 1,5-3,2 s. Se deja activo:false solo porque _cantabria_buscar de bop_engine.py aun no usa organizacionText; al reescribirlo se activa. COLISIONES DE ENRUTADO a resolver ANTES de activar (verificadas 27-jul): (1) 'Cieza' existe en Cantabria (~500 hab., 2 anuncios) y en Murcia (35.000 hab.); Cantabria carga antes que Murcia y le robaria el enrutado -> anadir excluir:['Cieza'] aqui, o aceptar que Murcia pierde 'Cieza'. (2) 'Pielagos' (Cantabria, 26.000 hab.) esta ademas en el mapa de CACERES como dato sucio y HOY provincia_de('Pielagos') devuelve caceres -> anadir 'Pielagos' al excluir de bop_caceres_config.json (mismo caso que 'Lepe'/'Santander').",
+ "activo": true,
+ "nota": "ACTIVA (2-sep-2026). Backend externo bop_cantabria2.py (la familia 'cantabria' interna de bop_engine.py buscaba sin filtro de municipio y ademas comparaba mal el organo; queda sin uso). Receta: POST sin cookies con organizacionText='Ayuntamiento de X' (valor del mapa) + busqueda por TITULO en modo OR (algunasPalabras) con todas las variantes singular/plural de la materia en UNA consulta; respuesta ISO-8859-15. VENENO ampliado el 2-sep-2026 (Santander): ademas de ordenanza/tasa(s)/padron/agua/presupuesto fallan reguladora, fiscal, basura, saneamiento, alcantarillado, subvenciones, municipal, aprobacion, definitiva, publico/a, servicio(s), ocupacion, dominio, precio, actividades, vehiculos, matrimonio, apertura, vivienda, bienes, construccion, instalaciones, licencia, suministro, aprovechamiento, especial; y desbordan los 300 en Santander obras, domicilio, general, aprobacion, publica. Cualquier OR o AND que incluya uno de ellos falla ENTERO ('ordenanza reguladora' tambien) y tarda 1-11 s en fallar: el backend lleva la lista estatica, la aprende en caliente y trocea el OR si revienta. Genericos seguros: 'ordenanzas', 'reglamento', 'impuesto', 'aguas', 'abastecimiento'. El listado no trae fecha: orden = anio + numero de CVE; la fecha real se extrae de la cabecera del PDF al leerlo. Sin OCR (0/30 lo necesitaban). COLISIONES RESUELTAS: excluir:['Cieza'] aqui (Cieza es de Murcia) y 'Pielagos' en el excluir de Caceres. Pendiente en bop_engine.leer: la regex de CVE solo entiende BOP-XX-AAAA-N; los BOC-AAAA-N se resuelven en el backend pero llegan como 'materia'.",
  "endpoints": {
   "sesion_opcional": "GET /boces/menu.do?dir=/inicioBusquedaAnuncios.do (crea JSESSIONID; MEDIDO: el POST funciona igual SIN cookies, 0,57 s de media, asi que la sesion se puede omitir)",
   "buscar": "POST /boces/busquedaAnuncios.do (application/x-www-form-urlencoded; cuerpo y RESPUESTA en ISO-8859-15, no UTF-8)",
@@ -49,7 +49,12 @@
  "limites": {
   "tope_300": "El BOC se niega a listar mas de 300 resultados. Con organizacionText + termino de materia nunca se alcanza; sin filtro de municipio saltan hasta terminos como 'residuos' o 'reglamento'.",
   "errorBusqueda": "Terminos hiperfrecuentes en el indice GLOBAL revientan la consulta ANTES de aplicar el filtro de municipio, aunque el municipio sea diminuto. Verificados como venenosos: 'ordenanza' (singular), 'tasa', 'tasas', 'padron', 'agua', 'presupuesto'. Se esquiva usando el plural o anadiendo una palabra rara ('ordenanza veladores' OK, 'tasa vados' OK) o acortando la ventana de fechas.",
-  "genericos_seguros": ["ordenanzas", "reglamento", "ordenanzas fiscales", "impuesto"],
+  "genericos_seguros": [
+   "ordenanzas",
+   "reglamento",
+   "ordenanzas fiscales",
+   "impuesto"
+  ],
   "sin_stemming": "El buscador es LITERAL: 'terraza' != 'terrazas', 'velador' != 'veladores', 'reglamento' != 'reglamentos'. Obliga a tesauro con singular Y plural. Si es insensible a acentos y mayusculas."
  },
  "lectura": {
@@ -64,5 +69,13 @@
   "banco": "28/30 materias correctas en Santander, Torrelavega, Castro-Urdiales, Camargo, Laredo, Reinosa, El Astillero, Santona, Pielagos y Santa Cruz de Bezana. Los 2 fallos son negativos VERDADEROS: Castro-Urdiales no tiene ordenanza de convivencia y Laredo no tiene ordenanza de terrazas publicadas en el BOC.",
   "mapa": "102/102 ayuntamientos verificados en vivo: cada valor devuelve anuncios y SOLO de su ayuntamiento (22,9 s el barrido completo)"
  },
- "sonda": "_probe_cantabria.py (modos: params | pre2010 | banco | tiempos | pdfs | smoke | mapa | todo)"
+ "sonda": "_probe_cantabria.py (modos: params | pre2010 | banco | tiempos | pdfs | smoke | mapa | todo)",
+ "excluir": [
+  "Cieza"
+ ],
+ "medido_2_sep_2026": {
+  "buscar": "0,2-1,6 s (una consulta OR; 2-4 s si hay que trocear)",
+  "leer": "0,2-0,6 s",
+  "banco": "ver _test_bop_cantabria.py"
+ }
 }

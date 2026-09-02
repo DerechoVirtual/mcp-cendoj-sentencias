@@ -27,6 +27,7 @@ import json
 import os
 import re
 import ssl
+import tempfile
 import threading
 import time
 import unicodedata
@@ -168,19 +169,125 @@ def _parse_muni(municipio):
     return (municipio or "").strip(), None
 
 
+# Nombres alternativos (castellano ↔ cooficial, abreviaturas de uso común) -> el
+# nombre con el que figura en el mapa del BOP. Solo se consultan cuando el nombre
+# exacto no está en el índice. Origen (2-sep-2026): el banco de los 300 municipios
+# >50k hab. no resolvía "Crevillente" (el mapa dice Crevillent), "La Coruña",
+# "Las Rozas", "La Laguna", "Hospitalet", "Santiago"...
+_ALIAS_MUNI = {
+    "crevillente": "crevillent", "la coruna": "a coruna", "coruna": "a coruna",
+    "donostia": "san sebastian", "donostia san sebastian": "san sebastian",
+    "san sebastian donostia": "san sebastian", "iruna": "pamplona", "pamplona iruna": "pamplona",
+    "la vila joiosa": "villajoyosa", "vila joiosa": "villajoyosa", "renteria": "errenteria",
+    "sangenjo": "sanxenxo", "villagarcia de arousa": "vilagarcia de arousa",
+    "villagarcia": "vilagarcia de arousa", "riveira": "ribeira", "vich": "vic",
+    "hospitalet": "l hospitalet de llobregat", "l hospitalet": "l hospitalet de llobregat",
+    "hospitalet de llobregat": "l hospitalet de llobregat",
+    "san baudilio": "sant boi de llobregat", "san baudilio de llobregat": "sant boi de llobregat",
+    "sant boi": "sant boi de llobregat", "cornella": "cornella de llobregat",
+    "petrel": "petrer", "maspalomas": "san bartolome de tirajana",
+    "santa cruz": "santa cruz de tenerife", "zarauz": "zarautz",
+    "santiago": "santiago de compostela", "guecho": "getxo", "galdacano": "galdakao",
+    "lejona": "leioa", "santurce": "santurtzi", "onteniente": "ontinyent",
+    "alcira": "alzira", "jativa": "xativa", "torrente": "torrent", "burjasot": "burjassot",
+    "aldaya": "aldaia", "alacuas": "alaquas", "cuart de poblet": "quart de poblet",
+    "gerona": "girona", "figueras": "figueres", "mahon": "mao", "ibiza": "eivissa",
+    "palma de mallorca": "palma", "santa eulalia del rio": "santa eularia des riu",
+    "rivas": "rivas vaciamadrid", "rivas vaciamadrid": "rivas-vaciamadrid",
+    "las rozas": "las rozas de madrid", "la laguna": "san cristobal de la laguna",
+    "santa lucia": "santa lucia de tirajana", "granadilla": "granadilla de abona",
+    "orotava": "la orotava", "realejos": "los realejos", "icod": "icod de los vinos",
+    "los llanos": "los llanos de aridane", "vendrell": "el vendrell", "roquetas": "roquetas de mar",
+    "ejido": "el ejido", "amorebieta": "amorebieta etxano", "collado villalba": "collado villalba",
+    "villalba": "collado villalba", "san fernando de henares": "san fernando de henares",
+    "puerto de santa maria": "el puerto de santa maria", "la linea": "la linea de la concepcion",
+    "sanlucar": "sanlucar de barrameda", "chiclana": "chiclana de la frontera",
+    "jerez": "jerez de la frontera", "arcos": "arcos de la frontera",
+    "moron": "moron de la frontera", "alcala de guadaira": "alcala de guadaira",
+    "los palacios": "los palacios y villafranca", "mairena": "mairena del aljarafe",
+    "velez malaga": "velez-malaga", "rincon de la victoria": "rincon de la victoria",
+    "alhaurin": "alhaurin de la torre", "molina": "molina de segura", "torre pacheco": "torre-pacheco",
+    "san pedro": "san pedro del pinatar", "san javier": "san javier", "caravaca": "caravaca de la cruz",
+    "las torres": "las torres de cotillas", "san vicente": "san vicente del raspeig",
+    "vilanova": "vilanova i la geltru", "sant cugat": "sant cugat del valles",
+    "santa coloma": "santa coloma de gramenet", "cerdanyola": "cerdanyola del valles",
+    "mollet": "mollet del valles", "esplugues": "esplugues de llobregat",
+    "sant feliu": "sant feliu de llobregat", "barbera": "barbera del valles",
+    "sant adria": "sant adria de besos", "el prat": "el prat de llobregat", "prat de llobregat": "el prat de llobregat",
+    "torrejon": "torrejon de ardoz", "san sebastian de los reyes": "san sebastian de los reyes",
+    "pozuelo": "pozuelo de alarcon", "boadilla": "boadilla del monte", "arganda": "arganda del rey",
+    "colmenar": "colmenar viejo", "villaviciosa": "villaviciosa de odon",
+    "san bartolome": "san bartolome de tirajana", "puerto del rosario": "puerto del rosario",
+    "vega de san mateo": "vega de san mateo",
+}
+_ALIAS_N = {_norm(k): _norm(v) for k, v in _ALIAS_MUNI.items()}
+
+
+# Nombres que solo se resuelven EXACTOS (nunca por aproximación): capitales de
+# provincia y municipios grandes de provincias aún sin cubrir. Sin esto, «Cuenca»
+# caía en «Cuenca de Campos» (Valladolid) y «Palencia» en «Palenciana» (Córdoba).
+_PROTEGIDOS = {_norm(x) for x in (
+    "Albacete", "Alicante", "Almería", "Ávila", "Badajoz", "Barcelona", "Bilbao", "Burgos", "Cáceres",
+    "Cádiz", "Castellón", "Castellón de la Plana", "Ciudad Real", "Córdoba", "Cuenca", "Girona", "Granada",
+    "Guadalajara", "Huelva", "Huesca", "Jaén", "León", "Lleida", "Logroño", "Lugo", "Madrid", "Málaga",
+    "Murcia", "Ourense", "Oviedo", "Palencia", "Palma", "Pamplona", "Pontevedra", "Salamanca",
+    "San Sebastián", "Santander", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo",
+    "Valencia", "Valladolid", "Vitoria", "Zamora", "Zaragoza", "Ceuta", "Melilla", "Santa Cruz de Tenerife",
+    "Las Palmas", "A Coruña", "Valdepeñas", "Puertollano", "Tomelloso", "Alcázar de San Juan",
+    "Torrelavega", "Castro-Urdiales", "Camargo", "Mérida", "Almendralejo", "Vila-real", "Burriana",
+    "Miranda de Ebro", "Hellín", "Villarreal", "Borriana")}
+
+
+def _clave_muni(kn, pid=None, kn_original=None):
+    """Resuelve un nombre normalizado a (provincia, clave del índice) probando:
+    exacto -> alias -> palabra completa única. Con `pid` se restringe a esa
+    provincia (forma "Municipio, Provincia"). `kn_original` = (nombre tal cual,)
+    para la aproximación por palabras."""
+    if not kn:
+        return None, None
+    universo = {pid: _IDX.get(pid, {})} if pid else _IDX
+    for cand in (kn, _ALIAS_N.get(kn, "")):
+        if not cand:
+            continue
+        for p, idx in universo.items():
+            if cand in idx:
+                return p, cand
+    if len(kn) < 4 or kn in _PROTEGIDOS:
+        return None, None
+    # aproximación solo por PALABRA completa (con el nombre legible, que conserva
+    # espacios): «las rozas» -> «las rozas de madrid», «hospitalet» -> «l'hospitalet
+    # de llobregat»; pero «cuenca» NO puede caer en «cuenca de campos» (Valladolid)
+    # ni «palencia» en «palenciana» (Córdoba): las capitales y los municipios
+    # grandes de provincias sin cubrir están en _PROTEGIDOS y solo casan exactos.
+    qn = " ".join(_mnorm(kn_original[0]).split()) if kn_original else ""
+    hits = []
+    for p, idx in universo.items():
+        for k in idx:
+            nom = _mnorm(_NOMBRES.get(p, {}).get(k, ""))
+            if qn and nom and (nom.startswith(qn + " ") or (" " + qn + " ") in (" " + nom + " ")):
+                hits.append((p, k))
+    # entidades menores (juntas vecinales, mancomunidades) no compiten con municipios
+    if len(hits) > 1:
+        munis = [(p, k) for p, k in hits if not _ENT_MENOR.search(_NOMBRES.get(p, {}).get(k, ""))]
+        hits = munis or hits
+    if len(hits) == 1:
+        return hits[0]
+    return None, None
+
+
 def provincia_de(municipio):
     """Devuelve la provincia cuyo BOP cubre el municipio, o None."""
     _cargar_mapas()
     muni, pid = _parse_muni(municipio)
-    if pid:
-        return pid if _norm(muni) in _IDX.get(pid, {}) else None
-    return _MUNI2PROV.get(_norm(muni))
+    p, _ = _clave_muni(_norm(muni), pid, (muni,))
+    return p
 
 
 def _categoria(prov, municipio):
     _cargar_mapas()
     muni, _ = _parse_muni(municipio)
-    return _IDX.get(prov, {}).get(_norm(muni))
+    _, k = _clave_muni(_norm(muni), prov, (muni,))
+    return _IDX.get(prov, {}).get(k) if k else None
 
 
 def municipios_cubiertos():
@@ -221,7 +328,29 @@ def _getb(url, timeout=40):
 # Cada provincia trae "familia" en su config (default "saga"). El motor genérico
 # (ranking, pasajes, mensaje honesto) es común; solo cambia el BACKEND que
 # produce la lista de anuncios [{url,titulo,cve,fecha,orden}] y el texto de uno.
+_RAW_CACHE = {}          # (prov, texto, categoria, rpp) -> (ts, resultados)
+_RAW_LOCK = threading.Lock()
+
+
 def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
+    """Con memoria de 10 min: el chat llama buscar_ordenanzas y acto seguido
+    leer_ordenanza con la misma materia, y leer repetía la consulta al boletín
+    (en Tarragona/Girona/Barcelona son 5-18 s cada una). Misma instancia de
+    Vercel = misma memoria; si cae en otra, simplemente vuelve a consultar."""
+    clave = (prov, (texto or "").strip().lower(), categoria, rpp)
+    with _RAW_LOCK:
+        c = _RAW_CACHE.get(clave)
+        if c and time.time() - c[0] < 600:
+            return [dict(r) for r in c[1]]
+    res = _buscar_raw_sin_cache(prov, texto, categoria, rpp, timeout)
+    with _RAW_LOCK:
+        if len(_RAW_CACHE) > 300:
+            _RAW_CACHE.clear()
+        _RAW_CACHE[clave] = (time.time(), [dict(r) for r in res])
+    return res
+
+
+def _buscar_raw_sin_cache(prov, texto, categoria=None, rpp=40, timeout=20):
     fam = PROVINCIAS[prov].get("familia", "saga")
     if fam == "caceres":
         return _caceres_buscar(prov, texto, categoria, rpp)
@@ -275,7 +404,31 @@ def _buscar_raw(prov, texto, categoria=None, rpp=40, timeout=20):
         return _girona_buscar(prov, texto, categoria, rpp)
     if fam == "valladolid":
         return _valladolid_buscar(prov, texto, categoria, rpp)
+    ext = _backend_externo(fam)
+    if ext is not None:
+        return ext.buscar(prov, texto, categoria, rpp)
     return _saga_buscar_raw(prov, texto, categoria, rpp, timeout)
+
+
+# Backends EXTERNOS: familias nuevas viven en su propio módulo bop_<familia>.py
+# (funciones buscar(prov, texto, filtro, rpp) -> [{url,titulo,cve,fecha,orden,...}]
+# y texto(prov, m) -> (texto, via)). Así se añaden provincias sin tocar este
+# fichero (y varias a la vez sin pisarse). Reciben PROVINCIAS[prov] como config.
+_EXT = {}
+
+
+def _backend_externo(fam):
+    if fam in _EXT:
+        return _EXT[fam]
+    try:
+        import importlib
+        mod = importlib.import_module("bop_" + fam)
+        if not (hasattr(mod, "buscar") and hasattr(mod, "texto")):
+            mod = None
+    except Exception:  # noqa: BLE001
+        mod = None
+    _EXT[fam] = mod
+    return mod
 
 
 def _texto(prov, m, ocr=True, max_pag=10):
@@ -333,6 +486,9 @@ def _texto(prov, m, ocr=True, max_pag=10):
         return _girona_texto(prov, m)
     if fam == "valladolid":
         return _valladolid_texto(prov, m)
+    ext = _backend_externo(fam)
+    if ext is not None:
+        return ext.texto(prov, m)
     return _saga_texto(prov, m["url"] if isinstance(m, dict) else m, ocr, max_pag)
 
 
@@ -1163,7 +1319,11 @@ def _asturias_buscar(prov, texto, formas=None, rpp=40):
     consultas = _consultas_materia(texto, None)
     # el OR del buscador está ROTO (devuelve solo el segundo término): consultas
     # separadas y unión en local. Y las frases multipalabra van entre comillas.
-    pares = [(v, q) for v in variantes[:2] for q in consultas[:3]]
+    # Su WAF banea la IP ~15 min por encima de ~3 peticiones/s (y el 2-sep-2026
+    # dejó de aceptar el TLS de Python tras un banco intensivo): de 6 peticiones
+    # por búsqueda se baja a 2-3 (una forma, dos consultas) y la segunda forma
+    # (con/sin tilde) solo se prueba si la primera no devuelve nada.
+    pares = [(variantes[0], q) for q in consultas[:2]] if variantes else []
 
     def una(par):
         forma, q = par
@@ -1202,13 +1362,17 @@ def _asturias_buscar(prov, texto, formas=None, rpp=40):
         return out
 
     vistos = {}
-    with _cf.ThreadPoolExecutor(max_workers=3) as ex:      # su WAF castiga las ráfagas
+    with _cf.ThreadPoolExecutor(max_workers=2) as ex:      # su WAF castiga las ráfagas
         for rs in ex.map(una, pares):
             for r in rs:
                 if r["cve"] in vistos:
                     vistos[r["cve"]]["materia"] = vistos[r["cve"]].get("materia") or r["materia"]
                 else:
                     vistos[r["cve"]] = r
+    if not vistos and len(variantes) > 1:
+        for q in consultas[:2]:
+            for r in una((variantes[1], q)):
+                vistos.setdefault(r["cve"], r)
     return list(vistos.values())
 
 
@@ -1251,7 +1415,12 @@ _CATALA = {"residuos": "residus", "residuo": "residus", "basura": "escombraries"
            "civismo": "civisme", "convivencia": "convivència", "ordenanza": "ordenança",
            "reglamento": "reglament", "licencia": "llicència", "licencias": "llicències",
            "saneamiento": "sanejament", "urbanismo": "urbanisme", "playas": "platges",
-           "estacionamiento": "estacionament", "subvenciones": "subvencions"}
+           "estacionamiento": "estacionament", "subvenciones": "subvencions",
+           "turístico": "turístic", "turístico": "turístic", "turísticos": "turístics",
+           "turísticas": "turístiques", "alquiler": "lloguer", "veladores": "vetlladors",
+           "velador": "vetllador", "patinete": "patinet", "patinetes": "patinets",
+           "perros": "gossos", "perro": "gos", "bicicletas": "bicicletes", "bicicleta": "bicicleta",
+           "fiestas": "festes", "feria": "fira", "publicidad": "publicitat", "tenencia": "tinença"}
 
 
 def _tarragona_buscar(prov, texto, muni=None, rpp=40):
@@ -1501,6 +1670,9 @@ def _gipuzkoa_texto(prov, m):
     u = (m.get("url") if isinstance(m, dict) else m) or ""
     if not u:
         return "", "sin-url"
+    # los anuncios antiguos vienen enlazados a ssl4.gipuzkoa.net, que el 2-sep-2026
+    # no responde (timeout de conexión); el mismo fichero vive en la sede nueva
+    u = re.sub(r"^https?://ssl4\.gipuzkoa\.net/castell/bog/", "https://egoitza.gipuzkoa.eus/gao-bog/castell/bog/", u)
     try:                       # versión HTML del mismo anuncio: sin PDF ni OCR
         raw = urllib.request.urlopen(urllib.request.Request(
             u[:-4] + ".htm", headers={"User-Agent": _UA}),
@@ -1971,7 +2143,12 @@ _GALEGO = {"residuos": "lixo", "residuo": "lixo", "basura": "lixo", "basuras": "
            "huertos": "hortas", "huerto": "horta", "electrónica": "electrónica",
            "administración": "administración", "vivienda": "vivenda", "viviendas": "vivendas",
            "playas": "praias", "playa": "praia", "consumo": "consumo", "comercio": "comercio",
-           "alcantarillado": "sumidoiros", "escuela": "escola", "deportes": "deportes"}
+           "alcantarillado": "sumidoiros", "escuela": "escola", "deportes": "deportes",
+           "turístico": "turístico", "turísticos": "turísticos", "alquiler": "alugueiro",
+           "perros": "cans", "perro": "can", "fiestas": "festas", "feria": "feira",
+           "publicidad": "publicidade", "patinete": "patinete",
+           "bajas emisiones": "baixas emisións", "emisiones": "emisións",
+           "bienes inmuebles": "bens inmobles", "inmuebles": "inmobles"}
 
 
 def _acoruna_buscar(prov, texto, ids=None, rpp=40):
@@ -2295,53 +2472,189 @@ def _cadiz_get(url, timeout=30):
                                   timeout=timeout, context=_SSL_NOVERIFY).read()
 
 
+_CA_SLUGS = {}   # slug -> (anuncios de TODOS los órganos, ts)  (caché en memoria 10 min)
+
+
 def _cadiz_anuncios(base, slug, organo):
-    try:
-        page = _cadiz_get(base + "/boletin/" + slug).decode("utf-8", "replace")
-    except Exception:  # noqa: BLE001
-        return []
-    out = []
+    """Anuncios de un órgano en la página del boletín (/boletin/<slug>/), con el
+    PDF del día y la página (#page=N) donde empieza cada uno. El número de anuncio
+    va con puntos de millar y puede tener 1-3 cifras iniciales (2.283 / 258.517)."""
+    c = _CA_SLUGS.get(slug)
+    if c and time.time() - c[1] < 600:
+        todos = c[0]
+    else:
+        try:
+            page = _cadiz_get(base + "/boletin/" + slug).decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return []
+        todos = []
+        for mm in re.finditer(r"(\d{1,3}(?:\.\d{3})*)\.-\s*(Ayuntamiento de [^.<]+?)\.\s*(.*?)\s*"
+                              r'<a[^>]+href="([^"]+\.pdf#page=(\d+))"', page, re.S):
+            tit = _html.unescape(re.sub(r"<[^>]+>", " ", mm.group(3))).strip().rstrip(".")
+            pdf = mm.group(4)
+            todos.append({"organo": mm.group(2), "titulo": re.sub(r"\s+", " ", tit),
+                          "pdf": base + pdf if pdf.startswith("/") else pdf,
+                          "cve": f"BOP-CA-{mm.group(1)}", "page": int(mm.group(5))})
+        _CA_SLUGS[slug] = (todos, time.time())
     on = _norm(organo)
-    for mm in re.finditer(r"(\d{3}\.\d{3})\.-\s*(Ayuntamiento de [^.<]+?)\.\s*(.*?)\s*"
-                          r'<a[^>]+href="([^"]+\.pdf#page=(\d+))"', page, re.S):
-        if _norm(mm.group(2)) != on:
-            continue
-        tit = _html.unescape(re.sub(r"<[^>]+>", " ", mm.group(3))).strip().rstrip(".")
-        pdf = mm.group(4)
-        out.append({"titulo": re.sub(r"\s+", " ", tit), "pdf": base + pdf if pdf.startswith("/") else pdf,
-                    "cve": f"BOP-CA-{mm.group(1)}", "page": int(mm.group(5))})
-    return out
+    return [dict(a) for a in todos if _norm(a["organo"]) == on]
+
+
+_CA_ENTRY = re.compile(r"<div class=\"listWEntry content-box\">\s*<a href='([^']+)'>(.*?)</a>", re.S)
+
+
+def _cadiz_slug_de(href):
+    """'/boletin/Boletin-numero-010-del-ano-2023/' o el PDF del boletín
+    '/.boletines_pdf/2023/01_enero/BOP010_17-01-23.pdf' (o su sumario SU-010_…)
+    -> 'Boletin-numero-010-del-ano-2023' (el número va a 3 cifras)."""
+    m = re.search(r"/boletin/(Boletin-numero-\d+-del-ano-\d+)", href)
+    if m:
+        return m.group(1)
+    m = re.search(r"/(\d{4})/[^/]+/(?:BOP|SU-)(\d{1,3})_\d{2}-\d{2}-(\d{2})\.pdf", href)
+    if m:
+        return f"Boletin-numero-{int(m.group(2)):03d}-del-ano-{m.group(1)}"
+    return ""
+
+
+_CA_IDX = {}   # índice empaquetado (ordenanzas_data/cadiz_indice.json): organo_norm -> [anuncios]
+
+
+def _cadiz_indice():
+    """Índice EMPAQUETADO de anuncios normativos por ayuntamiento (lo genera
+    _gen_indice_cadiz.py recorriendo las páginas de todos los boletines desde 2010).
+    Es la vía principal: exacto e instantáneo. El buscador en vivo queda para lo
+    publicado después de la fecha del índice."""
+    if _CA_IDX:
+        return _CA_IDX
+    fp = os.path.join(_DATA, "cadiz_indice.json")
+    try:
+        d = json.load(open(fp, encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        _CA_IDX["_meta"] = {}
+        return _CA_IDX
+    por = {}
+    for a in d.get("anuncios", []):
+        por.setdefault(_norm(a["o"]), []).append(a)
+    por["_meta"] = d.get("meta", {})
+    _CA_IDX.update(por)
+    return _CA_IDX
 
 
 def _cadiz_buscar(prov, texto, organo=None, rpp=40):
+    """BOP de Cádiz (OpenCms). Desde agosto-2026 el listado list-inner.jsp IGNORA el
+    parámetro `texto` (devolvía lo mismo para «terrazas» y «ordenanza»: los últimos
+    boletines del órgano, y de ahí el «no encuentro» en Jerez, Cádiz, San Fernando…).
+    El buscador nuevo es /buscador/index.html?q=…&sort=score desc: full-text sobre el
+    PDF del boletín, 15 resultados por página, cada uno con enlace al boletín (página
+    /boletin/<slug>/ o PDF del día). Se consulta con la materia + el municipio, se
+    deducen los boletines y se listan en ellos los anuncios del órgano con su #page."""
     cfg = PROVINCIAS[prov]
     if not organo:
         return []
+    muni = re.sub(r"(?i)^ayuntamiento de\s+", "", organo).strip()
     raw = _familias(texto or "ordenanza")[0]
-    q = max(raw, key=len) if raw else (texto or "ordenanza")
-    p = {"tipo_": cfg["tipo"], "ruta_": "/sites/default/.content/BOP_F/", "incluirFiltros_": "true",
-         "num_elements_": "20", "num_columns_": "1",
-         "listConfig": "/.content/Lista_L/Lista_L_00001.html", "usepagination": "true",
-         "page": "1", "texto": q, "organo_remitente": organo, "sortModifier": "desc"}
-    try:
-        r = _cadiz_get(cfg["base"] + "/system/modules/es.dipucadiz.listas/elements/list-inner.jsp?"
-                       + urllib.parse.urlencode(p)).decode("utf-8", "replace")
-    except Exception:  # noqa: BLE001
-        return []
-    slugs = list(dict.fromkeys(re.findall(r"/boletin/(Boletin-numero-\d+-del-ano-\d+)", r)))[:4]
-    out = []
+    terminos = sorted(raw, key=len, reverse=True)[:3]
+    # 1) ÍNDICE EMPAQUETADO (exacto, 0 red): todos los anuncios normativos del órgano
+    idx = _cadiz_indice()
+    base_idx = idx.get(_norm(organo)) or []
+    out, vistos = [], set()
+    for a in base_idx:
+        m8 = re.search(r"numero-(\d+)-del-ano-(\d+)", a.get("slug", ""))
+        cve = f"BOP-CA-{a['n']}"
+        if cve in vistos:
+            continue
+        vistos.add(cve)
+        out.append({"organo": a["o"], "titulo": a["t"], "pdf": a["p"], "url": a["p"], "page": a["pg"],
+                    "cve": cve, "orden": (m8.group(2) + f"{int(m8.group(1)):03d}") if m8 else "0",
+                    "fecha": f"boletín {int(m8.group(1))}/{m8.group(2)}" if m8 else ""})
+    # 2) lo publicado DESPUÉS del índice: últimos boletines con anuncios del órgano
+    if out and idx.get("_meta", {}).get("generado"):
+        try:
+            p = {"tipo_": cfg["tipo"], "ruta_": "/sites/default/.content/BOP_F/", "incluirFiltros_": "true",
+                 "num_elements_": "20", "num_columns_": "1",
+                 "listConfig": "/.content/Lista_L/Lista_L_00001.html", "usepagination": "true",
+                 "page": "1", "organo_remitente": organo, "sortModifier": "desc"}
+            r = _cadiz_get(cfg["base"] + "/system/modules/es.dipucadiz.listas/elements/list-inner.jsp?"
+                           + urllib.parse.urlencode(p), timeout=15).decode("utf-8", "replace")
+            recientes = list(dict.fromkeys(re.findall(r"/boletin/(Boletin-numero-\d+-del-ano-\d+)", r)))[:3]
+            with _cf.ThreadPoolExecutor(max_workers=3) as ex:
+                for i, ans in enumerate(ex.map(lambda s: _cadiz_anuncios(cfg["base"], s, organo), recientes)):
+                    m8 = re.search(r"numero-(\d+)-del-ano-(\d+)", recientes[i])
+                    for a in ans:
+                        if a["cve"] in vistos:
+                            continue
+                        vistos.add(a["cve"])
+                        a["orden"] = (m8.group(2) + f"{int(m8.group(1)):03d}") if m8 else "0"
+                        a["fecha"] = f"boletín {int(m8.group(1))}/{m8.group(2)}" if m8 else ""
+                        a["url"] = a["pdf"]
+                        out.append(a)
+        except Exception:  # noqa: BLE001
+            pass
+        return out
+    if out:
+        return out
+    # La relevancia del buscador es floja (OR sobre todo el índice: "residuos
+    # Cádiz" devuelve 19.816 boletines). Lo que SÍ indexa bien es el SUMARIO de
+    # cada boletín ("112.150.- Ayuntamiento de Cádiz. Ordenanza municipal
+    # reguladora de la Zona de Bajas Emisiones"): por eso la consulta lleva el
+    # órgano entrecomillado + "ordenanza" + la materia, y cada resultado se
+    # puntúa por lo que dice su extracto (¿nombra al municipio? ¿la materia?).
+    # (sin comillas: la frase entrecomillada NO filtra y además diluye la relevancia)
+    consultas = [f'{" ".join(terminos)} {muni}'.strip(), f'{muni} ordenanza {" ".join(terminos)}'.strip()]
+    mn = _norm(muni)
+    puntos = {}
+    for qtxt in consultas:
+        for pagina in (1, 2):
+            q = {"reloaded": "", "q": qtxt, "sort": "score desc", "page": str(pagina)}
+            try:
+                r = _cadiz_get(cfg["base"] + "/buscador/index.html?" + urllib.parse.urlencode(q),
+                               timeout=25).decode("utf-8", "replace")
+            except Exception:  # noqa: BLE001
+                break
+            filas = _CA_ENTRY.findall(r)
+            for pos, (href, cuerpo) in enumerate(filas):
+                s = _cadiz_slug_de(href)
+                if not s:
+                    continue
+                cn = _mnorm(_html.unescape(re.sub(r"<[^>]+>", " ", cuerpo)))
+                pts = 3.0 if mn in _norm(cn) else 0.0
+                pts += sum(1.0 for w in terminos if _hit(_mnorm(w), cn))
+                pts += 0.5 if re.search(r"ordenan|reglament", cn) else 0
+                pts -= pos * 0.02
+                puntos[s] = max(puntos.get(s, -1), pts)
+            if len(filas) < 15:
+                break
+    slugs = [s for s, _ in sorted(puntos.items(), key=lambda x: -x[1])][:8]
+    if not slugs:
+        # respaldo: últimos boletines con anuncios del órgano (list-inner.jsp)
+        p = {"tipo_": cfg["tipo"], "ruta_": "/sites/default/.content/BOP_F/", "incluirFiltros_": "true",
+             "num_elements_": "20", "num_columns_": "1",
+             "listConfig": "/.content/Lista_L/Lista_L_00001.html", "usepagination": "true",
+             "page": "1", "organo_remitente": organo, "sortModifier": "desc"}
+        try:
+            r = _cadiz_get(cfg["base"] + "/system/modules/es.dipucadiz.listas/elements/list-inner.jsp?"
+                           + urllib.parse.urlencode(p)).decode("utf-8", "replace")
+            slugs = list(dict.fromkeys(re.findall(r"/boletin/(Boletin-numero-\d+-del-ano-\d+)", r)))[:4]
+        except Exception:  # noqa: BLE001
+            return []
+    out, vistos = [], set()
     with _cf.ThreadPoolExecutor(max_workers=4) as ex:
         for i, ans in enumerate(ex.map(lambda s: _cadiz_anuncios(cfg["base"], s, organo), slugs)):
+            m8 = re.search(r"numero-(\d+)-del-ano-(\d+)", slugs[i])
             for a in ans:
-                m8 = re.search(r"ano-(\d+)", slugs[i])
-                a["orden"] = (m8.group(1) if m8 else "0") + f"{len(slugs)-i:03d}"
-                a["fecha"] = ""
+                if a["cve"] in vistos:
+                    continue
+                vistos.add(a["cve"])
+                a["orden"] = (m8.group(2) + f"{int(m8.group(1)):03d}") if m8 else "0"
+                a["fecha"] = f"boletín {int(m8.group(1))}/{m8.group(2)}" if m8 else ""
                 a["url"] = a["pdf"]
                 out.append(a)
     return out
 
 
 def _cadiz_texto(prov, m):
+    """Texto del anuncio dentro del PDF del boletín del día: empieza en #page=N y se
+    corta donde acaba el anuncio («Nº 272.189 ______» cierra cada uno)."""
     pdf = m.get("pdf") if isinstance(m, dict) else m
     page = (m.get("page") if isinstance(m, dict) else 1) or 1
     if not pdf:
@@ -2353,8 +2666,26 @@ def _cadiz_texto(prov, m):
     if not _HAS_FITZ or data[:5] != b"%PDF-":
         return "", "sin-pdf"
     doc = fitz.open(stream=data, filetype="pdf")
-    a, b_ = max(0, page - 1), min(doc.page_count, page + 4)   # el anuncio empieza en #page
-    txt = "\n".join(doc[i].get_text() for i in range(a, b_))
+    # Cada anuncio del boletín TERMINA con su número y una raya («Nº 2.283
+    # ___________»); el #page del sumario no marca el principio del anuncio (una
+    # ordenanza larga empieza páginas antes), así que se delimita por marcas: de
+    # la marca del anuncio ANTERIOR a la marca de ESTE (su número va en el CVE).
+    num = re.sub(r"^BOP-CA-", "", (m.get("cve") if isinstance(m, dict) else "") or "")
+    todo = "\n".join(doc[i].get_text() for i in range(doc.page_count))
+    marca = re.compile(r"N[ºo]\s*([\d.]{3,})\s*\n_{5,}")
+    txt = ""
+    if num:
+        fin = re.search(r"N[ºo]\s*" + re.escape(num) + r"\s*\n_{5,}", todo)
+        if fin:
+            prev = [mm.end() for mm in marca.finditer(todo, 0, fin.start())]
+            ini = prev[-1] if prev else max(0, todo.rfind("ADMINISTRACION LOCAL", 0, fin.start()))
+            txt = todo[ini:fin.start()]
+    if not txt:
+        a, b_ = max(0, page - 1), min(doc.page_count, page - 1 + 12)   # respaldo por páginas
+        txt = "\n".join(doc[i].get_text() for i in range(a, b_))
+        mfin = marca.search(txt, 400)
+        if mfin:
+            txt = txt[:mfin.start()]
     return (txt, "pdf-dia") if len(txt) > 200 else ("", "sin-texto")
 
 
@@ -2400,19 +2731,77 @@ def _malaga_buscar(prov, texto, ine=None, rpp=40):
     return out
 
 
+_TXT_CACHE = os.path.join(tempfile.gettempdir(), "bop-textos")
+
+
+def _txt_cache_get(clave):
+    try:
+        fp = os.path.join(_TXT_CACHE, re.sub(r"[^A-Za-z0-9_.-]", "_", clave))
+        if time.time() - os.path.getmtime(fp) < 7 * 86400:
+            return open(fp, encoding="utf-8").read()
+    except Exception:  # noqa: BLE001
+        pass
+    return ""
+
+
+def _txt_cache_set(clave, texto):
+    try:
+        os.makedirs(_TXT_CACHE, exist_ok=True)
+        with open(os.path.join(_TXT_CACHE, re.sub(r"[^A-Za-z0-9_.-]", "_", clave)), "w",
+                  encoding="utf-8") as f:
+            f.write(texto)
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _malaga_texto(prov, m):
+    """El BOP de Málaga protege edicto.php con Cloudflare Turnstile por RÁFAGAS:
+    a partir de ~8 peticiones/minuto por IP devuelve una página de «Verificación
+    de seguridad» (1,9 KB) en vez del edicto; unos segundos después vuelve a servir.
+    Por eso: caché del texto en /tmp (7 días), reintentos con espera creciente y,
+    si sigue bloqueado, una vía distinta de "sin texto" para explicárselo al abogado."""
     cfg = PROVINCIAS[prov]
     eid = m.get("eid") if isinstance(m, dict) else m
     if not eid:
         return "", "sin-id"
+    # texto EMPAQUETADO en el repo (ordenanzas de los municipios >50k; lo genera
+    # _gen_textos_malaga.py con calma para no disparar el Turnstile)
     try:
-        req = urllib.request.Request(cfg["base"] + "/edicto.php?edicto=" + eid,
-                                     headers={"User-Agent": _UA, "Referer": cfg["base"] + "/buscar.php"})
-        html = urllib.request.urlopen(req, timeout=40).read().decode("utf-8", "replace")
-    except Exception as e:  # noqa: BLE001
-        return "", f"err:{e}"
-    t = _html_a_texto(html)
-    return (t, "html") if len(t) > 200 else ("", "sin-texto")
+        fp = os.path.join(_DATA, "malaga_prov_textos", eid + ".txt.gz")
+        if os.path.exists(fp):
+            import gzip as _gz
+            with _gz.open(fp, "rt", encoding="utf-8") as f:
+                t = f.read()
+            if len(t) > 200:
+                return t, "html-empaquetado"
+    except Exception:  # noqa: BLE001
+        pass
+    cacheado = _txt_cache_get("malaga_" + eid)
+    if cacheado:
+        return cacheado, "html-cache"
+    bloqueado = False
+    for espera in (0, 1.5, 3.0):
+        if espera:
+            time.sleep(espera)
+        try:
+            req = urllib.request.Request(cfg["base"] + "/edicto.php?edicto=" + eid,
+                                         headers={"User-Agent": _UA, "Referer": cfg["base"] + "/buscar.php",
+                                                  "Accept-Language": "es-ES,es"})
+            html = urllib.request.urlopen(req, timeout=40).read().decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001
+            return "", f"err:{e}"
+        # la página de bloqueo (1,9 KB) solo dice «Verificación necesaria»; los
+        # edictos reales también cargan el script de Turnstile, así que no basta
+        # con buscar esa palabra (un edicto corto de 2013 pesa 5,9 KB)
+        if re.search(r"turnstile_gate|<title>\s*Verificaci[oó]n necesaria", html):
+            bloqueado = True
+            continue
+        t = _html_a_texto(html)
+        if len(t) > 200:
+            _txt_cache_set("malaga_" + eid, t)
+            return t, "html"
+        return "", "sin-texto"
+    return "", ("bloqueo-antibots" if bloqueado else "sin-texto")
 
 
 # ---- backend BOP Digit@l (Jaén: índice de ordenanzas por municipio + PDF) ---
@@ -2818,6 +3207,35 @@ def _es_ordenanza(t):
                           r"pre[uc]?io? p[uú]blic|pre[uz]o p[uú]blic", t, re.I))
 
 
+# Normas municipales que NO se titulan "ordenanza/reglamento" pero regulan igual:
+# modificaciones del PGOU, limitaciones (p.ej. del número de viviendas de uso
+# turístico), bandos, instrucciones, normas urbanísticas, estatutos... Solo entran
+# en el ranking cuando el título lleva un término DISTINTIVO de la materia pedida
+# (así no cuelan anuncios sueltos). Caso real: «Aprobación definitiva de la
+# propuesta de limitación del número máximo de viviendas de uso turístico en la
+# ciudad» (Sevilla, BOP 28/10/2024) se descartaba por no decir "ordenanza".
+_NORMA_AMPLIA = re.compile(
+    r"aprobaci[oó]n definitiva|texto (?:[ií]ntegro|refundido|consolidado)|"
+    r"normas? (?:urban[ií]stic|reguladora|subsidiaria)|plan (?:general|especial|de ordenaci)|"
+    r"\bpgou\b|regulaci[oó]n|limitaci[oó]n|\bbando\b|instrucci[oó]n|bases reguladoras|"
+    r"estatutos|normativa|r[eé]gimen|zona (?:de )?bajas emisiones|modificaci[oó]n puntual|"
+    r"regulaci[oó]|aprovaci[oó] definitiva|modificaci[oó] puntual|normes urban", re.I)
+
+
+def _es_norma_amplia(titulo, distintivos):
+    if not distintivos or not _NORMA_AMPLIA.search(titulo or ""):
+        return False
+    if _NO_NORMA.search(titulo or ""):
+        return False
+    tm = _mnorm(titulo)
+    return any(_hit(w, tm) for w in distintivos)
+
+
+def _distintivos(raw, core=()):
+    """Términos que de verdad identifican la materia (fuera los de relleno)."""
+    return [w for w in list(raw) + [c for c in core if " " not in c] if w not in _GENERICO]
+
+
 _STOPM = {"de", "la", "el", "los", "las", "del", "y", "o", "en", "por", "para", "un",
           "una", "sobre", "municipal", "municipales", "ordenanza", "ordenanzas",
           "reglamento", "reglamentos", "reguladora", "regulador", "norma", "normativa"}
@@ -2826,6 +3244,16 @@ _STOPM = {"de", "la", "el", "los", "las", "del", "y", "o", "en", "por", "para", 
 # —específicos, pesan—, términos SOFT —genéricos, solo desempatan—). Los alias
 # multipalabra se comparan como subcadena del título normalizado.
 _EXPANSION = [
+    # viviendas de uso turístico / pisos turísticos (caso Sevilla, 2-sep-2026: la
+    # limitación del número de VUT es una modificación del PGOU publicada en el BOP)
+    (r"turistic|\bvut\b|vivienda vacacional|apartamento turistic|piso turistic|pisos turistic|"
+     r"alquiler vacacional|alquiler turistic|alojamiento turistic|hospedaje",
+     ["uso turistico", "turistic", "vivienda vacacional", "alojamiento turistico",
+      "apartamento turistico", "vut", "alquiler vacacional", "hospedaje"],
+     ["vivienda", "alojamiento", "turismo"]),
+    (r"\bplaya|litoral|costa\b", ["playa", "litoral"], []),
+    (r"urbanis|\bpgou\b|plan general|edificaci|\bsolar(es)?\b|ruina",
+     ["urbanistic", "plan general", "pgou", "edificacion", "ruina", "solares"], ["obra", "licencia"]),
     (r"residuo|basura|\brsu\b|desecho|escombro|derribo|limpieza|punto limpio",
      ["residuo", "basura", "recogida de residuos", "recogida de basura", "solidos urbanos",
       "punto limpio", "higiene urbana", "limpieza viaria", "gestion de residuos", "derribo", "escombro"],
@@ -2902,8 +3330,15 @@ _SUPRA = re.compile(r"residuo|basura|\brsu\b|limpieza|agua|saneamiento|alcantari
 
 # títulos a demote salvo que la materia pedida los justifique (guardián)
 _DEMOTE = [
-    (r"correcci[oó]n de errores", None),
-    (r"delegaci[oó]n de", None),
+    # (castellano, gallego y catalán: «corrección de erros», «correcció d'errades»)
+    (r"correcci[oó]n? de err(?:ores|os|ades)|correcci[oó] d'errades", None),
+    (r"delegaci[oó]n? de", None),
+    (r"derr?ogaci[oó]n?\b", None),
+    # actos que llevan el nombre de la ordenanza en el título pero NO son la norma
+    (r"padr[oó]n|cobranza|per[ií]odo voluntario", "padron"),
+    (r"notificaci[oó]n?|expediente sancionador|incoaci[oó]n?|licitaci[oó]n?|adjudicaci[oó]n?", None),
+    # publicación de una SENTENCIA que anula un artículo: no es la ordenanza (San Sebastián, VUT)
+    (r"\bsentencia\b|\bsent[eè]ncia\b|recurso contencioso|ejecuci[oó]n de sentencia", "sentencia"),
     (r"nombramiento|bases (de|para)|convocatoria|bolsa de (trabajo|empleo)", "examen"),
     (r"honores|condecorac|protocolo|ceremonial", "honores"),
     (r"\bpersonal\b|plantilla|oferta de empleo|\brpt\b|negociaci[oó]n", "negociacion"),
@@ -2967,22 +3402,29 @@ def _puntuar(r, raw, core, soft):
     return s + int(r["orden"][:8] or 0) / 1e10
 
 
-def _ranquear(res, materia):
+def _ranquear(res, materia, idioma=None):
     """Candidatos tipo ordenanza ordenados por relevancia; solo pasan el gate los
-    que llevan ≥1 término raw o core (con frontera de palabra) en el título."""
+    que llevan ≥1 término raw o core (con frontera de palabra) en el título.
+    `idioma` (gl/ca/va): el gate admite también la forma en la lengua del
+    boletín («residuos» ↔ «lixo»/«residus»), como ya hacía _mejor_verificado."""
     raw, core, soft = _familias(materia)
-    cand = [r for r in res if _es_ordenanza(r["titulo"])]
+    dist = _distintivos(raw, core)
+    if idioma:
+        dist = list(_expandir_idioma(dist, idioma))
+    cand = [r for r in res if _es_ordenanza(r["titulo"]) or _es_norma_amplia(r["titulo"], dist)]
     if not cand:
         return []
     cand.sort(key=lambda r: _puntuar(r, raw, core, soft), reverse=True)
     gate = set(raw) | core
+    if idioma:
+        gate = _expandir_idioma(gate, idioma)
     if not gate:
         return cand
     return [r for r in cand if any(_hit(w, _mnorm(r["titulo"])) for w in gate)]
 
 
-def _mejor(res, materia):
-    top = _ranquear(res, materia)
+def _mejor(res, materia, idioma=None):
+    top = _ranquear(res, materia, idioma)
     return top[0] if top else None
 
 
@@ -3001,7 +3443,9 @@ def _mejor_fulltext(res, materia):
     el título."""
     raw, core, soft = _familias(materia)
     fam = set(raw) | core | soft
-    cand = [r for r in res if _es_ordenanza(r["titulo"]) and _no_demote(r, fam)]
+    dist = _distintivos(raw, core)
+    cand = [r for r in res if (_es_ordenanza(r["titulo"]) or _es_norma_amplia(r["titulo"], dist))
+            and _no_demote(r, fam)]
     if not cand:
         return None
     con_materia = [r for r in cand if any(_hit(w, _mnorm(r["titulo"])) for w in fam)]
@@ -3018,15 +3462,18 @@ _GENERICO = {"entrada", "entradas", "salida", "vehiculo", "vehiculos", "publica"
              "gestion", "normas", "vigente", "titulo", "ciudad", "termino", "aplicacion"}
 
 # Anuncios que NO son normativa (el buscador del BOCM los mezcla con las ordenanzas)
-_NO_NORMA = re.compile(r"extracto|convocat[oò]ria|convocatoria|atorgament|ajuts econ[oò]mics|borsa de treball|nomenament|delegaci[óo]n de funciones|"
+_NO_NORMA = re.compile(r"\bsentencia\b|\bsent[eè]ncia\b|recurso contencioso|"
+                       r"extracto|convocat[oò]ria|convocatoria|atorgament|ajuts econ[oò]mics|borsa de treball|nomenament|delegaci[óo]n de funciones|"
                        r"oferta[s]? de empleo|bases (del )?proceso|proceso selectivo|"
                        r"plan especial|plan parcial|plan general|calificaci[óo]n (de )?suelo|"
                        r"expropiaci|nombramiento|cese\b|list[ao] (provisional|definitiv)|"
                        r"informaci[óo]n p[úu]blica de|estudio de detalle|convenio urban[íi]stico", re.I)
 
 
-def _mejor_verificado(prov, res, materia, top_n=4):
+def _mejor_verificado(prov, res, materia, top_n=4, estricto=False):
     """Elige la ordenanza VERIFICANDO EL CONTENIDO, no solo el título.
+    estricto=True (títulos genéricos): exige mucha más densidad de la materia y
+    un presupuesto de tiempo corto, porque el candidato no dice nada en el título.
 
     Necesario cuando el boletín titula de forma genérica ('Alcobendas.
     Organización y funcionamiento. Ordenanza'): el título no dice la materia, así
@@ -3034,7 +3481,9 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     en JSON y cuesta ~1 s) y gana el que realmente habla de la materia pedida.
     El texto ganador viaja en m['text'] para no volver a descargarlo."""
     raw, core, soft = _familias(materia)
-    cand = [r for r in res if _es_ordenanza(r["titulo"]) and not _NO_NORMA.search(r["titulo"])]
+    dist0 = _distintivos(raw, core)
+    cand = [r for r in res if (_es_ordenanza(r["titulo"]) or _es_norma_amplia(r["titulo"], dist0))
+            and not _NO_NORMA.search(r["titulo"])]
     if not cand:
         cand = [r for r in res if not _NO_NORMA.search(r["titulo"])]
     if not cand:
@@ -3083,7 +3532,15 @@ def _mejor_verificado(prov, res, materia, top_n=4):
 
     def carga(r):
         try:
-            t, _ = _texto(prov, r)
+            # sin OCR: verificar de qué va un candidato no puede costar 10-15 s de
+            # visión por PDF (Saga). Si el PDF va cifrado (fuente sin ToUnicode),
+            # se OCR-ea SOLO la primera página (~1,5 s): basta para leer el título
+            # real y decidir; el texto completo se lee después si es el elegido.
+            t, via = _texto(prov, r, ocr=False)
+            if not t and via == "cifrado":
+                t, _ = _texto(prov, r, ocr=True, max_pag=1)
+                if t:
+                    r = dict(r, _solo_portada=True)
         except Exception:  # noqa: BLE001
             t = ""
         return r, t
@@ -3092,7 +3549,8 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     # estrangula las descargas simultáneas y una ráfaga acaba en timeout. Lo normal
     # es resolver con 1 lectura; solo si esa no convence se mira la siguiente.
     mejor, mejor_s, mejor_t, mejor_ok = None, float("-inf"), "", False
-    limite = time.time() + 16          # tope duro: nunca disparar la latencia
+    limite = time.time() + (8 if estricto else 16)   # tope duro: nunca disparar la latencia
+    min_h, min_d = (6, 0.25) if estricto else (3, 0.12)
     if True:
         for r, t in map(carga, top):
             if not t:
@@ -3109,7 +3567,7 @@ def _mejor_verificado(prov, res, materia, top_n=4):
             s = pre(r) + 2.0 * min(hits, 12) + 10.0 * min(dens, 2.0) + 4.0 * min(hclave, 10)
             s += min(len(re.findall(r"(?i)art[íi]culo\s+\d+", t[:80000])), 40) / 8.0
             # ¿de verdad va de lo que preguntan? (término distintivo en título o densidad real)
-            ok = bool(en_titulo(r)) or (hclave >= 3 and dclave >= 0.12)
+            ok = bool(en_titulo(r)) or (hclave >= min_h and dclave >= min_d)
             if (ok, s) > (mejor_ok, mejor_s):
                 mejor, mejor_s, mejor_t, mejor_ok = r, s, t, ok
             if ok and dclave >= 0.30:      # claramente es esta: no leo más
@@ -3119,14 +3577,17 @@ def _mejor_verificado(prov, res, materia, top_n=4):
     if mejor is None or not mejor_ok:
         return None                   # honesto: no hay ordenanza de esa materia
     mejor = dict(mejor)
-    mejor["text"] = mejor_t
+    if not mejor.pop("_solo_portada", False):
+        mejor["text"] = mejor_t       # (si solo se OCR-eó la portada, se relee entero)
     return mejor
 
 
 def _ranquear_fulltext(res, materia):
     raw, core, soft = _familias(materia)
     fam = set(raw) | core | soft
-    cand = [r for r in res if _es_ordenanza(r["titulo"]) and _no_demote(r, fam)]
+    dist = _distintivos(raw, core)
+    cand = [r for r in res if (_es_ordenanza(r["titulo"]) or _es_norma_amplia(r["titulo"], dist))
+            and _no_demote(r, fam)]
     con = [r for r in cand if any(_hit(w, _mnorm(r["titulo"])) for w in fam)]
     return con + [r for r in cand if r not in con]     # materia-en-título primero, resto en orden Sphinx
 
@@ -3225,7 +3686,17 @@ def _saga_texto(prov, url_anuncio, ocr=True, max_pag=10):
     pdf_url = _pdf_de_anuncio(prov, url_anuncio)
     if not pdf_url:
         return "", "sin-pdf"
-    return _pdf_bytes_texto(_getb(pdf_url, 50), ocr, max_pag)
+    # el OCR de un PDF cifrado cuesta 10-30 s y dinero: se guarda 7 días en /tmp
+    # (misma instancia caliente de Vercel = misma lectura repetida gratis)
+    clave = "saga_" + re.sub(r"[^A-Za-z0-9]+", "_", pdf_url)[-90:]
+    if ocr:
+        cacheado = _txt_cache_get(clave)
+        if cacheado:
+            return cacheado, "ocr-cache"
+    t, via = _pdf_bytes_texto(_getb(pdf_url, 50), ocr, max_pag)
+    if t and str(via).startswith("ocr"):
+        _txt_cache_set(clave, t)
+    return t, via
 
 
 def _limpia(t):
@@ -3238,8 +3709,9 @@ def _limpia(t):
 def _articulos(texto):
     """[(rubrica, cuerpo)] troceando por 'Artículo N'."""
     t = _limpia(texto)
+    # «Artículo 5», «Art. 5», «Article 5» (catalán), «Artigo 5» (gallego)
     marcas = [(m.start(), m.group(1)) for m in re.finditer(
-        r"(?im)(?:^|\n|\.)\s*(art[íi]culo\s+\d+[\wº.\-]{0,4}[.\-–—:]?)", t)]
+        r"(?im)(?:^|\n|\.)\s*((?:art[íi]cul[oe]|artigo|art\.?)\s+\d+[\wº.\-]{0,4}[.\-–—:]?)", t)]
     out = []
     for i, (pos, cab) in enumerate(marcas):
         fin = marcas[i + 1][0] if i + 1 < len(marcas) else len(t)
@@ -3294,14 +3766,32 @@ def _cabecera(prov, muni_nombre, ord_info):
         aviso = ("\n⚠️ Es una MODIFICACIÓN: contiene solo los artículos modificados; "
                  "el articulado completo está en la aprobación original (puede ser anterior al índice).")
     return (f"【{ord_info['titulo']} — Ayuntamiento de {muni_nombre}】{ref}{fe}\n"
-            f"Fuente: Boletín Oficial de la Provincia de {cfg['nombre']} (texto publicado; "
-            "el BOP no consolida: verifica modificaciones posteriores)." + aviso)
+            f"Fuente: {_nombre_boletin(prov)} (texto publicado; "
+            "el boletín no consolida: verifica modificaciones posteriores)." + aviso)
+
+
+# Boletines que NO se llaman «de la Provincia» (uniprovinciales y forales)
+_BOLETINES = {
+    "larioja": "Boletín Oficial de La Rioja (BOR)", "asturias": "Boletín Oficial del Principado de Asturias (BOPA)",
+    "navarra": "Boletín Oficial de Navarra (BON)", "bizkaia": "Boletín Oficial de Bizkaia (BOB)",
+    "gipuzkoa": "Boletín Oficial de Gipuzkoa (BOG)", "alava": "Boletín Oficial del Territorio Histórico de Álava (BOTHA)",
+    "baleares": "Butlletí Oficial de les Illes Balears (BOIB)", "cantabria": "Boletín Oficial de Cantabria (BOC)",
+    "cantabria2": "Boletín Oficial de Cantabria (BOC)", "madrid": "Boletín Oficial de la Comunidad de Madrid (BOCM)",
+    "murcia_prov": "Boletín Oficial de la Región de Murcia (BORM)", "ceuta": "Boletín Oficial de la Ciudad de Ceuta (BOCCE)",
+    "melilla": "Boletín Oficial de la Ciudad de Melilla (BOME)",
+}
+
+
+def _nombre_boletin(prov):
+    cfg = PROVINCIAS.get(prov, {})
+    return cfg.get("boletin") or _BOLETINES.get(prov) or f"Boletín Oficial de la Provincia de {cfg.get('nombre', prov)}"
 
 
 def _nombre_muni(prov, municipio):
     _cargar_mapas()
     muni, _ = _parse_muni(municipio)
-    return _NOMBRES.get(prov, {}).get(_norm(muni)) or muni.strip().title()
+    _, k = _clave_muni(_norm(muni), prov, (muni,))
+    return _NOMBRES.get(prov, {}).get(k or _norm(muni)) or muni.strip().title()
 
 
 def _candidatos(prov, cat, materia, profundo=True):
@@ -3329,6 +3819,24 @@ def _candidatos(prov, cat, materia, profundo=True):
         for rs in ex.map(run, consultas):
             for r in rs:
                 vistos.setdefault(r["url"], r)
+    # 2ª fase, SOLO si hace falta: sinónimos del tesauro como consultas propias.
+    # «pisos turísticos» no aparece en ningún título, «uso turístico» sí (la
+    # limitación de VUT de Sevilla, que además no se titula ordenanza y no sale en
+    # los volcados). Se omite cuando ya hay un candidato con un término distintivo
+    # en el título (en Salamanca cada consulta viva cuesta 4-8 s).
+    if materia.strip():
+        try:
+            raw, core, _soft = _familias(materia)
+            dist = _distintivos(raw, core)
+            ya = any(any(_hit(w, _mnorm(r["titulo"])) for w in dist) for r in vistos.values())
+            frases = [c for c in sorted(core, key=len) if " " in c and c not in _norm(materia)][:2]
+            if not ya and frases:
+                with _cf.ThreadPoolExecutor(max_workers=2) as ex:
+                    for rs in ex.map(run, [(c, 40) for c in frases]):
+                        for r in rs:
+                            vistos.setdefault(r["url"], r)
+        except Exception:  # noqa: BLE001
+            pass
     return list(vistos.values())
 
 
@@ -3340,7 +3848,7 @@ def _aviso_indice(prov):
 
 def _honesto(prov, nombre, consulta, supra_hits):
     lin = [f"No encuentro una ordenanza de «{consulta}» del Ayuntamiento de {nombre} en el "
-           f"Boletín Oficial de la Provincia de {PROVINCIAS[prov]['nombre']}."]
+           f"{_nombre_boletin(prov)}."]
     lin.append(f"Ojo: {_aviso_indice(prov)}la norma puede existir y ser anterior (búscala en la "
                "sede electrónica del ayuntamiento) o no haberse publicado aún.")
     if supra_hits:
@@ -3351,6 +3859,29 @@ def _honesto(prov, nombre, consulta, supra_hits):
         lin.append("Puedes leerlas con leer_ordenanza(municipio, ordenanza=<CVE o título>).")
     lin.append("\nNo invento articulado: si me das el CVE (BOP-XX-AAAA-N) de un anuncio concreto, lo leo al instante.")
     return "\n".join(lin)
+
+
+_GEN_PREFIJO = re.compile(r"^(?:anuncio de |edicto de |aprobaci[oó]n (?:definitiva|inicial|provisional) "
+                          r"(?:de (?:la |el |las |los )?)?|texto (?:[ií]ntegro|definitivo) de (?:la |el )?)+", re.I)
+
+
+def _titulos_genericos(res):
+    """Anuncios tipo ordenanza cuyo título NO dice la materia («Ordenanza reguladora»,
+    «Aprobación definitiva de ordenanza», «Modificación de ordenanza fiscal»): tras
+    quitar el prefijo administrativo quedan ≤3 palabras útiles. Más recientes primero."""
+    out = []
+    for r in res:
+        t = r.get("titulo") or ""
+        if not _es_ordenanza(t) or _NO_NORMA.search(t):
+            continue
+        resto = _GEN_PREFIJO.sub("", t.strip())
+        utiles = [w for w in _mnorm(resto).split() if w not in _STOPM and w not in _GENERICO
+                  and w not in ("fiscal", "fiscales", "modificacion", "definitiva", "definitivo",
+                                "general", "texto", "integro", "aprobacion", "ayuntamiento", "municipio")]
+        if not utiles:
+            out.append(r)
+    out.sort(key=lambda r: r.get("orden") or "0", reverse=True)
+    return out
 
 
 def _supra(prov, consulta):
@@ -3380,13 +3911,28 @@ def buscar(municipio, consulta="", limite=12):
     if consulta.strip() and fulltext:
         ords = _ranquear_fulltext(res, consulta)
     elif consulta.strip():
-        ords = _ranquear(res, consulta)
+        ords = _ranquear(res, consulta, PROVINCIAS[prov].get("idioma"))
     else:
         ords = [r for r in res if _es_ordenanza(r["titulo"])]
         ords.sort(key=lambda r: r["orden"], reverse=True)
-    ords = [r for r in ords if not re.search(r"correcci[oó]n de errores|delegaci[oó]n de", r["titulo"], re.I)]
+    ords = [r for r in ords if not re.search(r"correcci[oó]n? de err(?:ores|os|ades)|correcci[oó] d'errades|"
+                                             r"delegaci[oó]n? de", r["titulo"], re.I)]
     if not ords:
-        return _honesto(prov, nombre, consulta, _supra(prov, consulta))
+        # títulos GENÉRICOS («Ordenanza reguladora», «Aprobación definitiva de
+        # ordenanza»): el boletín no dice la materia, así que no se puede descartar
+        # que sea la pedida; se listan para que leer_ordenanza las verifique por
+        # contenido (o el abogado elija por CVE)
+        genericos = _titulos_genericos(res)
+        extra = ""
+        if genericos and consulta.strip():
+            lin = ["\n\nOJO: este ayuntamiento publica anuncios con título GENÉRICO (sin decir la "
+                   "materia); alguno podría ser la norma buscada. leer_ordenanza los verifica por "
+                   "contenido; también puedes leer uno por su CVE:"]
+            for i, r in enumerate(genericos[:5], 1):
+                lin.append(f"{i}. {r['titulo']}" + (f" · {r['cve']}" if r.get("cve") else "")
+                           + (f" · pub. {r['fecha']}" if r.get("fecha") else ""))
+            extra = "\n".join(lin)
+        return _honesto(prov, nombre, consulta, _supra(prov, consulta)) + extra
     dt = (time.time() - t0) * 1000
     lin = [f"【Ordenanzas de {nombre.upper()} en el BOP de {PROVINCIAS[prov]['nombre']}"
            + (f" — «{consulta}»】" if consulta.strip() else "】")]
@@ -3410,7 +3956,11 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
     t0 = time.time()
     # localizar el anuncio: por CVE si lo dan, si no por materia (escalera de recall)
     try:
-        mcve = re.search(r"BOP-[A-Z]{1,4}-\d{4}-\d+|BOCM-\d{8}-\d+", ordenanza, re.I)
+        # referencias oficiales de los distintos boletines: BOP-SE-2024-091027,
+        # BOCM-20260317-46, BOC-2024-1234, BOME-A-2024-439, BOP-SA-20240117-003,
+        # BOP-LR-2025-123, BOP-BA-2024-3121R, BOP-CA-2.283…
+        mcve = re.search(r"\b(?:BOP-[A-Z]{1,4}|BOCM|BOC|BOME-AX?|BOR|BOG|BOTHA|BOIB)-\d{4,8}-[\d.]+[A-Z]?\b",
+                         ordenanza, re.I)
         if mcve:
             res = _buscar_raw(prov, mcve.group(0), cat, rpp=10) or _buscar_raw(prov, mcve.group(0), None, rpp=10)
             m = next((r for r in res if r["cve"] == mcve.group(0)), None) or (res[0] if res else None)
@@ -3425,19 +3975,35 @@ def leer(municipio, ordenanza, articulo="", parrafos=0, terminos="", max_chars=0
         else:
             # 1) consulta directa de la materia (camino rápido)
             res = _buscar_raw(prov, ordenanza, cat, rpp=60)
-            m = _mejor(res, ordenanza)
+            m = _mejor(res, ordenanza, PROVINCIAS[prov].get("idioma"))
             if not m:
                 # 2) volcado genérico del municipio + ranking local (recall profundo)
-                m = _mejor(_candidatos(prov, cat, ordenanza), ordenanza)
+                res = _candidatos(prov, cat, ordenanza)
+                m = _mejor(res, ordenanza, PROVINCIAS[prov].get("idioma"))
+            if not m:
+                # 3) títulos GENÉRICOS («Ordenanza reguladora», «Aprobación definitiva
+                # de ordenanza»): se leen los 3 más recientes y gana el que de verdad
+                # trata la materia (sin OCR y con tope de tiempo). Caso real:
+                # Almuñécar publica «Ordenanza reguladora» a secas.
+                genericos = _titulos_genericos(res)[:5] if PROVINCIAS[prov].get("genericos", True) else []
+                if genericos:
+                    m = _mejor_verificado(prov, genericos, ordenanza, top_n=5, estricto=True)
     except Exception as e:  # noqa: BLE001
         return f"Error buscando la ordenanza en el BOP de {PROVINCIAS[prov]['nombre']}: {e}"
     if not m:
         return _honesto(prov, nombre, ordenanza, _supra(prov, ordenanza))
     try:
-        texto, via = _texto(prov, m)
+        if m.get("text"):
+            texto, via = m["text"], "verificado"     # ya leído al verificar el candidato
+        else:
+            texto, via = _texto(prov, m)
     except Exception as e:  # noqa: BLE001
         return f"Localicé la ordenanza «{m['titulo']}» ({m.get('cve','')}) pero no pude leer su PDF: {e}"
     if not texto:
+        if str(via).startswith("bloqueo"):
+            return (f"Localicé «{m['titulo']}» ({m.get('cve','')}) pero el boletín ha activado "
+                    "temporalmente su verificación anti-robots y no sirve el texto ahora mismo. "
+                    f"Reintenta en 1-2 minutos o consulta el enlace oficial: {m['url']}")
         return (f"Localicé «{m['titulo']}» ({m.get('cve','')}) pero su PDF no tiene texto legible. "
                 f"Enlace oficial: {m['url']}")
     cab = _cabecera(prov, nombre, m)

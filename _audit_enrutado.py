@@ -28,6 +28,8 @@ ESPERADO = {
     "Navarra": "navarra", "Cantabria": "cantabria", "Ciudad Real": "ciudadreal",
     "Castellón": "castellon", "Burgos": "burgos", "Albacete": "albacete",
     "Badajoz": "badajoz", "Valladolid": "valladolid", "Zaragoza": "zaragoza",
+    "La Rioja": "larioja", "Ourense": "ourense", "Álava": "alava", "Lugo": "lugo",
+    "Melilla": "melilla",
 }
 
 if __name__ == "__main__":

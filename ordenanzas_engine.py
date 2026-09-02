@@ -379,8 +379,32 @@ def _extraer_pasajes(bloques: list, terminos: str, k: int) -> str:
     Ignora párrafos triviales (títulos/índice repetidos, <60 chars) y deduplica
     contenido idéntico (típico de OCR con cabecera de página repetida)."""
     palabras = [w for w in _norm(terminos).split() if len(w) >= 4 and w not in _STOP]
+    # UNIDADES: un párrafo corto («El tipo de gravamen será:») se une a las líneas
+    # que le siguen (las tarifas «a) Bienes urbanos: 0,64 %») hasta ~250 chars;
+    # antes se descartaba por corto y el pasaje relevante desaparecía (IBI Murcia).
+    unidades, i = [], 0
+    while i < len(bloques):
+        cls, txt = bloques[i]
+        if cls == "articulo" or not cls.startswith("parrafo"):
+            unidades.append((i, cls, txt))
+            i += 1
+            continue
+        tn = _norm(txt)
+        corto_relevante = len(txt) < 60 and (txt.rstrip().endswith(":")
+                                             or any(w in tn for w in palabras))
+        if not corto_relevante:
+            unidades.append((i, cls, txt))
+            i += 1
+            continue
+        j = i + 1
+        acum = txt
+        while len(acum) < 250 and j < len(bloques) and bloques[j][0].startswith("parrafo"):
+            acum += "\n" + bloques[j][1]
+            j += 1
+        unidades.append((i, cls, acum))
+        i = j
     ultimo_art, filas, vistos_txt = "", [], set()
-    for i, (cls, txt) in enumerate(bloques):
+    for i, cls, txt in unidades:
         if cls == "articulo":
             ultimo_art = txt
             continue
@@ -472,7 +496,10 @@ class AdaptadorBase:
         return f"{m.get('fuente', 'fuente oficial')}{act} · {m.get('url', '')}".strip(" ·")
 
     # -------- búsqueda (0 red: catálogo empaquetado)
-    def buscar(self, consulta: str, limite: int) -> list:
+    def buscar(self, consulta: str, limite: int, prefijo: bool = False, min_pts: int = 0) -> list:
+        """prefijo=True: los términos casan por RAÍZ ("turistic" -> "turístico",
+        "residuo" -> "residuos"); se usa con los sinónimos del tesauro. min_pts:
+        descarta lo que solo casa de refilón (una palabra suelta como "vivienda")."""
         normas = self.catalogo()["normas"]
         q = [w for w in _norm(consulta).split() if w not in _STOP]
         if not q:
@@ -483,12 +510,14 @@ class AdaptadorBase:
             secundario = _norm(n.get("cat", "")) + " | " + " | ".join(n.get("kw", []))
             pts = 0
             for w in q:
-                if re.search(rf"\b{re.escape(w)}\b", principal):
+                if re.search(rf"\b{re.escape(w)}" + ("" if prefijo else r"\b"), principal):
                     pts += 3          # titulo/alias mandan
                 elif w in principal:
                     pts += 1
                 elif w in secundario:
                     pts += 1          # categoria/keywords solo desempatan
+            if pts < min_pts:
+                continue
             if pts:
                 tn = _norm(n["titulo"])
                 # las ordenanzas/reglamentos por delante de decretos y tarifas
@@ -678,14 +707,52 @@ class AdaptadorWeb(AdaptadorBase):
         clave = "doc_" + re.sub(r"[^A-Za-z0-9]+", "_", url)[-80:]
         datos = _cache_get(self.codigo, clave)
         if datos is None:
+            # dos intentos cortos: una web municipal caída (sevilla.org devolvía 503
+            # a rachas el 2-sep-2026) no puede costar 75 s de espera en serverless
             for intento in (1, 2):
-                st, datos, _ = _http(url, timeout=25 * intento)
+                st, datos, _ = _http(url, timeout=12 * intento)
                 if st == 200:
                     break
             if st != 200:
                 raise RuntimeError(f"HTTP {st} descargando la norma de la fuente oficial")
             _cache_set(self.codigo, clave, datos)
         return datos
+
+    # -------- texto EMPAQUETADO en el repo (patrón León): 0 red y 0 OCR en runtime
+    def _texto_empaquetado(self, norma: dict) -> str:
+        """Texto de la norma extraído al generar el catálogo y guardado en
+        ordenanzas_data/<textos_dir>/<id>.txt (lo escribe _fill_textos.py). Es la
+        vía PRINCIPAL cuando existe: la web municipal queda como enlace oficial y
+        como respaldo si el fichero faltara. Motivo: sevilla.org devolvía 503 /
+        cortaba la conexión a rachas y el conector se quedaba sin párrafo literal."""
+        d = self.catalogo()["meta"].get("textos_dir")
+        fich = norma.get("texto")
+        if not (d and fich):
+            return ""
+        try:
+            fp = os.path.join(DATA_DIR, d, fich)
+            if fich.endswith(".gz"):
+                import gzip
+                with gzip.open(fp, "rt", encoding="utf-8") as f:
+                    t = f.read()
+            else:
+                with open(fp, encoding="utf-8") as f:
+                    t = f.read()
+            return t if len(t) > 300 else ""
+        except Exception:  # noqa: BLE001 — cae a descarga en vivo
+            return ""
+
+    def fuente_corta(self) -> str:
+        m = self.catalogo()["meta"]
+        base = super().fuente_corta()
+        if m.get("textos_dir") and m.get("textos_fecha"):
+            return f"{base} (texto empaquetado el {m['textos_fecha']}; enlace oficial en cada norma)"
+        return base
+
+    def nota_extra(self, norma: dict) -> str:
+        if self.catalogo()["meta"].get("textos_dir") and norma.get("url"):
+            return "\nTexto oficial (PDF/HTML de la web municipal): " + norma["url"]
+        return ""
 
     @staticmethod
     def _recortar_por_titulo(texto: str, titulo: str) -> str:
@@ -702,7 +769,15 @@ class AdaptadorWeb(AdaptadorBase):
             if len(aguja) < 8:
                 continue
             posiciones = [m.start() for m in re.finditer(re.escape(aguja), texto, re.I)]
+            # si el título ya aparece al PRINCIPIO, el documento ES la norma (una
+            # ordenanza larga publicada en el BOP): no hay nada que recortar. Sin
+            # esto, la de ruido de Málaga (111.000 chars) se cortaba en la última
+            # mención del título y se quedaba en dos párrafos de disposiciones.
+            if any(p < 6000 for p in posiciones):
+                return texto
             cuerpo = [p for p in posiciones if p > 6000]
+            if cuerpo and cuerpo[0] > len(texto) * 0.7:
+                continue                      # el título solo sale en la cola: no cortar
             if cuerpo:
                 texto = texto[cuerpo[0]:]
                 # cortar la cola en la siguiente seccion institucional del BOP
@@ -734,9 +809,13 @@ class AdaptadorWeb(AdaptadorBase):
         return _html_a_texto(htm)
 
     def bloques(self, norma: dict) -> list:
-        # algunos portales ponen de primer documento una caratula/resumen: si el
-        # texto es sospechosamente corto, probamos los siguientes candidatos y
-        # nos quedamos con el mas largo.
+        # 1) texto empaquetado en el repo (si el catálogo lo trae): instantáneo
+        empaquetado = self._texto_empaquetado(norma)
+        if empaquetado:
+            return _bloques_desde_texto(empaquetado)
+        # 2) en vivo. Algunos portales ponen de primer documento una caratula/
+        # resumen: si el texto es sospechosamente corto, probamos los siguientes
+        # candidatos y nos quedamos con el mas largo.
         candidatas = [norma["url"]] + [u for u in norma.get("urls", []) if u != norma["url"]]
         mejor = ""
         for url in candidatas[:4]:
@@ -782,21 +861,9 @@ class _LeonCapital(AdaptadorWeb):
     """León capital: aytoleon.es es flaky (arranque de conexión lento) y una
     norma va escaneada (Movilidad, 310 págs). Para GARANTIZAR <5 s servimos el
     TEXTO YA EXTRAÍDO y empaquetado en el repo (ordenanzas_data/leon_capital_textos/
-    <id>.txt; el escaneado se OCR-eó una sola vez al generar). Fallback: live."""
-
-    def bloques(self, norma: dict) -> list:
-        d = self.catalogo()["meta"].get("textos_dir")
-        fich = norma.get("texto")
-        if d and fich:
-            fp = os.path.join(DATA_DIR, d, fich)
-            try:
-                with open(fp, encoding="utf-8") as f:
-                    t = f.read()
-                if len(t) > 300:
-                    return _bloques_desde_texto(t)
-            except Exception:  # noqa: BLE001 — cae a descarga en vivo
-                pass
-        return super().bloques(norma)
+    <id>.txt; el escaneado se OCR-eó una sola vez al generar). Fallback: live.
+    Desde el 2-sep-2026 el mecanismo es genérico (AdaptadorWeb._texto_empaquetado)
+    y lo usa también Sevilla; la clase queda por claridad."""
 
 
 _LEON = _LeonCapital("leon_capital", "León",
@@ -805,6 +872,33 @@ _LEON = _LeonCapital("leon_capital", "León",
 ADAPTADORES = {a.codigo: a for a in (_MADRID, _ZARAGOZA, _BARCELONA, _VALENCIA,
                                      _SEVILLA, _MALAGA, _MURCIA, _PALMA, _LASPALMAS,
                                      _LEON)}
+
+
+def _registrar_catalogos_auto():
+    """Ciudades con catálogo empaquetado (patrón León: PDF/HTML por norma en su
+    web + texto empaquetado por _fill_textos.py) que se registran por DATOS, sin
+    tocar código: ordenanzas_data/<codigo>.json cuyo meta trae `nombre` y
+    `aliases`. Así se añaden capitales (Ceuta, Cuenca, Guadalajara, Palencia,
+    Zamora, Ávila, Segovia...) sin editar este fichero ni pisarse entre sesiones."""
+    try:
+        import glob as _glob
+        for fp in sorted(_glob.glob(os.path.join(DATA_DIR, "*.json"))):
+            codigo = os.path.basename(fp)[:-5]
+            if codigo in ADAPTADORES or codigo.startswith("bop_"):
+                continue
+            try:
+                with open(fp, encoding="utf-8") as f:
+                    meta = json.load(f).get("meta", {})
+            except Exception:  # noqa: BLE001
+                continue
+            if not meta.get("aliases") or not meta.get("nombre"):
+                continue
+            ADAPTADORES[codigo] = AdaptadorWeb(codigo, meta["nombre"], tuple(meta["aliases"]))
+    except Exception:  # noqa: BLE001
+        pass
+
+
+_registrar_catalogos_auto()
 
 # Cobertura AMPLIA por Boletín Oficial de la Provincia (BOP): cualquier
 # ayuntamiento de una provincia cubierta (por ahora Sevilla) se resuelve
@@ -844,12 +938,38 @@ def _resolver_municipio(municipio: str):
 
 def _no_cubierto(municipio: str) -> str:
     cubiertos = ", ".join(sorted(a.nombre.upper() for a in ADAPTADORES.values()))
-    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Cubro las 9 mayores "
-            f"ciudades ({cubiertos}) y TODOS los ayuntamientos de la provincia de SEVILLA (via "
-            "su Boletin Oficial de la Provincia). Las ordenanzas de otros municipios se publican "
-            "en el BOP de su provincia y en la web/sede del ayuntamiento; aun no los tengo. NO "
-            "repitas esta llamada: informa de donde encontrarla y ofrece normativa estatal "
-            "(buscar_articulo / buscar_boe) o jurisprudencia (buscar_sentencias) relacionada.")
+    provincias = ""
+    if _bop is not None:
+        try:
+            provincias = ", ".join(sorted(c.get("nombre", p).upper() for p, c in _bop.PROVINCIAS.items()))
+        except Exception:  # noqa: BLE001
+            provincias = ""
+    return (f"Municipio no cubierto (aun): «{(municipio or '').strip()}». Cubro las mayores "
+            f"ciudades ({cubiertos}) y TODOS los ayuntamientos de las provincias de "
+            f"{provincias or 'SEVILLA y otras 28'} (via su Boletin Oficial de la Provincia). Si el "
+            "nombre tiene forma cooficial o abreviada, prueba con la otra (Crevillent/Crevillente, "
+            "A Coruna/La Coruna, Las Rozas de Madrid...) o con \"Municipio, Provincia\". Las "
+            "ordenanzas de otros municipios se publican en el BOP de su provincia y en la web/sede "
+            "del ayuntamiento; aun no los tengo. NO repitas esta llamada: informa de donde "
+            "encontrarla y ofrece normativa estatal (buscar_articulo / buscar_boe) o "
+            "jurisprudencia (buscar_sentencias) relacionada.")
+
+
+def _bop_para_capital(ad):
+    """Provincia BOP que cubre también a la capital del catálogo (Sevilla capital
+    está en el BOP de Sevilla): sirve de RESPALDO cuando el catálogo consolidado
+    no tiene la norma (p.ej. la limitación de viviendas de uso turístico, que es una
+    modificación del PGOU publicada solo en el BOP) o su web no responde."""
+    if _bop is None:
+        return None
+    for nombre in (ad.nombre,) + tuple(ad.aliases[:2]):
+        try:
+            p = _bop.provincia_de(nombre)
+        except Exception:  # noqa: BLE001
+            p = None
+        if p:
+            return nombre
+    return None
 
 
 # ================================================================ API pública
@@ -868,12 +988,41 @@ def buscar(municipio: str, consulta: str = "", limite: int = 15) -> str:
             limite = 80                      # consulta vacia = catalogo entero
         normas = ad.buscar(consulta, limite)
         meta = ad.catalogo()["meta"]
+        if not normas and consulta.strip() and _bop is not None:
+            # sinónimos del tesauro del motor BOP ("pisos turísticos" -> "uso
+            # turístico", "basura" -> "residuos"): el catálogo se indexa por título
+            try:
+                raw, core, _soft = _bop._familias(consulta)
+                # solo términos DISTINTIVOS (fuera "vivienda", "uso", "servicio"...:
+                # con ellos "pisos turísticos" casaba "vivienda protegida") y por
+                # RAÍZ, exigiendo al menos un acierto fuerte
+                genericos = set(_bop._GENERICO) | {"vivienda", "viviendas", "alojamiento", "turismo",
+                                                   "licencia", "obra", "impuesto", "tasa"}
+                terminos = {w for t in list(core) + list(raw) for w in _norm(t).split()
+                            if len(w) >= 4 and w not in genericos and w not in _STOP}
+                if terminos:
+                    normas = ad.buscar(" ".join(sorted(terminos)), limite, prefijo=True, min_pts=3)
+            except Exception:  # noqa: BLE001
+                pass
         if not normas:
             todas = ad.catalogo()["normas"]
             cats = sorted({n.get("cat", "") for n in todas if n.get("cat")})
-            return (f"Sin resultados para «{consulta}» en las ordenanzas de {ad.nombre} "
-                    f"(catalogo con las {len(todas)} normas de {meta.get('fuente', 'la fuente oficial')}). "
-                    "Prueba con otra materia o pide el catalogo entero (consulta vacia). "
+            aviso = (f"Sin resultados para «{consulta}» en el catalogo consolidado de {ad.nombre} "
+                     f"({len(todas)} normas de {meta.get('fuente', 'la fuente oficial')}). ")
+            # RESPALDO: el BOP de la provincia (publica TODO lo aprobado por el
+            # ayuntamiento, también lo que no es "ordenanza": modificaciones del
+            # PGOU, limitaciones de viviendas turísticas, bandos...)
+            capital = _bop_para_capital(ad)
+            if capital and consulta.strip():
+                try:
+                    r = _bop.buscar(capital, consulta, limite)
+                except Exception:  # noqa: BLE001
+                    r = None
+                if r and r.startswith("【"):
+                    return (aviso + "En el Boletin Oficial de la Provincia constan estas "
+                            "publicaciones del Ayuntamiento (texto tal como se aprobo; "
+                            "leer con leer_ordenanza usando su titulo o CVE):\n\n" + r)
+            return (aviso + "Prueba con otra materia o pide el catalogo entero (consulta vacia). "
                     "Categorias: " + "; ".join(cats) +
                     f". Si es una norma menor no incluida, estara en {meta.get('url', 'la web municipal')}.")
         lineas = [f"【Ordenanzas y reglamentos de {ad.nombre.upper()}"
@@ -905,12 +1054,47 @@ def leer(municipio: str, ordenanza: str, articulo: str = "", parrafos: int = 0,
                 return r
         return _no_cubierto(municipio)
     try:
-        norma = ad.resolver(ordenanza)
+        # una referencia del BOP (CVE o título de anuncio «Aprobación definitiva
+        # de…») no está en el catálogo consolidado: va directa al respaldo BOP
+        # (si se resolviera contra el catálogo por parecido, saldría otra norma)
+        norma = None
+        if not re.search(r"BOP-[A-Z]{1,4}-\d{4}|BOCM-\d{8}|^\s*aprobaci[oó]n (definitiva|inicial)\b|"
+                         r"^\s*(propuesta|modificaci[oó]n puntual|texto [ií]ntegro)\b", ordenanza, re.I):
+            norma = ad.resolver(ordenanza)
         if not norma:
+            # la norma puede no estar en el catálogo consolidado pero sí en el BOP
+            # (p.ej. la limitación de viviendas de uso turístico de Sevilla, que
+            # es una modificación del PGOU): mismo respaldo que en buscar()
+            capital = _bop_para_capital(ad)
+            if capital and ordenanza.strip():
+                try:
+                    r = _bop.leer(capital, ordenanza, articulo, parrafos, terminos, max_chars)
+                except Exception:  # noqa: BLE001
+                    r = None
+                if r and r.startswith("【"):
+                    return ("(No esta en el catalogo consolidado de " + ad.nombre +
+                            "; texto segun el Boletin Oficial de la Provincia.)\n" + r)
             return (f"No identifico la ordenanza «{ordenanza}» en {ad.nombre}. Usa el id que "
                     "devuelve buscar_ordenanzas, su referencia oficial o el titulo; o vuelve "
                     "a buscar con otra materia.")
-        bloques = ad.bloques(norma)
+        try:
+            bloques = ad.bloques(norma)
+        except Exception as e_fuente:  # noqa: BLE001
+            # la web municipal no responde: RESPALDO por el BOP de la provincia
+            # (texto tal como se publicó al aprobarse) antes que quedarse sin nada
+            capital = _bop_para_capital(ad)
+            r = None
+            if capital:
+                try:
+                    r = _bop.leer(capital, norma["titulo"], articulo, parrafos,
+                                  terminos or ordenanza, max_chars)
+                except Exception:  # noqa: BLE001
+                    r = None
+            if r and r.startswith("【"):
+                return (f"(La web municipal de {ad.nombre} no responde ahora mismo: {e_fuente}. "
+                        "Texto segun el Boletin Oficial de la Provincia, que publica la norma al "
+                        f"aprobarse; enlace oficial: {norma.get('url', '')})\n" + r)
+            raise RuntimeError(f"{e_fuente}. Enlace oficial: {norma.get('url', '')}")
         cab_extra = " · ".join(x for x in (norma.get("pub", ""),
                                            f"Ref. {norma['ref']}" if norma.get("ref") else "",
                                            f"Ultima modificacion: {norma['mod']}" if norma.get("mod") else "") if x)

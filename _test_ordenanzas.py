@@ -57,7 +57,7 @@ TESTS = {
           desc="resolver por referencia oficial BOCM-m"),
         L("taxi", ["no encuentro el articulo", "indice"], articulo="999",
           desc="articulo inexistente -> indice como pista"),
-        B("ruido", ["no cubierto"], municipio="Getafe", desc="municipio no cubierto (anti-atasco)"),
+        B("ruido", ["no cubierto"], municipio="Teruel", desc="municipio no cubierto (anti-atasco)"),
     ],
     "zaragoza": [
         B("terrazas", ["terrazas de veladores", "zgz-3723"]),

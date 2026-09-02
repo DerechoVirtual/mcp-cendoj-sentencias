@@ -5,7 +5,7 @@
  "base": "https://www.dip-badajoz.es/bop",
  "mapa": "bop_badajoz_municipios.json",
  "indice_desde": 2006,
- "activo": false,
+ "activo": true,
  "endpoints": {
   "buscador": "/index.php?Busqueda=1",
   "pagina": "/index.php?Busqueda=1&NPS={pagina}&accion=Buscar",
@@ -40,5 +40,5 @@
  "lectura": "html",
  "ocr": false,
  "encoding": "utf-8",
- "nota_activo": "activo:false porque la familia 'badajoz' AUN NO esta implementada en bop_engine. Verificado en vivo 2026-07-27: busqueda ~1,1 s y lectura ~0,25 s, texto integro en HTML sin PDF ni OCR."
+ "nota_activo": "ACTIVA desde 2-sep-2026: backend externo bop_badajoz.py (contrato buscar/texto). Verificado en vivo 27-jul-2026: busqueda ~1,1 s y lectura ~0,25 s, texto integro en HTML sin PDF ni OCR. Banco _test_bop_badajoz.py."
 }

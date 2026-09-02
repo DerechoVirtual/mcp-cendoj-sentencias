@@ -2,7 +2,9 @@
  "meta": {
   "municipio": "palma",
   "fuente": "Seu Electronica de l'Ajuntament de Palma (PDF oficial BOIB por norma; texto original + modificaciones, sin consolidar)",
-  "url": "https://seuelectronica.palma.cat/classificacio-cronologica?categoryId=40483"
+  "url": "https://seuelectronica.palma.cat/classificacio-cronologica?categoryId=40483",
+  "textos_dir": "palma_textos",
+  "textos_fecha": "2026-09-02"
  },
  "normas": [
   {
@@ -23,7 +25,8 @@
     "https://boib.caib.es/pdf/2002138/mp20243.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2334042/2_136531_2.pdf/54d997e7-156a-aaaa-6b2f-ff7b356098fc?t=1632323675257"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-aparcamientos-privados-no-abiertos-al.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-circulacion",
@@ -53,7 +56,8 @@
     "https://boib.caib.es/pdf/2002126/mp18449.pdf",
     "https://boib.caib.es/pdf/2012052/mp112.pdf"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-circulacion.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-consumo-del-ajuntament-de-palma",
@@ -67,7 +71,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7217056/Ordenanza+de+consumo+del+Ayuntamiento+de+Palma.pdf/67c6c826-ccca-9445-8881-1167c410e885?t=1621332576012"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-consumo-del-ajuntament-de-palma.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-obras-menores-y-menores-simples",
@@ -84,7 +89,8 @@
     "https://boib.caib.es/pdf/2011079/mp209.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2334042/Ordenanza+de+modificaci%C3%B3n+de+ordenanzas+municipales+para+su+adaptaci%C3%B3n+a+la+Ley+de+libre+acceso+a+las+actividades+de+servicio+y+su+ejercicio+en+el+municipio+de+Palma.pdf/540a56fc-c7ba-8e59-a8c9-b4f186b5c135?t=1632323673491"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-obras-menores-y-menores-simples.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-publicidad-dinamica",
@@ -108,7 +114,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7260527/Ordenanza+de+publicidad+din%C3%A1mica.pdf/95d40bfc-dc31-1d2e-ae0f-311c26394216?t=1621335417018",
     "https://seuelectronica.palma.cat/documents/39058/7260527/Ordenanza+de+modificaci%C3%B3n+de+ordenanzas+municipales+para+su+adaptaci%C3%B3n+a+la+Ley+de+libre+acceso+a+las+actividades+de+servicio+y+su+ejercicio+en+el+municipio+de+Palma.pdf/e4f9eba0-2047-a7cc-27dc-1569613db707?t=1621335417231"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-publicidad-dinamica.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-regulacion-de-horarios-de-apertura-al",
@@ -125,7 +132,8 @@
     "https://boib.caib.es/pdf/2011079/mp209.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2334247/Ordenanza+de+modificaci%C3%B3n+de+ordenanzas+municipales+para+su+adaptaci%C3%B3n+a+la+Ley+de+libre+acceso+a+las+actividades+de+servicio+y+su+ejercicio+en+el+municipio+de+Palma.pdf/9e48fb8d-47d0-7d46-642b-efcbb2a95f99?t=1632323676593"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-regulacion-de-horarios-de-apertura-al.txt.gz"
   },
   {
    "id": "pal-ordenanza-de-transparencia-del-ajuntament-de-palma",
@@ -142,7 +150,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7084338/Ordenanza+de+transparencia+del+Ajuntament+de+Palma.pdf/e1edee28-cfe4-3654-31d7-51322879e4b3?t=1621335484399"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-de-transparencia-del-ajuntament-de-palma.txt.gz"
   },
   {
    "id": "pal-ordenanza-del-parque-de-bellver",
@@ -157,7 +166,8 @@
     "https://boib.caib.es/pdf/2002137/mp119.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215785/Ordenanza+del+parque+de+Bellver.pdf/471854b2-cdfb-d10f-b516-83ffb8d32ca9?t=1621332533852"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-del-parque-de-bellver.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-de-actividades",
@@ -174,7 +184,8 @@
     "https://boib.caib.es/pdf/2011079/mp209.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2337454/Ordenanza+Municipal+de+Actividades.pdf/c584c31f-e415-09ec-b41e-6e72f6e30c56?t=1632323908572"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-de-actividades.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-de-limpieza-desechos-y-residuo",
@@ -199,7 +210,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7215604/Ordenanza+municipal+de+limpieza%2C+desechos+y+residuos+s%C3%B3lidos+urbanos.pdf/881482cd-cf87-97d1-ceef-b9e9436a9b2b?t=1621332528815"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-de-limpieza-desechos-y-residuo.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-de-ocupacion-de-via-publica",
@@ -218,7 +230,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/1435899/Ordenanza+municipal+de+ocupaci%C3%B3n+de+v%C3%ADa+p%C3%BAblica.pdf/255a715a-c0b7-0d8c-d50b-a53bdd1ff0b6?t=1620912494245"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-de-ocupacion-de-via-publica.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-de-subvenciones",
@@ -237,7 +250,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7138989/Ordenanza+municipal+de+subvenciones.pdf/7a411dc4-ca79-fc6c-da19-697c47e72222?t=1693374607041",
     "https://seuelectronica.palma.cat/documents/39058/11739577/BOIB+n%C3%BAm+165+de+20+de+diciembre+de+2022.pdf/865b437a-3ed1-12a1-26ed-c57c3084f428?t=1693309062600"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-de-subvenciones.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-reguladora-de-la-movilidad-de",
@@ -266,7 +280,8 @@
     "https://boib.caib.es/pdf/2012052/mp112.pdf",
     "https://seuelectronica.palma.cat/documents/39028/7090523/Ordenanza+municipal+reguladora+de+la+movilidad+de+los+ciclistas.pdf/4f4d77db-2dca-5ed6-f6fb-855b36d8fe0d?t=1621329899483"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-reguladora-de-la-movilidad-de.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-reguladora-de-los-establecimie",
@@ -283,7 +298,8 @@
     "https://boib.caib.es/pdf/2011070/mp230.pdf",
     "https://boib.caib.es/pdf/2011079/mp209.pdf"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-reguladora-de-los-establecimie.txt.gz"
   },
   {
    "id": "pal-ordenanza-municipal-reguladora-del-ruido-i-las-vib",
@@ -305,7 +321,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3855.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215699/Ordenanza+municipal+reguladora+de+ruidos+y+vibraciones.pdf/3b4cbb7e-193e-46ef-03fe-167f7a6bf7c9?t=1621332531606"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-municipal-reguladora-del-ruido-i-las-vib.txt.gz"
   },
   {
    "id": "pal-ordenanza-para-fomentar-y-garantizar-la-convivenci",
@@ -327,7 +344,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3932.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7228977/Ordenanza+para+garantizar+y+fomentar+la+convivencia+c%C3%ADvica+en+la+ciudad+de+Palma+de+Mallorca.pdf/91f2c86f-dfc5-539a-2a4b-97a9cc90b7a7?t=1621335472108"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-para-fomentar-y-garantizar-la-convivenci.txt.gz"
   },
   {
    "id": "pal-ordenanza-para-la-insercion-de-los-animales-de-com",
@@ -353,7 +371,8 @@
     "https://boib.caib.es/pdf/2009093/mp216.pdf",
     "https://boib.caib.es/pdf/2011070/mp230.pdf"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-para-la-insercion-de-los-animales-de-com.txt.gz"
   },
   {
    "id": "pal-ordenanza-publicitad-gerencia-de-urbanismo",
@@ -368,7 +387,8 @@
     "https://boib.caib.es/pdf/2002140/mp20588.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2337538/Ordenanza+publicidad+%28Gerencia+de+Urbanismo%29.pdf/b31bbb90-0696-31ed-cd12-eaa22cda021b?t=1632323910556"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-publicitad-gerencia-de-urbanismo.txt.gz"
   },
   {
    "id": "pal-ordenanza-reguladora-de-los-servicios-funerarios",
@@ -390,7 +410,8 @@
     "https://boib.caib.es/pdf/2011070/mp230.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7260859/Ordenanza+reguladora+de+los+servicios+funerarios.pdf/c224d343-dab6-ff35-6d0b-ae8ce8b46e1c?t=1621335425612"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-reguladora-de-los-servicios-funerarios.txt.gz"
   },
   {
    "id": "pal-ordenanza-reguladora-del-libre-acceso-a-las-activi",
@@ -406,7 +427,8 @@
     "https://boib.caib.es/pdf/2010046/p119.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216565/Ordenanza+reguladora+del+libre+acceso+a+las+actividades+de+servicios+y+su+ejercicio+en+el+municipio+de+Palma.pdf/05286fb1-92ee-593c-9514-44b80ff2482d?t=1621335459502"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-reguladora-del-libre-acceso-a-las-activi.txt.gz"
   },
   {
    "id": "pal-ordenanza-reguladora-del-uso-civico-de-los-espacio",
@@ -421,7 +443,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7238292/Ordenanza+reguladora+del+uso+c%C3%ADvico+de+los+espacios+publicos.pdf/e202ad5f-cd44-7bfc-ef4c-4a9b110bf8e7?t=1621335473939",
     "https://seuelectronica.palma.cat/documents/39058/7238292/Aprobaci%C3%B3n+inicial+modificaci%C3%B3n+ordenanza+reguladora+del+uso+c%C3%ADvico+de+los+espacios+p%C3%BAblicos.pdf/b0396ed5-21fa-c276-978d-30b38adcf0bf?t=1621335474118"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanza-reguladora-del-uso-civico-de-los-espacio.txt.gz"
   },
   {
    "id": "pal-ordenanzas-municipales-1917",
@@ -437,7 +460,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7261584/Ordenanzas+Municipales+1915+%282+de+2%29.pdf/23530eb4-3d01-02cd-a9e7-30b79721ecb6?t=1621335458267",
     "https://seuelectronica.palma.cat/documents/39058/7261584/Ordenanzas+Municipales+1915+%281+de+2%29.pdf/3698d10d-e530-26fb-5f2f-ce283e30b1d4?t=1621335458391"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanzas-municipales-1917.txt.gz"
   },
   {
    "id": "pal-ordenanzas-de-usos-en-las-zonas-del-centro-histori",
@@ -454,7 +478,8 @@
     "https://boib.caib.es/pdf/1999083/mp9666.pdf",
     "https://boib.caib.es/pdf/1999083/mp9660.pdf"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanzas-de-usos-en-las-zonas-del-centro-histori.txt.gz"
   },
   {
    "id": "pal-ordenanzas-fiscales-2026",
@@ -479,7 +504,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/19788176/Ordenanzas+fiscales+2026.pdf+%281%2C8+MB%29.pdf/c0053d4c-b3f7-cda8-4222-fa8b2f34538d?t=1777550022835"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanzas-fiscales-2026.txt.gz"
   },
   {
    "id": "pal-ordenanca-reguladora-de-l-informe-d-avaluacio-dels",
@@ -493,7 +519,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7071300/Ordenanza+reguladora+del+informe+de+evaluaci%C3%B3n+de+los+edificios+de+Palma+de+Mallorca.pdf/b7e3db40-925a-5224-4cf0-bf0933457be3?t=1621332579301"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-ordenanca-reguladora-de-l-informe-d-avaluacio-dels.txt.gz"
   },
   {
    "id": "pal-reglament-de-condecoracions-de-la-policia-local-de",
@@ -507,7 +534,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7217639/Reglamento+de+condecoraciones+de+la+Policia+Local+de+Palma.pdf/add6f913-d4dd-0644-3c36-43f24c4796e2?t=1621332588659"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglament-de-condecoracions-de-la-policia-local-de.txt.gz"
   },
   {
    "id": "pal-reglamento-de-consejo-de-las-mujeres-y-para-la-igu",
@@ -522,7 +550,8 @@
     "https://boib.caib.es/pdf/2009170/mp305.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216997/Reglamento+del+Consell+de+les+Dones+i+per+la+Igualtat+de+Palma+i+per+la+Igualtat+de+Palma.pdf/33e1748b-728d-96f5-e892-eb41e16f85b9?t=1621332574951"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-consejo-de-las-mujeres-y-para-la-igu.txt.gz"
   },
   {
    "id": "pal-reglamento-de-honores-y-distinciones",
@@ -537,7 +566,8 @@
     "https://boib.caib.es/pdf/2005085/mp126.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215965/Reglamento+de+honores+y+distinciones.pdf/6f206c80-81e8-7a4b-e74b-964ed60751f6?t=1621332538264"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-honores-y-distinciones.txt.gz"
   },
   {
    "id": "pal-reglamento-de-la-comision-de-fiestas-populares-del",
@@ -552,7 +582,8 @@
     "https://boib.caib.es/pdf/2009184/mp154.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216997/Reglamento+Comisi%C3%B3n+Fiestas.pdf/72cb0256-a330-7822-d983-6d1f1ad7a10a?t=1621335457152"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-la-comision-de-fiestas-populares-del.txt.gz"
   },
   {
    "id": "pal-reglamento-de-la-gerencia-de-urbanismo",
@@ -567,7 +598,8 @@
     "https://boib.caib.es/pdf/2005098/mp123.pdf",
     "https://seuelectronica.palma.cat/documents/39360/2334461/Reglament+de+la+Ger%C3%A8ncia+d%27Urbanisme.pdf/423a46a2-fa12-de89-4e0c-40717d1cdce1?t=1632323681539"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-la-gerencia-de-urbanismo.txt.gz"
   },
   {
    "id": "pal-reglamento-de-la-banda-de-musica-municipal",
@@ -582,7 +614,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import5211.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7217116/Reglamento+de+la+Banda+de+M%C3%BAsica+Municipal.pdf/fb3abf93-af7e-8ecf-3ac1-5728d1c8c245?t=1621332577389"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-la-banda-de-musica-municipal.txt.gz"
   },
   {
    "id": "pal-reglamento-de-los-centros-municipales-de-servicios",
@@ -596,7 +629,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7215604/Reglamento+de+los+centros+municipales+de+Servicios+Sociales+del++Ayuntamiemto+de+Palma.pdf/29598e6a-4a79-a4a3-9644-250d60f29513?t=1621335479879"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-los-centros-municipales-de-servicios.txt.gz"
   },
   {
    "id": "pal-reglamento-de-los-transportes-publicos-de-viajeros",
@@ -629,7 +663,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3852.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7214378/Reglamento+de+normalizaci%C3%B3n+lingu%C3%ADstica.pdf/4fdfddb9-a529-f755-03ba-62885e44d529?t=1621332505671"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-normalizacion-linguistica.txt.gz"
   },
   {
    "id": "pal-reglamento-de-organitzacio-y-funcionamiento-de-los",
@@ -646,7 +681,8 @@
     "https://boib.caib.es/pdf/2010117/p112.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7261184/Reglamento+de+organizaci%C3%B3n+y+funcionamiento+de+los+consejos+territoriales+de+los+distritos.pdf/f96a3308-80dd-f068-8ac6-63865f00b3cd?t=1621335447009"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-organitzacio-y-funcionamiento-de-los.txt.gz"
   },
   {
    "id": "pal-reglamento-de-organizacion-y-funcionamiento-mgn-co",
@@ -660,7 +696,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39260/18115751/REGLAMENTO+DE+ORGANIZACI%C3%93N+Y+FUNCIONAMIENTO+MGN+CONJUNTA%2C+BOIB+N%C3%9AM.+102_02-08-2025.pdf/aa09f0f8-68a1-7bca-05ad-dac1eb2ce906?t=1757490264319"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-organizacion-y-funcionamiento-mgn-co.txt.gz"
   },
   {
    "id": "pal-reglamento-de-organizacion-y-funcionamiento-mgn-fu",
@@ -674,7 +711,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39260/18115751/REGLAMENTO+DE+ORGANIZACI%C3%93N+Y+FUNCIONAMIENTO+MGN+FUNCIONARIOS%2C+BOIB+N%C3%9AM.+62_02-08-2025.pdf/163d48b1-fea3-9581-2b64-4903762b751f?t=1757490264058"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-organizacion-y-funcionamiento-mgn-fu.txt.gz"
   },
   {
    "id": "pal-reglamento-de-organizacion-y-funcionamiento-de-los",
@@ -688,7 +726,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/11787476/Reglament+d%27organitzaci%C3%B3+i+funcionament+dels+serveis+socials+comunitaris.pdf/4d7286c1-8b71-d12f-70ea-cd61fb908079?t=1697623753490"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-organizacion-y-funcionamiento-de-los.txt.gz"
   },
   {
    "id": "pal-reglamento-de-organizacion-funcionamiento-y-regime",
@@ -702,7 +741,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7068876/Reglamento+de+organizaci%C3%B3n%2C+funcionamiento+y+r%C3%A9gimen+jur%C3%ADdico+del+consejo+de+la+capitalidad.pdf/d9857c93-a6e8-e958-96b0-6e1982b32e4d?t=1621335468899"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-organizacion-funcionamiento-y-regime.txt.gz"
   },
   {
    "id": "pal-reglamento-de-prestacion-de-servicios-de-la-unidad",
@@ -717,7 +757,8 @@
     "https://boib.caib.es/pdf/2004163/mp77.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216174/Reglamento+de+r%C3%A9gimen+interior+de+Mercapalma.pdf/08dec5ca-9f30-551c-43d1-5f564ba25c60?t=1621332541653"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-prestacion-de-servicios-de-la-unidad.txt.gz"
   },
   {
    "id": "pal-reglamento-de-prestacion-de-servicios-mortuorios-a",
@@ -733,7 +774,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3925.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7260769/Reglamento+de+prestaci%C3%B3n+de+servicios+mortuorios.pdf/b3224ee4-9e83-1727-fd9f-38df903545b2?t=1621335422610"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-prestacion-de-servicios-mortuorios-a.txt.gz"
   },
   {
    "id": "pal-reglamento-de-regimen-interior-del-mercado-municip",
@@ -751,7 +793,8 @@
     "https://boib.caib.es/pdf/1998096/mp10933.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216274/Reglamento+de+r%C3%A9gimen+interior+del+mercado+municipal+permanente+del+Olivar.pdf/69efc503-43be-564b-5afc-ba346714b5c3?t=1621332543494"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-regimen-interior-del-mercado-municip.txt.gz"
   },
   {
    "id": "pal-reglamento-de-regimen-interno-del-patronato-munici",
@@ -766,7 +809,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3853.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7214483/Reglamento+de+r%C3%A9gimen+interno+del+Patronato+Municipal+Guarder%C3%ADas+de+Palma.pdf/7d5eabf2-8034-f37a-be26-0f577945e2a6?t=1621332507228"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-regimen-interno-del-patronato-munici.txt.gz"
   },
   {
    "id": "pal-reglamento-de-servicios-de-consumo-y-mercados-mino",
@@ -784,7 +828,8 @@
     "https://boib.caib.es/pdf/2003103/mp101.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7214588/Reglamento+de+servicios+de+consumo+y+mercados+minoristas+municipales.pdf/a9b7a1c7-2303-2bc7-c715-e14130722984?t=1621332508799"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-servicios-de-consumo-y-mercados-mino.txt.gz"
   },
   {
    "id": "pal-reglamento-de-servicios-del-centro-sanitario-munic",
@@ -799,7 +844,8 @@
     "https://boib.caib.es/pdf/2002115/mp16476.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215207/Reglamento+de+servicios+del+Centro+Sanitario+Municipal+de+la+ciudad+de+Palma.pdf/e637f37a-6cf6-03ec-5ad9-6bfe7154acee?t=1621332519773"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-servicios-del-centro-sanitario-munic.txt.gz"
   },
   {
    "id": "pal-reglamento-de-uso-de-las-bibiliotecas-del-ajuntame",
@@ -813,7 +859,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7071300/Reglamento+de+uso+de+las+bibliotecas+del+Ajuntament+de+Palma.pdf/b50b7aa0-03a3-da18-b146-3367f9efcbb6?t=1621332583048"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-uso-de-las-bibiliotecas-del-ajuntame.txt.gz"
   },
   {
    "id": "pal-reglamento-de-uso-del-servicio-escuela-municipal-d",
@@ -827,7 +874,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/11787476/Reglamento+de+uso+del+servicio+Escuela+Municipal+de+M%C3%BAsica+de+Palma.pdf/63537a53-474b-a282-bbd6-c5f854571cb7?t=1699526012922"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-uso-del-servicio-escuela-municipal-d.txt.gz"
   },
   {
    "id": "pal-reglamento-de-uso-y-funcionamiento-del-parque-infa",
@@ -843,7 +891,8 @@
     "https://boib.caib.es/pdf/1998017/mp1702.pdf",
     "https://seuelectronica.palma.cat/documents/39028/7090049/Reglamento+de+uso+y+funcionamiento+del+parque+infantil+de+tr%C3%A1nsito+de+la+Polic%C3%ADa+Local.pdf/d1efba8b-1695-ab93-08cf-1c1edddd36f6?t=1621329895604"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-de-uso-y-funcionamiento-del-parque-infa.txt.gz"
   },
   {
    "id": "pal-reglamento-del-comite-de-seguridad-y-salud",
@@ -858,7 +907,8 @@
     "https://boib.caib.es/pdf/2000055/mp6854.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215045/Reglamento+del+Comit%C3%A9+de+Seguridad+y+Salud+Laboral.pdf/c6064afe-4fa7-9222-3446-5e6e9544c941?t=1621332517915"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-comite-de-seguridad-y-salud.txt.gz"
   },
   {
    "id": "pal-reglamento-del-consejo-municipal-de-la-cultura-de",
@@ -873,7 +923,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3862.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7076308/Reglamento+del+Consejo+Municipal+de+la+Cultura.pdf/01418352-aa04-08bc-78cb-5a08dd63a76d?t=1621332589558"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-consejo-municipal-de-la-cultura-de.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-municipal-de-educacion-de",
@@ -887,7 +938,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/14885350/BOIB+-+Reglamento+SMEA.pdf/de97a26d-ad92-efef-ec8e-3e85596d788e?t=1713439184560"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-municipal-de-educacion-de.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-de-prestamo-de-la-biciclet",
@@ -903,7 +955,8 @@
     "https://seuelectronica.palma.cat/documents/20128/12864217/import3505.pdf",
     "https://seuelectronica.palma.cat/documents/39028/7090652/Reglamento+del+Servicio+de+Pr%C3%A9stamo+de+la+Bicicleta+P%C3%BAblica+de+Palma+%28BICIPALMA%29.pdf/761a50af-ad77-1aa0-a4c2-e64aedd4b217?t=1621329900825"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-de-prestamo-de-la-biciclet.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-de-transportes-colectivos",
@@ -919,7 +972,8 @@
     "https://boib.caib.es/pdf/2007014/mp201.pdf",
     "https://seuelectronica.palma.cat/documents/39028/7090310/Reglamento+del+Servicio+de+Transportes+Colectivos+Urbanos+de+Palma+de+Mallorca.pdf/b784eec2-cc69-c582-00ec-c9245e4c9e70?t=1621329896972"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-de-transportes-colectivos.txt.gz"
   },
   {
    "id": "pal-reglamento-del-funcionamento-de-los-casales-de-bar",
@@ -934,7 +988,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7217192/11022014+BOIB+21+Reglamento+de+funcionamiento+de+los+casales+de+barrio.pdf/74908c80-3e2c-b7fd-7dda-8a91ddf41d42?t=1621335465180",
     "https://seuelectronica.palma.cat/documents/39058/7217192/15_77348_2.pdf/c0c952d4-86e1-93da-0a54-a934be598ff3?t=1621335465068"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-funcionamento-de-los-casales-de-bar.txt.gz"
   },
   {
    "id": "pal-reglamento-del-registro-municipal-de-licitadores",
@@ -949,7 +1004,8 @@
     "https://boib.caib.es/pdf/1997130/mp15336.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7260648/Reglamento+del+registro+municipal+de+licitadores.pdf/a9beac19-4956-5670-891f-b811d06d0262?t=1621335419977"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-registro-municipal-de-licitadores.txt.gz"
   },
   {
    "id": "pal-reglamento-del-regimen-juridico-del-procedimiento",
@@ -964,7 +1020,8 @@
     "https://boib.caib.es/pdf/2003021/mp148.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216565/Reglamento+del+R%C3%A9gimen+Jur%C3%ADdico+del+procedimiento+general+sancionador.pdf/fb7a5aed-e09f-cef7-84a7-0f7702f2d18c?t=1621335448574"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-regimen-juridico-del-procedimiento.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-de-abastecimiento-de-agua",
@@ -984,7 +1041,8 @@
     "https://boib.caib.es/pdf/2002115/mp16482.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215207/Reglamento+del+servicio+de+abastecimiento+de+agua.pdf/994b2805-bc44-b468-0d1a-8e565f26c974?t=1621332524789"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-de-abastecimiento-de-agua.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-de-atencion-domiciliaria-d",
@@ -998,7 +1056,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/11787476/Reglament+del+servei+d%27atenci%C3%B3+domicili%C3%A0ria+de%C2%A0l%27Ajuntament+de+Palma.pdf/496e9240-7f71-6dbb-ef65-8e3aebc41f2b?t=1697622859008"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-de-atencion-domiciliaria-d.txt.gz"
   },
   {
    "id": "pal-reglamento-del-servicio-de-transporte-urbano-de-vi",
@@ -1023,7 +1082,8 @@
     "https://boib.caib.es/pdf/2003103/mp89.pdf",
     "https://seuelectronica.palma.cat/documents/39028/7089459/Reglamento+del+servicio+de+transporte+urbano+de+viajeros+con+veh%C3%ADculos+de+tracci%C3%B3n+animal+con+conductor+%28Galeras%29.pdf/c43759c4-271a-10ef-6549-a99125fe874d?t=1621329893124"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-del-servicio-de-transporte-urbano-de-vi.txt.gz"
   },
   {
    "id": "pal-reglamento-interno-de-organizacion-y-funcionamient",
@@ -1038,7 +1098,8 @@
     "https://boib.caib.es/pdf/2007012/mp128.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7216565/Reglamento+interno+de+organizaci%C3%B3+y+funcionamiento+del+Consejo+Escolar+Municipal+de+Palma.pdf/79ed0e75-4b04-6b2a-b24a-54e128d5e546?t=1621332573246"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-interno-de-organizacion-y-funcionamient.txt.gz"
   },
   {
    "id": "pal-reglamento-municipal-del-voluntariado",
@@ -1054,7 +1115,8 @@
     "https://boib.caib.es/pdf/2011042/mp106.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7260250/Reglamento+municipal+del+voluntariado.pdf/c38969da-cccb-6b1b-8bdc-7aafd6d781cc?t=1621335409504"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-municipal-del-voluntariado.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-de-los-derechos-de-la-ciudadan",
@@ -1069,7 +1131,8 @@
     "https://boib.caib.es/pdf/2005036/mp174.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7260423/Reglamento+org%C3%A1nico+de+los+derechos+de+la+ciudadan%C3%ADa+del+Ayuntamiento+de+Palma.pdf/7e4583de-758c-d781-88cf-461fe6e759bf?t=1621335414750"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-de-los-derechos-de-la-ciudadan.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-de-los-distritos-de-palma",
@@ -1086,7 +1149,8 @@
     "https://seuelectronica.palma.cat/documents/39058/7214805/Acuerdo+divisi%C3%B3n+t%C3%A9rmino+municipal+en+distritos.pdf/2c023332-b96c-30ad-dcf6-4eed873aa76b?t=1621332515642",
     "https://seuelectronica.palma.cat/documents/39058/7214805/Distritos+municipales+-+zonas+estad%C3%ADsticas.pdf/12567c8a-9829-9fe2-f394-51da98d37897?t=1621332515795"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-de-los-distritos-de-palma.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-de-participacion-ciudadana",
@@ -1105,7 +1169,8 @@
     "https://boib.caib.es/pdf/2005152/mp23.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7214805/Reglamento+organico+de+participaci%C3%B3n+ciudadana.pdf/628740d3-dcae-bb52-3428-266f5dcaf419?t=1621335411786"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-de-participacion-ciudadana.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-del-consejo-social-de-la-ciuda",
@@ -1120,7 +1185,8 @@
     "https://boib.caib.es/pdf/2008110/mp104.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7261436/Reglamento+Org%C3%A1nico+Consejo+Social+de+la+Ciudad+de+Palma.pdf/2ab64218-0f7c-79e1-4273-08cf0f622a28?t=1621335455290"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-del-consejo-social-de-la-ciuda.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-del-gobierno-y-la-administraci",
@@ -1135,7 +1201,8 @@
     "https://boib.caib.es/pdf/2004127/mp95.pdf",
     "https://seuelectronica.palma.cat/documents/39058/14885350/20230114+BOIB+n%C3%BAm.+6+Reglamento+org%C3%A1nico+del+Gobierno+i+de+la+Administraci%C3%B3n+del+Ayuntamiento+de+Palma.pdf/921d17ac-761d-3800-1d1b-37f4bbff9783?t=1738923490299"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-del-gobierno-y-la-administraci.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-del-pleno-del-ayuntamiento-de",
@@ -1151,7 +1218,8 @@
     "https://seuelectronica.palma.cat/documents/39058/0/20230114+BOIB+n%C3%BAm.+6+Reglament+org%C3%A0nic+del+Ple+de+l%27Ajuntament+de+Palma.pdf/791e29a2-c8a0-6ebd-0919-60d8a0999dce?t=1701940589628",
     "https://seuelectronica.palma.cat/documents/39058/18116017/20250426+BOIB+n%C3%BAm.+52+Reglamento+Org%C3%A0nico+del+Pleno+del+Ayuntamiento+de+Palma.pdf/3ac99525-3524-9d30-b44f-54f5faff1248?t=1746179763975"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-del-pleno-del-ayuntamiento-de.txt.gz"
   },
   {
    "id": "pal-reglamento-organico-del-tribunal-economico-adminis",
@@ -1165,7 +1233,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/7221783/Reglamento+org%C3%A1nico+del+Tribunal+Econ%C3%B3mico-Administrativo+Municipal.pdf/3f78a2a7-f620-ecf1-8a2c-159b2d392801?t=1773038882868"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-organico-del-tribunal-economico-adminis.txt.gz"
   },
   {
    "id": "pal-reglamento-para-regular-el-funcionamiento-del-serv",
@@ -1179,7 +1248,8 @@
    "urls": [
     "https://seuelectronica.palma.cat/documents/39058/11787476/Reglamento+del+servicio+de+atenci%C3%B3n+integral+a+la+violencia+de+g%C3%A9nero+del+Ayuntamiento+de+Palma.pdf/13200353-1d8e-9c84-5478-f510168c8cbc?t=1699442100349"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-para-regular-el-funcionamiento-del-serv.txt.gz"
   },
   {
    "id": "pal-reglamento-sobre-el-uso-de-la-red-de-alcantarillad",
@@ -1201,7 +1271,8 @@
     "https://boib.caib.es/pdf/2004052/p139.pdf",
     "https://seuelectronica.palma.cat/documents/39058/7215207/Reglamento+sobre+el+uso+de+la+red+de+alcantarillado+sanitario.pdf/45743796-490f-3520-35ba-546cbc39cc33?t=1621332527007"
    ],
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "pal-reglamento-sobre-el-uso-de-la-red-de-alcantarillad.txt.gz"
   }
  ]
 }

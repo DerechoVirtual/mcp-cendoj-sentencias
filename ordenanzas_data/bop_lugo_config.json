@@ -22,6 +22,6 @@
  "verifica_texto": true,
  "fulltext": false,
  "ocr": false,
- "activo": false,
- "nota": "Implementada y verificada en vivo (sondas _probe_lugo*.py) pero NO servida: requiere backend de familia 'lugo' en bop_engine (busqueda Views allwords -> nodo diario -> parseo del sumario -> filtro local por cabecera CONCELLO -> PDF del dia -> corte del anuncio por su numero de rexistro R. NNNN). Sin ese backend NO debe activarse."
+ "activo": true,
+ "nota": "Backend bop_lugo.py (2-sep-2026), verificado en vivo con las sondas _probe_lugo*.py: busqueda Views allwords (materia + CONCELLO en una consulta) -> nodo diario -> parseo del sumario (tres formas historicas) -> filtro local por cabecera CONCELLO -> PDF del dia (80-130 KB, capa de texto) -> corte del anuncio por su numero de rexistro R. NNNN (barrido del PDF entero; sin marca, ventana desde el ancla #page/#PAGE). Sumarios cacheados en memoria y disco; <=4 peticiones simultaneas. CVE propio BOP-LU-AAAA-N (se localiza buscando 'N CONCELLO'). verifica_texto: el motor elige por contenido cuando el titulo gallego no dice la materia; el tesauro se expande con _GALEGO (lixo, auga, animais, ruido...)."
 }

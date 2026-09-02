@@ -1,0 +1,2361 @@
+{
+ "meta": {
+  "municipio": "guadalajara",
+  "nombre": "Guadalajara",
+  "aliases": [
+   "guadalajara",
+   "ayuntamiento de guadalajara",
+   "guadalajara capital",
+   "ciudad de guadalajara",
+   "excmo ayuntamiento de guadalajara"
+  ],
+  "fuente": "Ayuntamiento de Guadalajara (ordenanzas generales, fiscales y reglamentos consolidados, PDF oficial por norma)",
+  "url": "https://www.guadalajara.es/es/ayuntamiento/normativa/ordenanzas-generales/",
+  "url_fiscales": "https://www.guadalajara.es/es/ayuntamiento/normativa/ordenanzas-fiscales/",
+  "url_reglamentos": "https://www.guadalajara.es/es/ayuntamiento/normativa/reglamentos-y-estatutos/",
+  "actualizado": "2026-09",
+  "nota": "`url` es el texto de la norma; `urls` versiones alternativas (texto limpio frente al íntegro del BOP) y `anexos` cuadros sancionadores, coeficientes o rectificaciones.",
+  "textos_dir": "guadalajara_textos",
+  "textos_fecha": "2026-09-02"
+ },
+ "normas": [
+  {
+   "id": "guadalajara-001",
+   "titulo": "Ordenanza de Movilidad",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2025 · en vigor desde 18/06/2025",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "multas de trafico",
+    "carga y descarga",
+    "vados",
+    "seguridad vial",
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "molestias por ruido",
+    "animales",
+    "perros",
+    "mascotas",
+    "tenencia de animales",
+    "ppp",
+    "vado",
+    "entrada de vehiculos",
+    "zona azul",
+    "ora",
+    "estacionamiento regulado",
+    "vehiculos de movilidad personal",
+    "bicicletas",
+    "ciclistas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-movilidad-texto-integro-bop-2025-05-27.pdf",
+   "formato": "pdf",
+   "urls": [
+    "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-de-movilidad.pdf"
+   ],
+   "anexos": [
+    "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-de-movilidad-cuadro-sancionador.pdf",
+    "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-de-movilidad-instruccion-tecnica-de-viario.pdf"
+   ],
+   "texto": "guadalajara-001.txt.gz",
+   "alias_contenido": [
+    "animales",
+    "bicicletas",
+    "ciclistas",
+    "contaminacion acustica",
+    "decibelios",
+    "entrada de vehiculos",
+    "estacionamiento regulado",
+    "mascotas",
+    "molestias por ruido",
+    "ora",
+    "perros",
+    "ppp",
+    "ruido",
+    "ruidos",
+    "tenencia de animales",
+    "vado",
+    "vehiculos de movilidad personal",
+    "zona azul"
+   ]
+  },
+  {
+   "id": "guadalajara-002",
+   "titulo": "Ordenanza de estacionamiento limitado y controlado de vehículos en vía pública bajo control horario de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2025 · vigente desde 19/05/2025",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "estacionamiento regulado",
+    "parquimetro",
+    "control horario",
+    "aparcamiento",
+    "zbe",
+    "zona de bajas emisiones",
+    "distintivo ambiental"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-de-estacionamiento-limitado-y-controlado-de-vehiculos-en-via-publ.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-002.txt.gz",
+   "alias_contenido": [
+    "aparcamiento",
+    "distintivo ambiental",
+    "zbe",
+    "zona de bajas emisiones"
+   ]
+  },
+  {
+   "id": "guadalajara-003",
+   "titulo": "Ordenanza reguladora de prestaciones patrimoniales de carácter público no tributario del servicio público de transporte colectivo urbano de viajeros de Guadalajara y barrios anexionados. Aprobación definitiva",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2025 · BOP 30/05/2025 · en vigor desde 23/06/2025",
+   "mod": "",
+   "alias": [
+    "tarifas",
+    "prestacion patrimonial",
+    "autobus",
+    "autobuses",
+    "transporte urbano",
+    "billete",
+    "bonobus"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-reguladora-de-la-prestacion-patrimonial-de-caracter-publico-no-tr.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://www.guadalajara.es/recursos/doc/portal/2021/01/29/2012-05-21-resolucion-de-la-direccion-general-de-salud-consumo-tarifas-de-autobu.pdf"
+   ],
+   "texto": "guadalajara-003.txt.gz"
+  },
+  {
+   "id": "guadalajara-004",
+   "titulo": "Ordenanza reguladora de las obras e instalaciones en los espacios libres municipales de dominio y uso público. Texto refuncido",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2025 · en vigor desde 24/03/2025",
+   "mod": "",
+   "alias": [
+    "espacios libres",
+    "obras en via publica",
+    "zanjas",
+    "calas",
+    "canalizaciones"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2025-ordenanza-reguladora-de-las-obras-e-instalaciones-en-los-espacios-libres-mu.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-004.txt.gz"
+  },
+  {
+   "id": "guadalajara-005",
+   "titulo": "Ordenanza reguladora de la Zona de Bajas Emisiones en Guadalajara - ZBE",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2025 · vigencia desde 29 de septiembre de 2025",
+   "mod": "",
+   "alias": [
+    "zbe",
+    "zona de bajas emisiones",
+    "distintivo ambiental",
+    "restriccion de trafico",
+    "etiqueta ambiental",
+    "calidad del aire",
+    "emisiones",
+    "contaminacion atmosferica",
+    "calderas",
+    "restricciones de trafico",
+    "humos",
+    "olores"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2023/11/02/ordenanza-reguladora-de-la-zona-de-bajas-emisiones-de-guadalajara-zbe-texto-inte55357.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-005.txt.gz",
+   "alias_contenido": [
+    "humos",
+    "olores"
+   ]
+  },
+  {
+   "id": "guadalajara-006",
+   "titulo": "Ordenanza reguladora de terrazas y otras instalaciones especiales con finalidad lucrativa al aire libre desarrollada por establecimientos de restauración y hostelería",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2024",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "hosteleria",
+    "toldos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2024-ordenanza-municipal-reguladora-de-terrazas-y-otras-instalaciones-especiales63070.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-006.txt.gz"
+  },
+  {
+   "id": "guadalajara-007",
+   "titulo": "Ordenanza reguladora de la celebración de festejos taurinos populares",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2023",
+   "mod": "",
+   "alias": [
+    "toros",
+    "encierros",
+    "festejos taurinos",
+    "taurino",
+    "vaquillas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2023-ordenanza-reguladora-de-la-celebracion-de-festejos-taurinos-populares.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-007.txt.gz"
+  },
+  {
+   "id": "guadalajara-008",
+   "titulo": "Ordenanza reguladora de la tenencia y protección de animales",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2022 · BOP 21/04/2022 · en vigor desde 16/05/2022",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas",
+    "perros peligrosos",
+    "excrementos",
+    "parques",
+    "jardines",
+    "zonas verdes",
+    "arbolado"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2022-ordenanza-reguladora-de-la-tenencia-y-proteccion-de-animales-entrada-en-vig.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-008.txt.gz",
+   "alias_contenido": [
+    "arbolado",
+    "jardines",
+    "parques",
+    "zonas verdes"
+   ]
+  },
+  {
+   "id": "guadalajara-009",
+   "titulo": "Ordenanza reguladora de la Administración Electrónica",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2022 · en vigor desde 3 de octubre de 2022",
+   "mod": "",
+   "alias": [
+    "administracion electronica",
+    "sede electronica",
+    "registro electronico",
+    "notificaciones electronicas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2022-ordenanza-reguladora-de-la-administracion-electronica.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2022-ordenanza-reguladora-de-la-administracion-electronica-rectificacion-de-erro.pdf"
+   ],
+   "texto": "guadalajara-009.txt.gz"
+  },
+  {
+   "id": "guadalajara-010",
+   "titulo": "Ordenanza municipal reguladora del uso de los aparcamientos públicos ubicados en las calles Ferial (aparcamiento de \"Adoratrices\") y Alvarfáñez de Minaya (aparcamiento Dávalos\")",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2022 · en vigor desde 27/05/2022",
+   "mod": "",
+   "alias": [
+    "aparcamiento",
+    "parking",
+    "aparcamientos publicos",
+    "aparcamiento subterraneo"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2022-ordenanza-reguladora-del-uso-de-los-aparcamientos-publicos-ubicados-en-las-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-010.txt.gz"
+  },
+  {
+   "id": "guadalajara-011",
+   "titulo": "Ordenanza reguladora de la prestación patrimonial de carácter público no tributario por el servicio público de aparcamiento de las plazas de rotación de los aparcamientos municipales de \"Adoratrices\" (planta -1) y \"Dávalos\", realizado mediante concesión de servicio",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2022 · en vigor desde 27/05/2022",
+   "mod": "",
+   "alias": [
+    "tarifas",
+    "prestacion patrimonial"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2022-ordenanza-reguladora-de-la-prestacion-patrimonial-de-caracter-publico-no-tr.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-011.txt.gz"
+  },
+  {
+   "id": "guadalajara-012",
+   "titulo": "Ordenanza Reguladora de los Patrocinios Privados de Actividades Municipales del Ayuntamiento de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2021",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "patrocinio",
+    "patrocinios",
+    "mecenazgo",
+    "esponsorizacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-regulador-del.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-012.txt.gz"
+  },
+  {
+   "id": "guadalajara-013",
+   "titulo": "Ordenanza reguladora del Mercado Municipal de Abastos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2019",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "abastos",
+    "mercado de abastos",
+    "puesto de mercado"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2019-ordenanza-del-mercado-municipal-de-abastos.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-013.txt.gz"
+  },
+  {
+   "id": "guadalajara-014",
+   "titulo": "Ordenanza general de subvenciones públicas del Ayuntamiento de Guadalajara y de sus organismos autónomos",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2016",
+   "mod": "",
+   "alias": [
+    "subvenciones",
+    "bases reguladoras de subvenciones",
+    "ayudas",
+    "bases reguladoras"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2016-ordenanza-general-de-subvenciones-publicas-del-ayuntamiento-de-guadalajara-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-014.txt.gz"
+  },
+  {
+   "id": "guadalajara-015",
+   "titulo": "Ordenanza de protección contra la contaminación acústica y térmica",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2014 · BOP 29/01/2014",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido",
+    "termica",
+    "calefaccion",
+    "aire acondicionado",
+    "vibraciones",
+    "aislamiento acustico",
+    "convivencia",
+    "civismo",
+    "conductas incivicas",
+    "fiestas",
+    "verbenas",
+    "espectaculos publicos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2014-ordenanza-de-proteccion-contra-la-contaminacion-acustica-y-termica-bop-2014.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-015.txt.gz",
+   "alias_contenido": [
+    "civismo",
+    "conductas incivicas",
+    "convivencia",
+    "espectaculos publicos",
+    "fiestas",
+    "verbenas"
+   ]
+  },
+  {
+   "id": "guadalajara-016",
+   "titulo": "Ordenanza municipal reguladora de actividades publicitarias",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2014",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas",
+    "publicidad en via publica",
+    "parques",
+    "jardines",
+    "zonas verdes",
+    "arbolado"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2014-ordenanza-municipal-reguladora-de-actividades-publicitarias.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-016.txt.gz",
+   "alias_contenido": [
+    "arbolado",
+    "jardines",
+    "parques",
+    "zonas verdes"
+   ]
+  },
+  {
+   "id": "guadalajara-017",
+   "titulo": "Ordenanza reguladora de la venta ambulante en el término municipal de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2014",
+   "mod": "",
+   "alias": [
+    "venta ambulante",
+    "mercadillo",
+    "mercadillos",
+    "puestos ambulantes",
+    "food truck"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2014-ordenanza-reguladora-de-la-venta-ambulante-en-el-termino-municipal-de-guada.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-017.txt.gz"
+  },
+  {
+   "id": "guadalajara-018",
+   "titulo": "Ordenanza reguladora de la inspección técnica de edificios en el término municipal de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2012",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "iee"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2012-ordenanza-reguladora-de-la-inspeccion-tecnica-de-edificios-en-el-termino-mu.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-018.txt.gz"
+  },
+  {
+   "id": "guadalajara-019",
+   "titulo": "Ordenanza de medidas para fomentar y garantizar la convivencia ciudadana en el espacio público de Guadalajara: [texto refundido]",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2009",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "pintadas",
+    "espacio publico",
+    "limpieza",
+    "limpieza viaria",
+    "grafitis"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/ordenanza-de-medidas-para-fomentar-y-garantizar-la-convivencia-ciudadana-en-el-e.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-019.txt.gz",
+   "alias_contenido": [
+    "grafitis",
+    "limpieza",
+    "limpieza viaria"
+   ]
+  },
+  {
+   "id": "guadalajara-020",
+   "titulo": "Ordenanza de limpieza viaria, estética e higiene urbana de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2004",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "salubridad",
+    "salud publica",
+    "plagas",
+    "control sanitario",
+    "limpieza viaria",
+    "higiene urbana",
+    "excrementos",
+    "animales",
+    "perros",
+    "mascotas",
+    "tenencia de animales",
+    "ppp",
+    "vertidos",
+    "aguas residuales",
+    "alcantarillado"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2004-ordenanza-de-limpieza-viaria-estetica-e-higiene-urbana-de-guadalajara.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-020.txt.gz",
+   "alias_contenido": [
+    "aguas residuales",
+    "alcantarillado",
+    "animales",
+    "mascotas",
+    "perros",
+    "ppp",
+    "tenencia de animales",
+    "vertidos"
+   ]
+  },
+  {
+   "id": "guadalajara-021",
+   "titulo": "Ordenanza reguladora de normas cartográficas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2003",
+   "mod": "",
+   "alias": [
+    "cartografia",
+    "planos",
+    "topografia"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2003-ordenanza-reguladora-de-normas-cartograficas.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-021.txt.gz"
+  },
+  {
+   "id": "guadalajara-022",
+   "titulo": "Ordenanza reguladora de la instalación de antenas",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "2002",
+   "mod": "",
+   "alias": [
+    "antenas",
+    "telefonia movil",
+    "radiocomunicacion",
+    "estaciones base"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/2002-ordenanza-reguladora-de-la-instalacion-de-antenas.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-022.txt.gz"
+  },
+  {
+   "id": "guadalajara-023",
+   "titulo": "Normas reguladoras de la autorización para ejercer en la vía pública la actividad de venta de prensa y golosinas en puestos permanentes",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1999",
+   "mod": "",
+   "alias": [
+    "quiosco de prensa",
+    "venta de prensa",
+    "prensa",
+    "quiosco",
+    "quioscos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/1999-normas-reguladoras-de-la-autorizacion-para-ejercer-en-la-via-publica-la-act.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-023.txt.gz"
+  },
+  {
+   "id": "guadalajara-024",
+   "titulo": "Ordenanza de protección de bienes",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1998",
+   "mod": "",
+   "alias": [
+    "bienes municipales",
+    "patrimonio municipal",
+    "mobiliario urbano",
+    "vandalismo",
+    "danos a bienes"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/1998-ordenanza-de-proteccion-de-bienes.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-024.txt.gz"
+  },
+  {
+   "id": "guadalajara-025",
+   "titulo": "Ordenanza reguladora de los requisitos para la prestación de servicios públicos funerarios en el municipio de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1998",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "funerarias",
+    "velatorio"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/1998-ordenanza-reguladora-de-los-requisitos-para-la-prestacion-de-servicios-publ.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-025.txt.gz"
+  },
+  {
+   "id": "guadalajara-026",
+   "titulo": "Ordenanza reguladora del servicio de auto-taxis de la ciudad de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1993",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "taxis",
+    "autotaxi",
+    "auto-taxi",
+    "licencia de taxi",
+    "vtc"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/1993-ordenanza-reguladora-del-servicio-de-auto-taxis-de-la-ciudad-de-guadalajara.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-026.txt.gz"
+  },
+  {
+   "id": "guadalajara-027",
+   "titulo": "Ordenanza para el control de la contaminación de las aguas residuales",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1992",
+   "mod": "",
+   "alias": [
+    "vertidos",
+    "aguas residuales",
+    "alcantarillado",
+    "saneamiento",
+    "depuracion",
+    "agua",
+    "tarifa del agua",
+    "abastecimiento",
+    "suministro de agua"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/1992-ordenanza-para-el-control-de-la-contaminacion-de-las-aguas-residuales.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-027.txt.gz"
+  },
+  {
+   "id": "guadalajara-028",
+   "titulo": "Ordenanza de uso de los parques y jardines de la ciudad de Guadalajara",
+   "cat": "Ordenanzas",
+   "ref": "",
+   "pub": "1985",
+   "mod": "",
+   "alias": [
+    "parques",
+    "jardines",
+    "arbolado",
+    "zonas verdes",
+    "poda",
+    "areas de juego",
+    "animales",
+    "perros",
+    "mascotas",
+    "tenencia de animales",
+    "ppp"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/ordenanza-de-uso-de-los-parques-y-jardines-de-la-ciudad-de-guadalajara.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-028.txt.gz",
+   "alias_contenido": [
+    "animales",
+    "mascotas",
+    "perros",
+    "ppp",
+    "tenencia de animales"
+   ]
+  },
+  {
+   "id": "guadalajara-029",
+   "titulo": "Ordenanza fiscal general de gestión, recaudación e inspección",
+   "cat": "Fiscal general",
+   "ref": "O.F. 1",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "ordenanza fiscal general",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales",
+    "apremio"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/01-ordenanza-fiscal-general-de-gestion-recaudacion-e-inspeccion.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-029.txt.gz"
+  },
+  {
+   "id": "guadalajara-030",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto municipal sobre gastos suntuarios",
+   "cat": "Impuestos",
+   "ref": "O.F. 2",
+   "pub": "vigente desde 01/01/2005",
+   "mod": "",
+   "alias": [
+    "gastos suntuarios",
+    "cotos de caza"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-del-impuesto-municipal-sobre-gastos-suntuarios.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-030.txt.gz"
+  },
+  {
+   "id": "guadalajara-031",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto sobre actividades económicas",
+   "cat": "Impuestos",
+   "ref": "O.F. 3",
+   "pub": "vigente desde 01/01/2022",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/12/30/03-vigente-desde-2022-01-01.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-031.txt.gz"
+  },
+  {
+   "id": "guadalajara-032",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto sobre vehículos de tracción mecánica",
+   "cat": "Impuestos",
+   "ref": "O.F. 4",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "impuesto de vehiculos",
+    "impuesto de circulacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/04-impuesto-sobre-vehiculos-de-traccion-mecanica.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-032.txt.gz"
+  },
+  {
+   "id": "guadalajara-033",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto sobre bienes inmuebles",
+   "cat": "Impuestos",
+   "ref": "O.F. 5",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/05-impuesto-sobre-bienes-inmuebles-ibi.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-033.txt.gz"
+  },
+  {
+   "id": "guadalajara-034",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto sobre construcciones, instalaciones y obras",
+   "cat": "Impuestos",
+   "ref": "O.F. 6",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "icio",
+    "impuesto de obras"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/06-impuesto-sobre-construcciones-instalaciones-y-obras.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-034.txt.gz"
+  },
+  {
+   "id": "guadalajara-035",
+   "titulo": "Ordenanza fiscal reguladora del Impuesto sobre incremento de valor de los terrenos de naturaleza urbana (incluye modificaciones",
+   "cat": "Impuestos",
+   "ref": "O.F. 7",
+   "pub": "vigente desde 01/01/2024",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2023/12/28/07-ordenanza-fiscal-reguladora-del-impuesto-sobre-el-incremento-del-valor-de-los90546.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://www.guadalajara.es/recursos/doc/portal/2017/10/05/modelo-377-impuesto-sobre-el-incremento-valor-terrenos-naturaleza-urbana-coefici.pdf",
+    "https://www.guadalajara.es/recursos/doc/portal/2017/10/05/modelo-377-impuesto-sobre-el-incremento-valor-terrenos-naturaleza-urbana-instruc.pdf",
+    "https://www.guadalajara.es/recursos/doc/portal/2025/02/12/07-ordenanza-fiscal-reguladora-del-impuesto-sobre-el-incremento-del-valor-de-los31792.pdf"
+   ],
+   "texto": "guadalajara-035.txt.gz"
+  },
+  {
+   "id": "guadalajara-036",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación del servicio de agua",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/09/2017",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas",
+    "tarifa del agua",
+    "suministro de agua"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2018/02/14/ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-del-servicio-municipal-de-24006.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-036.txt.gz"
+  },
+  {
+   "id": "guadalajara-037",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación del servicio de alcantarillado",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/09/2017",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2018/02/14/ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-del-servicio-municipal-de-25778.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-037.txt.gz"
+  },
+  {
+   "id": "guadalajara-038",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación del servicio de recogida de basuras",
+   "cat": "Tasas",
+   "ref": "O.F. 10",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas",
+    "tasa de basura",
+    "tasa de residuos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/10-ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-del-servicio-de-recogid.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-038.txt.gz"
+  },
+  {
+   "id": "guadalajara-039",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por tramitación de expedientes de apertura de establecimientos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "licencia de apertura",
+    "licencia de actividad",
+    "apertura",
+    "declaracion responsable"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/ordenanza-fiscal-tasa-por-tramitacion-de-expedientes-de-apertura-de-establecimie4876.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-039.txt.gz"
+  },
+  {
+   "id": "guadalajara-040",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación de los servicios del mercado de abastos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas",
+    "abastos",
+    "mercado de abastos",
+    "puesto de mercado"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/09/01/ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-de-los-servicios-del-merca79247.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-040.txt.gz"
+  },
+  {
+   "id": "guadalajara-041",
+   "titulo": "Ordenanza fiscal reguladora de las tasas por otorgamiento de licencia y autorizaciones administrativas de auto-taxis y demás vehículos de alquiler (vigente desde 2011)",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "taxi",
+    "taxis",
+    "autotaxi",
+    "auto-taxi",
+    "licencia de taxi",
+    "vtc"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-las-tasas-por-otorgamiento-de-licencia-y-autoriza.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-041.txt.gz"
+  },
+  {
+   "id": "guadalajara-042",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación de servicios de Cementerio",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-de-servicios-del-cementeri.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-042.txt.gz"
+  },
+  {
+   "id": "guadalajara-043",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestación del servicio de extinción de incendios (vigente desde 2011)",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-prestacion-del-servicio-de-extincion-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-043.txt.gz"
+  },
+  {
+   "id": "guadalajara-044",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por utilización de las dependencias e instalaciones municipales para la celebración de matrimonios civiles",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "alquiler de salas",
+    "instalaciones municipales",
+    "cesion de espacios"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2018/02/14/ordenanza-fiscal-reguladora-de-la-tasa-por-utilizacion-de-las-dependencias-e-ins75229.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-044.txt.gz"
+  },
+  {
+   "id": "guadalajara-045",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por expedición de documentos administrativos",
+   "cat": "Tasas",
+   "ref": "O.F. 17",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "expedicion de documentos",
+    "certificados",
+    "compulsa"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/17-ordenanza-fiscal-reguladora-de-la-tasa-por-expedicion-de-documentos-administr.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-045.txt.gz"
+  },
+  {
+   "id": "guadalajara-046",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por derechos de examen",
+   "cat": "Tasas",
+   "ref": "O.F. 18",
+   "pub": "vigente desde 16/12/2022",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "derechos de examen",
+    "oposiciones",
+    "procesos selectivos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2022/12/07/18-ordenanza-fiscal-reguladora-de-la-tasa-por-derechos-de-examen.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-046.txt.gz"
+  },
+  {
+   "id": "guadalajara-047",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el otorgamiento de licencias urbanísticas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2015",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas",
+    "tasa de licencia de obras"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-el-otorgamiento-de-licencias-urbanist.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-047.txt.gz"
+  },
+  {
+   "id": "guadalajara-048",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por Aprovechamiento de la Cotilla, del Teatro Moderno y del Teatro Antonio Buero Vallejo",
+   "cat": "Tasas",
+   "ref": "O.F. 32",
+   "pub": "vigente desde 31/07/2021",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "teatro",
+    "teatro moderno",
+    "teatro buero vallejo",
+    "auditorio",
+    "la cotilla"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/32-ordenanza-fiscal-reguladora.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-048.txt.gz"
+  },
+  {
+   "id": "guadalajara-049",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la entrada a monumentos de titularidad municipal",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "monumentos",
+    "turismo",
+    "entradas",
+    "visitas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-la-entrada-a-monumentos-de-titularida.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-049.txt.gz"
+  },
+  {
+   "id": "guadalajara-050",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por actividades y servicios relacionados con el control animal",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2014",
+   "mod": "",
+   "alias": [
+    "animales",
+    "perros",
+    "gatos",
+    "mascotas",
+    "ppp",
+    "perros potencialmente peligrosos",
+    "tenencia de animales",
+    "colonias felinas",
+    "tasa",
+    "tasas",
+    "recogida de animales",
+    "perrera",
+    "tasa de animales"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-reguladora-de-la-tasa-por-actividades-y-servicios-relacionados-con-el-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-050.txt.gz"
+  },
+  {
+   "id": "guadalajara-051",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la prestación de servicios especiales por la Policía Local",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "policia local",
+    "policia municipal",
+    "servicios especiales"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/ordenanza-fiscal-reguladora-de-la-tasa-por.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-051.txt.gz"
+  },
+  {
+   "id": "guadalajara-052",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por estacionamiento de autobuses en la estación de autobuses",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "autobus",
+    "autobuses",
+    "transporte urbano",
+    "billete",
+    "bonobus",
+    "estacion de autobuses"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-estacionamiento-de-autobuses-en-la-es.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-052.txt.gz"
+  },
+  {
+   "id": "guadalajara-053",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de terrenos de uso público con mercancías, materiales de construcción y otros efectos",
+   "cat": "Tasas",
+   "ref": "O.F. 21",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "andamios",
+    "vallas de obra",
+    "contenedores de obra",
+    "escombros",
+    "ocupacion de via publica",
+    "materiales de construccion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/21-ordenanza-fiscal-reguladora-de-la-tasa-por-ocupacion-de-terrenos-de-uso-publi.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-053.txt.gz"
+  },
+  {
+   "id": "guadalajara-054",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por utilización privativa y aprovechamientos especiales constituidos en el suelo, subsuelo o vuelo de la vía pública a favor de empresas explotadoras de servicios de suministros",
+   "cat": "Tasas",
+   "ref": "O.F. 22",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "suelo vuelo y subsuelo",
+    "empresas suministradoras",
+    "1,5%",
+    "1 5"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/22-ordenanza-fiscal-reguladora-de-la-tasa-por-utilizacion-privativa-y-aprovecham.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-054.txt.gz"
+  },
+  {
+   "id": "guadalajara-055",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación del subsuelo, suelo y vuelo de la vía pública",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2020",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "suelo vuelo y subsuelo",
+    "empresas suministradoras",
+    "1,5%",
+    "1 5"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2019/12/20/ordenanza-fiscal-reguladora-de-la-tasa-por-vigente-desde-2020-01-01.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-055.txt.gz"
+  },
+  {
+   "id": "guadalajara-056",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de la vía pública con puestos, barracas, casetas de venta, espectáculos o atracciones situados en terrenos de uso público e industrias callejeras y ambulantes y rodaje cinematográfico",
+   "cat": "Tasas",
+   "ref": "O.F. 24",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "venta ambulante",
+    "mercadillo",
+    "puestos",
+    "barracas",
+    "ferias",
+    "atracciones",
+    "food truck"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/24-ordenanza-fiscal-reguladora-de-la-tasa-por-ocupacion-de-la-via-publica-con-pu87274.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-056.txt.gz"
+  },
+  {
+   "id": "guadalajara-057",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de terrenos de uso público con quioscos y otras instalaciones fijas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-ocupacion-de-terrenos-de-uso-publico-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-057.txt.gz"
+  },
+  {
+   "id": "guadalajara-058",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por aprovechamiento de la vía pública y terrenos de uso público con entrada o paso de vehículos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-aprovechamiento-de-la-via-publica-y-t.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-058.txt.gz"
+  },
+  {
+   "id": "guadalajara-059",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de terreno de uso público con vallas, puntales, asnillas, andamios e instalaciones análogas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "andamios",
+    "vallas",
+    "puntales",
+    "asnillas",
+    "ocupacion de via publica"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-ocupacion-de-terreno-de-uso-publico-c.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-059.txt.gz"
+  },
+  {
+   "id": "guadalajara-060",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por apertura de calicatas o zanjas en terrenos de uso público",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2012",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "calicatas",
+    "zanjas",
+    "obras en la via publica",
+    "canalizaciones"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-la-tasa-por-apertura-de-calicatas-o-zanjas-en-ter.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-060.txt.gz"
+  },
+  {
+   "id": "guadalajara-061",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por recogida de vehículos de la vía pública e inmovilización de los estacionados antirreglamentariamente",
+   "cat": "Tasas",
+   "ref": "O.F. 30",
+   "pub": "vigente desde 08/06/2021",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "grua",
+    "retirada de vehiculos",
+    "deposito de vehiculos",
+    "tasa de grua",
+    "inmovilizacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/30-ordenanza-de-la-tasa-por-recogida-de-vehiculos-de-la-via-publica-e-inmoviliza.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-061.txt.gz"
+  },
+  {
+   "id": "guadalajara-062",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por estacionamiento regulado de vehículos en la vía pública",
+   "cat": "Tasas",
+   "ref": "O.F. 31",
+   "pub": "vigente desde 01/01/2026",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro",
+    "tasa",
+    "tasas",
+    "aparcamiento",
+    "zbe",
+    "zona de bajas emisiones",
+    "distintivo ambiental"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/12/23/31-ordenanza-fiscal-reguladora-de-la-tasa-por-estacionamiento-regulado-de-vehicu.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-062.txt.gz",
+   "alias_contenido": [
+    "aparcamiento",
+    "distintivo ambiental",
+    "zbe",
+    "zona de bajas emisiones"
+   ]
+  },
+  {
+   "id": "guadalajara-063",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de dominio público para actividades publicitarias",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas",
+    "tasa",
+    "tasas",
+    "publicidad en via publica"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/ordenanza-fiscal-reguladora.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-063.txt.gz"
+  },
+  {
+   "id": "guadalajara-064",
+   "titulo": "Acuerdo regulador del establecimiento del precio público de participación económica de los usuarios en el Servicio de Ayuda a Domicilio",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 18/06/2022",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas",
+    "precio publico",
+    "precios publicos",
+    "ayuda a domicilio",
+    "sad",
+    "dependencia",
+    "servicios sociales"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2022/12/07/acuerdo-regulador-del-establecimiento-del-precio-publico-de-participacion-econom.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-064.txt.gz"
+  },
+  {
+   "id": "guadalajara-065",
+   "titulo": "Acuerdo regulador de los precios públicos por clases impartidas en las Escuelas Culturales y las clases y talleres impartidos en la Escuela Municipal de Teatro (vigente desde 2015)",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "teatro",
+    "teatro moderno",
+    "teatro buero vallejo",
+    "auditorio",
+    "la cotilla",
+    "escuelas culturales",
+    "talleres",
+    "cursos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/09/01/ordenanza-reguladora-de-los-precios-publicos-por-clases-impartidas-en-las-escuel31689.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-065.txt.gz"
+  },
+  {
+   "id": "guadalajara-066",
+   "titulo": "Acuerdo regulador del precio público por la utilización de Instalaciones, Escuelas Deportivas y Cursos de Natación",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 10/06/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "deportes",
+    "polideportivo",
+    "piscina",
+    "escuelas deportivas",
+    "instalaciones deportivas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/acuerdo-regulador-de-los-precios-publicos-por-la-prestacion-de-servicios.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-066.txt.gz"
+  },
+  {
+   "id": "guadalajara-067",
+   "titulo": "Ordenanza reguladora del precio público por la prestación de determinados servicios, actividades, clases o talleres dentro de las Concejalías de Familia y/o Servicios sociales",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 01/01/2015",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-reguladora-precio-publico-prestacion-servicios-en-el-area-de-la-concej.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-067.txt.gz"
+  },
+  {
+   "id": "guadalajara-068",
+   "titulo": "Ordenanza reguladora del precio público del servicio municipal de préstamo de bicicletas",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "bicicleta publica",
+    "prestamo de bicicletas",
+    "bici"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-reguladora-del-precio-publico-del-servicio-municipal-de-prestamo-de-bi.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-068.txt.gz"
+  },
+  {
+   "id": "guadalajara-069",
+   "titulo": "Ordenanza reguladora del precio público por trabajos prestados en el marco del servicio municipal de abastecimiento de agua, alcantarillado y depuración de Guadalajara y barrios anexionados",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 13/11/2018",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "precio publico",
+    "precios publicos",
+    "tarifa del agua",
+    "suministro de agua",
+    "limpieza",
+    "limpieza viaria",
+    "pintadas",
+    "grafitis",
+    "vertidos",
+    "aguas residuales"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2018/02/14/ordenanza-reguladora-del-precio-publico-de-participacion-economica-de-los-usuari9285.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-069.txt.gz",
+   "alias_contenido": [
+    "aguas residuales",
+    "grafitis",
+    "limpieza",
+    "limpieza viaria",
+    "pintadas",
+    "vertidos"
+   ]
+  },
+  {
+   "id": "guadalajara-070",
+   "titulo": "Ordenanza reguladora del precio público por realización de determinadas actividades en la finca municipal de Castillejos",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 01/01/2014",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-reguladora-precio-publico-por-realizacion-de-actividades-en-finca-muni.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-070.txt.gz"
+  },
+  {
+   "id": "guadalajara-071",
+   "titulo": "Acuerdo regulador del precio público por la prestación de servicios en el Espacio Tyce",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 15/04/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "juventud",
+    "centro joven",
+    "tyce"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/acuerdo-regulador-de-pp-prestacion-servicios-espacio-tyce.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-071.txt.gz"
+  },
+  {
+   "id": "guadalajara-072",
+   "titulo": "Acuerdo regulador del precio público por la prestación del servicio de escuelas infantiles de primer ciclo de 0 a 3 años en centros de titularidad municipal",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 08/04/2025",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "escuelas infantiles",
+    "guarderia",
+    "guarderias",
+    "primer ciclo de infantil"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2025/02/12/acuerdo-regulador-del-precio-publico-por-la-prestacion-del-servicio-de-escuelas-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-072.txt.gz"
+  },
+  {
+   "id": "guadalajara-073",
+   "titulo": "Acuerdo regulador de los Precios Públicos por la prestación de servicios, actividades, clases o talleres dentro de la Concejalía de Infancia, Adolescencia y Juventud",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 10/06/2021",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/acuerdo-regulador-de-los-precios-publicos-por-la-prestacion-de-servicios-activid.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-073.txt.gz"
+  },
+  {
+   "id": "guadalajara-074",
+   "titulo": "Acuerdo regulador del precio público para la venta de artículos de recuerdo",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 20/10/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "souvenirs",
+    "libros",
+    "venta de libros",
+    "oficina de turismo"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/acuerdo-regulador-del-precio-publico-por-la-prestacion-servicios.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-074.txt.gz"
+  },
+  {
+   "id": "guadalajara-075",
+   "titulo": "Acuerdo regulador del precio público para la venta de libros de historia de la Ciudad y Patrimonio Histórico-Artístico en la Oficina de Gestión Turística Municipal en Monumentos y otros establecimientos colaboradores",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "vigente desde 20/10/2021",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "monumentos",
+    "turismo",
+    "entradas",
+    "visitas",
+    "souvenirs",
+    "libros",
+    "venta de libros",
+    "oficina de turismo"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2021/01/04/precios-publicos-para-venta-de-libros-bop-2021-10-20.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-075.txt.gz"
+  },
+  {
+   "id": "guadalajara-076",
+   "titulo": "Ordenanza fiscal reguladora de la contribución especial para el establecimiento, ampliación y mantenimiento del Servicio de Extinción de Incendios",
+   "cat": "Contribuciones especiales",
+   "ref": "",
+   "pub": "vigente desde 01/01/2021",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "contribuciones especiales",
+    "bomberos",
+    "extincion de incendios"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/30/ordenanza-fiscal-reguladora-de-contribucion-establecimiento-ampliacion-y-manteni.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-076.txt.gz"
+  },
+  {
+   "id": "guadalajara-077",
+   "titulo": "Reglamento de Participación Ciudadana (texto íntegro tras la modificación de 2024)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2024 · BOP 18/10/2024",
+   "mod": "",
+   "alias": [
+    "participacion ciudadana",
+    "consultas ciudadanas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2024-reglamento-de-participacion-ciudadana-modificacion-bop-2024-10-18.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-077.txt.gz"
+  },
+  {
+   "id": "guadalajara-078",
+   "titulo": "Reglamento de Honores y Distinciones del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2024 · en vigor desde 27/09/2024",
+   "mod": "",
+   "alias": [
+    "honores",
+    "distinciones",
+    "medallas",
+    "hijo predilecto",
+    "hijo adoptivo"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2024-reglamento-de-honores-y-distinciones-y-distinciones-aprobacion-definitiva.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-078.txt.gz"
+  },
+  {
+   "id": "guadalajara-079",
+   "titulo": "Reglamento regulador del Teletrabajo con modalidad de prestación de servicios a distancia en el Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2024 · BOP 08/08/2024",
+   "mod": "",
+   "alias": [
+    "teletrabajo",
+    "empleados publicos",
+    "trabajo a distancia"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2024.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-079.txt.gz"
+  },
+  {
+   "id": "guadalajara-080",
+   "titulo": "Reglamento del Servicio Público de Transporte Colectivo Urbano de viajeros/as de la ciudad de Guadalajara y barrios anexionados",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2023",
+   "mod": "",
+   "alias": [
+    "autobus",
+    "autobuses",
+    "transporte urbano",
+    "billete",
+    "bonobus",
+    "animales",
+    "perros",
+    "mascotas",
+    "tenencia de animales",
+    "ppp"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2023-reglamento-de-viajeros.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-080.txt.gz",
+   "alias_contenido": [
+    "animales",
+    "mascotas",
+    "perros",
+    "ppp",
+    "tenencia de animales"
+   ]
+  },
+  {
+   "id": "guadalajara-081",
+   "titulo": "Reglamento regulador del Consejo Sectorial de Seguridad y Convivencia Ciudadana. Corrección de errores y texto íntegro)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2023 · en vigor desde 15/02/2023",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "consejo sectorial",
+    "organos de participacion",
+    "pintadas",
+    "espacio publico"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2023-correccion-de-errores-reglamento-regulador-del-consejo-sectorial-de-segurid.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-081.txt.gz"
+  },
+  {
+   "id": "guadalajara-082",
+   "titulo": "Reglamento de funcionamiento interno de la Biblioteca Municipal Suárez de Puga",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2023 · en vigor desde 08/02/2023",
+   "mod": "",
+   "alias": [
+    "biblioteca",
+    "bibliotecas",
+    "prestamo de libros"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2022/01/20/2023-reglamento-funcionamiento-interno-biblioteca-municipal-suarez-de-puga.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-082.txt.gz"
+  },
+  {
+   "id": "guadalajara-083",
+   "titulo": "Reglamento regulador del Consejo de Diversidad",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 10/10/2022",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-diversidad.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-083.txt.gz"
+  },
+  {
+   "id": "guadalajara-084",
+   "titulo": "Reglamento del servicio de ayuda a domicilio (SAD)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 12/07/2022",
+   "mod": "",
+   "alias": [
+    "ayuda a domicilio",
+    "sad",
+    "dependencia",
+    "servicios sociales"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-del-servicio-de-ayuda-a-domicilio-sad-entrada-en-vigor-12-de-jul.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-084.txt.gz"
+  },
+  {
+   "id": "guadalajara-085",
+   "titulo": "Reglamento de Organización y Funcionamiento del Consejo Sectorial de Cultura",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 29/04/2022",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-regulador-del-consejo-sectorial-de-cultura-bop-2021-08-05.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-085.txt.gz"
+  },
+  {
+   "id": "guadalajara-086",
+   "titulo": "Reglamento de Organización y Funcionamiento del Consejo Sectorial de Deportes",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 29/04/2022",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-regulador-del-consejo-sectorial-de-deportes-bop-2022-03-14.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-086.txt.gz"
+  },
+  {
+   "id": "guadalajara-087",
+   "titulo": "Reglamento del Carnet Joven",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 08/03/2022",
+   "mod": "",
+   "alias": [
+    "carnet joven",
+    "carne joven",
+    "juventud"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-del-carne-joven.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-087.txt.gz"
+  },
+  {
+   "id": "guadalajara-088",
+   "titulo": "Reglamento de la Plaza de Toros",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 11/03/2022",
+   "mod": "",
+   "alias": [
+    "toros",
+    "plaza de toros",
+    "festejos taurinos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-de-la-plaza-de-toros.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-088.txt.gz"
+  },
+  {
+   "id": "guadalajara-089",
+   "titulo": "Reglamento regulador del Consejo Sectorial de Seguridad y Convivencia Ciudadana",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2022 · en vigor desde 17/02/2022",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "consejo sectorial",
+    "organos de participacion",
+    "pintadas",
+    "espacio publico"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2022-reglamento-regulador-del-consejo-sectorial-de-seguridad-y-convivencia-ciuda.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-089.txt.gz"
+  },
+  {
+   "id": "guadalajara-090",
+   "titulo": "Reglamento de funcionamiento del Espacio TYCE y del Centro Joven",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021 · vigente desde 24/12/2021",
+   "mod": "",
+   "alias": [
+    "juventud",
+    "centro joven",
+    "tyce"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-de-funcionamiento-del-espacio-tyce-y-centro-joven.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-090.txt.gz"
+  },
+  {
+   "id": "guadalajara-091",
+   "titulo": "Reglamento Orgánico del Gobierno y Administración del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021 · en vigor desde 09/12/2022",
+   "mod": "",
+   "alias": [
+    "reglamento organico",
+    "organizacion municipal",
+    "junta de gobierno",
+    "concejales",
+    "alcalde"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-organico-del-gobierno-y-administracion-del-ayuntamiento-de-guada.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-091.txt.gz"
+  },
+  {
+   "id": "guadalajara-092",
+   "titulo": "Reglamento regulador del Consejo de Mayores",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "mayores",
+    "personas mayores",
+    "tercera edad"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-regulador-del-consejo-de-mayores.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-092.txt.gz"
+  },
+  {
+   "id": "guadalajara-093",
+   "titulo": "Reglamento del Registro Contable de Facturas",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021",
+   "mod": "",
+   "alias": [
+    "facturas",
+    "registro contable",
+    "factura electronica",
+    "proveedores"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-del-registro-contable-de-facturas-texto-consolidado.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-093.txt.gz"
+  },
+  {
+   "id": "guadalajara-094",
+   "titulo": "Reglamento Regulador del Consejo Escolar de Localidad",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "consejo escolar",
+    "educacion",
+    "colegios"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-regulador-del-consejo-escolar-de-localidad-del-ayuntamiento-de-g.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-094.txt.gz"
+  },
+  {
+   "id": "guadalajara-095",
+   "titulo": "Reglamento regulador del Consejo Sectorial de Medio Ambiente",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2021",
+   "mod": "",
+   "alias": [
+    "medio ambiente",
+    "proteccion ambiental",
+    "consejo sectorial",
+    "organos de participacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2021-reglamento-regulador-del-consejo-sectorial-de-medio-ambiente.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-095.txt.gz"
+  },
+  {
+   "id": "guadalajara-096",
+   "titulo": "Reglamento de funcionamiento y organización de los centros sociales municipales",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2019",
+   "mod": "",
+   "alias": [
+    "centros sociales",
+    "centro social",
+    "asociaciones"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2019-reglamento-de-los-centros-sociales.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-096.txt.gz"
+  },
+  {
+   "id": "guadalajara-097",
+   "titulo": "Reglamento orgánico del Pleno del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2019",
+   "mod": "",
+   "alias": [
+    "pleno",
+    "plenos",
+    "mociones",
+    "reglamento organico",
+    "concejales",
+    "ruegos y preguntas"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2019-reglamento-organico-del-pleno-del-ayuntamiento-de-guadalajara.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-097.txt.gz"
+  },
+  {
+   "id": "guadalajara-098",
+   "titulo": "Reglamento regulador del Consejo de Igualdad del municipio de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2018",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "igualdad",
+    "mujeres",
+    "violencia de genero"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2018-reglamento-de-organizacion-competencias-y-funcionamiento-del-consejo-de-igu.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-098.txt.gz"
+  },
+  {
+   "id": "guadalajara-099",
+   "titulo": "Estatutos del Consejo Escolar de la ciudad de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2017",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "consejo escolar",
+    "educacion",
+    "colegios"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2017-estatutos-del-consejo-escolar-de-guadalajara.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-099.txt.gz"
+  },
+  {
+   "id": "guadalajara-100",
+   "titulo": "Reglamento Orgánico del Órgano de Gestión Tributaria (Oficina Tributaria del Ayuntamiento de Guadalajara) (OTAG)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2016",
+   "mod": "",
+   "alias": [
+    "oficina tributaria",
+    "gestion tributaria",
+    "recaudacion",
+    "tributos"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-organico-del-organo-de-gestion-tributaria-oficina-tributaria-del-ayun.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-100.txt.gz"
+  },
+  {
+   "id": "guadalajara-101",
+   "titulo": "Reglamento Orgánico del Órgano de resolución de las reclamaciones económico-administrativas (Junta Municipal de Reclamaciones Económico-Administrativas)",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2016",
+   "mod": "",
+   "alias": [
+    "reclamacion economico administrativa",
+    "tribunal economico administrativo",
+    "team",
+    "recurso tributario"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2016-reglamento-organico-del-organo-de-resolucion-de-las-reclamaciones-economico.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-101.txt.gz"
+  },
+  {
+   "id": "guadalajara-102",
+   "titulo": "Reglamento del Registro Municipal de Uniones Civiles o de Hecho",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2012",
+   "mod": "",
+   "alias": [
+    "parejas de hecho",
+    "registro de parejas de hecho",
+    "uniones de hecho"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-registro-municipal-de-uniones-civiles-o-de-hecho.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-102.txt.gz"
+  },
+  {
+   "id": "guadalajara-103",
+   "titulo": "Reglamento del Registro Municipal de Uniones Civiles o de Hecho. Anexos",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2012",
+   "mod": "",
+   "alias": [
+    "parejas de hecho",
+    "registro de parejas de hecho",
+    "uniones de hecho"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-registro-municipal-de-uniones-civiles-o-de-hecho-anexo.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-103.txt.gz"
+  },
+  {
+   "id": "guadalajara-104",
+   "titulo": "Reglamento de segunda actividad de la Policía Local de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2012",
+   "mod": "",
+   "alias": [
+    "policia local",
+    "policia municipal",
+    "servicios especiales",
+    "segunda actividad"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2012-reglamento-de-segunda-actividad-de-la-policia-local.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-104.txt.gz"
+  },
+  {
+   "id": "guadalajara-105",
+   "titulo": "Reglamento de uso y funcionamiento de las ludotecas",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2011",
+   "mod": "",
+   "alias": [
+    "ludoteca",
+    "ludotecas",
+    "conciliacion"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2011-reglamento-de-uso-y-funcionamiento-de-las-ludotecas.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-105.txt.gz"
+  },
+  {
+   "id": "guadalajara-106",
+   "titulo": "Reglamento del Consejo Municipal de la Infancia y la Adolescencia",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2011",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "infancia",
+    "adolescencia",
+    "menores"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-consejo-municipal-de-la-infancia-y-la-adolescencia.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-106.txt.gz"
+  },
+  {
+   "id": "guadalajara-107",
+   "titulo": "Reglamento del Consejo Sectorial de Accesibilidad: nueva redacción del artículo 6",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2011",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "accesibilidad",
+    "barreras arquitectonicas",
+    "discapacidad",
+    "movilidad reducida"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-consejo-sectorial-de-accesibilidad-nueva-redaccion-del-articulo-6.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-107.txt.gz"
+  },
+  {
+   "id": "guadalajara-108",
+   "titulo": "Reglamento del Consejo Municipal de Cooperación para el Desarrollo",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2009",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "cooperacion al desarrollo",
+    "cooperacion internacional",
+    "ong"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-consejo-municipal-de-cooperacion-para-el-desarrollo.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-108.txt.gz"
+  },
+  {
+   "id": "guadalajara-109",
+   "titulo": "Reglamento regulador de los centros de atención a la infancia del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2009",
+   "mod": "",
+   "alias": [
+    "escuelas infantiles",
+    "guarderia",
+    "guarderias",
+    "primer ciclo de infantil"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-regulador-de-los-centros-de-atencion-a-la-infancia-del-ayuntamiento-d.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-109.txt.gz"
+  },
+  {
+   "id": "guadalajara-110",
+   "titulo": "Reglamento del servicio de abastecimiento de agua potable del municipio de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2008",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tarifa del agua",
+    "suministro de agua"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-del-servicio-de-abastecimiento-de-agua-potable.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-110.txt.gz"
+  },
+  {
+   "id": "guadalajara-111",
+   "titulo": "Reglamento orgánico de la Comisión Especial de Sugerencias y Reclamaciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2007",
+   "mod": "",
+   "alias": [
+    "quejas",
+    "sugerencias",
+    "reclamaciones",
+    "defensor del ciudadano"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/reglamento-organico-de-la-comision-especial-de-sugerencias-y-reclamaciones.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-111.txt.gz"
+  },
+  {
+   "id": "guadalajara-112",
+   "titulo": "Reglamento del Consejo Sectorial de Accesibilidad",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "2006",
+   "mod": "",
+   "alias": [
+    "consejo sectorial",
+    "organos de participacion",
+    "accesibilidad",
+    "barreras arquitectonicas",
+    "discapacidad",
+    "movilidad reducida"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/2006-reglamento-del-consejo-sectorial-de-accesibilidad.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-112.txt.gz"
+  },
+  {
+   "id": "guadalajara-113",
+   "titulo": "Reglamento de organización funcionamiento y régimen jurídico de la Policía Local de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "1999",
+   "mod": "",
+   "alias": [
+    "policia local",
+    "policia municipal",
+    "servicios especiales",
+    "agentes"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/1999-reglamento-de-organizacion-funcionamiento-y-regimen-juridico-de-la-policia-.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-113.txt.gz"
+  },
+  {
+   "id": "guadalajara-114",
+   "titulo": "Reglamento de cementerios. Incluye modificaciones",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "1997",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "enterramiento"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/1997-reglamento-de-cementerios-incluye-modificaciones.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-114.txt.gz"
+  },
+  {
+   "id": "guadalajara-115",
+   "titulo": "Reglamento de la Agrupación Municipal de Voluntarios de Protección Civil del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "1994",
+   "mod": "",
+   "alias": [
+    "proteccion civil",
+    "voluntariado",
+    "agrupacion de voluntarios",
+    "emergencias"
+   ],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/1994-reglamento-de-la-agrupacion-municipal-de-voluntarios-de-proteccion-civil.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-115.txt.gz"
+  },
+  {
+   "id": "guadalajara-116",
+   "titulo": "Reglamento de distinciones para trabajadores del Ayuntamiento de Guadalajara",
+   "cat": "Reglamentos",
+   "ref": "",
+   "pub": "1987",
+   "mod": "",
+   "alias": [],
+   "url": "https://www.guadalajara.es/recursos/doc/portal/2017/08/29/1987-reglamento-de-distinciones-para-trabajadores-del-ayuntamiento-de-guadalajar.pdf",
+   "formato": "pdf",
+   "texto": "guadalajara-116.txt.gz"
+  }
+ ]
+}

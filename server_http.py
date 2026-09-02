@@ -102,6 +102,25 @@ try:
     _ICONS = [_Icon(src=_ICON_URL, mimeType="image/png", sizes="512x512")]
 except Exception:  # noqa: BLE001
     _ICONS = None
+def _cobertura_ordenanzas():
+    """Cobertura de ordenanzas municipales CALCULADA desde los motores (ciudades
+    con catálogo consolidado + provincias con BOP activo). Antes era una lista
+    escrita a mano en tres sitios y se quedaba desfasada al añadir provincias
+    (2-sep-2026: se activan por datos, sin tocar este fichero)."""
+    try:
+        import ordenanzas_engine as _oe
+        ciudades = sorted(a.nombre for a in _oe.ADAPTADORES.values())
+        provs = sorted(c.get("nombre", p).upper() for p, c in _oe._bop.PROVINCIAS.items())
+        return (f"las {len(ciudades)} ciudades con catálogo consolidado ({', '.join(ciudades)}) y "
+                f"CUALQUIER ayuntamiento de {len(provs)} provincias vía su Boletín Oficial "
+                f"({', '.join(provs)}; p.ej. Dos Hermanas, Móstoles, Vigo, Jerez, Cartagena, Elche, "
+                "Marbella, Logroño, Santander, Badajoz...)")
+    except Exception:  # noqa: BLE001
+        return "las mayores ciudades y la mayoría de provincias españolas (vía su Boletín Oficial)"
+
+
+_COB_ORD = _cobertura_ordenanzas()
+
 # Instrucciones a nivel de SERVIDOR: el cliente (p.ej. Claude) las usa para
 # entender qué es Jurisprudenciator y ENRUTAR bien cada consulta. Es la palanca
 # principal para que el "clasificador" de herramientas acierte y no se líe.
@@ -150,13 +169,8 @@ _INSTRUCTIONS = (
     "• ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa de un AYUNTAMIENTO: "
     "terrazas, ruido, movilidad/ZBE, residuos, animales, venta ambulante, "
     "tributos municipales IBI/ICIO/plusvalía…) → buscar_ordenanzas y luego "
-    "leer_ordenanza. Cubiertos: las 9 mayores ciudades (MADRID, BARCELONA, "
-    "VALENCIA, SEVILLA, ZARAGOZA, MÁLAGA, MURCIA, PALMA, LAS PALMAS) y TODOS "
-    "los ayuntamientos de las PROVINCIAS DE MADRID (toda la Comunidad), BARCELONA (toda la provincia), VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEÓN, "
-    "CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA Y CÁDIZ (vía su BOP: "
-    "Dos Hermanas, Lora del Río, Bormujos, "
-    "Motril, Baza, Barbastro, Jaca, Ponferrada, Plasencia, Trujillo, Illescas, "
-    "Talavera de la Reina, Lepe, Almonte, Ayamonte, etc.).\n"
+    "leer_ordenanza. Cubiertos: " + _COB_ORD + ". Si un municipio no está "
+    "cubierto, la propia herramienta lo dice en UNA llamada.\n"
     "• CONVENIOS COLECTIVOS (el convenio aplicable a un sector y un "
     "territorio, y sus condiciones laborales: jornada, vacaciones, salario, "
     "categorías, pluses, antigüedad; convenios estatales, autonómicos, "
@@ -181,12 +195,8 @@ _INSTRUCTIONS = (
     "doctrina DGT y TEAC/TEAR + CONVENIOS COLECTIVOS (registro REGCON: "
     "estatales, autonómicos, provinciales y de empresa) + Registro Mercantil + "
     "CATASTRO (datos no protegidos de toda España salvo País Vasco y Navarra; "
-    "sin titular ni valor catastral) + ordenanzas municipales de los 9 MAYORES "
-    "ayuntamientos (Madrid, Barcelona, Valencia, Sevilla, Zaragoza, Málaga, "
-    "Murcia, Palma, Las Palmas GC) y de TODOS los ayuntamientos de las PROVINCIAS "
-    "DE MADRID (toda la Comunidad), BARCELONA (toda la provincia), VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEÓN, CÁCERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Móstoles, Alcalá de Henares, Getafe, Leganés, Vigo, Santiago de Compostela, Ferrol, Cartagena, Elche, Marbella, Jerez...) (vía su BOP). NO cubre (aún): "
-    "ordenanzas de municipios de otras "
-    "provincias ni normativa "
+    "sin titular ni valor catastral) + ordenanzas municipales de " + _COB_ORD + ". "
+    "NO cubre (aún): ordenanzas de municipios de las provincias no listadas ni normativa "
     "AUTONÓMICA —se publican en el Boletín Oficial de la PROVINCIA (BOP) o "
     "autonómico y en la web del ayuntamiento, NO en el BOE estatal—; tampoco "
     "el depósito/contenido de las CUENTAS ANUALES de "
@@ -1907,32 +1917,36 @@ def buscar_empresa_mercantil(empresa: str) -> str:
 # Akoma Ntoso del portal Norma para Barcelona, PDF oficial por norma en el
 # resto). SOLO se activa cuando piden normativa de un ayuntamiento.
 # =========================================================================
-@mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO, meta=_AUTH_META)
-@_telemetria("buscar_ordenanzas")
 def buscar_ordenanzas(municipio: str, consulta: str = "", limite: int = 15) -> str:
     """Localiza ORDENANZAS y REGLAMENTOS MUNICIPALES (normativa del AYUNTAMIENTO,
     texto consolidado): terrazas y veladores, ruido, movilidad/ZBE, limpieza y
-    residuos, animales, venta ambulante, tributos municipales (IBI, ICIO,
-    plusvalia, IAE)... USALA SOLO cuando pidan normativa de un ayuntamiento
-    concreto. NO para leyes estatales (eso es buscar_articulo / buscar_boe) NI
-    jurisprudencia (buscar_sentencias) NI normativa autonomica.
+    residuos, animales, venta ambulante, viviendas de uso turistico, tributos
+    municipales (IBI, ICIO, plusvalia, IAE)... USALA SOLO cuando pidan normativa
+    de un ayuntamiento concreto. NO para leyes estatales (eso es buscar_articulo /
+    buscar_boe) NI jurisprudencia (buscar_sentencias) NI normativa autonomica.
 
-    Municipios cubiertos: las 9 mayores ciudades (Madrid, Barcelona, Valencia,
-    Sevilla, Zaragoza, Malaga, Murcia, Palma, Las Palmas) y CUALQUIER
-    ayuntamiento de las PROVINCIAS DE MADRID, BARCELONA, VALENCIA, NAVARRA, CÓRDOBA, ALMERÍA, GIRONA, VALLADOLID, ILLES BALEARS, ASTURIAS, BIZKAIA, GIPUZKOA, A CORUÑA, PONTEVEDRA, TARRAGONA, LAS PALMAS, SANTA CRUZ DE TENERIFE, SEVILLA, GRANADA, HUESCA, LEON, CACERES, TOLEDO, HUELVA, MURCIA, ALICANTE, JAÉN, MÁLAGA-prov y CÁDIZ (Mostoles, Getafe, Vigo, Santiago, Ferrol, Cartagena, Elche, Marbella, Jerez...) via su BOP
-    (Dos Hermanas, Lora del Rio, Bormujos, Motril, Baza, Barbastro, Jaca,
-    Ponferrada, Astorga...). Si piden otro municipio, esta tool lo indica en UNA
-    llamada: no insistas ni reintentes.
+    Municipios cubiertos: {COBERTURA}. Si piden otro municipio, esta tool lo
+    indica en UNA llamada: no insistas ni reintentes. En las ciudades con
+    catalogo, si la norma no esta en el catalogo consolidado se busca ademas en
+    el Boletin Oficial de su provincia (p.ej. la limitacion de viviendas de uso
+    turistico de Sevilla, que es una modificacion del PGOU).
 
     municipio: "Madrid", "Dos Hermanas", "Bormujos", "Motril", "Jaca"... (admite
-        "Municipio, Provincia" para desambiguar).
-    consulta: materia ("terrazas", "residuos/basura", "ruido", "IBI"). En los
-        municipios via BOP, la materia guia la busqueda en el boletin.
+        "Municipio, Provincia" para desambiguar y nombres cooficiales o abreviados:
+        Crevillent/Crevillente, A Coruna/La Coruna, Las Rozas...).
+    consulta: materia ("terrazas", "residuos/basura", "ruido", "IBI", "pisos
+        turisticos"). En los municipios via BOP, la materia guia la busqueda en
+        el boletin.
     limite: cuantas devolver (defecto 15).
 
     Devuelve titulo, referencia oficial (CVE/BOP o BOCM) y el id para
     leer_ordenanza."""
     return _ord.buscar(municipio, consulta, limite)
+
+
+buscar_ordenanzas.__doc__ = buscar_ordenanzas.__doc__.replace("{COBERTURA}", _COB_ORD)
+buscar_ordenanzas = mcp.tool(title="Buscar ordenanzas municipales", annotations=_RO, meta=_AUTH_META)(
+    _telemetria("buscar_ordenanzas")(buscar_ordenanzas))
 
 
 @mcp.tool(title="Leer ordenanza municipal", annotations=_RO, meta=_AUTH_META)
@@ -1944,9 +1958,8 @@ def leer_ordenanza(municipio: str, ordenanza: str, articulo: str = "",
     el usuario ya nombra la ordenanza y el municipio). NO para articulos de leyes
     estatales (eso es buscar_articulo).
 
-    municipio: cualquiera de las 9 ciudades o de las provincias de Sevilla,
-        Granada, Huesca y Leon ("Madrid", "Dos Hermanas", "Bormujos", "Motril",
-        "Jaca", "Ponferrada"...).
+    municipio: cualquiera de los cubiertos por buscar_ordenanzas ("Madrid",
+        "Dos Hermanas", "Bormujos", "Motril", "Jaca", "Ponferrada"...).
     ordenanza: id de buscar_ordenanzas (p.ej. conso-66304), CVE del BOP
         (BOP-SE-2024-091027), referencia oficial o titulo/materia ("terrazas",
         "residuos"). En municipios via BOP, la materia localiza la ordenanza

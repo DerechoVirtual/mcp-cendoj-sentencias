@@ -2,7 +2,9 @@
  "meta": {
   "municipio": "laspalmas",
   "fuente": "Ayuntamiento de Las Palmas de Gran Canaria (PDF oficial por norma)",
-  "url": "https://www.laspalmasgc.es/es/ayuntamiento/normativa/"
+  "url": "https://www.laspalmasgc.es/es/ayuntamiento/normativa/",
+  "textos_dir": "laspalmas_textos",
+  "textos_fecha": "2026-09-02"
  },
  "normas": [
   {
@@ -14,7 +16,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-Municipal-Reguladora-de-los-Usos-Actividades.....pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-reguladora-de-los-usos-y-activ.txt.gz"
   },
   {
    "id": "lpg-ordenanza-general-de-convivencia-ciudadana-y-via-p",
@@ -31,7 +34,8 @@
     "conductas incivicas"
    ],
    "url": "https://www.laspalmasgc.es/web/bibliojoven/Ciudadania/Normativa/ORDENAZA%20CIUDADANIA%20LPGC.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-general-de-convivencia-ciudadana-y-via-p.txt.gz"
   },
   {
    "id": "lpg-ordenanza-municipal-de-proteccion-del-medio-ambien",
@@ -51,7 +55,8 @@
     "proteccion ambiental"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-Mcpal.-de-Proteccion-del-Medio-Ambiente-frente-a-Ruidos-y-Vibraciones.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-de-proteccion-del-medio-ambien.txt.gz"
   },
   {
    "id": "lpg-ordenanza-de-trafico-de-las-palmas-de-gran-canaria",
@@ -75,7 +80,8 @@
     "carril bici"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-de-Trafico-de-Las-Palmas-de-Gran-Canaria.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-de-trafico-de-las-palmas-de-gran-canaria.txt.gz"
   },
   {
    "id": "lpg-1-0-reglamento-organico-del-gobierno-y-la-administ",
@@ -86,7 +92,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/9.5-REGLAMENTO-ORGANICO-DEL-GOBIERNO-y-ADMINISTRACION-DEL-AYTO-DE-LPGC-23-7-04.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-1-0-reglamento-organico-del-gobierno-y-la-administ.txt.gz"
   },
   {
    "id": "lpg-1-1-reglamento-organico-del-gobierno-y-la-administ",
@@ -97,7 +104,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-pleno/RGTO.-ORGANICO-DE-GOBIERNO-Y-ADMINISTRACION-DEL-AYUNTAMIENTO-DE-LPGC.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-1-1-reglamento-organico-del-gobierno-y-la-administ.txt.gz"
   },
   {
    "id": "lpg-1-2-reglamento-organico-del-gobierno-y-la-administ",
@@ -108,7 +116,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/E25_30sep2024__BOP_mod_ROGA.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-1-2-reglamento-organico-del-gobierno-y-la-administ.txt.gz"
   },
   {
    "id": "lpg-1-3-reglamento-organico-del-gobierno-y-la-administ",
@@ -119,7 +128,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/ROGA_28jun2024_cons_vers_23oct2024_busqueda_protecc.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-1-3-reglamento-organico-del-gobierno-y-la-administ.txt.gz"
   },
   {
    "id": "lpg-ordenanza-reguladora-de-la-concesion-de-la-medalla",
@@ -130,7 +140,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-Reguladora-de-la-Concesion-de-la-Medalla-al-Merito-Deportivo-de-la-Ciudad-de-Las-Palmas-de-Gran-Canaria.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-reguladora-de-la-concesion-de-la-medalla.txt.gz"
   },
   {
    "id": "lpg-ordenanza-especifica-que-rige-la-concesion-de-subv",
@@ -145,7 +156,8 @@
     "ayudas"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-anuncios-publicaciones-decretos-2025/ORDENANZA-WEB.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-especifica-que-rige-la-concesion-de-subv.txt.gz"
   },
   {
    "id": "lpg-ordenanza-municipal-reguladora-del-sandbox-de-las",
@@ -156,7 +168,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-Municipal-Reguladora-del-Sandbox-de-Las-Palmas-de-Gran-Canaria.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-reguladora-del-sandbox-de-las.txt.gz"
   },
   {
    "id": "lpg-ordenanza-municipal-reguladora-del-servicio-de-san",
@@ -172,7 +185,8 @@
     "alcantarillado"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/PUBLICACION-WEB-ORD.-SANEAMIENTO_VERTIDOS-con-caratula.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-reguladora-del-servicio-de-san.txt.gz"
   },
   {
    "id": "lpg-ordenanza-reguladora-de-las-prestaciones-patrimoni",
@@ -188,7 +202,8 @@
     "alcantarillado"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/DOCU-PARA-PUBLICAR.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-reguladora-de-las-prestaciones-patrimoni.txt.gz"
   },
   {
    "id": "lpg-reglamento-del-servicio-municipal-de-abastecimient",
@@ -204,7 +219,8 @@
     "alcantarillado"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/DOCU-PARA-PUBLICAR.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-reglamento-del-servicio-municipal-de-abastecimient.txt.gz"
   },
   {
    "id": "lpg-2-1-ordenanza-fiscal-reguladora-del-impuesto-sobre",
@@ -219,7 +235,8 @@
     "contribucion"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-pleno/2.1.-Ordenanza-Fiscal-Reguladora-del-Impuesto-sobre-Bienes-Inmuebles.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-2-1-ordenanza-fiscal-reguladora-del-impuesto-sobre.txt.gz"
   },
   {
    "id": "lpg-3-1-ordenanza-fiscal-reguladora-del-impuesto-sobre",
@@ -233,7 +250,8 @@
     "impuesto de obras"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ord.-fiscal-Impuesto-Const.-Inst.-y-obras-pub.-web.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-3-1-ordenanza-fiscal-reguladora-del-impuesto-sobre.txt.gz"
   },
   {
    "id": "lpg-3-2-ordenanza-fiscal-reguladora-del-impuesto-sobre",
@@ -248,7 +266,8 @@
     "iivtnu"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/Ordenanza-Impuesto-Incremento-Valor-Terrenos-N.-Urbana.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-3-2-ordenanza-fiscal-reguladora-del-impuesto-sobre.txt.gz"
   },
   {
    "id": "lpg-5-12-ordenanza-fiscal-3b-1-de-la-tasa-por-prestaci",
@@ -262,7 +281,8 @@
     "tasas"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/5.12-Ordenanza-Fiscal-3B-1-...-Retirada-y-Custodia-de-Vehiculos-en-los-Depositos-Mun.-Grua-y-Dep..pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-5-12-ordenanza-fiscal-3b-1-de-la-tasa-por-prestaci.txt.gz"
   },
   {
    "id": "lpg-5-14-ordenanza-fiscal-reguladora-de-la-tasa-por-pr",
@@ -276,7 +296,8 @@
     "tasas"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/15.4-Ordenanza-Fiscal-Reguladora-de-la-Tasa-por-prestacion-del-Servicio-de-Deposito-Municipal.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-5-14-ordenanza-fiscal-reguladora-de-la-tasa-por-pr.txt.gz"
   },
   {
    "id": "lpg-5-7-1-ordenanza-fiscal-reguladora-de-la-tasa-por-p",
@@ -300,7 +321,8 @@
     "tasas"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/5.7.1.-Ordenanza-Fiscal-R-servicio-recogida-.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-5-7-1-ordenanza-fiscal-reguladora-de-la-tasa-por-p.txt.gz"
   },
   {
    "id": "lpg-6-1-ordenanza-fiscal-reguladora-de-las-contribucio",
@@ -311,7 +333,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/6.1-Ordenanza-Fiscal-Reguladora-de-las-Contribuciones-Especiales-de-Caracter-General.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-6-1-ordenanza-fiscal-reguladora-de-las-contribucio.txt.gz"
   },
   {
    "id": "lpg-6-2-ordenanza-fiscal-reguladora-de-las-contribucio",
@@ -326,7 +349,8 @@
     "pci"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/6.2-Ordenanza-Fiscal-Reguladora-de-las-Contribuciones-Especiales-...-del-Serv.-de-Extincion-de-Incendios.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-6-2-ordenanza-fiscal-reguladora-de-las-contribucio.txt.gz"
   },
   {
    "id": "lpg-7-1-ordenanza-tarifaria-5-1-del-precio-por-servici",
@@ -337,7 +361,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/7.-1-Ordenanza-Tarifaria-5-1-del-Precio-por-Servicios-de-Educacion-Infantil.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-7-1-ordenanza-tarifaria-5-1-del-precio-por-servici.txt.gz"
   },
   {
    "id": "lpg-7-2-ordenanza-fiscal-reguladora-de-los-precios-pub",
@@ -348,7 +373,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/7.2-Ordenanza-Fiscal-Reguladora-de-los-Precios-Publicos-por-Utiliz.-de-Inst.-Deportivas-Mun..pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-7-2-ordenanza-fiscal-reguladora-de-los-precios-pub.txt.gz"
   },
   {
    "id": "lpg-normas-especificas-aplicables-al-inmueble-incluido",
@@ -359,7 +385,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-urbanismo/Documento-14.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-normas-especificas-aplicables-al-inmueble-incluido.txt.gz"
   },
   {
    "id": "lpg-ordenanza-municipal-reguladora-de-las-instalacione",
@@ -370,7 +397,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/150122-ORDENANZA_RADIOCOMUNICACIONES.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-reguladora-de-las-instalacione.txt.gz"
   },
   {
    "id": "lpg-ordenanza-municipal-de-edificacion",
@@ -381,7 +409,8 @@
    "mod": "",
    "alias": [],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-urbanismo/Documento-13.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-municipal-de-edificacion.txt.gz"
   },
   {
    "id": "lpg-ordenanza-reguladora-de-la-publicidad-exterior",
@@ -399,7 +428,8 @@
     "lonas"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-normativa/140423-BOP-19-2-14-Ordenanza-Publicidad-Exterior.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-ordenanza-reguladora-de-la-publicidad-exterior.txt.gz"
   },
   {
    "id": "lpg-reglamento-municipal-de-costas-y-playas",
@@ -414,7 +444,8 @@
     "costa"
    ],
    "url": "https://www.laspalmasgc.es/export/sites/laspalmasgc/.galleries/documentos-medio-ambiente/Reglamento-Playas.pdf",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "lpg-reglamento-municipal-de-costas-y-playas.txt.gz"
   }
  ]
 }

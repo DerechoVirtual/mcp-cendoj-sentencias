@@ -1,0 +1,1638 @@
+{
+ "meta": {
+  "municipio": "cuenca",
+  "nombre": "Cuenca",
+  "aliases": [
+   "cuenca",
+   "ayuntamiento de cuenca",
+   "cuenca capital",
+   "ciudad de cuenca",
+   "excmo ayuntamiento de cuenca"
+  ],
+  "fuente": "Ayuntamiento de Cuenca (ordenanzas municipales y fiscales consolidadas, PDF oficial por norma)",
+  "url": "https://ayuntamiento.cuenca.es/ordenanzas-municipales",
+  "url_fiscales": "https://ayuntamiento.cuenca.es/ordenanzas-fiscales",
+  "actualizado": "2026-09",
+  "nota": "Una ordenanza puede traer varios documentos: `url` es el texto de la norma, `urls` versiones alternativas y `anexos` cuadros/coeficientes/modificaciones BOP.",
+  "textos_dir": "cuenca_textos",
+  "textos_fecha": "2026-09-02"
+ },
+ "normas": [
+  {
+   "id": "cuenca-001",
+   "titulo": "Ordenanza antibotellon",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "botellon",
+    "consumo de alcohol en la via publica",
+    "beber en la calle",
+    "alcohol",
+    "bebidas alcoholicas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3279860_8209udf_ORDENANZA%20ANTIBOTELLON.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-001.txt.gz",
+   "alias_contenido": [
+    "bebidas alcoholicas"
+   ]
+  },
+  {
+   "id": "cuenca-002",
+   "titulo": "Ordenanza de prevención de incendios",
+   "cat": "Medio ambiente y seguridad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "bomberos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2784876_8209udf_Ordenanza%20de%20Prevencion%20de%20Incendios.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-002.txt.gz"
+  },
+  {
+   "id": "cuenca-003",
+   "titulo": "Ordenanza Municipal de Gestión, Recaudación e Inspección de Tributos y otros ingresos de Derecho Público Municipales",
+   "cat": "Fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ordenanza fiscal general",
+    "recaudacion",
+    "aplazamiento",
+    "fraccionamiento",
+    "inspeccion tributaria",
+    "tributos municipales",
+    "apremio"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/133574_8209udf_ORDENANZ%20GENERAL.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-003.txt.gz"
+  },
+  {
+   "id": "cuenca-004",
+   "titulo": "Ordenanza municipal prevención de incendios en el casco histórico de Cuenca",
+   "cat": "Medio ambiente y seguridad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "casco historico",
+    "casco antiguo",
+    "bomberos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2784850_8209udf_Ordenanza%20Prevencion%20Incendios%20Casco%20Antiguo.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-004.txt.gz"
+  },
+  {
+   "id": "cuenca-005",
+   "titulo": "Ordenanza municipal reguladora de instalaciones publicitarias comerciales y de actividades económicas",
+   "cat": "Vía pública",
+   "ref": "",
+   "pub": "10/02/2023",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas",
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas",
+    "banderolas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3016599_8209udf_BOP%2010-02-2023.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-005.txt.gz"
+  },
+  {
+   "id": "cuenca-006",
+   "titulo": "Ordenanza para la aprobación de la creación, supresión y modificación de ficheros de datos de carácter personal del ayuntamiento de Cuenca",
+   "cat": "Administración",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "proteccion de datos",
+    "ficheros",
+    "lopd",
+    "datos personales"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2784845_8209udf_Ordenanza%20Creacion,%20Supresion%20y%20Modificacion%20de%20ficheros.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-006.txt.gz"
+  },
+  {
+   "id": "cuenca-007",
+   "titulo": "Ordenanza para Proteger los Espacios Públicos y la Convivencia Ciudadana",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "convivencia",
+    "civismo",
+    "botellon",
+    "vandalismo",
+    "conductas incivicas",
+    "espacios publicos",
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "molestias por ruido",
+    "animales",
+    "perros",
+    "mascotas",
+    "tenencia de animales",
+    "ppp",
+    "residuos",
+    "basura",
+    "basuras",
+    "recogida de residuos",
+    "contenedores",
+    "limpieza",
+    "limpieza viaria",
+    "pintadas",
+    "grafitis",
+    "publicidad",
+    "carteles",
+    "vallas publicitarias",
+    "rotulos",
+    "parques",
+    "jardines",
+    "zonas verdes",
+    "arbolado"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/133282_8209udf_ORDENANZA%20MUNICIPAL%20PARA%20PROTEGER%20ESPACIOS%20P%C3%9ABLICOS%20Y%20%20LA%20CONVIVENCIA%20CIUDADANA.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-007.txt.gz",
+   "alias_contenido": [
+    "animales",
+    "arbolado",
+    "basura",
+    "basuras",
+    "carteles",
+    "contaminacion acustica",
+    "contenedores",
+    "decibelios",
+    "grafitis",
+    "jardines",
+    "limpieza",
+    "limpieza viaria",
+    "mascotas",
+    "molestias por ruido",
+    "parques",
+    "perros",
+    "pintadas",
+    "ppp",
+    "publicidad",
+    "recogida de residuos",
+    "residuos",
+    "rotulos",
+    "ruido",
+    "ruidos",
+    "tenencia de animales",
+    "vallas publicitarias",
+    "zonas verdes"
+   ]
+  },
+  {
+   "id": "cuenca-008",
+   "titulo": "Ordenanza Reguladora de la Ocupación de la Vía Pública con Terrazas de bar y otras instalaciones auxiliares",
+   "cat": "Vía pública",
+   "ref": "",
+   "pub": "2013",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "terraza de bar",
+    "horario de terrazas",
+    "hosteleria",
+    "ocupacion de via publica",
+    "dominio publico"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/263240_8209udf_ORDENANZA%20TERRAZAS%202013.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-008.txt.gz",
+   "alias_contenido": [
+    "dominio publico"
+   ]
+  },
+  {
+   "id": "cuenca-009",
+   "titulo": "Ordenanza reguladora de la protección del paisaje urbano y de instalaciones publicitarias",
+   "cat": "Vía pública",
+   "ref": "",
+   "pub": "25/08/2004",
+   "mod": "",
+   "alias": [
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas",
+    "paisaje urbano",
+    "fachadas",
+    "estetica urbana",
+    "toldos",
+    "banderolas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/135464_8209udf_ORDENANZA%20PAISAJE%20URBANO%2025_08_2004.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-009.txt.gz"
+  },
+  {
+   "id": "cuenca-010",
+   "titulo": "Ordenanza reguladora de la venta, publicidad, distribución y consumo no responsable de bebidas alcohólicas",
+   "cat": "Convivencia",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "botellon",
+    "consumo de alcohol en la via publica",
+    "beber en la calle",
+    "publicidad",
+    "publicidad exterior",
+    "carteles",
+    "rotulos",
+    "vallas publicitarias",
+    "lonas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/133616_8209udf_Ordenanza%20Reguladora%20de%20la%20venta,%20publicidad,%20distribuci%C3%B3n%20y%20consumo%20no%20responsable%20de%20bebidas%20alcoholicas.doc",
+   "formato": "doc",
+   "texto": "cuenca-010.txt.gz"
+  },
+  {
+   "id": "cuenca-011",
+   "titulo": "Ordenanza reguladora de los actos sujetos comunicación previa ante la administración municipal",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "2020",
+   "mod": "",
+   "alias": [
+    "comunicacion previa",
+    "declaracion responsable",
+    "obras menores",
+    "licencia de obras",
+    "acto comunicado"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/263123_8209udf_ORDENANZA_ACTO%20_COMUNICADO_OBRA%202020.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-011.txt.gz"
+  },
+  {
+   "id": "cuenca-012",
+   "titulo": "Ordenanza Reguladora de presentación de proyectos por vía electrónica",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "proyectos",
+    "via electronica",
+    "administracion electronica",
+    "presentacion de proyectos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/829257_8209udf_ORDENANZA%20PROYECTOS%20VIA%20ELECTRONICA.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-012.txt.gz"
+  },
+  {
+   "id": "cuenca-013",
+   "titulo": "Ordenanza Reguladora del contenido documental complementario de los planes parciales, planes especiales de reforma interior",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "planes parciales",
+    "peri",
+    "planeamiento",
+    "reforma interior",
+    "contenido documental"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/263242_8209udf_ORDENANZA%20REGULADORA%20DEL%20CONTENIDO%20DOCUMENTAL%20%20COMPLEMENTARIO%20DE%20PP%20Y%20PERI.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-013.txt.gz"
+  },
+  {
+   "id": "cuenca-014",
+   "titulo": "Ordenanza sobre conservación, rehabilitacion y ruina de las edificaciones",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "orden de ejecucion"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/140194_8209udf_CRyR_Edificaciones.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-014.txt.gz"
+  },
+  {
+   "id": "cuenca-015",
+   "titulo": "Ordenanzas municipales reguladoras de carácter urbanístico",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "normas urbanisticas",
+    "pgou",
+    "edificacion",
+    "ordenanzas urbanisticas",
+    "parques",
+    "jardines",
+    "zonas verdes",
+    "arbolado"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2784848_8209udf_Ordenanzas%20Reguladoras%20Caracter%20Urbanistico.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-015.txt.gz",
+   "alias_contenido": [
+    "arbolado",
+    "jardines",
+    "parques",
+    "zonas verdes"
+   ]
+  },
+  {
+   "id": "cuenca-016",
+   "titulo": "Ordenanza reguladora del cartel informativo de licencia urbanística",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "cartel de obra",
+    "cartel informativo",
+    "cartel de licencia"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/128407_8209udf_ORDENANZA%20REGULADORA%20DEL%20CARTEL%20INFORMATIVO%20DE%20LICENCIAS.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/128405_orcartelinformativolicurban_dina1.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/128406_orcartelinformativolicurban_dina3.pdf"
+   ],
+   "texto": "cuenca-016.txt.gz"
+  },
+  {
+   "id": "cuenca-017",
+   "titulo": "Ordenanza Municipal de Transparencia, de Acceso a la Información, Reutilización de datos y Buen Gobierno del Ayuntamiento de Cuenca",
+   "cat": "Administración",
+   "ref": "",
+   "pub": "BOP 22/05/2015",
+   "mod": "",
+   "alias": [
+    "transparencia",
+    "acceso a la informacion publica",
+    "acceso a la informacion",
+    "buen gobierno",
+    "reutilizacion",
+    "publicidad",
+    "carteles",
+    "vallas publicitarias",
+    "rotulos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1234212_8209udf_-bop-boletines-2015-5-22-9.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-017.txt.gz",
+   "alias_contenido": [
+    "carteles",
+    "publicidad",
+    "rotulos",
+    "vallas publicitarias"
+   ]
+  },
+  {
+   "id": "cuenca-018",
+   "titulo": "Ordenanza Municipal de Tráfico, Circulación de Vehículos a Motor, Seguridad Vial y Régimen de Uso de la Vía Pública del Municipio de Cuenca",
+   "cat": "Tráfico y movilidad",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "seguridad vial",
+    "multas de trafico",
+    "vados",
+    "carga y descarga",
+    "casco antiguo",
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "vado",
+    "entrada de vehiculos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/140949_8209udf_ORDENANZA%20TRAFICO%20REFUNDIDA.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/140950_8209udf_CUADRO%20MULTAS%202016.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/852159_8209udf__bop_boletines_2014_1_27_19.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1497296_8209udf_Ordenanza17Agosto2016.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1845978_8209udf_BOP%203-7-2017%20Modificaci%C3%B3n%20Ordenanza%20Tr%C3%A1fico.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1846006_8209udf_Anexo%20II%20-%20Delimitaci%C3%B3n%20del%20Casco%20Antiguo%20a%20los%20efectso%20previstos%20en%20esta%20Ordenanza%20Pleno%207-6-2017.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2541715_8209udf_BOP%2015-2-2019%20Modificacion%20Ordenanza%20Trafico.pdf"
+   ],
+   "texto": "cuenca-018.txt.gz",
+   "alias_contenido": [
+    "entrada de vehiculos",
+    "mesas y sillas",
+    "terraza",
+    "terrazas",
+    "vado",
+    "veladores"
+   ]
+  },
+  {
+   "id": "cuenca-019",
+   "titulo": "Ordenanza Municipal de la Urbanización",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "urbanizacion",
+    "obras de urbanizacion",
+    "proyectos de urbanizacion",
+    "aceras"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81786_omurbanizacion.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81791_criterios_OMurbanizacion.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81793_tablas_OMurbanizacion.pdf"
+   ],
+   "texto": "cuenca-019.txt.gz"
+  },
+  {
+   "id": "cuenca-020",
+   "titulo": "Ordenanza Municipal de Medio Ambiente",
+   "cat": "Medio ambiente y seguridad",
+   "ref": "",
+   "pub": "15/12/2010",
+   "mod": "",
+   "alias": [
+    "medio ambiente",
+    "proteccion ambiental",
+    "contaminacion",
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "molestias por ruido"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/188399_8209udf_BOP%20n%2073%20de%2015%20de%20Diciembre%20de%202010.pdf",
+   "formato": "pdf",
+   "urls": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81794_8209udf_ORDENANZA%20DE%20MEDIO%20AMBIENTE.pdf"
+   ],
+   "anexos": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81800_8209udf_DECLARACI%C3%93N%20ZAP%20DR%20GAL%C3%8DNDEZ%20BOP%20n%2066.pdf"
+   ],
+   "texto": "cuenca-020.txt.gz",
+   "alias_contenido": [
+    "contaminacion acustica",
+    "decibelios",
+    "molestias por ruido",
+    "ruido",
+    "ruidos"
+   ]
+  },
+  {
+   "id": "cuenca-021",
+   "titulo": "Ordenanza Municipal Reguladora de las Instalaciones de Alumbrado Público en la Ciudad de Cuenca",
+   "cat": "Urbanismo",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "alumbrado",
+    "alumbrado publico",
+    "iluminacion",
+    "farolas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81790_ominstalacionesalumbradopublico.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-021.txt.gz"
+  },
+  {
+   "id": "cuenca-022",
+   "titulo": "Ordenanza Municipal Reguladora del Servicio de Auto-Taxis del Municipio de Cuenca",
+   "cat": "Tráfico y movilidad",
+   "ref": "",
+   "pub": "2019",
+   "mod": "",
+   "alias": [
+    "taxi",
+    "taxis",
+    "autotaxi",
+    "auto-taxi",
+    "licencia de taxi",
+    "vtc"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81785_8209udf_ORDENANZA%20TAXI%20Refundida%202019.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-022.txt.gz"
+  },
+  {
+   "id": "cuenca-023",
+   "titulo": "Ordenanza reguladora de la utilización de los vehículos de movilidad personal por las vías urbanas de la ciudad de Cuenca",
+   "cat": "Tráfico y movilidad",
+   "ref": "",
+   "pub": "08/03/2023",
+   "mod": "",
+   "alias": [
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "patinetes",
+    "movilidad personal",
+    "patinete electrico",
+    "bicicletas",
+    "ciclistas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3040085_8209udf_BOP%20n.%20631%208%20de%20marzo%20de%202023.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-023.txt.gz",
+   "alias_contenido": [
+    "bicicletas",
+    "ciclistas"
+   ]
+  },
+  {
+   "id": "cuenca-024",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre bienes inmuebles",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ibi",
+    "impuesto sobre bienes inmuebles",
+    "contribucion",
+    "bonificacion ibi",
+    "familia numerosa"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3204976_8209udf_ORDENANZA%20IBI.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-024.txt.gz"
+  },
+  {
+   "id": "cuenca-025",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre actividades economicas",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "iae",
+    "impuesto de actividades economicas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81771_8209udf_o.f.%202%20IAE.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-025.txt.gz"
+  },
+  {
+   "id": "cuenca-026",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre vehiculos traccion mecanica",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ivtm",
+    "impuesto de circulacion",
+    "impuesto de vehiculos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81762_8209udf_ORDENANZA%20IVTM.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-026.txt.gz"
+  },
+  {
+   "id": "cuenca-027",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre construcciones, instalaciones y obras",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "29/04/2026",
+   "mod": "",
+   "alias": [
+    "icio",
+    "impuesto de obras"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1021964_8209udf_Ordenanza%20Fiscal%20ICIO%2029-04-2026.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-027.txt.gz"
+  },
+  {
+   "id": "cuenca-028",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre el incremento de valor de los terrenos de naturaleza urbana",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "plusvalia",
+    "plusvalia municipal",
+    "iivtnu"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2941252_8209udf_publicacion%20texto%20integro.pdf",
+   "formato": "pdf",
+   "anexos": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3006918_8209udf_publicacion%20actualizacion%20coeficientes%20IIVTNU%20%20A%C3%91O%202023.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3137204_8209udf_coeficientes%202024.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3291228_8209udf_coef%202025.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3297773_8209udf_Decreto%20IIVTNU.pdf",
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3318029_8209udf_E2AE6EAC13F98E49A31A0C4EF5B715DF.pdf"
+   ],
+   "texto": "cuenca-028.txt.gz"
+  },
+  {
+   "id": "cuenca-029",
+   "titulo": "Ordenanza fiscal reguladora del impuesto sobre gastos suntuarios",
+   "cat": "Impuestos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "gastos suntuarios",
+    "cotos de caza",
+    "cotos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2340013_8209udf_O.F.%206%20GASTOS%20SUNTUARIOS.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-029.txt.gz"
+  },
+  {
+   "id": "cuenca-030",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por suministro del agua",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas",
+    "tarifa del agua",
+    "suministro de agua"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3038830_8209udf_ORDENANZA%20AGUAS.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-030.txt.gz"
+  },
+  {
+   "id": "cuenca-031",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el servicio de alcantarillado",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas",
+    "vertidos",
+    "aguas residuales"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3038837_8209udf_alcantarillado.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-031.txt.gz",
+   "alias_contenido": [
+    "aguas residuales",
+    "vertidos"
+   ]
+  },
+  {
+   "id": "cuenca-032",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el servicio de depuradora de aguas residuales",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "depuradora",
+    "depuracion",
+    "edar",
+    "vertidos",
+    "alcantarillado"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3038838_8209udf_depuradora.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-032.txt.gz",
+   "alias_contenido": [
+    "alcantarillado",
+    "vertidos"
+   ]
+  },
+  {
+   "id": "cuenca-033",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el servicio de recogida, transporte y tratamiento de residuos solidos urbanos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "tasa",
+    "tasas",
+    "tasa de basura",
+    "tasa de residuos",
+    "recogida de basuras",
+    "residuos solidos urbanos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1021910_8209udf_ORDENAZA%20TRSU.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-033.txt.gz"
+  },
+  {
+   "id": "cuenca-034",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por prestacion de servicios urbanisticos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas",
+    "tasa de licencia de obras"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81781_8209udf_ORD11.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-034.txt.gz"
+  },
+  {
+   "id": "cuenca-035",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por los documentos administrativos que se expidan o de que entienda la administracion o las autoridades municipales a instancia de parte",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "expedicion de documentos",
+    "certificados",
+    "compulsa",
+    "tasa de documentos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81746_8209udf_12.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-035.txt.gz"
+  },
+  {
+   "id": "cuenca-036",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la entrada de vehiculos a traves de la via publica",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "2019",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81760_8209udf_TEV%202019.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-036.txt.gz"
+  },
+  {
+   "id": "cuenca-037",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la retirada de vehiculos de la via publica o de terrenos de uso publico por medio de grua y por el deposito de los mismos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "grua",
+    "retirada de vehiculos",
+    "deposito de vehiculos",
+    "tasa de grua"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2912708_8209udf_PUBLICACION%20OF%20N%2014.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-037.txt.gz"
+  },
+  {
+   "id": "cuenca-038",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el estacionamiento de vehiculos en las vias publicas (ORA)",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ora",
+    "zona azul",
+    "zona verde",
+    "estacionamiento regulado",
+    "ser",
+    "parquimetro",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81765_8209udf_o.f.%2015%20ORA.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-038.txt.gz"
+  },
+  {
+   "id": "cuenca-039",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el otorgamiento de licencias y autorizaciones administrativas de autotaxis y demas vehiculos de alquiler",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "licencia urbanistica",
+    "licencia de obras",
+    "declaracion responsable",
+    "licencia de actividad",
+    "licencia de apertura",
+    "obras",
+    "tasa",
+    "tasas",
+    "taxi",
+    "taxis",
+    "autotaxi",
+    "auto-taxi",
+    "licencia de taxi",
+    "vtc"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81747_8209udf_16.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-039.txt.gz"
+  },
+  {
+   "id": "cuenca-040",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por apertura de calicatas o zanjas en terrenos de uso publico o cualquier remocion del pavimento o aceras en la via publica",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "calicatas",
+    "zanjas",
+    "obras en la via publica",
+    "canalizaciones"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81761_8209udf_17.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-040.txt.gz"
+  },
+  {
+   "id": "cuenca-041",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la ocupacion del suelo, vuelo y subsuelo de la via publica",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "suelo vuelo y subsuelo",
+    "empresas suministradoras",
+    "1,5%",
+    "1 5"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81756_8209udf_MOD.%20O.F.%2018%20Ocupaci%C3%B3n%20V%C3%ADa%20P%C3%BAblica2014%20TEXTO%20DEFINITIVO.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-041.txt.gz"
+  },
+  {
+   "id": "cuenca-042",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la ocupacion de terrenos de uso publico con mesas y sillas con finalidad lucrativa",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "terraza",
+    "terrazas",
+    "veladores",
+    "mesas y sillas",
+    "tasa de terrazas",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1021911_8209udf_Microsoft%20Word%20-%20O.F.%2019.%20TASA%20OCUPACION%20TERRENOS%20DE%20USO%20PUBLICO%20CON%20MESAS%20Y%20SILLAS%20CON%20FINALIDAD%20LUCRATIVA.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-042.txt.gz"
+  },
+  {
+   "id": "cuenca-043",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la ocupación de terrenos de uso publico con mercancías, materiales de construcción, escombros, vallas, puntales, asnilllas, andamios y otras ocupaciones temporales de la vía pública",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "andamios",
+    "vallas de obra",
+    "contenedores de obra",
+    "escombros",
+    "ocupacion de via publica"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2912716_8209udf_PUBLICACION%20OF%20N%2020.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-043.txt.gz"
+  },
+  {
+   "id": "cuenca-044",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por instalacion de quioscos en la via publica",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "quiosco",
+    "quioscos",
+    "kiosco",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81770_8209udf_21.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-044.txt.gz"
+  },
+  {
+   "id": "cuenca-045",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la instalacion de puestos, barracas, casetas de venta, espectáculos, atracciones o recreo, situados en terrenos de uso público local, así como industrias callejeras y ambulantes y rodaje cinematográfico",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "venta ambulante",
+    "mercadillo",
+    "puestos",
+    "barracas",
+    "ferias",
+    "atracciones",
+    "food truck",
+    "rodaje"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2912715_8209udf_PUBLICACION%20OF%20N%2022.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-045.txt.gz"
+  },
+  {
+   "id": "cuenca-046",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la prestacion de servicios especiales motivados por grandes transportes, espectáculos públicos, pasos de caravanas y análogos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "tasa",
+    "tasas",
+    "caravanas",
+    "transportes especiales",
+    "espectaculos",
+    "cortes de calle"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81768_8209udf_23.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-046.txt.gz"
+  },
+  {
+   "id": "cuenca-047",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el servicio de prevencion y extincion de incendios, prevención de ruinas, derribos, salvamentos y análogos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ite",
+    "inspeccion tecnica de edificios",
+    "ruina",
+    "rehabilitacion",
+    "conservacion de edificios",
+    "incendios",
+    "proteccion contra incendios",
+    "pci",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/859190_8209udf_ORDENANZA%20FISCAL%20N%C2%BA%2024%20BOMBEROS.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-047.txt.gz"
+  },
+  {
+   "id": "cuenca-048",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el replanteo, la direccion y la liquidacion delas obras municipales realizadas mediante contrato",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "obras municipales",
+    "replanteo",
+    "direccion de obra"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1041346_8209udf_Microsoft%20Word%20-%20O.F.%2025%20TASA%20REPLANTEO,%20DIRECCION%20Y%20LIQUIDACION%20DE%20OBRAS%20MUNICIPALES%20REALIZADAS%20MEDIANTE%20CONTRATO.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-048.txt.gz"
+  },
+  {
+   "id": "cuenca-049",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por los servicios de cementerio municipal",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "cementerio",
+    "cementerios",
+    "servicios funerarios",
+    "tanatorio",
+    "tasa",
+    "tasas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3172156_8209udf_ORDENANZA%20FISCAL%20N%C2%BA%2026.pdf",
+   "formato": "pdf",
+   "urls": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1041339_8209udf_Microsoft%20Word%20-%20O.F.%2026%20TASA%20SERVICIOS%20DE%20CEMENTERIO%20MUNICIPAL.pdf"
+   ],
+   "texto": "cuenca-049.txt.gz"
+  },
+  {
+   "id": "cuenca-050",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por los servicios del mercado de minoristas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas",
+    "mercado minorista",
+    "abastos",
+    "mercado de abastos",
+    "puesto de mercado"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81749_8209udf_27.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-050.txt.gz"
+  },
+  {
+   "id": "cuenca-051",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por los servicios del mercado de mayoristas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "mercados municipales",
+    "mercado municipal",
+    "tasa",
+    "tasas",
+    "mercado mayorista",
+    "mercasa",
+    "lonja"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81776_8209udf_28.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-051.txt.gz"
+  },
+  {
+   "id": "cuenca-052",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por el servicio de medicion de ruidos y otros derivados de la aplicacion de las ordenanzas municipales de medio ambiente y tráfico",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "ruido",
+    "ruidos",
+    "contaminacion acustica",
+    "decibelios",
+    "insonorizacion",
+    "molestias por ruido",
+    "movilidad",
+    "trafico",
+    "circulacion",
+    "estacionamiento",
+    "aparcamiento",
+    "bicicleta",
+    "patinete",
+    "vmp",
+    "peatones",
+    "multa de trafico",
+    "grua",
+    "carril bici",
+    "vado",
+    "vados",
+    "paso de vehiculos",
+    "entrada de vehiculos",
+    "medio ambiente",
+    "proteccion ambiental",
+    "tasa",
+    "tasas",
+    "seguridad vial",
+    "multas de trafico",
+    "carga y descarga",
+    "casco antiguo",
+    "contaminacion",
+    "medicion de ruidos",
+    "sonometro",
+    "tasa de ruido"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81754_8209udf_29.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-052.txt.gz"
+  },
+  {
+   "id": "cuenca-053",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por derechos de examen",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "derechos de examen",
+    "oposiciones",
+    "procesos selectivos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81779_8209udf_30.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-053.txt.gz"
+  },
+  {
+   "id": "cuenca-054",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por ocupación de la via pública con la instalación de cajeros y ventanas de despacho directo en fachadas",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "cajeros automaticos",
+    "cajeros",
+    "ventanas de despacho"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1995099_8209udf_ORDENANZA%20CAJEROS.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-054.txt.gz"
+  },
+  {
+   "id": "cuenca-055",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por utilizacion privativa o aprovechamiento especial del dominio publico local de las instalaciones de transporte de energia electrica, gas, agua e hidrocarburos",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "tasa",
+    "tasas",
+    "empresas suministradoras",
+    "energia electrica",
+    "gas",
+    "hidrocarburos",
+    "1,5%",
+    "ocupacion de via publica",
+    "via publica"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/858051_8209udf_OF%2032%20(1).pdf",
+   "formato": "pdf",
+   "texto": "cuenca-055.txt.gz",
+   "alias_contenido": [
+    "ocupacion de via publica",
+    "via publica"
+   ]
+  },
+  {
+   "id": "cuenca-056",
+   "titulo": "Ordenanza fiscal reguladora del precio publico por servicios en la antigua iglesia de san miguel",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "san miguel",
+    "iglesia de san miguel"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81778_8209udf_32.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-056.txt.gz"
+  },
+  {
+   "id": "cuenca-057",
+   "titulo": "Ordenanza reguladora del precio publico por el servicio de ayuda a domicilio",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "ayuda a domicilio",
+    "sad",
+    "dependencia",
+    "servicios sociales"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3135411_8209udf_ordenanza%20reguladora%20precio%20publico%20ayuda%20a%20domicilio.pdf",
+   "formato": "pdf",
+   "urls": [
+    "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81777_8209udf_ordenanza%20fiscal%20vigente%20ayuda%20a%20domicilio.pdf"
+   ],
+   "texto": "cuenca-057.txt.gz"
+  },
+  {
+   "id": "cuenca-058",
+   "titulo": "Ordenanza fiscal n.º 35 reguladora del precio publico para la prestacion de los servicios y/o realización de actividades desarrolladas en las jornadas, cursos o actividades culturales, educativas y lúdicas o similares",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3236581_8209udf_publicacion%20of%2035%20escuelas%20de%20verano.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-058.txt.gz"
+  },
+  {
+   "id": "cuenca-059",
+   "titulo": "Ordenanza fiscal reguladora del precio publico por analisis químicos, bacteriológicos y otros de naturaleza analoga del agua",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "agua",
+    "abastecimiento",
+    "saneamiento",
+    "alcantarillado",
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81775_8209udf_34.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-059.txt.gz"
+  },
+  {
+   "id": "cuenca-060",
+   "titulo": "Ordenanza fiscal reguladora del precio público por la venta de libros editados por el Excmo. Ayuntamiento de Cuenca",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "libros",
+    "venta de libros"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81773_8209udf_36.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-060.txt.gz"
+  },
+  {
+   "id": "cuenca-061",
+   "titulo": "Ordenanza fiscal reguladora del precio público por anuncios en las publicaciones periódicas municipales",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81772_8209udf_37.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-061.txt.gz"
+  },
+  {
+   "id": "cuenca-062",
+   "titulo": "Ordenanza fiscal reguladora del precio público por cursos y actividades organizadas por el centro de formación del consumidor",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "consumo",
+    "consumidor",
+    "omic"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/179985_8209udf_39.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-062.txt.gz"
+  },
+  {
+   "id": "cuenca-063",
+   "titulo": "Ordenanza fiscal reguladora del precio público por el servicio de matadero y acarreo de carnes",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "matadero",
+    "acarreo de carnes"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81748_8209udf_38.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-063.txt.gz"
+  },
+  {
+   "id": "cuenca-064",
+   "titulo": "Ordenanza reguladora del precio público por cursos y actividades de la \"escuela municipal de música y artes escénicas ismael martínez marín\"",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "escuela de musica",
+    "conservatorio",
+    "artes escenicas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/3272398_8209udf_texto%20%C3%ADntegro.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-064.txt.gz"
+  },
+  {
+   "id": "cuenca-065",
+   "titulo": "Ordenanza fiscal nº 40 reguladora por la prestación de servicio para la realización de pruebas de contrastes para la determinación de los niveles de alcohol o para detección de drogas en sangre",
+   "cat": "Fiscales",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "botellon",
+    "consumo de alcohol en la via publica",
+    "beber en la calle",
+    "alcoholemia",
+    "drogas",
+    "pruebas de alcoholemia",
+    "etilometro"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/2912719_8209udf_publicacion%20texto%20integro%20of%20alcoholemia.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-065.txt.gz"
+  },
+  {
+   "id": "cuenca-066",
+   "titulo": "Ordenanza fiscal reguladora precio público por la celebración de matrimonios civiles",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "bodas",
+    "matrimonio civil",
+    "boda civil"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81788_8209udf_41.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-066.txt.gz"
+  },
+  {
+   "id": "cuenca-067",
+   "titulo": "Ordenanza fiscal reguladora del precio público por el servicio de \"kanguras\"",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "canguros",
+    "conciliacion",
+    "ludoteca",
+    "kanguras"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/81789_8209udf_42.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-067.txt.gz"
+  },
+  {
+   "id": "cuenca-068",
+   "titulo": "Ordenanza fiscal reguladora del precio público por usos de instalaciones deportivas y por prestación de servicios de escuelas deportivas municipales del Excmo. Ayuntamiento de Cuenca",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "deportes",
+    "polideportivo",
+    "piscina",
+    "escuelas deportivas"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/1571696_8209udf_o.f.%2045%20deportes.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-068.txt.gz"
+  },
+  {
+   "id": "cuenca-069",
+   "titulo": "Ordenanza fiscal del precio publico por servicios en el teatro-auditorio de Cuenca",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "teatro",
+    "auditorio",
+    "teatro auditorio"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/136024_8209udf_44.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-069.txt.gz"
+  },
+  {
+   "id": "cuenca-070",
+   "titulo": "Ordenanza fiscal reguladora del precio público por cursos y actividades prestados por el servicio de juventud",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "juventud",
+    "actividades juveniles"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/142139_8209udf_45.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-070.txt.gz"
+  },
+  {
+   "id": "cuenca-071",
+   "titulo": "Ordenanza fiscal reguladora del precio publico por la prestación de servicios especiales de gestión de residuos y otros servicios medioambientales en Cuenca",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "limpieza",
+    "residuos",
+    "basura",
+    "basuras",
+    "contenedores",
+    "recogida de residuos",
+    "escombros",
+    "pintadas",
+    "grafitis",
+    "punto limpio",
+    "precio publico",
+    "precios publicos"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/142141_8209udf_46.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-071.txt.gz"
+  },
+  {
+   "id": "cuenca-072",
+   "titulo": "Ordenanza fiscal reguladora de la tasa por la prestación de los servicios consistentes en visitas guiadas a la Cuenca subterránea",
+   "cat": "Tasas",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "tasa",
+    "tasas",
+    "visitas guiadas",
+    "turismo",
+    "cuenca subterranea"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/157945_8209udf_47.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-072.txt.gz"
+  },
+  {
+   "id": "cuenca-073",
+   "titulo": "Acuerdo de fijación y regulación del precio publico por la prestación del servicio de las escuelas infantiles municipales del ayuntamiento de Cuenca",
+   "cat": "Precios públicos",
+   "ref": "",
+   "pub": "",
+   "mod": "",
+   "alias": [
+    "precio publico",
+    "precios publicos",
+    "escuelas infantiles",
+    "guarderia",
+    "guarderias"
+   ],
+   "url": "https://ayuntamiento.cuenca.es/Portals/Ayuntamiento/documents/196459_8209udf_ACUERDO%20DE%20FIJACION%20Y%20REGULACION%20PRECIO%20PUBLICO.pdf",
+   "formato": "pdf",
+   "texto": "cuenca-073.txt.gz"
+  }
+ ]
+}

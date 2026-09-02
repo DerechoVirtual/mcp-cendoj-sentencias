@@ -2,7 +2,9 @@
  "meta": {
   "municipio": "valencia",
   "fuente": "sede electronica del Ayuntamiento de Valencia (texto consolidado vigente)",
-  "url": "https://sede.valencia.es/sede/ordenanzas/"
+  "url": "https://sede.valencia.es/sede/ordenanzas/",
+  "textos_dir": "valencia_textos",
+  "textos_fecha": "2026-09-02"
  },
  "normas": [
   {
@@ -21,7 +23,8 @@
     "tributos municipales"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476303",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-61.txt.gz"
   },
   {
    "id": "val-164",
@@ -35,7 +38,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009452142",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-164.txt.gz"
   },
   {
    "id": "val-48",
@@ -54,7 +58,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269758",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-48.txt.gz"
   },
   {
    "id": "val-41",
@@ -68,7 +73,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476498",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-41.txt.gz"
   },
   {
    "id": "val-49",
@@ -82,7 +88,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0049_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-49.txt.gz"
   },
   {
    "id": "val-92",
@@ -96,7 +103,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0092_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-92.txt.gz"
   },
   {
    "id": "val-167",
@@ -110,7 +118,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0167_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-167.txt.gz"
   },
   {
    "id": "val-129",
@@ -124,7 +133,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476518",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-129.txt.gz"
   },
   {
    "id": "val-31460",
@@ -139,7 +149,8 @@
     "pci"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009544044",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-31460.txt.gz"
   },
   {
    "id": "val-40",
@@ -157,7 +168,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008270263",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-40.txt.gz"
   },
   {
    "id": "val-56",
@@ -171,7 +183,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008694433",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-56.txt.gz"
   },
   {
    "id": "val-16",
@@ -185,7 +198,8 @@
     "impuesto de actividades economicas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476383",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-16.txt.gz"
   },
   {
    "id": "val-17",
@@ -200,7 +214,8 @@
     "contribucion"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476596",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-17.txt.gz"
   },
   {
    "id": "val-18",
@@ -214,7 +229,8 @@
     "impuesto de obras"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476666",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-18.txt.gz"
   },
   {
    "id": "val-20",
@@ -229,7 +245,8 @@
     "impuesto de circulacion"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250007834765",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-20.txt.gz"
   },
   {
    "id": "val-21",
@@ -244,7 +261,8 @@
     "iivtnu"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250007835054",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-21.txt.gz"
   },
   {
    "id": "val-25",
@@ -258,7 +276,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0025_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-25.txt.gz"
   },
   {
    "id": "val-47",
@@ -274,7 +293,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0047_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-47.txt.gz"
   },
   {
    "id": "val-136",
@@ -288,7 +308,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0136_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-136.txt.gz"
   },
   {
    "id": "val-43",
@@ -302,7 +323,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0043_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-43.txt.gz"
   },
   {
    "id": "val-34804",
@@ -326,7 +348,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009983179",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34804.txt.gz"
   },
   {
    "id": "val-52",
@@ -340,7 +363,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009476434",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-52.txt.gz"
   },
   {
    "id": "val-40260",
@@ -366,7 +390,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001281524",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-40260.txt.gz"
   },
   {
    "id": "val-38",
@@ -384,7 +409,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0038_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-38.txt.gz"
   },
   {
    "id": "val-194",
@@ -398,7 +424,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0194_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-194.txt.gz"
   },
   {
    "id": "val-46",
@@ -419,7 +446,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269896",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-46.txt.gz"
   },
   {
    "id": "val-60",
@@ -433,7 +461,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269965",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-60.txt.gz"
   },
   {
    "id": "val-50",
@@ -450,7 +479,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269848",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-50.txt.gz"
   },
   {
    "id": "val-37",
@@ -470,7 +500,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008270162",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-37.txt.gz"
   },
   {
    "id": "val-51",
@@ -484,7 +515,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0051_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-51.txt.gz"
   },
   {
    "id": "val-57",
@@ -498,7 +530,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0051_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-57.txt.gz"
   },
   {
    "id": "val-58",
@@ -512,7 +545,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0058_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-58.txt.gz"
   },
   {
    "id": "val-42",
@@ -526,7 +560,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0042_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-42.txt.gz"
   },
   {
    "id": "val-59",
@@ -540,7 +575,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008269654",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-59.txt.gz"
   },
   {
    "id": "val-45",
@@ -554,7 +590,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0045_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-45.txt.gz"
   },
   {
    "id": "val-44",
@@ -576,7 +613,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0044_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-44.txt.gz"
   },
   {
    "id": "val-54",
@@ -590,7 +628,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0054_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-54.txt.gz"
   },
   {
    "id": "val-55",
@@ -608,7 +647,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0055_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-55.txt.gz"
   },
   {
    "id": "val-53",
@@ -622,7 +662,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0053_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-53.txt.gz"
   },
   {
    "id": "val-91",
@@ -648,7 +689,8 @@
     "tasas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0091_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-91.txt.gz"
   },
   {
    "id": "val-33443",
@@ -659,7 +701,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006475198",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-33443.txt.gz"
   },
   {
    "id": "val-30924",
@@ -670,7 +713,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009556851",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30924.txt.gz"
   },
   {
    "id": "val-30724",
@@ -681,7 +725,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009112305",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30724.txt.gz"
   },
   {
    "id": "val-30700",
@@ -692,7 +737,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009996730",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30700.txt.gz"
   },
   {
    "id": "val-36429",
@@ -720,7 +766,8 @@
     "poda"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006893553",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30710.txt.gz"
   },
   {
    "id": "val-34846",
@@ -731,7 +778,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007628267",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34846.txt.gz"
   },
   {
    "id": "val-34848",
@@ -742,7 +790,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007628323",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34848.txt.gz"
   },
   {
    "id": "val-8",
@@ -759,7 +808,8 @@
     "food truck"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0008_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-8.txt.gz"
   },
   {
    "id": "val-7",
@@ -770,7 +820,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0007_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-7.txt.gz"
   },
   {
    "id": "val-87",
@@ -781,7 +832,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004328441",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-87.txt.gz"
   },
   {
    "id": "val-12",
@@ -798,7 +850,8 @@
     "poda"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0012_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-12.txt.gz"
   },
   {
    "id": "val-13",
@@ -813,7 +866,8 @@
     "pci"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0013_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-13.txt.gz"
   },
   {
    "id": "val-128",
@@ -831,7 +885,8 @@
     "molestias por ruido"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008881965",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-128.txt.gz"
   },
   {
    "id": "val-148",
@@ -846,7 +901,8 @@
     "costa"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0148_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-148.txt.gz"
   },
   {
    "id": "val-84",
@@ -857,7 +913,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0084_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-84.txt.gz"
   },
   {
    "id": "val-70",
@@ -879,7 +936,8 @@
     "punto limpio"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010184614",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-70.txt.gz"
   },
   {
    "id": "val-81",
@@ -897,7 +955,8 @@
     "lonas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0081_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-81.txt.gz"
   },
   {
    "id": "val-73",
@@ -917,7 +976,8 @@
     "colonias felinas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0073_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-73.txt.gz"
   },
   {
    "id": "val-165",
@@ -930,7 +990,8 @@
     "prostitucion"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0165_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-165.txt.gz"
   },
   {
    "id": "val-11",
@@ -941,7 +1002,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0011_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-11.txt.gz"
   },
   {
    "id": "val-170",
@@ -961,7 +1023,8 @@
     "churrerias"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0170_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-170.txt.gz"
   },
   {
    "id": "val-198",
@@ -972,7 +1035,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0198_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-198.txt.gz"
   },
   {
    "id": "val-14",
@@ -983,7 +1047,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0014_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-14.txt.gz"
   },
   {
    "id": "val-31664",
@@ -994,7 +1059,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007465799",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-31664.txt.gz"
   },
   {
    "id": "val-47903",
@@ -1005,7 +1071,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007086109",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-47903.txt.gz"
   },
   {
    "id": "val-156",
@@ -1020,7 +1087,8 @@
     "registro electronico"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006944202",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-156.txt.gz"
   },
   {
    "id": "val-68",
@@ -1036,7 +1104,8 @@
     "alcantarillado"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0068_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-68.txt.gz"
   },
   {
    "id": "val-107",
@@ -1047,7 +1116,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0107_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-107.txt.gz"
   },
   {
    "id": "val-76",
@@ -1058,7 +1128,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0076_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-76.txt.gz"
   },
   {
    "id": "val-111",
@@ -1074,7 +1145,8 @@
     "tanatorio"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0111_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-111.txt.gz"
   },
   {
    "id": "val-34969",
@@ -1093,7 +1165,8 @@
     "mendicidad"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009714826",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34969.txt.gz"
   },
   {
    "id": "val-95",
@@ -1117,7 +1190,8 @@
     "carril bici"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009530984",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-95.txt.gz"
   },
   {
    "id": "val-184",
@@ -1128,7 +1202,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0184_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-184.txt.gz"
   },
   {
    "id": "val-47847",
@@ -1139,7 +1214,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002258087",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-47847.txt.gz"
   },
   {
    "id": "val-186",
@@ -1154,7 +1230,8 @@
     "ayudas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0186_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-186.txt.gz"
   },
   {
    "id": "val-6",
@@ -1168,7 +1245,8 @@
     "mercado municipal"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0006_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-6.txt.gz"
   },
   {
    "id": "val-43167",
@@ -1184,7 +1262,8 @@
     "control sanitario"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001543681",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-43167.txt.gz"
   },
   {
    "id": "val-127",
@@ -1195,7 +1274,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0127_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-127.txt.gz"
   },
   {
    "id": "val-158",
@@ -1206,7 +1286,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0158_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-158.txt.gz"
   },
   {
    "id": "val-35902",
@@ -1217,7 +1298,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010254269",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-35902.txt.gz"
   },
   {
    "id": "val-33601",
@@ -1238,7 +1320,8 @@
     "calderas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240006662201",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-33601.txt.gz"
   },
   {
    "id": "val-36277",
@@ -1254,7 +1337,8 @@
     "alcantarillado"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009921446",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36277.txt.gz"
   },
   {
    "id": "val-36510",
@@ -1272,7 +1356,8 @@
     "obras"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009587284",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36510.txt.gz"
   },
   {
    "id": "val-37250",
@@ -1283,7 +1368,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009663600",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-37250.txt.gz"
   },
   {
    "id": "val-149",
@@ -1294,7 +1380,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0149_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-149.txt.gz"
   },
   {
    "id": "val-44241",
@@ -1305,7 +1392,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001674290",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-44241.txt.gz"
   },
   {
    "id": "val-37449",
@@ -1316,7 +1404,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20190001078166",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-37449.txt.gz"
   },
   {
    "id": "val-195",
@@ -1329,7 +1418,8 @@
     "huertos urbanos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0195_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-195.txt.gz"
   },
   {
    "id": "val-71",
@@ -1345,7 +1435,8 @@
     "alcantarillado"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0071_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-71.txt.gz"
   },
   {
    "id": "val-31",
@@ -1359,7 +1450,8 @@
     "precios publicos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0031_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-31.txt.gz"
   },
   {
    "id": "val-39",
@@ -1373,7 +1465,8 @@
     "precios publicos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0039_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-39.txt.gz"
   },
   {
    "id": "val-50763",
@@ -1387,7 +1480,8 @@
     "precios publicos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210003122916",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-50763.txt.gz"
   },
   {
    "id": "val-46612",
@@ -1401,7 +1495,8 @@
     "precios publicos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200002076755",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-46612.txt.gz"
   },
   {
    "id": "val-39206",
@@ -1415,7 +1510,8 @@
     "precios publicos"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20190001223202",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-39206.txt.gz"
   },
   {
    "id": "val-36",
@@ -1426,7 +1522,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0036_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36.txt.gz"
   },
   {
    "id": "val-30",
@@ -1437,7 +1534,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0030_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30.txt.gz"
   },
   {
    "id": "val-32",
@@ -1448,7 +1546,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0032_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-32.txt.gz"
   },
   {
    "id": "val-23",
@@ -1459,7 +1558,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220003938419",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-23.txt.gz"
   },
   {
    "id": "val-26",
@@ -1470,7 +1570,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009178370",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-26.txt.gz"
   },
   {
    "id": "val-29",
@@ -1485,7 +1586,8 @@
     "pci"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004455700",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-29.txt.gz"
   },
   {
    "id": "val-181",
@@ -1496,7 +1598,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0181_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-181.txt.gz"
   },
   {
    "id": "val-35",
@@ -1507,7 +1610,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0035_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-35.txt.gz"
   },
   {
    "id": "val-35155",
@@ -1518,7 +1622,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007813776",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-35155.txt.gz"
   },
   {
    "id": "val-200",
@@ -1529,7 +1634,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0200_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-200.txt.gz"
   },
   {
    "id": "val-36665",
@@ -1540,7 +1646,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009368865",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36665.txt.gz"
   },
   {
    "id": "val-157",
@@ -1551,7 +1658,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0157_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-157.txt.gz"
   },
   {
    "id": "val-153",
@@ -1562,7 +1670,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0153_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-153.txt.gz"
   },
   {
    "id": "val-191",
@@ -1573,7 +1682,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0191_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-191.txt.gz"
   },
   {
    "id": "val-112",
@@ -1584,7 +1694,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0112_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-112.txt.gz"
   },
   {
    "id": "val-36712",
@@ -1595,7 +1706,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009356790",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36712.txt.gz"
   },
   {
    "id": "val-113",
@@ -1606,7 +1718,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004290271",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-113.txt.gz"
   },
   {
    "id": "val-49886",
@@ -1617,7 +1730,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002876066",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-49886.txt.gz"
   },
   {
    "id": "val-114",
@@ -1628,7 +1742,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260010193672",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-114.txt.gz"
   },
   {
    "id": "val-86",
@@ -1639,7 +1754,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0086_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-86.txt.gz"
   },
   {
    "id": "val-102",
@@ -1650,7 +1766,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0102_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-102.txt.gz"
   },
   {
    "id": "val-79",
@@ -1661,7 +1778,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0079_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-79.txt.gz"
   },
   {
    "id": "val-37389",
@@ -1672,7 +1790,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20260009775722",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-37389.txt.gz"
   },
   {
    "id": "val-30705",
@@ -1683,7 +1802,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004684920",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-30705.txt.gz"
   },
   {
    "id": "val-44820",
@@ -1697,7 +1817,8 @@
     "acceso a la informacion publica"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20200001739270",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-44820.txt.gz"
   },
   {
    "id": "val-103",
@@ -1708,7 +1829,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004607542",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-103.txt.gz"
   },
   {
    "id": "val-9",
@@ -1719,7 +1841,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0009_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-9.txt.gz"
   },
   {
    "id": "val-31089",
@@ -1730,7 +1853,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20220004676701",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-31089.txt.gz"
   },
   {
    "id": "val-105",
@@ -1741,7 +1865,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0105_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-105.txt.gz"
   },
   {
    "id": "val-145",
@@ -1757,7 +1882,8 @@
     "consultas ciudadanas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0145_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-145.txt.gz"
   },
   {
    "id": "val-10",
@@ -1768,7 +1894,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0010_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-10.txt.gz"
   },
   {
    "id": "val-192",
@@ -1779,7 +1906,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0192_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-192.txt.gz"
   },
   {
    "id": "val-64",
@@ -1790,7 +1918,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0064_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-64.txt.gz"
   },
   {
    "id": "val-131",
@@ -1801,7 +1930,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0131_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-131.txt.gz"
   },
   {
    "id": "val-75",
@@ -1812,7 +1942,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0075_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-75.txt.gz"
   },
   {
    "id": "val-47231",
@@ -1823,7 +1954,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002218973",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-47231.txt.gz"
   },
   {
    "id": "val-94",
@@ -1837,7 +1969,8 @@
     "consultas ciudadanas"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0094_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-94.txt.gz"
   },
   {
    "id": "val-89",
@@ -1848,7 +1981,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0089_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-89.txt.gz"
   },
   {
    "id": "val-197",
@@ -1859,7 +1993,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0197_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-197.txt.gz"
   },
   {
    "id": "val-174",
@@ -1870,7 +2005,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0174_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-174.txt.gz"
   },
   {
    "id": "val-199",
@@ -1881,7 +2017,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0199_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-199.txt.gz"
   },
   {
    "id": "val-187",
@@ -1892,7 +2029,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0187_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-187.txt.gz"
   },
   {
    "id": "val-33157",
@@ -1903,7 +2041,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20230006271744",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-33157.txt.gz"
   },
   {
    "id": "val-185",
@@ -1914,7 +2053,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0185_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-185.txt.gz"
   },
   {
    "id": "val-36605",
@@ -1925,7 +2065,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250009235946",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-36605.txt.gz"
   },
   {
    "id": "val-201",
@@ -1939,7 +2080,8 @@
     "proteccion ambiental"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0201_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-201.txt.gz"
   },
   {
    "id": "val-196",
@@ -1950,7 +2092,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0196_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-196.txt.gz"
   },
   {
    "id": "val-34178",
@@ -1961,7 +2104,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20250008111733",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34178.txt.gz"
   },
   {
    "id": "val-142",
@@ -1972,7 +2116,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0142_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-142.txt.gz"
   },
   {
    "id": "val-48696",
@@ -1983,7 +2128,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002557006",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-48696.txt.gz"
   },
   {
    "id": "val-147",
@@ -1994,7 +2140,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0147_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-147.txt.gz"
   },
   {
    "id": "val-154",
@@ -2005,7 +2152,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0154_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-154.txt.gz"
   },
   {
    "id": "val-85",
@@ -2021,7 +2169,8 @@
     "alcantarillado"
    ],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0085_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-85.txt.gz"
   },
   {
    "id": "val-203",
@@ -2032,7 +2181,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0203_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-203.txt.gz"
   },
   {
    "id": "val-34951",
@@ -2043,7 +2193,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20240007685264",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-34951.txt.gz"
   },
   {
    "id": "val-98",
@@ -2054,7 +2205,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_ORD0098_C",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-98.txt.gz"
   },
   {
    "id": "val-50091",
@@ -2065,7 +2217,8 @@
    "mod": "",
    "alias": [],
    "url": "https://sede.valencia.es/sede/descarga/doc/DOCUMENT_1_20210002937242",
-   "formato": "pdf"
+   "formato": "pdf",
+   "texto": "val-50091.txt.gz"
   }
  ]
 }

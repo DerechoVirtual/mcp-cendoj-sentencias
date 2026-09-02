@@ -1,5 +1,5 @@
 {
- "activo": false,
+ "activo": true,
  "base": "https://sede.diputaciondesalamanca.gob.es",
  "endpoints": {
   "busqueda": "POST /opencms/opencms/sede/BOP/index.jsp",
@@ -17,11 +17,17 @@
   "6": "IV. ADMINISTRACION LOCAL"
  },
  "familia": "salamanca",
- "fulltext": true,
+ "fulltext": false,
  "id": "salamanca",
  "indice_desde": 2012,
  "mapa": "bop_salamanca_municipios.json",
  "nombre": "Salamanca",
- "nota": "VERIFICADO EN VIVO 27-jul-2026 (sondas _sa_lib.py / _probe_sa4.py / _probe_sa9.py). OpenCms + app BOP propia en JSP. POST form-urlencoded, SIN captcha, SIN cookies y SIN token. Una busqueda a TODO el historico (01/01/2012 a hoy) de 'ordenanza' devuelve 7.313 anuncios (3,9 MB) en ~2,2 s; los terminos normales, 0,5-1,6 s. El PDF es POR ANUNCIO y con capa de texto (fitz directo, sin OCR). Backend NO implementado -> activo=false. NO HAY facet ni id de municipio: el municipio viene como ENCABEZADO del listado y se filtra EN LOCAL (por eso el valor del mapa es el propio nombre tal y como lo escribe el BOP). TRAMPAS: (1) el header Referer DEBE apuntar a .../sede/BOP/ -- con Referer a index.jsp el servidor devuelve el formulario vacio y parece que no hay resultados; (2) NUNCA lanzar la busqueda con fDesde/fHasta vacios: devuelve el historico entero (35 MB medidos); (3) el listado es PLANO y la jerarquia va en el margin-left del div (10=seccion, 20=grupo, 30=municipio, 40=anuncio) -> hay que recorrerlo en orden llevando el estado; (4) dentro del grupo 'Ayuntamiento de Salamanca' (la capital, etiqueta 419) el nivel 30 NO es un municipio sino un AREA municipal (Alcaldia, Contratacion, Deportes...): si se toma por municipio, el mapa se ensucia; (5) combinar texto + etiquetas=430 devuelve CERO: o texto o etiqueta; (6) el multi-termino se comporta como frase exacta. Mapa: 343 municipios cosechados del propio listado (barrido por anos 2012-2026 mas varios terminos) de los 362 de la provincia; los ~19 que faltan no han publicado nada en el indice. AVISO DE ENRUTADO: el mapa YA EMPAQUETADO de CACERES contiene por error 3 municipios de Salamanca (Bejar=510, Carbajosa de la Sagrada=512, Lagunilla=516) y, como caceres se registra antes alfabeticamente, ganaria el enrutado. ANTES DE ACTIVAR SALAMANCA hay que anadir esos 3 nombres al `excluir` de bop_caceres_config.json. 'Aldea del Obispo' si es homonimo real (existe en Caceres y en Salamanca) y necesita desambiguar con 'Municipio, Provincia'.",
- "verifica_texto": true
+ "nota": "ACTIVA (2-sep-2026). Backend externo bop_salamanca.py con INDICE EMPAQUETADO ordenanzas_data/salamanca_indice.json (lo genera _gen_bop_salamanca_indice.py con UNA peticion: texto vacio + ventana 2012->hoy = 35 MB en ~10 s; se filtra en local a los anuncios normativos de Ayuntamientos, capital y Mancomunidades: ~10.900 filas, 2,1 MB). Motivo: el 2-sep-2026 cada peticion al buscador tarda 4-6 s FIJOS (el 27-jul eran 0,5-1,6 s), sea cual sea la ventana o el termino, asi que el flujo buscar->leer en vivo no bajaba de 6 s. Con el indice la busqueda no toca la red y solo se descarga el PDF elegido (0,2-0,5 s). La consulta VIVA queda de respaldo: CVE que no este en el indice (GET index.jsp?fechaBoletin=AAAA-MM-DD) o materia sin ningun titulo que la nombre (<=3 variantes en paralelo, busqueda por SUBCADENA: 'terraza' cubre 'terrazas'). REGENERAR el indice cuando envejezca (meta.hasta). fulltext pasa a false: el buscador ordena por fecha, no por relevancia, y con el indice el volcado generico de _candidatos es gratis. TRAMPAS (siguen): Referer obligatorio a .../sede/BOP/; NUNCA fDesde/fHasta vacios; listado plano con jerarquia por margin-left; en la capital el nivel 30 es un AREA (OAGER, Policia Local...); texto+etiqueta a la vez = 0; el parametro CVE del formulario se IGNORA; los PDF de 2020 y anteriores son un rango de paginas del boletin y pueden empezar con la cola del anuncio anterior. Respuesta en UTF-8 (las capturas _sa_*.html de julio salieron con mojibake por decodificar mal, no por el servidor). COLISIONES RESUELTAS: Bejar, Carbajosa de la Sagrada y Lagunilla en el excluir de Caceres. Pendiente en bop_engine.leer: la regex de CVE no entiende BOP-SA-AAAAMMDD-NNN (8 digitos de fecha); el backend lo resuelve pero llega como 'materia'.",
+ "verifica_texto": true,
+ "indice": "salamanca_indice.json",
+ "medido_2_sep_2026": {
+  "buscar": "0 ms (indice) / 4-6 s si cae al respaldo vivo",
+  "leer": "0,2-0,6 s",
+  "banco": "ver _test_bop_salamanca.py"
+ }
 }

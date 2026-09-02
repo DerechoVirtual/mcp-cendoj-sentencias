@@ -1,0 +1,151 @@
+AYUNTAMIENTOS ——— SEVILLA La Excma. Junta de Gobierno de la ciudad de Sevilla en sesión celebrada el día 30 de diciembre de 2010, adoptó entre otros los siguientes acuerdos:
+«A la vista de las actuaciones practicadas en el expediente 224/2020, del Servicio de Personal, referentes a la amortización y creación de puestos de personal eventual, y emitido informe por dicho Servicio, el Concejal Delegado del Área de Recursos Humanos, propone la adopción del siguiente acuerdo:
+Primero.—Amortizar la plaza y el puesto de Coordinador General de Urbanismo (22101).
+Segundo.—Crear la plaza y el puesto de Director del Parque Infanta Elena (42101) con la categoría de Jefe de Grupo.» Sevilla a 3 de enero de 2011.—El Secretario General. P.D.
+El Jefe del Servicio de Personal, Antonio Rodríguez Martínez.
+11W-177 ——— SEVILLA El Pleno del Ayuntamiento de esta capital, en sesión celebrada el 16 de julio de 2010, aprobó inicialmente el Reglamento del Boletín Oficial del Ayuntamiento de Sevilla.
+Habiendo transcurrido el plazo de información pública de 30 días hábiles mediante anuncio publicado en el «Boletín Oficial» de la provincia de Sevilla número 215 y en el tablón de edictos de este Ayuntamiento, para la presentación de sugerencias o reclamaciones, sin que se haya presentado ninguna, por resolución del Teniente de Alcalde Delegado de Innovación Tecnológica número 8740, de 11 de noviembre de 2010, se acuerda entender definitivamente aprobado el Reglamento del Boletín Oficial del Ayuntamiento de Sevilla.
+Conforme a lo previsto en el art. 70.2 en relación con el art.
+65.2 de la Ley 7/1985, el Reglamento entrará en vigor una vez transcurridos quince días hábiles, a contar desde el siguiente a la publicación del texto íntegro del mismo, que se acompaña, en el «Boletín Oficial» de la provincia.
+Sevilla a 22 de noviembre de 2010.—El Secretario General, Luis Enrique Flores Domínguez.
+PROYECTO DE REGLAMENTO DEL BOLETÍN OFICIAL DEL AYUNTAMIENTO DE SEVILLA EXPOSICIÓN DE MOTIVOS El presente Reglamento se dicta en el ejercicio de la potestad reglamentaria reconocida en el art 4 de la Ley 7/1985, de 2 de abril, y viene a establecer, por primera vez, la regulación del Boletín Oficial del Ayuntamiento de Sevilla, en formato electrónico, definiéndolo expresamente como un servicio público municipal.
+La obligatoriedad de publicar un boletín informativo municipal en los Ayuntamientos capitales de provincia o de más de 50.000 habitantes se recoge en el art. 197 del Reglamento de Organización, Funcionamientos y Régimen Jurídico de las Entidades Locales, aprobado por Real Decreto 2568/1986, de 28 de noviembre al precisar que «Los Ayuntamientos capitales de provincia o de más de 50.000 habitantes, así como las Diputaciones Provinciales, publicarán, al menos una vez al trimestre, un boletín de información municipal o provincial donde se inserte un extracto de todos los acuerdos y resoluciones adoptados y, además, cuando sea obligatoria la divulgación conforme a la Ley 7/1985, de 2 de abril, y su normativa de desarrollo, o merezcan ser divulgados, por tratarse de adopción de medidas excepcionales, llamamientos al vecindario, referencias históricas y anales locales o provinciales».
+Otras disposiciones con rango de ley han reconocido su carácter oficial. Así, la Ley 7/1985, de 2 de abril, Reguladora de las Bases del Régimen Local (art. 112.3) y el Real Decreto Legislativo 2/2004, de 5 de marzo por el que se aprueba el Texto Refundido de la Ley Reguladora de las Haciendas Locales (art.
+169.3) respecto de las publicación de los presupuestos municipales, o la Ley 7/2002, de Ordenación Urbanística de Andalucía, en su art. 40.5, en relación con el contenido de los instrumentos de planeamiento.
+El art. 5 del Reglamento de Participación Ciudadana del Ayuntamiento de Sevilla establece, asimismo, que el Ayuntamiento editará un Boletín Municipal para mantener una relación más fluida con los ciudadanos.
+La Ley 11/2007, de 22 de junio, de acceso electrónico de los ciudadanos a los servicios públicos ha reconocido el derecho de los ciudadanos a relacionarse con las Administraciones Públicas por medios electrónicos . En relación con los boletines oficiales, el art. 11.1 de la Ley 11/2007, prevé que dichas publicaciones, cuando se realicen en las sedes electrónicas correspondientes, tendrán los mismos efectos que los atribuidos a la edición impresa, en las condiciones y garantías que cada Administración determine.
+En aplicación de las previsiones contenidas en el nuevo marco general citado de relación , por vía electrónica, entre las Administraciones Públicas y los ciudadanos, la publicación del Boletín Oficial del Ayuntamiento de Sevilla, se realizará en formato digital, lo que facilitará la consulta y el acceso a su contenido, a la vez que supone un avance en el desarrollo de los procesos de modernización del Ayuntamiento de Sevilla garantizando el acceso universal a la publicaciones que integran el Boletín Oficial del Ayuntamiento de Sevilla.
+Capítulo I
+Disposiciones generales
+Artículo 1. Objeto.
+1.
+El presente Reglamento regula el modo de gestión, edición , consulta y el contenido del Boletín Oficial del Ayuntamiento de Sevilla (en adelante, BOAS).
+2.
+El Boletín Oficial del Ayuntamiento de Sevilla se publicará en edición electrónica conforme a lo previsto en este Reglamento, así como en la Ley 11/2007, de 22 de junio, de acceso electrónico de los ciudadanos a los servicios públicos y en su normativa de desarrollo.
+Artículo 2. Servicio público.
+El BOAS es un servicio público de carácter municipal, competencia propia del Ayuntamiento de Sevilla, que lo prestará en régimen de gestión directa. El servicio del BOAS quedará adscrito a la Delegación municipal que corresponda según el orden competencial determinado por la Alcaldía .
+Artículo 3. Contenido.
+1.
+El BOAS es el medio de difusión oficial de las disposiciones, acuerdos, Resoluciones y otros actos del Ayuntamiento de Sevilla que deben ser objeto de publicación y de aquellos otros cuya publicación se estime necesaria para su mejor conocimiento o difusión, sin perjuicio de que, de conformidad con la normativa vigente, deban ser también objeto de publicación en otros medios.
+2.
+En cada número del BOAS se incluirá en sus primeras páginas un sumario de su contenido con indicación de la página donde comienza cada inserción, de acuerdo con la siguiente estructura:
+I.
+AYUNTAMIENTO DE SEVILLA.
+1.
+Disposiciones Generales.—Se incluirán en este apartado el contenido íntegro de los Reglamentos, Ordenanzas y Bandos aprobados.
+2.
+Acuerdos plenarios.—Se incluirán en este apartado los extractos de los acuerdos adoptados por el Pleno del Ayuntamiento.
+Sábado 15 de enero de 2011 3.
+Acuerdos de la Junta de Gobierno de la Ciudad de Sevilla.—Se incluirán en este apartado los extractos de los acuerdos adoptados en cada sesión de la Junta de Gobierno.
+4.—Resoluciones de la Alcaldía y de los órganos delegados.- Se incluirán en este apartado el extracto o, en su caso el contenido íntegro de las resoluciones adoptadas por el Alcalde y por los distintos órganos delegados que, de acuerdo con la normativa vigente, deban ser objeto de publicación, así como el de aquellas otras en las que, el órgano que las haya dictado estime necesaria su publicación.
+La inserción de los textos se realizará agrupándolos por el órgano del que procedan y por la fecha de su adopción, según la ordenación de precedencias y distribución competencial determinado por la Alcaldía en Áreas y Delegaciones.
+5.
+Resoluciones y actos de los Distritos: Se incluirán en este apartado:
+5.1. El extracto o, en su caso, el contenido íntegro de las Resoluciones adoptadas por los Presidentes de los Distritos, que de acuerdo con la normativa vigente deben ser objeto de publicación, así como el de aquellas otras que éste haya estimado necesario publicar.
+5.2. El extracto de los acuerdos adoptados por el Pleno del Distrito.
+6.
+Convocatorias y anuncios:
+— En materia de personal (oposiciones, concursos de provisión, oferta de empleo público, permutas, etc.).
+— En materia de contratación.
+— Subvenciones — Otras convocatorias y anuncios.
+II.
+Otros organismos y entidades municipales.
+1.
+Resoluciones y acuerdos.
+2.
+Anuncios.
+3.
+En la cabecera de cada una de las páginas del BOAS figurarán:
+a) El Logotipo del Ayuntamiento de Sevilla.
+b) La denominación «Boletín Oficial del Ayuntamiento de Sevilla».
+c) El número del diario, que será correlativo desde el comienzo de cada año.
+d) La fecha de publicación.
+e) El número de página, que será correlativo.
+4.
+En el pié de cada página, se incluirá la dirección de la sede electrónica y el código de verificación que permita contrastar su autenticidad.
+Capítulo II Normas de gestión
+Artículo 4. Periodicidad.
+1.
+El BOAS se editará con una periodicidad mínima mensual, pudiéndose editar suplementos o números extraordinarios cuando así se requiera.
+2.
+La Junta de Gobierno de la ciudad de Sevilla determinará la periodicidad de la edición de conformidad con los criterios establecidos en el apartado anterior.
+Artículo 5. Formato de la edición.
+1.
+La publicación del BOAS se realizará en formato electrónico, mediante la exposición del texto en la sede electrónica del Ayuntamiento de Sevilla (www.sevilla.org) o cualquier otra que se pueda determinar. El Ayuntamiento de Sevilla garantizará, a través de redes abiertas de telecomunicación, el acceso universal y gratuito a la edición electrónica del BOAS.
+El formato se adecuará al Manual de Imagen Corporativa del Ayuntamiento de Sevilla.
+2.
+La edición electrónica del Boletín Oficial del Ayuntamiento de Sevilla deberá estar accesible en la sede electrónica del Ayuntamiento en la fecha de cada boletín, salvo que ello resulte imposible por circunstancias extraordinarias de carácter técnico.
+3.
+La edición electrónica del BOAS deberá incorporar firma electrónica avanzada como garantía de la autenticidad, integridad e inalterabilidad de su contenido. Los ciudadanos podrán verificar el cumplimiento de estas exigencias mediante aplicaciones estándar o, en su caso, mediante las herramientas informáticas que proporcione la sede electrónica del Ayuntamiento de Sevilla.
+4.
+Al efecto de su custodia y cotejo, en el Servicio Administrativo competente para la gestión del BOAS, se depositará una copia impresa del texto publicado en la sede electrónica el mismo día, que estará a disposición pública para su contraste y verificación en caso de discrepancia, modificación o alteración.
+La edición impresa del BOAS permitirá mantener integro el patrimonio documental impreso del Ayuntamiento de Sevilla, por lo que se deberán conservar y custodiar de manera que quede asegurada su perdurabilidad.
+Artículo 6. Remisión y registro de textos.
+1.
+Los órganos competentes de la Administración municipal, remitirán los textos para su publicación en el BOAS en formato electrónico, utilizando la herramienta informática de edición y publicación, así como los formularios disponibles en la intranet del Ayuntamiento en el plazo que, a tal efecto, se determine.
+2.
+Todos los documentos recibidos por vía telemática para su publicación, se registrarán de forma individualizada en un registro abierto a tal fin, emitiéndose un mensaje de confirmación de la recepción comunicando el número de registro. A partir de ese momento todos los trámites del anuncio llevarán esa referencia.
+Artículo 7. Legitimación para ordenar la inserción.
+Estarán legitimados para ordenar la inserción y la remisión de los textos al Servicio del BOAS, los órganos superiores y/o directivos del Ayuntamiento de Sevilla conforme se determine en los respectivos acuerdos o resoluciones de delegación de competencias.
+Artículo 8. Publicación de textos.
+1.
+El texto a publicar se presentará en formato electrónico que estará disponible en la intranet Ayuntamiento, con el fin de evitar la omisión de datos y facilitar su comprensión.
+2.
+La estructura de los textos a publicar será la siguiente:
+1) Órgano emisor.
+2)
+Título.
+3) Texto íntegro a publicar.
+4) Lugar, fecha y firma de quien lo dicta.
+3.
+Los textos se transcribirán en la misma forma en la que se encuentren redactados y autorizados por el órgano remitente, sin que por ninguna causa puedan variarse o modificarse por el servicio del Boletín.
+El órgano que ordena la inserción es responsable del contenido del texto a publicar.
+4.
+La corrección de posibles errores en las publicaciones se realizará a petición de quien hubiera solicitado éstas, a quien también corresponderá la redacción de la corrección correspondiente.
+5.
+En cada edición del BOAS se publicarán todos los textos que se remitan correctamente en el plazo que a tal efecto se determine.
+6.
+La inserción de los textos se realizará agrupándolos por el órgano del que procedan, su contenido y la fecha de su adopción, según la estructura establecida en el art. 3.2 de este Reglamento Sábado 15 de enero de 2011
+Artículo 9. Plazo de subsanación de defectos.
+En caso de que el Servicio del BOAS observe alguna anomalía en los textos enviados para publicación en cuanto a su formato, contenido mínimo obligatorio o error de transcripción, devolverá el anuncio al remitente del mismo con indicación de los defectos apreciados y se abrirá un plazo de diez días hábiles para su subsanación.
+Una vez producida la subsanación y remitido nuevamente el anuncio, éste será publicado en el primer Boletín para el que la solicitud de inserción esté en plazo.
+Transcurrido el plazo indicado sin que se haya subsanado, el anuncio será archivado.
+Artículo 10. Acceso de los ciudadanos.
+Los ciudadanos tendrán acceso libre y gratuito a la edición electrónica del BOAS. Dicho acceso comprenderá la posibilidad de búsqueda y consulta del contenido del diario, así como la posibilidad de archivo e impresión, tanto del boletín completo como de cada una de las disposiciones, actos o anuncios que lo componen, sin contraprestación alguna.
+Artículo 11. Custodia de anuncios y órdenes.
+Las órdenes de inserción, así como los anuncios que hayan sido objeto de publicación, permanecerán archivados digitalmente en la aplicación informática de gestión a disposición de los interesados hasta transcurrido un año desde su recepción.
+En caso de no haber sido publicados por no cumplir los requisitos, o por cualquier otro motivo, el plazo anterior será de tres meses desde la recepción.
+DISPOSICIONES FINALES Primera.—Desarrollo e interpretación.
+Se atribuye a la Delegación Municipal a la que se adscriba el Servicio del Boletín Oficial del Ayuntamiento de Sevilla, la facultad de establecer criterios de desarrollo e interpretación de este Reglamento dictando las oportunas instrucciones.
+Segunda.—En todo lo no regulado en el presente Reglamento, se estará a lo que determine la Ley 5/2002, de 4 de abril, Reguladora de los «Boletines Oficiales» de la provincia, y restante normativa que resulte de aplicación.
+Tercera.
+1.
+El presente Reglamento entrará en vigor tras su aprobación definitiva y publicación, conforme a lo establecido en el
+art. 70.2 en relación con el art. 65.2 de la Ley 7/1985 ,de 2 de
+abril Reguladora de las Bases del Régimen Local.
+El BOAS entrará en funcionamiento en un plazo no superior a seis meses a partir de la entrada en vigor del presente Reglamento, durante el cual deberán realizarse las actuaciones precisas destinadas a la dotación o asignación de los recursos humanos, materiales y tecnológicos necesarios para la adecuada aplicación y cumplimiento de lo dispuesto en el presente Reglamento.
+2.
+El acuerdo de aprobación definitiva y el Reglamento, se publicarán además en el Boletín Oficial del Ayuntamiento de Sevilla.
+11W-17662 ——— ALCALÁ DE GUADAÍRA La Junta de Gobierno Local, en la sesión celebrada con carácter ordinario el día 12 de noviembre de 2010, acordó dar conformidad al texto del convenio urbanístico de planeamiento con la entidad Henkel Ibérica, S.A., relativo a terrenos sitos en ctra. 8033, Sevilla-Alcalá de Guadaíra (expte. 000005/2010URCU), sometiéndose a información pública (Servicio de Urbanismo-calle Bailén número 6) durante un período de veinte días, contado desde el siguiente al de la publicación de este anuncio en el «Boletín Oficial» de la provincia, para que los interesados puedan formular durante el indicado plazo cuantas alegaciones estimen oportunas.
+Los datos fundamentales del referido convenio son:
+a) Otorgantes: Ayuntamiento de Alcalá de Guadaíra y la entidad Henkel Ibérica, S.A.
+b) Objeto: Establecer las bases de colaboración entre Henkel Ibérica, S.A., como titular de los terrenos y el Ayuntamiento de Alcalá de Guadaíra, en orden a posibilitar desde un punto de vista de la ordenación urbanística la ampliación de la instalación industrial actualmente existente en la ctra. A-8033, Sevilla - Alcalá de Guadaíra.
+c) Ámbito: Terrenos sitos en la ctra. A-8033, propiedad de la entidad mercantil otorgante.
+d) Plazo de vigencia: Hasta el cumplimiento de su objeto.
+Lo que se hace público en aplicación de lo dispuesto en el
+artículo 11.1 del Real Decreto Legislativo 2/2008, de 20 de
+junio por el que se aprueba el Texto Refundido de la Ley de Suelo.
+Alcalá de Guadaíra a 23 de noviembre de 2010.—El Secretario General, Fernando Manuel Gómez Rincón.
+11W-17336-P ——— BORMUJOS De conformidad con lo dispuesto en los artículos 59.4 y 61 de la Ley 30/1992, de 26 de noviembre, de Régimen Jurídico de las Administraciones Pública y del Procedimiento Administrativo Común (BOE 285, de 27 de noviembre de 1992), se hace pública notificación de la iniciación de los expedientes de abandono que se indican, instruidos por esta Alcaldía, contra las personas o entidades que a continuación se relacionan en el
+anexo, ya que habiéndose intentado la notificación en el último domicilio conocido, esta no se ha podido practicar.
+Los correspondientes expedientes obran en la Jefatura de Policía Local de este Ayuntamiento, ante la cual les asiste el derecho de alegar por escrito lo que estimen conveniente, con aportación de la documentación que consideren oportuna, dentro del plazo de quince días hábiles, contados desde el siguiente al de la publicación del presente en el «Boletín Oficial» de la provincia.
+Transcurrido dicho plazo sin que se haya hecho uso del derecho para formular alegaciones y/o aportar documentación, se entenderá el vehículo abandonado, procediéndose a su enajenación por los trámites pertinentes.
+Bormujos a 25 de noviembre de 2010.—La Alcaldesa, Ana María Hermoso Moreno.
+Anexo Expediente: 1009011950-1.
+Titular: Antonio José Puerto Sánchez.
+D.N.I.: 28624595.
+Localidad: Sevilla.
+Matricula: SE4282DJ.
+11W-17350 ——— BORMUJOS De conformidad con lo dispuesto en los artículos 59.4 y 61 de la Ley 30/1992, de 26 de noviembre, de Régimen Jurídico de las Administraciones Pública y del Procedimiento Administrativo Común (BOE 285, de 27 de noviembre de 1992), se hace pública notificación de la iniciación de los expedientes de abandono que se indican, instruidos por esta Alcaldía, contra las personas o entidades que a continuación se relacionan en el
+anexo, ya que habiéndose intentado la notificación en el último domicilio conocido, esta no se ha podido practicar.
+Los correspondientes expedientes obran en la Jefatura de Policía Local de este Ayuntamiento, ante la cual les asiste el deSábado 15 de enero de 2011

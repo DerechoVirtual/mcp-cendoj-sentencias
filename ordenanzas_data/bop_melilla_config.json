@@ -9,8 +9,8 @@
  "idioma": "es",
  "uni_municipal": true,
  "verifica_texto": true,
- "activo": false,
- "nota_activo": "Sondeada y verificada en vivo (27-jul-2026) pero SIN backend en bop_engine.py: familia 'melilla' no existe todavia. Mantener activo=false hasta implementar _melilla_buscar/_melilla_texto o el motor se registraria sin backend y romperia produccion.",
+ "activo": true,
+ "nota_activo": "ACTIVA desde 2-sep-2026: backend externo bop_melilla.py (contrato buscar/texto). Unimunicipal; verifica_texto porque los titulos del BOME son largos (Acuerdo de la Asamblea... relativo a la aprobacion definitiva del Reglamento...). Banco _test_bop_melilla.py.",
  "endpoints": {
   "buscar": "/buscar?from={YYYY-MM-DD}&to={YYYY-MM-DD}&tipo={1|2|3|4}&contenido={texto}&cve=&page={n}",
   "buscar_avanzado": "/buscador-avanzado?from=&to=&departamento={id}&contenido[0][type]={sumario_articulo|pagina}&contenido[0][like]=like&contenido[0][content]={texto}&contenido[0][operator]=and",
