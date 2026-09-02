@@ -19,7 +19,24 @@ import urllib.request
 
 from _cobertura_50k import MUNICIPIOS
 
-TOKEN = "v1.ZGVyZWNob3ZpcnR1YWxncHRAZ21haWwuY29t.gBktSpIaBDjm4c81"
+TOKEN = "v1.ZGVyZWNob3ZpcnR1YWxncHRAZ21haWwuY29t.gBktSpIaBDjm4c81"   # cuenta gratuita: 100 llamadas/día
+
+
+def token_de(email):
+    """Token personal firmado (v1.<b64url(email)>.<HMAC16>) con CONNECTOR_TOKEN_SECRET
+    del .env global. Un banco de 300 municipios son ~1.200 llamadas: hace falta una
+    cuenta de PAGO o el muro de llamadas gratuitas corta el banco a mitad (y sus
+    respuestas parecen fallos del código)."""
+    import base64, hashlib, hmac
+    sec = ""
+    for ln in open(os.path.join(os.path.expanduser("~"), ".claude", ".env"), encoding="utf-8"):
+        if ln.startswith("CONNECTOR_TOKEN_SECRET="):
+            sec = ln.split("=", 1)[1].strip().strip('"')
+    if not sec:
+        raise SystemExit("falta CONNECTOR_TOKEN_SECRET en el .env global")
+    payload = base64.urlsafe_b64encode(email.strip().lower().encode()).rstrip(b"=")
+    firma = base64.urlsafe_b64encode(hmac.new(sec.encode(), b"v1." + payload, hashlib.sha256).digest()).rstrip(b"=")[:16]
+    return "v1." + payload.decode() + "." + firma.decode()
 MATERIAS = [
     ("terrazas veladores", r"terraza|velador|mesas|ocupaci|taula|cadires"),
     ("residuos limpieza", r"residu|basura|limpieza|lixo|escombr|limpeza|neteja|hondakin"),
@@ -100,7 +117,8 @@ def probar(url, prov, muni, n_materias):
 def main():
     args = sys.argv[1:]
     host = next((a for a in args if "." in a and not a.endswith(".jsonl") and not a.startswith("--")), "mcp.jurisprudenciator.lexiaipro.org")
-    url = f"https://{host}/u/{TOKEN}/mcp"
+    tok = token_de(args[args.index("--email") + 1]) if "--email" in args else TOKEN
+    url = f"https://{host}/u/{tok}/mcp"
     workers = int(args[args.index("--workers") + 1]) if "--workers" in args else 4
     n_mat = int(args[args.index("--materias") + 1]) if "--materias" in args else 2
     provs = [p.strip() for p in args[args.index("--prov") + 1].split(",")] if "--prov" in args else None
